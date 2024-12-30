@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-
+import '../app.css';
+import InputField from '../components/InputField';
+import './Login.css';
 
 function Login(props) {
     const [email, setEmail] = useState('');
@@ -30,13 +31,33 @@ function Login(props) {
                 setError(errorData.message || 'Login failed');
             }
         } catch (err) {
-            setError('An error occurred. Please try again.');
+            setError('Password or Email wrong.');
         }
     };
 
     return (
-        <div className="login-container">
-      
+        <div className="Login-Form">
+            <div className="login-container">
+                <h2 className="form-title">Login</h2>
+                <form className="login-form" onSubmit={handleLogin}>
+                    <InputField 
+                    type="email" 
+                    placeholder="Email address" 
+                    value={email} 
+                    onChange={(e) => setEmail(e.target.value)} 
+                    />
+                    <InputField 
+                    type="password" 
+                    placeholder="Password" 
+                    value={password} 
+                    onChange={(e) => setPassword(e.target.value)} 
+                    />
+
+                    {error && <p className="error-message">{error}</p>}
+                    <a href="#" className="forgot-password-link">Forgot password?</a>
+                    <button type="submit" className="login-button">Log In</button>
+                </form> 
+            </div>
         </div>
     );
 }

@@ -29,6 +29,12 @@ body {
   background: #fff;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
+.error-message {
+    color: red;
+    font-size: 17px;
+    margin-top: 10px;
+    margin-bottom: 12px;
+}
 
 .login-container .form-title {
   text-align: center;
