@@ -17,6 +17,7 @@ export const publicRoutes = [
         path: "/login",
         element: <Login/>,
     },
+    {
 
         path: "/contest",
         element: <Contest/>,
