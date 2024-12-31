@@ -1,7 +1,9 @@
 import Home from "../pages/Home";
+import Demo from "../pages/StaffPages/Demo";
 
 
-const config = {
+export const config = {
+
     // home: {
     //     component: Home,
     //     path: '/',
@@ -16,4 +18,11 @@ const config = {
     // },
     
 };
-export default config;
+
+
+export const TeacherConfig = {
+    demo: {
+        component: Demo,
+        path: '/staff/demo'
+    }
+}

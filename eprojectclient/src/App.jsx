@@ -1,8 +1,9 @@
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import { publicRoutes } from './routes/routes';
+import { publicRoutes, StaffRoutes } from './routes/routes';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import TeacherLayout from './layout/TeacherLayout';
 
 function App() {
 
@@ -13,6 +14,25 @@ function App() {
                     return (
                         <Route key={index} path={item.path} element={item.element} />
                     );
+                })}
+                {StaffRoutes.map((item, index) => {
+                    const Comp = item.element;
+                    return (
+
+                        <Route
+                            path={item.path}
+                            key={index}
+                            element={
+                                <div>
+                                  <TeacherLayout>
+                                    <Comp/>
+                                  </TeacherLayout>
+                                </div>
+                            }
+                        />
+                    );
+
+
                 })}
             </Routes>
             {/* <Routes>
