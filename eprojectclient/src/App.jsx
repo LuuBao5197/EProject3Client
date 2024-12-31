@@ -1,8 +1,6 @@
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { publicRoutes } from './routes/routes';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 
 function App() {
 
