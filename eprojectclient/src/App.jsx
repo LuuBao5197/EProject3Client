@@ -22,15 +22,7 @@ function App() {
                     );
                 })}
             </Routes>
-            <Router>
-                <Layout>
-                    <Routes>
-                        <Route path="/" element={<Dashboard />} />
-                        <Route path="/users" element={<Users />} />
-                        <Route path="/settings" element={<Settings />} />
-                    </Routes>
-                </Layout>
-            </Router>
+            
         </div>
 
 
