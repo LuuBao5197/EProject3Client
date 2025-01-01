@@ -5,6 +5,7 @@
   background-color: #f5f5f5;
   margin: 0;
   padding: 0;
+  transition: all 0.3s ease-in-out; 
 }
 
 .sidebar {
@@ -13,7 +14,8 @@
   color: white;
   padding: 20px;
   box-sizing: border-box;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: width 0.3s ease-in-out; 
 }
 
 .sidebar h2 {
@@ -41,18 +43,28 @@
   align-items: center;
   padding: 10px 15px;
   border-radius: 4px;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease, padding-left 0.3s ease;
 }
 
 .sidebar nav ul li a i {
   margin-right: 10px;
-  min-width: 20px; /* Đảm bảo icon có kích thước cố định để căn chỉnh */
-  text-align: center; /* Căn giữa icon */
+  min-width: 20px;
+  text-align: center;
 }
 
 .sidebar nav ul li a:hover {
   background-color: #34495e;
   transform: translateX(5px);
+  padding-left: 20px; 
+}
+
+.sidebar nav ul li a.active {
+  background-color: #1abc9c; 
+}
+
+.sidebar nav ul li a.active:hover {
+  transform: translateX(0);
+  padding-left: 15px;
 }
 
 .mainContent {
@@ -61,6 +73,7 @@
   flex-direction: column;
   background-color: #ffffff;
   overflow: hidden;
+  transition: background-color 0.3s ease; 
 }
 
 .topMenu {
@@ -70,6 +83,7 @@
   justify-content: flex-end;
   align-items: center;
   border-bottom: 1px solid #ccc;
+  transition: all 0.3s ease-in-out;
 }
 
 .menuItems {
@@ -90,8 +104,8 @@
 
 .topMenu button i {
   margin-right: 5px;
-  min-width: 20px; /* Đảm bảo icon có kích thước cố định để căn chỉnh */
-  text-align: center; /* Căn giữa icon */
+  min-width: 20px;
+  text-align: center;
 }
 
 .topMenu button:hover {
@@ -100,8 +114,136 @@
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
+.topMenu button:active {
+  transform: translateY(0); 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 .contentArea {
   padding: 20px;
   overflow-y: auto;
   flex: 1;
+  transition: padding 0.3s ease; 
+}
+
+.contentArea h2 {
+  font-size: 2em;
+  color: #34495e;
+  margin-bottom: 20px;
+  transition: color 0.3s ease; 
+}
+
+.contentArea h2:hover {
+  color: #1abc9c; 
+}
+
+.contentArea p {
+  line-height: 1.6;
+  color: #555;
+  font-size: 1.1em;
+  transition: color 0.3s ease;
+}
+
+.contentArea p:hover {
+  color: #2c3e50;
+}
+
+.sidebar,
+.topMenu,
+.mainContent,
+.contentArea {
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.studentManagementContainer {
+  padding: 30px;
+  background-color: #f8f9fa;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  border-radius: 8px;
+}
+
+.title {
+  font-size: 2.5rem; 
+  font-weight: 700; 
+  color: #2c3e50; 
+  margin-bottom: 50px; 
+  text-align: center; 
+  letter-spacing: 1px; 
+  padding: 10px 0; 
+  text-transform: uppercase; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  font-family: 'Helvetica Neue', Arial, sans-serif; 
+  transition: all 0.3s ease; 
+}
+
+.title:hover {
+  color: #3498db; 
+  transform: translateY(-5px); 
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); 
+}
+
+
+.studentRows {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+.studentRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 15px;
+}
+
+
+.studentItem {
+  padding: 10px 15px;
+  background-color: #3498db;
+  color: white;
+  font-weight: bold;
+  border-radius: 15px; 
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  display: inline-flex; 
+  align-items: center;
+  justify-content: center;
+  min-width: 80px; 
+  max-width: auto; 
+  text-align: center;
+  text-decoration: none; 
+}
+
+.link {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+.studentItem:hover {
+  background-color: #1abc9c;
+  transform: scale(1.05); 
+}
+
+@media (max-width: 768px) {
+  .studentManagement {
+    padding: 15px;
+  }
+  
+  .studentManagementContainer {
+    padding: 15px;
+  }
 }
