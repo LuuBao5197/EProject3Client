@@ -10,12 +10,12 @@ const AdminLayout = ({ children }) => {
         <h2>Manager Panel</h2>
         <nav>
           <ul>
-            <li><a href="/students"><i className="fas fa-user-graduate"></i> Student Management</a></li>
-            <li><a href="/competitions"><i className="fas fa-trophy"></i> Competition Management</a></li>
-            <li><a href="/records"><i className="fas fa-file-alt"></i> Academic Records Management</a></li>
-            <li><a href="/awards"><i className="fas fa-medal"></i> Award Management</a></li>
-            <li><a href="/exhibitions"><i className="fas fa-paint-brush"></i> Exhibition Management</a></li>
-            <li><a href="/designs"><i className="fas fa-drafting-compass"></i> Design Management</a></li>
+            <li><a href="/admin/studentmanagement"><i className="fas fa-user-graduate"></i> Student Management</a></li>
+            <li><a href="/admin/competitionmanagement"><i className="fas fa-trophy"></i> Competition Management</a></li>
+            <li><a href="/admin/armanagement"><i className="fas fa-file-alt"></i> Academic Records Management</a></li>
+            <li><a href="/admin/awardmanagement"><i className="fas fa-medal"></i> Award Management</a></li>
+            <li><a href="/admin/exhibitionmanagement"><i className="fas fa-paint-brush"></i> Exhibition Management</a></li>
+            <li><a href="/admin/designmanagement"><i className="fas fa-drafting-compass"></i> Design Management</a></li>
           </ul>
         </nav>
       </aside>
