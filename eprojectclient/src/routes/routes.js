@@ -38,6 +38,34 @@ export const AdminRoutes =[
     {
         path: AdminConfig.adminlayout.path,
         element: AdminConfig.adminlayout.component
+    },
+    {
+        path: AdminConfig.studentmanagement.path,
+        element: AdminConfig.studentmanagement.component
+    },
+    {
+        path: AdminConfig.competitionmanagement.path,
+        element: AdminConfig.competitionmanagement.component
+    },
+    {
+        path: AdminConfig.armanagement.path,
+        element: AdminConfig.armanagement.component
+    },
+    {
+        path: AdminConfig.awardmanagement.path,
+        element: AdminConfig.awardmanagement.component
+    },
+    {
+        path: AdminConfig.exhibitionmanagement.path,
+        element: AdminConfig.exhibitionmanagement.component
+    },
+    {
+        path: AdminConfig.designmanagement.path,
+        element: AdminConfig.designmanagement.component
+    },
+    {
+        path: AdminConfig.studentdetail.path,
+        element: AdminConfig.studentdetail.component
     }
 ];
 export const privateRoutes = [
