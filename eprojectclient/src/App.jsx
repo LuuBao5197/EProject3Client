@@ -1,15 +1,11 @@
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { AdminRoutes, publicRoutes, StaffRoutes } from './routes/routes';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+// import 'slick-carousel/slick/slick.css';
+// import 'slick-carousel/slick/slick-theme.css';
 import TeacherLayout from './layout/TeacherLayout';
-
 import React from "react";
 import AdminLayout from './layout/AdminLayout';
-const Dashboard = () => <div>Dashboard Content</div>;
-const Users = () => <div>Users Content</div>;
-const Settings = () => <div>Settings Content</div>;
 
 function App() {
 
