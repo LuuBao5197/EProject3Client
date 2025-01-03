@@ -23,12 +23,12 @@ const TeacherLayout = ({ children }) => {
     <div className={`container-fluid ${styles.teacherLayout} ${isDarkMode ? styles.darkMode : styles.lightMode}`}>
       <div className="row">
         {/* Sidebar for tablet and larger screens */}
-        <aside className={`d-none d-md-block col-md-3 col-lg-2 ${styles.sidebar}`}>
+        <aside className={`d-none d-md-block col-md-3 col-lg-2 fixed-top ${styles.sidebar}`}>
           <h2>Teacher Management</h2>
           <nav>
             <ul>
               <li><Link to="/students">Quản lý sinh viên</Link></li>
-              <li><Link to="/competitions">Quản lý cuộc thi</Link></li>
+              <li><Link to="/staff/contest/add">Quản lý cuộc thi</Link></li>
               <li><Link to="/records">Quản lý hồ sơ học tập</Link></li>
               <li><Link to="/awards">Quản lý giải thưởng</Link></li>
               <li><Link to="/exhibitions">Quản lý triển lãm</Link></li>
@@ -52,7 +52,7 @@ const TeacherLayout = ({ children }) => {
           <div className={`collapse navbar-collapse ${isTopbarCollapsed ? '' : 'show'}`} id="topbarMenu">
             <ul className="navbar-nav me-auto"> {/* Aligning the menu to the left */}
               <li className="nav-item"><Link className="nav-link" to="/students">Quản lý sinh viên</Link></li>
-              <li className="nav-item"><Link className="nav-link" to="/competitions">Quản lý cuộc thi</Link></li>
+              <li className="nav-item"><Link className="nav-link" to="/staff/contest/add">Quản lý cuộc thi</Link></li>
               <li className="nav-item"><Link className="nav-link" to="/records">Quản lý hồ sơ học tập</Link></li>
               <li className="nav-item"><Link className="nav-link" to="/awards">Quản lý giải thưởng</Link></li>
               <li className="nav-item"><Link className="nav-link" to="/exhibitions">Quản lý triển lãm</Link></li>

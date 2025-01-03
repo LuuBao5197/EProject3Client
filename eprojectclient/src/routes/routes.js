@@ -31,7 +31,12 @@ export const StaffRoutes = [
     {
         path: TeacherConfig.demo.path,
         element: TeacherConfig.demo.component,
-    }
+    }, 
+    {
+        path: TeacherConfig.addcontest.path,
+        element: TeacherConfig.addcontest.component,
+    }, 
+
 ];
 
 export const AdminRoutes =[
