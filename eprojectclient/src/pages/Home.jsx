@@ -29,7 +29,7 @@ function Home(props) {
         }
 
         // Fetch exhibition data
-        axios.get('http://localhost:5190/api/Exhibitions') // Thay URL bằng API của bạn
+        axios.get('http://localhost:5190/api/Exhibition') // Thay URL bằng API của bạn
             .then(response => {
                 setExhibitions(response.data); // Lưu danh sách exhibitions
             })
