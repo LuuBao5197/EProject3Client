@@ -1,13 +1,17 @@
-import React from "react";
-//import "bootstrap/dist/css/bootstrap.min.css";
+import React, { useEffect, useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useParams } from "react-router-dom";
 
-const AddContest = () => {
+const EditContest = () => {
+    const { id } = useParams();
+    const [contestEdit, setContestEdit] = useState({});
     const formik = useFormik({
         initialValues: {
-            name: "",
+            id: id,
+            name: contestEdit.name,
             description: "",
             startDate: "",
             endDate: "",
@@ -36,7 +40,7 @@ const AddContest = () => {
                     function (value) {
                         const { startDate } = this.parent;
                         const { endDate } = this.parent;
-                        return value && startDate && value > startDate && value < endDate 
+                        return value && startDate && value > startDate && value < endDate
                     }
                 ),
             participationCriteria: Yup.string().required("Participation criteria is required"),
@@ -44,7 +48,7 @@ const AddContest = () => {
         }),
         onSubmit: async (values, { resetForm }) => {
             try {
-                await axios.post("http://localhost:5190/api/Staff/AddContest", {
+                await axios.put(`http://localhost:5190/api/Staff/EditContest/${id}`, {
                     ...values,
                     startDate: new Date(values.startDate),
                     endDate: new Date(values.endDate),
@@ -60,21 +64,55 @@ const AddContest = () => {
             }
         },
     });
+    useEffect(async () => {
+        await axios.get(`http://localhost:5190/api/Staff/GetDetailContest/${id}`)
+            .then(result => setContestEdit(result.data))
+
+    }, [id]);
+    useEffect(() => {
+        formik.setValues(
+            {
+                id: id, 
+                name: contestEdit.name || "",
+                description: contestEdit.description || "",
+                startDate: contestEdit.startDate || "",
+                endDate: contestEdit.endDate || "",
+                submissionDeadline: contestEdit.submissionDeadline || "",
+                participationCriteria: contestEdit.participationCriteria || "",
+                organizedBy: contestEdit.organizedBy || 5,
+                isActive: contestEdit.isActive || false,
+
+            });
+    }, [contestEdit]);
+
 
     return (
         <div className="container mt-5">
             <h2 className="text-center mb-4">Add New Contest</h2>
             <form onSubmit={formik.handleSubmit} className="needs-validation" noValidate>
                 <div className="mb-1">
+                    <label className="form-label">ID</label>
+                    <input
+                        type="text"
+                        name="ID"
+                        className="form-control text-center"
+                        value={formik.values.id}
+                        readOnly
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                    />
+                  
+                </div>
+                <div className="mb-1">
                     <label className="form-label">Name</label>
                     <input
                         type="text"
                         name="name"
-                        className="form-control"
+                        className="form-control text-center"
                         value={formik.values.name}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        
+
                     />
                     {formik.touched.name && formik.errors.name && (
                         <div className="text-danger">{formik.errors.name}</div>
@@ -84,11 +122,11 @@ const AddContest = () => {
                     <label className="form-label">Description</label>
                     <textarea
                         name="description"
-                        className="form-control"
+                        className="form-control text-center"
                         value={formik.values.description}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        
+
                     ></textarea>
                     {formik.touched.description && formik.errors.description && (
                         <div className="text-danger">{formik.errors.description}</div>
@@ -99,11 +137,11 @@ const AddContest = () => {
                     <input
                         type="datetime-local"
                         name="startDate"
-                        className="form-control"
+                        className="form-control text-center"
                         value={formik.values.startDate}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        
+
                     />
                     {formik.touched.startDate && formik.errors.startDate && (
                         <div className="text-danger">{formik.errors.startDate}</div>
@@ -114,11 +152,11 @@ const AddContest = () => {
                     <input
                         type="datetime-local"
                         name="endDate"
-                        className="form-control"
+                        className="form-control text-center"
                         value={formik.values.endDate}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        
+
                     />
                     {formik.touched.endDate && formik.errors.endDate && (
                         <div className="text-danger">{formik.errors.endDate}</div>
@@ -129,11 +167,11 @@ const AddContest = () => {
                     <input
                         type="datetime-local"
                         name="submissionDeadline"
-                        className="form-control"
+                        className="form-control text-center"
                         value={formik.values.submissionDeadline}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                       
+
                     />
                     {formik.touched.submissionDeadline && formik.errors.submissionDeadline && (
                         <div className="text-danger">{formik.errors.submissionDeadline}</div>
@@ -143,11 +181,11 @@ const AddContest = () => {
                     <label className="form-label">Participation Criteria</label>
                     <textarea
                         name="participationCriteria"
-                        className="form-control"
+                        className="form-control text-center"
                         value={formik.values.participationCriteria}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        
+
                     ></textarea>
                     {formik.touched.participationCriteria && formik.errors.participationCriteria && (
                         <div className="text-danger">{formik.errors.participationCriteria}</div>
@@ -158,7 +196,7 @@ const AddContest = () => {
                     <input
                         type="number"
                         name="organizedBy"
-                        className="form-control"
+                        className="form-control text-center"
                         value={formik.values.organizedBy}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
@@ -172,7 +210,7 @@ const AddContest = () => {
                     <input
                         type="checkbox"
                         name="isActive"
-                        className="form-check-input"
+                        className="form-check-input text-center"
                         id="isActive"
                         checked={formik.values.isActive}
                         onChange={formik.handleChange}
@@ -189,4 +227,4 @@ const AddContest = () => {
     );
 };
 
-export default AddContest;
+export default EditContest;

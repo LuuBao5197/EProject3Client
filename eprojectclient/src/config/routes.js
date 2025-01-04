@@ -1,5 +1,5 @@
-import Home from "../pages/Home";
-import Demo from "../pages/StaffPages/Demo";
+import Home from "../pages/PublicPages/Home";
+import ContestList from "../pages/StaffPages/ContestList";
 import AddContest from "../pages/StaffPages/AddContest";
 import AdminLayout from "../pages/AdminPages/AdminLayout"
 import StudentManagement from "../pages/AdminPages/StudentManagement";
@@ -9,6 +9,7 @@ import AwardManagement from "../pages/AdminPages/AwardManagement";
 import ExhibitionManagement from "../pages/AdminPages/ExhibitionManagement";
 import DesignManagement from "../pages/AdminPages/DesignManagement";
 import StudentDetail from "../pages/AdminPages/StudentDetail";
+import EditContest from "../pages/StaffPages/EditContest";
 
 export const config = {
 
@@ -29,13 +30,17 @@ export const config = {
 
 
 export const TeacherConfig = {
-    demo: {
-        component: Demo,
-        path: '/staff/demo'
+    listcontest: {
+        component: ContestList,
+        path: '/staff/contest'
     },
     addcontest: {
         component: AddContest,
         path: '/staff/contest/add'
+    },
+    editcontest: {
+        component: EditContest,
+        path: '/staff/contest/edit/:id'
     }
 };
 

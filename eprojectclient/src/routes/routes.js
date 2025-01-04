@@ -1,10 +1,12 @@
 // import config from '../config/routes';
 
 import { AdminConfig, TeacherConfig } from "../config/routes";
-import Contest from "../pages/Contest";
-import Home from "../pages/Home";
-import Login from "../pages/Login";
-
+// import Contest from "../pages/Contest";
+import EditProfile from "../pages/PublicPages/EditProfile";
+import Contest from "../pages/StudentPages/Contest";
+import Home from "../pages/PublicPages/Home";
+import Login from "../pages/PublicPages/Login";
+import AwardReceived from "../pages/StudentPages/AwardReceived";
 
 
 export const publicRoutes = [
@@ -20,8 +22,19 @@ export const publicRoutes = [
     },
     {
 
+        path: "/edit",
+        element: <EditProfile/>,
+    },
+    {
+
         path: "/contest",
         element: <Contest/>,
+        
+    },
+    {
+
+        path: "/awardreceived",
+        element: <AwardReceived/>,
         
     },
 
@@ -29,12 +42,16 @@ export const publicRoutes = [
 ];
 export const StaffRoutes = [
     {
-        path: TeacherConfig.demo.path,
-        element: TeacherConfig.demo.component,
-    }, 
-    {
         path: TeacherConfig.addcontest.path,
         element: TeacherConfig.addcontest.component,
+    }, 
+    {
+        path: TeacherConfig.editcontest.path,
+        element: TeacherConfig.editcontest.component,
+    }, 
+    {
+        path: TeacherConfig.listcontest.path,
+        element: TeacherConfig.listcontest.component,
     }, 
 
 ];
@@ -74,14 +91,12 @@ export const AdminRoutes =[
     }
 ];
 export const privateRoutes = [
-    // {
-    //     path: config.home.path,
-    //     component: config.home.component,
-    // },
-    // {
-    //     path: config.home.path,
-    //     component: config.home.component,
-    // },
-
-
+  // {
+  //     path: config.home.path,
+  //     component: config.home.component,
+  // },
+  // {
+  //     path: config.home.path,
+  //     component: config.home.component,
+  // },
 ];
