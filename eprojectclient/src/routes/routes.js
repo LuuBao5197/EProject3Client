@@ -29,16 +29,16 @@ export const publicRoutes = [
 ];
 export const StaffRoutes = [
     {
-        path: TeacherConfig.demo.path,
-        element: TeacherConfig.demo.component,
-    }, 
-    {
         path: TeacherConfig.addcontest.path,
         element: TeacherConfig.addcontest.component,
     }, 
     {
         path: TeacherConfig.editcontest.path,
         element: TeacherConfig.editcontest.component,
+    }, 
+    {
+        path: TeacherConfig.listcontest.path,
+        element: TeacherConfig.listcontest.component,
     }, 
 
 ];
