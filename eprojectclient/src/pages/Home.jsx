@@ -37,18 +37,65 @@ function Home(props) {
                 console.error("Error fetching exhibition data:", error);
             });
     }, []);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5296559f075ad7e0b409f99110386a411376482d
     const handleLogout = () => {
         localStorage.removeItem("inforToken");  
         setUser(null);  
         navigate("/login");
     };
 
+<<<<<<< HEAD
     // Phân loại triển lãm
     const now = new Date();
     const pastExhibitions = exhibitions.filter(exhibition => new Date(exhibition.endDate) < now);
     const upcomingExhibitions = exhibitions.filter(exhibition => new Date(exhibition.startDate) > now);
     const ongoingExhibitions = exhibitions.filter(exhibition => new Date(exhibition.startDate) <= now && new Date(exhibition.endDate) >= now);
+=======
+    return (
+        <div>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Group 1</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/Login">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/Contest">Contest</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/AwardReceived">AwardReceived</a>
+        </li>
+       
+      </ul>
+    </div>
+  </div>
+</nav>
+            <h1>Exhibition sắp diễn ra</h1>
+            <ul>
+                {upcomingData.length > 0 ? (
+                    upcomingData.map((exhibition) => (
+                        <li key={exhibition.id}>
+                            <strong>{exhibition.name}</strong><br />
+                            <span>Start Date: {new Date(exhibition.startDate).toLocaleDateString()}</span><br />
+                            <span>End Date: {new Date(exhibition.endDate).toLocaleDateString()}</span><br />
+                            <span>Location: {exhibition.location}</span><br />
+                            <span>Organized By: {exhibition.organizedBy}</span><br />
+                        </li>
+                    ))
+                ) : (
+                    <p>No upcoming exhibitions found.</p>
+                )}
+            </ul>
+
+>>>>>>> 5296559f075ad7e0b409f99110386a411376482d
 
     return (
         <div>
