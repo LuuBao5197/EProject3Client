@@ -1,10 +1,7 @@
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { AdminRoutes, publicRoutes, StaffRoutes } from './routes/routes';
-// import 'slick-carousel/slick/slick.css';
-// import 'slick-carousel/slick/slick-theme.css';
 import TeacherLayout from './layout/TeacherLayout';
-import React from "react";
 import AdminLayout from './layout/AdminLayout';
 
 function App() {
@@ -51,7 +48,28 @@ function App() {
                     );
                 })}
             </Routes>
-
+            {/* <Routes>
+                    {privateRoutes.map((route, index) => {
+                        const Layout = route.layout || DefaultLayout;
+                        const Comp = route.component;
+                        return (
+                            <Route
+                                path={route.path}
+                                key={index}
+                                element={
+                                    <div>
+                                        <Wrapper>
+                                            <Layout>
+                                                <Comp />
+                                            </Layout>
+                                        </Wrapper>
+                                    </div>
+                                }
+                            />
+                        );
+                    })}
+                </Routes> */}
+            
         </div>
 
 

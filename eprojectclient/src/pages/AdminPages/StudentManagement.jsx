@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+//import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
 import styles from '../../layout/AdminLayout.module.css';
 
