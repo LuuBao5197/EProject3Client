@@ -1,62 +1,67 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import '../app.css';
-import InputField from '../components/InputField';
-import './Login.css';
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function Login(props) {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+
+function Login() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
-    const handleLogin = async (e) => {
+    async function handleLogin(e) {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:5190/api/Auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email, password })
-            });
+            const res = await axios.post("http://localhost:5190/api/Auth/login", { email, password });
+            console.log("res: ", res);
+            localStorage.setItem("inforToken", JSON.stringify(res.data));
+            const decodedToken = jwtDecode(res.data.token);
+            navigate("/", { state: { user: decodedToken } }); // Pass user info to home page
 
-            if (response.ok) {
-                const data = await response.json();
-                // Save token or user data to localStorage or context if needed
-                localStorage.setItem('token', data.token);
-                navigate('/'); // Redirect to the desired page
-            } else {
-                const errorData = await response.json();
-                setError(errorData.message || 'Login failed');
-            }
+            alert("Login successful");
         } catch (err) {
-            setError('Password or Email wrong.');
+            console.error(err);
+            alert("Login failed. Please check your credentials.");
         }
-    };
-
+    }
+    
     return (
-        <div className="Login-Form">
-            <div className="login-container">
-                <h2 className="form-title">Login</h2>
-                <form className="login-form" onSubmit={handleLogin}>
-                    <InputField 
-                    type="email" 
-                    placeholder="Email address" 
-                    value={email} 
-                    onChange={(e) => setEmail(e.target.value)} 
-                    />
-                    <InputField 
-                    type="password" 
-                    placeholder="Password" 
-                    value={password} 
-                    onChange={(e) => setPassword(e.target.value)} 
-                    />
-
-                    {error && <p className="error-message">{error}</p>}
-                    <a href="#" className="forgot-password-link">Forgot password?</a>
-                    <button type="submit" className="login-button">Log In</button>
-                </form> 
+        <div className="login-container">
+            <div className="login-form">
+                <h4 className="form-label">Đăng nhập</h4>
+                <form onSubmit={handleLogin}>
+                    <div className="form-group">                  
+                        <div className="mb-3 mt-3">
+                            <label htmlFor="email" className="form-label">
+                                Email
+                            </label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="email"
+                                placeholder="nhập email..."
+                                name="email"
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="pwd" className="form-label">
+                                Password
+                            </label>
+                            <input
+                                type="password"
+                                className="form-control"
+                                id="pwd"
+                                placeholder="Password..."
+                                name="password"
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </div>
+                        <button type="submit" className="open-modal-btn">
+                            Đăng nhập
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     );

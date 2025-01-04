@@ -1,62 +1,62 @@
-
 import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode'; // Import jwt-decode
+import axios from 'axios'; // Import axios for API calls
 
 function Home(props) {
-    const [upcomingData, setUpcomingData] = useState([]);
-    const [pastData, setPastData] = useState([]);
+    const [user, setUser] = useState(null);  // State to hold user info
+    const navigate = useNavigate();
 
     useEffect(() => {
-        fetch('http://localhost:5190/api/Exhibition')
-            .then(response => response.json())
-            .then(data => {
-                const today = new Date();
-                const upcomingExhibitions = data.filter(exhibition => 
-                    new Date(exhibition.startDate) > today // Exhibitions starting after today
-                );
-                const pastExhibitions = data.filter(exhibition => 
-                    new Date(exhibition.endDate) < today // Exhibitions that have already ended
-                );
-                setUpcomingData(upcomingExhibitions); // Set upcoming exhibitions
-                setPastData(pastExhibitions); // Set past exhibitions
-            })
-            .catch(error => console.error('Error fetching data:', error));
+        const storedUser = localStorage.getItem("inforToken");
+        if (storedUser) {
+            const parsedUser = JSON.parse(storedUser);
+            const decodedToken = jwtDecode(parsedUser.token); 
+
+            // Extract user ID from token
+            const userId = decodedToken.Id;
+            
+            // Fetch user details from your API based on userId
+            axios.get(`http://localhost:5190/api/User/${userId}`)
+                .then(response => {
+                    setUser(response.data);  // Assuming the API returns the user data
+                })
+                .catch(error => {
+                    console.error("Error fetching user data:", error);
+                    // You may want to handle errors here (e.g., redirect, show message)
+                });
+        }
     }, []);
 
-    return (
-        <div>
-            <h1>Exhibition sắp diễn ra</h1>
-            <ul>
-                {upcomingData.length > 0 ? (
-                    upcomingData.map((exhibition) => (
-                        <li key={exhibition.id}>
-                            <strong>{exhibition.name}</strong><br />
-                            <span>Start Date: {new Date(exhibition.startDate).toLocaleDateString()}</span><br />
-                            <span>End Date: {new Date(exhibition.endDate).toLocaleDateString()}</span><br />
-                            <span>Location: {exhibition.location}</span><br />
-                            <span>Organized By: {exhibition.organizedBy}</span><br />
-                        </li>
-                    ))
-                ) : (
-                    <p>No upcoming exhibitions found.</p>
-                )}
-            </ul>
+    const handleLogout = () => {
+        localStorage.removeItem("inforToken");  
+        setUser(null);  
+        navigate("/login");
+    };
 
-            <h1>Exhibition đã diễn ra</h1>
-            <ul>
-                {pastData.length > 0 ? (
-                    pastData.map((exhibition) => (
-                        <li key={exhibition.id}>
-                            <strong>{exhibition.name}</strong><br />
-                            <span>Start Date: {new Date(exhibition.startDate).toLocaleDateString()}</span><br />
-                            <span>End Date: {new Date(exhibition.endDate).toLocaleDateString()}</span><br />
-                            <span>Location: {exhibition.location}</span><br />
-                            <span>Organized By: {exhibition.organizedBy}</span><br />
-                        </li>
-                    ))
-                ) : (
-                    <p>No past exhibitions found.</p>
+    return (
+        <div className='row'>
+            <h4>Home PAGE - DEMO</h4>
+            <div className="wrapper">
+                {user ? (
+                    <div>
+                        <h5>Welcome, {user.name}!</h5>
+                        <p>User ID: {user.id}</p>
+                        <button 
+                            onClick={() => navigate('/edit', { state: { user } })}
+                            className="open-modal-btn">
+                            Edit Profile
+                        </button>
+                        <br />
+                        <br />
+                        <button onClick={handleLogout} className="open-modal-btn">Logout</button>
+                    </div>
+                ) : (         
+                    <Link to="/login">
+                        <button className="open-modal-btn">Login</button>
+                    </Link>
                 )}
-            </ul>
+            </div>
         </div>
     );
 }

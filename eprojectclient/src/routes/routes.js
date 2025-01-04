@@ -2,6 +2,7 @@
 
 import { TeacherConfig } from "../config/routes";
 import Contest from "../pages/Contest";
+import EditProfile from "../pages/EditProfile";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 
@@ -17,6 +18,11 @@ export const publicRoutes = [
 
         path: "/login",
         element: <Login/>,
+    },
+    {
+
+        path: "/edit",
+        element: <EditProfile/>,
     },
     {
 
