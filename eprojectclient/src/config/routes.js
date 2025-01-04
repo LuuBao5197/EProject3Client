@@ -1,5 +1,5 @@
 import Home from "../pages/Home";
-import Demo from "../pages/StaffPages/Demo";
+import ContestList from "../pages/StaffPages/ContestList";
 import AddContest from "../pages/StaffPages/AddContest";
 import AdminLayout from "../pages/AdminPages/AdminLayout"
 import StudentManagement from "../pages/AdminPages/StudentManagement";
@@ -30,9 +30,9 @@ export const config = {
 
 
 export const TeacherConfig = {
-    demo: {
-        component: Demo,
-        path: '/staff/demo'
+    listcontest: {
+        component: ContestList,
+        path: '/staff/contest'
     },
     addcontest: {
         component: AddContest,

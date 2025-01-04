@@ -48,7 +48,7 @@ const EditContest = () => {
         }),
         onSubmit: async (values, { resetForm }) => {
             try {
-                await axios.post("http://localhost:5190/api/Staff/AddContest", {
+                await axios.put(`http://localhost:5190/api/Staff/EditContest/${id}`, {
                     ...values,
                     startDate: new Date(values.startDate),
                     endDate: new Date(values.endDate),
