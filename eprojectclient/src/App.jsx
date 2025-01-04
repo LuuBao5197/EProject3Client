@@ -1,11 +1,7 @@
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-<<<<<<< HEAD
-import { publicRoutes, StaffRoutes, AdminRoutes } from './routes/routes';
-=======
 
 import { AdminRoutes, publicRoutes, StaffRoutes } from './routes/routes';
->>>>>>> d1b05ad03f8a303790818adb3e742160d54041ac
 import TeacherLayout from './layout/TeacherLayout';
 import AdminLayout from './layout/AdminLayout';
 
