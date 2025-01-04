@@ -1,4 +1,4 @@
-import Home from "../pages/Home";
+import Home from "../pages/PublicPages/Home";
 import ContestList from "../pages/StaffPages/ContestList";
 import AddContest from "../pages/StaffPages/AddContest";
 import AdminLayout from "../pages/AdminPages/AdminLayout"
