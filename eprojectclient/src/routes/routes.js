@@ -1,12 +1,15 @@
 // import config from '../config/routes';
 
 import { AdminConfig, TeacherConfig } from "../config/routes";
+<<<<<<< HEAD
 import Contest from "../pages/Contest";
 import EditProfile from "../pages/EditProfile";
+=======
+import Contest from "../pages/StudentPages/Contest";
+>>>>>>> d1b05ad03f8a303790818adb3e742160d54041ac
 import Home from "../pages/Home";
 import Login from "../pages/Login";
-
-
+import AwardReceived from "../pages/StudentPages/AwardReceived";
 
 export const publicRoutes = [
     {
@@ -30,6 +33,12 @@ export const publicRoutes = [
         element: <Contest/>,
         
     },
+    {
+
+        path: "/awardreceived",
+        element: <AwardReceived/>,
+        
+    },
 
         
 ];
@@ -41,6 +50,10 @@ export const StaffRoutes = [
     {
         path: TeacherConfig.addcontest.path,
         element: TeacherConfig.addcontest.component,
+    }, 
+    {
+        path: TeacherConfig.editcontest.path,
+        element: TeacherConfig.editcontest.component,
     }, 
 
 ];
@@ -80,14 +93,12 @@ export const AdminRoutes =[
     }
 ];
 export const privateRoutes = [
-    // {
-    //     path: config.home.path,
-    //     component: config.home.component,
-    // },
-    // {
-    //     path: config.home.path,
-    //     component: config.home.component,
-    // },
-
-
+  // {
+  //     path: config.home.path,
+  //     component: config.home.component,
+  // },
+  // {
+  //     path: config.home.path,
+  //     component: config.home.component,
+  // },
 ];

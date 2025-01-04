@@ -1,7 +1,15 @@
+<<<<<<< HEAD
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+=======
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import '../app.css';
+import InputField from '../components/InputField';
+import '../assets/css/Login.css';
+>>>>>>> d1b05ad03f8a303790818adb3e742160d54041ac
 
 
 function Login() {
