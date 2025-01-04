@@ -3,9 +3,6 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import '../app.css';
-import InputField from '../components/InputField';
-import '../assets/css/Login.css';
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");

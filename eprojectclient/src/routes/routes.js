@@ -10,6 +10,7 @@ import Contest from "../pages/StudentPages/Contest";
 import Home from "../pages/PublicPages/Home";
 import Login from "../pages/PublicPages/Login";
 import AwardReceived from "../pages/StudentPages/AwardReceived";
+import EditProfile from "../pages/PublicPages/EditProfile";
 
 export const publicRoutes = [
     {
