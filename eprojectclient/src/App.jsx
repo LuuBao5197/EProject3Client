@@ -1,8 +1,8 @@
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import { publicRoutes, StaffRoutes } from './routes/routes';
+import { publicRoutes, StaffRoutes, AdminRoutes } from './routes/routes';
 import TeacherLayout from './layout/TeacherLayout';
-
+import AdminLayout from './layout/AdminLayout';
 
 function App() {
 
@@ -23,39 +23,34 @@ function App() {
                             key={index}
                             element={
                                 <div>
-                                  <TeacherLayout>
-                                    <Comp/>
-                                  </TeacherLayout>
+                                    <TeacherLayout>
+                                        <Comp />
+                                    </TeacherLayout>
                                 </div>
                             }
                         />
                     );
-
-
+                })}
+                {AdminRoutes.map((item, index) => {
+                    const Comp = item.element;
+                    return (
+                        <Route
+                            path={item.path}
+                            key={index}
+                            element={
+                                <div>
+                                    <AdminLayout>
+                                        <Comp />
+                                    </AdminLayout>
+                                </div>
+                            }
+                        />
+                    );
                 })}
             </Routes>
-            {/* <Routes>
-                    {privateRoutes.map((route, index) => {
-                        const Layout = route.layout || DefaultLayout;
-                        const Comp = route.component;
-                        return (
-                            <Route
-                                path={route.path}
-                                key={index}
-                                element={
-                                    <div>
-                                        <Wrapper>
-                                            <Layout>
-                                                <Comp />
-                                            </Layout>
-                                        </Wrapper>
-                                    </div>
-                                }
-                            />
-                        );
-                    })}
-                </Routes> */}
+
         </div>
+
 
     )
 }
