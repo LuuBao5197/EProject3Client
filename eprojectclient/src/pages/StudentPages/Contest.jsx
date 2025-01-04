@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getContest } from '../API/getContest';
+import { getContest } from '../../API/getContest';
 
 
 function Contest() {

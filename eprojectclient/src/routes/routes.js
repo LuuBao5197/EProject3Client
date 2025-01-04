@@ -1,9 +1,10 @@
 // import config from '../config/routes';
 
 import { AdminConfig, TeacherConfig } from "../config/routes";
-import Contest from "../pages/Contest";
+import Contest from "../pages/StudentPages/Contest";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
+import AwardReceived from "../pages/StudentPages/AwardReceived";
 
 export const publicRoutes = [
     {
@@ -20,6 +21,12 @@ export const publicRoutes = [
 
         path: "/contest",
         element: <Contest/>,
+        
+    },
+    {
+
+        path: "/awardreceived",
+        element: <AwardReceived/>,
         
     },
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAwardReceived } from "../API/getAwardReceived";
+import { getAwardReceived } from "../../API/getAwardReceived";
 
 function AwardReceived() {
      const [AwardReceived, setAwardReceived] = useState([]);
