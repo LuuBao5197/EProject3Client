@@ -9,6 +9,7 @@ import AwardManagement from "../pages/AdminPages/AwardManagement";
 import ExhibitionManagement from "../pages/AdminPages/ExhibitionManagement";
 import DesignManagement from "../pages/AdminPages/DesignManagement";
 import StudentDetail from "../pages/AdminPages/StudentDetail";
+import EditContest from "../pages/StaffPages/EditContest";
 
 export const config = {
 
@@ -36,6 +37,10 @@ export const TeacherConfig = {
     addcontest: {
         component: AddContest,
         path: '/staff/contest/add'
+    },
+    editcontest: {
+        component: EditContest,
+        path: '/staff/contest/edit/:id'
     }
 };
 

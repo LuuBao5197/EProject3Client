@@ -23,7 +23,7 @@ const TeacherLayout = ({ children }) => {
     <div className={`container-fluid ${styles.teacherLayout} ${isDarkMode ? styles.darkMode : styles.lightMode}`}>
       <div className="row">
         {/* Sidebar for tablet and larger screens */}
-        <aside className={`d-none d-md-block col-md-3 col-lg-2 fixed-top ${styles.sidebar}`}>
+        <aside className={`d-none d-md-block col-md-3 col-lg-2 ${styles.sidebar}`}>
           <h2>Teacher Management</h2>
           <nav>
             <ul>
@@ -93,7 +93,7 @@ const TeacherLayout = ({ children }) => {
           </header>
 
           {/* Dynamic Content */}
-          <section className={`row ${styles.contentArea} py-3 px-4`}>
+          <section className={`row ${styles.contentArea} py-3 px-4 w-75 mx-auto`}>
             {children}
           </section>
         </main>
