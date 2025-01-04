@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../app.css';
 import InputField from '../components/InputField';
-import './Login.css';
+import '../assets/css/Login.css';
 
 function Login(props) {
     const [email, setEmail] = useState('');
