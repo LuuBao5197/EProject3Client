@@ -1,4 +1,5 @@
 // import config from '../config/routes';
+
 import { AdminConfig, TeacherConfig } from "../config/routes";
 // import Contest from "../pages/Contest";
 import EditProfile from "../pages/PublicPages/EditProfile";
