@@ -53,6 +53,10 @@ export const StaffRoutes = [
         path: TeacherConfig.listcontest.path,
         element: TeacherConfig.listcontest.component,
     }, 
+    {
+        path: TeacherConfig.detailcontest.path,
+        element: TeacherConfig.detailcontest.component,
+    }, 
 
 ];
 

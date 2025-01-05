@@ -10,7 +10,7 @@ import ExhibitionManagement from "../pages/AdminPages/ExhibitionManagement";
 import DesignManagement from "../pages/AdminPages/DesignManagement";
 import StudentDetail from "../pages/AdminPages/StudentDetail";
 import EditContest from "../pages/StaffPages/EditContest";
-
+import ContestDetail from "../pages/StaffPages/ContestDetail";
 export const config = {
 
     // home: {
@@ -41,6 +41,10 @@ export const TeacherConfig = {
     editcontest: {
         component: EditContest,
         path: '/staff/contest/edit/:id'
+    },
+    detailcontest: {
+        component: ContestDetail,
+        path: '/staff/contest/:id'
     }
 };
 
