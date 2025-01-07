@@ -81,4 +81,6 @@ export const AdminConfig = {
         component: StudentDetail,
         path: '/admin/studentdetail/:id'
     }
+
 }
+
