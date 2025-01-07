@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './TeacherLayout.module.css'; // Import your CSS Module
 
@@ -21,7 +21,7 @@ const TeacherLayout = ({ children }) => {
 
   return (
     <div className={`container-fluid ${styles.teacherLayout} ${isDarkMode ? styles.darkMode : styles.lightMode}`}>
-      <div className="row">
+      <div className={`row ${styles.sidebardiv}`}>
         {/* Sidebar for tablet and larger screens */}
         <aside className={`d-none d-md-block col-md-3 col-lg-2 ${styles.sidebar}`}>
           <h2>Teacher Management</h2>
@@ -30,7 +30,7 @@ const TeacherLayout = ({ children }) => {
               <li><Link to="/students">Quản lý sinh viên</Link></li>
               <li><Link to="/staff/contest/add">Quản lý cuộc thi</Link></li>
               <li><Link to="/records">Quản lý hồ sơ học tập</Link></li>
-              <li><Link to="/awards">Quản lý giải thưởng</Link></li>
+              <li><Link to="/staff/award">Quản lý giải thưởng</Link></li>
               <li><Link to="/exhibitions">Quản lý triển lãm</Link></li>
               <li><Link to="/designs">Quản lý thiết kế</Link></li>
             </ul>
@@ -93,7 +93,7 @@ const TeacherLayout = ({ children }) => {
           </header>
 
           {/* Dynamic Content */}
-          <section className={`row ${styles.contentArea} py-3 px-4 w-75 mx-auto`}>
+          <section className={`row ${styles.contentArea} py-3 px-4 mx-auto`}>
             {children}
           </section>
         </main>

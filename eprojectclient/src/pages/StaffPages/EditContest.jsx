@@ -4,9 +4,8 @@ import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useParams } from "react-router-dom";
-
 const EditContest = () => {
-    const { id } = useParams();
+    const {id} = useParams();
     const [contestEdit, setContestEdit] = useState({});
     const formik = useFormik({
         initialValues: {
@@ -64,15 +63,23 @@ const EditContest = () => {
             }
         },
     });
-    useEffect(async () => {
-        await axios.get(`http://localhost:5190/api/Staff/GetDetailContest/${id}`)
-            .then(result => setContestEdit(result.data))
-
+    useEffect(() => {
+        const fetchContest = async () => {
+            try {
+                const result = await axios.get(`http://localhost:5190/api/Staff/GetDetailContest/${id}`);
+                setContestEdit(result.data);
+            } catch (error) {
+                console.error("Error fetching contest details:", error);
+            }
+        };
+        fetchContest();
     }, [id]);
+    
+    
     useEffect(() => {
         formik.setValues(
             {
-                id: id, 
+                id: id,
                 name: contestEdit.name || "",
                 description: contestEdit.description || "",
                 startDate: contestEdit.startDate || "",
@@ -94,14 +101,14 @@ const EditContest = () => {
                     <label className="form-label">ID</label>
                     <input
                         type="text"
-                        name="ID"
+                        name="id"
                         className="form-control text-center"
-                        value={formik.values.id}
+                        value={formik.values.id || ""}
                         readOnly
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                     />
-                  
+
                 </div>
                 <div className="mb-1">
                     <label className="form-label">Name</label>
@@ -109,7 +116,7 @@ const EditContest = () => {
                         type="text"
                         name="name"
                         className="form-control text-center"
-                        value={formik.values.name}
+                        value={formik.values.name || ""}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
 
@@ -123,7 +130,7 @@ const EditContest = () => {
                     <textarea
                         name="description"
                         className="form-control text-center"
-                        value={formik.values.description}
+                        value={formik.values.description || ""}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
 
@@ -138,7 +145,7 @@ const EditContest = () => {
                         type="datetime-local"
                         name="startDate"
                         className="form-control text-center"
-                        value={formik.values.startDate}
+                        value={formik.values.startDate || ""}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
 
@@ -153,7 +160,7 @@ const EditContest = () => {
                         type="datetime-local"
                         name="endDate"
                         className="form-control text-center"
-                        value={formik.values.endDate}
+                        value={formik.values.endDate || ""}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
 
@@ -168,7 +175,7 @@ const EditContest = () => {
                         type="datetime-local"
                         name="submissionDeadline"
                         className="form-control text-center"
-                        value={formik.values.submissionDeadline}
+                        value={formik.values.submissionDeadline || ""}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
 
@@ -182,7 +189,7 @@ const EditContest = () => {
                     <textarea
                         name="participationCriteria"
                         className="form-control text-center"
-                        value={formik.values.participationCriteria}
+                        value={formik.values.participationCriteria || ""}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
 
@@ -197,7 +204,7 @@ const EditContest = () => {
                         type="number"
                         name="organizedBy"
                         className="form-control text-center"
-                        value={formik.values.organizedBy}
+                        value={formik.values.organizedBy || ""}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         readOnly
@@ -212,7 +219,7 @@ const EditContest = () => {
                         name="isActive"
                         className="form-check-input text-center"
                         id="isActive"
-                        checked={formik.values.isActive}
+                        checked={formik.values.isActive || false}
                         onChange={formik.handleChange}
                     />
                     <label className="form-check-label" htmlFor="isActive">

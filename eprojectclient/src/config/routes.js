@@ -10,7 +10,9 @@ import ExhibitionManagement from "../pages/AdminPages/ExhibitionManagement";
 import DesignManagement from "../pages/AdminPages/DesignManagement";
 import StudentDetail from "../pages/AdminPages/StudentDetail";
 import EditContest from "../pages/StaffPages/EditContest";
-
+import ContestDetail from "../pages/StaffPages/ContestDetail";
+import AddAwardForm from "../pages/StaffPages/AwardFeature.jsx/AddAwardForm";
+import AwardList from "../pages/StaffPages/AwardFeature.jsx/AwardList";
 export const config = {
 
     // home: {
@@ -41,7 +43,20 @@ export const TeacherConfig = {
     editcontest: {
         component: EditContest,
         path: '/staff/contest/edit/:id'
+    },
+    detailcontest: {
+        component: ContestDetail,
+        path: '/staff/contest/:id'
+    },
+    listAward: {
+        component: AwardList,
+        path: '/staff/award'
+    },
+    addAward: {
+        component: AddAwardForm,
+        path: '/staff/award/add'
     }
+    
 };
 
 export const AdminConfig = {
