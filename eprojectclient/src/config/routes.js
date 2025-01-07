@@ -13,6 +13,8 @@ import EditContest from "../pages/StaffPages/EditContest";
 import ContestDetail from "../pages/StaffPages/ContestDetail";
 import AddAwardForm from "../pages/StaffPages/AwardFeature.jsx/AddAwardForm";
 import AwardList from "../pages/StaffPages/AwardFeature.jsx/AwardList";
+import EditAwardForm from "../pages/StaffPages/AwardFeature.jsx/EditAwardForm";
+import AwardDetails from "../pages/StaffPages/AwardFeature.jsx/AwardDetails";
 import ExhibitionDetail from "../pages/AdminPages/ExhibitionDetail";
 export const config = {
 
@@ -56,6 +58,14 @@ export const TeacherConfig = {
     addAward: {
         component: AddAwardForm,
         path: '/staff/award/add'
+    },
+    editAward: {
+        component: EditAwardForm,
+        path: '/staff/award/edit/:id'
+    },
+    detailAward: {
+        component: AwardDetails,
+        path: '/staff/award/:id'
     }
     
 };

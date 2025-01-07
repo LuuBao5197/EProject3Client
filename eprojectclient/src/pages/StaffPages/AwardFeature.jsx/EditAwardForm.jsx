@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 const EditAwardForm = () => {
   const { id } = useParams(); // Lấy ID từ tham số URL
-  const [initialData, setInitialData] = useState(null); // Lưu dữ liệu ban đầu của giải thưởng
+  const [initialData, setInitialData] = useState({}); // Lưu dữ liệu ban đầu của giải thưởng
   const [contestOptions, setContestOptions] = useState([]); // Lưu danh sách cuộc thi từ API
   const [loading, setLoading] = useState(true); // Trạng thái tải dữ liệu
 
@@ -15,20 +15,23 @@ const EditAwardForm = () => {
     const fetchData = async () => {
       try {
         // Lấy dữ liệu giải thưởng
-        const awardResponse = await fetch(`https://api.example.com/awards/${id}`); // Đổi URL phù hợp với API của bạn
+        const awardResponse = await fetch(`http://localhost:5190/api/Staff/GetDetailAward/${id}`); // Đổi URL phù hợp với API của bạn
         const awardData = await awardResponse.json();
+        console.log(awardData);
 
         // Lấy danh sách cuộc thi
-        const contestResponse = await fetch("https://api.example.com/contests"); // Đổi URL phù hợp với API của bạn
+        const contestResponse = await fetch("http://localhost:5190/api/Staff/GetAllContest"); // Đổi URL phù hợp với API của bạn
         const contestData = await contestResponse.json();
+        
 
         setInitialData({
+          id: id,
           name: awardData.name,
           value: awardData.value,
           contestId: awardData.contestId,
           awardQuantity: awardData.awardQuantity,
         });
-        setContestOptions(contestData);
+        setContestOptions(contestData.contests);
         setLoading(false);
       } catch (error) {
         console.error("Lỗi khi tải dữ liệu:", error);
@@ -43,6 +46,7 @@ const EditAwardForm = () => {
   const formik = useFormik({
     enableReinitialize: true, // Cho phép khởi tạo lại form khi initialValues thay đổi
     initialValues: initialData || {
+      id: id,
       name: "",
       value: "",
       contestId: "",
@@ -66,7 +70,7 @@ const EditAwardForm = () => {
     onSubmit: async (values) => {
       try {
         console.log("Dữ liệu cập nhật:", values);
-        const response = await fetch(`https://api.example.com/awards/${id}`, {
+        const response = await fetch(`http://localhost:5190/api/Staff/EditAward/${id}`, {
           method: "PUT", // Hoặc PATCH nếu API của bạn hỗ trợ
           headers: {
             "Content-Type": "application/json",

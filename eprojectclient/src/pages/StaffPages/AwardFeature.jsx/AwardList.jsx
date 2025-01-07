@@ -122,7 +122,7 @@ const AwardList = () => {
                                                 {/* Nút xem chi tiết */}
                                                 <button
                                                     className="btn btn-info btn-sm"
-                                                    onClick={() => navigate(`/awards/${award.id}/details`)}
+                                                    onClick={() => navigate(`/staff/award/${award.id}`)}
                                                 >
                                                     Chi Tiết
                                                 </button>
