@@ -13,6 +13,7 @@ import EditContest from "../pages/StaffPages/EditContest";
 import ContestDetail from "../pages/StaffPages/ContestDetail";
 import AddAwardForm from "../pages/StaffPages/AwardFeature.jsx/AddAwardForm";
 import AwardList from "../pages/StaffPages/AwardFeature.jsx/AwardList";
+import ExhibitionDetail from "../pages/AdminPages/ExhibitionDetail";
 export const config = {
 
     // home: {
@@ -91,5 +92,9 @@ export const AdminConfig = {
     studentdetail: {
         component: StudentDetail,
         path: '/admin/studentdetail/:id'
+    },
+    exhibitiondetail: {
+        component: ExhibitionDetail,
+        path: '/admin/exhibitiondetail/:id'
     }
 }
