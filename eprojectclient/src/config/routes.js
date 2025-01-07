@@ -15,6 +15,7 @@ import AddAwardForm from "../pages/StaffPages/AwardFeature.jsx/AddAwardForm";
 import AwardList from "../pages/StaffPages/AwardFeature.jsx/AwardList";
 import EditAwardForm from "../pages/StaffPages/AwardFeature.jsx/EditAwardForm";
 import AwardDetails from "../pages/StaffPages/AwardFeature.jsx/AwardDetails";
+import ExhibitionDetail from "../pages/AdminPages/ExhibitionDetail";
 export const config = {
 
     // home: {
@@ -101,5 +102,9 @@ export const AdminConfig = {
     studentdetail: {
         component: StudentDetail,
         path: '/admin/studentdetail/:id'
+    },
+    exhibitiondetail: {
+        component: ExhibitionDetail,
+        path: '/admin/exhibitiondetail/:id'
     }
 }

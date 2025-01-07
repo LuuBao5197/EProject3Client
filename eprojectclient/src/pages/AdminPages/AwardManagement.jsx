@@ -6,27 +6,55 @@ import styles from '../../layout/AdminLayout.module.css';
 
 function AwardManagement() {
     const [awards, setAwards] = useState([]);
+    const [contestId, setContestId] = useState('');  
+    const [filteredAwards, setFilteredAwards] = useState([]);  
 
     useEffect(() => {
         axios.get("http://localhost:5190/api/Manager/GetAllAward")
             .then(res => {
                 if (res.status === 200) {
                     setAwards(res.data);
+                    setFilteredAwards(res.data);  
                 }
             })
             .catch(err => {
                 console.error('Error fetching awards', err);
             });
-    }, [awards]);
+    }, []);
+
+    const handleFilterChange = (e) => {
+        const filterValue = e.target.value;
+        setContestId(filterValue);
+
+        if (filterValue) {
+            const filtered = awards.filter(award => award.contestId === parseInt(filterValue));
+            setFilteredAwards(filtered);
+        } else {
+            setFilteredAwards(awards);
+        }
+    };
 
     return (
         <div className={styles.competitionManagementContainer}>
             <h1 className={styles.title}>AWARD LIST</h1>
+            
+            <div className="mb-3">
+                <label htmlFor="contestId" className="form-label">Filter by Contest ID:</label>
+                <input
+                    type="number"
+                    className="form-control"
+                    id="contestId"
+                    value={contestId}
+                    onChange={handleFilterChange}
+                    placeholder="Enter Contest ID"
+                />
+            </div>
+
             <div className={styles.competitionRows}>
-                {awards.length === 0 ? (
+                {filteredAwards.length === 0 ? (
                     <p>No awards available at the moment.</p>
                 ) : (
-                    awards.map((item, index) => (
+                    filteredAwards.map((item, index) => (
                         <div className={styles.competitionItem} key={index}>
                             <div className={styles.defaultImage}>No Image</div>
                             <h3>{item.name}</h3>
