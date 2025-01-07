@@ -28,7 +28,7 @@ const TeacherLayout = ({ children }) => {
           <nav>
             <ul>
               <li><Link to="/students">Quản lý sinh viên</Link></li>
-              <li><Link to="/staff/contest/add">Quản lý cuộc thi</Link></li>
+              <li><Link to="/staff/contest">Quản lý cuộc thi</Link></li>
               <li><Link to="/records">Quản lý hồ sơ học tập</Link></li>
               <li><Link to="/staff/award">Quản lý giải thưởng</Link></li>
               <li><Link to="/exhibitions">Quản lý triển lãm</Link></li>
@@ -52,9 +52,9 @@ const TeacherLayout = ({ children }) => {
           <div className={`collapse navbar-collapse ${isTopbarCollapsed ? '' : 'show'}`} id="topbarMenu">
             <ul className="navbar-nav me-auto"> {/* Aligning the menu to the left */}
               <li className="nav-item"><Link className="nav-link" to="/students">Quản lý sinh viên</Link></li>
-              <li className="nav-item"><Link className="nav-link" to="/staff/contest/add">Quản lý cuộc thi</Link></li>
+              <li className="nav-item"><Link className="nav-link" to="/staff/contest">Quản lý cuộc thi</Link></li>
               <li className="nav-item"><Link className="nav-link" to="/records">Quản lý hồ sơ học tập</Link></li>
-              <li className="nav-item"><Link className="nav-link" to="/awards">Quản lý giải thưởng</Link></li>
+              <li className="nav-item"><Link className="nav-link" to="/staff/awards">Quản lý giải thưởng</Link></li>
               <li className="nav-item"><Link className="nav-link" to="/exhibitions">Quản lý triển lãm</Link></li>
               <li className="nav-item"><Link className="nav-link" to="/designs">Quản lý thiết kế</Link></li>
             </ul>
