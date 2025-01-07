@@ -130,7 +130,7 @@ const AwardList = () => {
                                                 {/* Nút sửa */}
                                                 <button
                                                     className="btn btn-warning btn-sm"
-                                                    onClick={() => navigate(`/awards/${award.id}/edit`)}
+                                                    onClick={() => navigate(`/staff/award/edit/${award.id}`)}
                                                 >
                                                     Sửa
                                                 </button>

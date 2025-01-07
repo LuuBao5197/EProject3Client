@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useParams } from "react-router-dom"; // Dùng để lấy tham số từ URL
+import { useNavigate, useParams } from "react-router-dom"; // Dùng để lấy tham số từ URL
 import "bootstrap/dist/css/bootstrap.min.css";
+import { toast } from "react-toastify";
 
 const EditAwardForm = () => {
+  const navigate = useNavigate();
   const { id } = useParams(); // Lấy ID từ tham số URL
   const [initialData, setInitialData] = useState({}); // Lưu dữ liệu ban đầu của giải thưởng
   const [contestOptions, setContestOptions] = useState([]); // Lưu danh sách cuộc thi từ API
@@ -79,7 +81,18 @@ const EditAwardForm = () => {
         });
 
         if (response.ok) {
-          alert("Cập nhật giải thưởng thành công!");
+          toast.success("Cập nhật giải thưởng thành công", {
+            position: "top-left",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "colored",
+          });
+          navigate(-1);
+          
+          // alert("Cập nhật giải thưởng thành công!");
         } else {
           alert("Có lỗi xảy ra khi cập nhật.");
         }
@@ -113,7 +126,7 @@ const EditAwardForm = () => {
               }`}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.name}
+              value={formik.values.name||""}
             />
             {formik.touched.name && formik.errors.name ? (
               <div className="invalid-feedback">{formik.errors.name}</div>
@@ -133,7 +146,7 @@ const EditAwardForm = () => {
               }`}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.value}
+              value={formik.values.value||1}
             />
             {formik.touched.value && formik.errors.value ? (
               <div className="invalid-feedback">{formik.errors.value}</div>
@@ -154,7 +167,7 @@ const EditAwardForm = () => {
               }`}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.contestId}
+              value={formik.values.contestId||""}
             >
               <option value="">-- Chọn cuộc thi --</option>
               {contestOptions.map((contest) => (
@@ -183,7 +196,7 @@ const EditAwardForm = () => {
               }`}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.awardQuantity}
+              value={formik.values.awardQuantity||0}
             />
             {formik.touched.awardQuantity && formik.errors.awardQuantity ? (
               <div className="invalid-feedback">{formik.errors.awardQuantity}</div>

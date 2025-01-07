@@ -3,12 +3,25 @@ import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-route
 import { AdminRoutes, publicRoutes, StaffRoutes } from './routes/routes';
 import TeacherLayout from './layout/TeacherLayout';
 import AdminLayout from './layout/AdminLayout';
+import React from "react";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
 
 
     return (
         <div className="App">
+            <ToastContainer
+                position="top-right" // Vị trí hiển thị
+                autoClose={3000} // Thời gian tự động đóng (ms)
+                hideProgressBar={false} // Hiển thị thanh tiến trình
+                newestOnTop={false} // Sắp xếp thông báo mới nhất lên đầu
+                closeOnClick // Đóng khi click
+                pauseOnHover // Dừng lại khi hover
+                draggable // Kéo thả
+            />
+
             <Routes>
                 {publicRoutes.map((item, index) => {
                     return (
@@ -70,7 +83,7 @@ function App() {
                         );
                     })}
                 </Routes> */}
-            
+
         </div>
 
 
