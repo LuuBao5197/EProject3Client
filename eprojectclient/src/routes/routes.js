@@ -100,6 +100,10 @@ export const AdminRoutes =[
     {
         path: AdminConfig.studentdetail.path,
         element: AdminConfig.studentdetail.component
+    },
+    {
+        path: AdminConfig.exhibitiondetail.path,
+        element: AdminConfig.exhibitiondetail.component
     }
 ];
 export const privateRoutes = [
