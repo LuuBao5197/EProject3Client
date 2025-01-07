@@ -7,6 +7,7 @@ import Contest from "../pages/StudentPages/Contest";
 import Home from "../pages/PublicPages/Home";
 import Login from "../pages/PublicPages/Login";
 import AwardReceived from "../pages/StudentPages/AwardReceived";
+import CreateNewSubmission from "../pages/StudentPages/CreateNewSubmission";
 
 
 export const publicRoutes = [
@@ -35,6 +36,11 @@ export const publicRoutes = [
 
         path: "/awardreceived",
         element: <AwardReceived/>,
+        
+    },{
+
+        path: "/createsubmission",
+        element: <CreateNewSubmission/>,
         
     },
 
