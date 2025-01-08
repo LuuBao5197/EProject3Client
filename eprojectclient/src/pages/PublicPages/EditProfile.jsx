@@ -80,8 +80,7 @@ function EditProfile() {
         <div className="login-container">
             <div className="login-form-user">
                 <h4>Edit Profile</h4>
-                <img src={user?.imagepath} className="img-thumbnail" width="150"/>
-                <p className="close-icon-user" onClick={() => window.location.href = '/'}>x</p>
+                <img src={user?.imagepath} className="img-thumbnail" width="300px"/>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label>Name:</label>
