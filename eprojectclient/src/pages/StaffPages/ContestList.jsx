@@ -43,7 +43,7 @@ const ContestList = () => {
         setCurrentPage(selectedPage);
     };
     const handleDelete = async (id) => {
-        const confirmDelete = window.confirm("Bạn có chắc chắn muốn xóa cuộc thithi này?");
+        const confirmDelete = window.confirm("Bạn có chắc chắn muốn xóa cuộc thi này?");
         if (!confirmDelete) return;
 
         try {
