@@ -7,6 +7,7 @@ import Contest from "../pages/StudentPages/Contest";
 import Home from "../pages/PublicPages/Home";
 import Login from "../pages/PublicPages/Login";
 import AwardReceived from "../pages/StudentPages/AwardReceived";
+import ForgotPassword from "../pages/PublicPages/ForgotPassword";
 
 
 export const publicRoutes = [
@@ -24,6 +25,11 @@ export const publicRoutes = [
 
         path: "/edit",
         element: <EditProfile/>,
+    },
+    {
+
+        path: "/forgotpassword",
+        element: <ForgotPassword/>,
     },
     {
 

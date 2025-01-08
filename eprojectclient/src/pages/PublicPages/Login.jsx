@@ -59,6 +59,7 @@ function Login() {
                         <button type="submit" className="open-modal-btn">
                             Đăng nhập
                         </button>
+                        <p className="close-icon-user" onClick={() => window.location.href = '/forgotpassword'}>Forgot Password</p>
                     </div>
                 </form>
             </div>
