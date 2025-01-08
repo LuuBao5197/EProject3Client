@@ -16,6 +16,9 @@ import AwardList from "../pages/StaffPages/AwardFeature.jsx/AwardList";
 import EditAwardForm from "../pages/StaffPages/AwardFeature.jsx/EditAwardForm";
 import AwardDetails from "../pages/StaffPages/AwardFeature.jsx/AwardDetails";
 import ExhibitionDetail from "../pages/AdminPages/ExhibitionDetail";
+import ExhibitionIndex from "../pages/StaffPages/ExhibitionFeature/ExhibitionIndex";
+import AddExhibition from "../pages/StaffPages/ExhibitionFeature/AddExhibition";
+import EditExhibition from "../pages/StaffPages/ExhibitionFeature/EditExhibition";
 export const config = {
 
     // home: {
@@ -66,8 +69,20 @@ export const TeacherConfig = {
     detailAward: {
         component: AwardDetails,
         path: '/staff/award/:id'
+    },
+    listExhibition: {
+        component: ExhibitionIndex,
+        path: '/staff/exhibition'
+    },
+    addExhibition: {
+        component: AddExhibition,
+        path: '/staff/exhibition/add'
+    },
+    editExhibition: {
+        component: EditExhibition,
+        path: '/staff/exhibition/edit/:id'
     }
-    
+
 };
 
 export const AdminConfig = {

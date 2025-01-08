@@ -72,7 +72,19 @@ export const StaffRoutes = [
     {
         path: TeacherConfig.detailAward.path,
         element: TeacherConfig.detailAward.component,
-    }, 
+    },
+    {
+        path: TeacherConfig.listExhibition.path,
+        element: TeacherConfig.listExhibition.component,
+    },
+    {
+        path: TeacherConfig.addExhibition.path,
+        element: TeacherConfig.addExhibition.component
+    },
+    {
+        path: TeacherConfig.editExhibition.path,
+        element: TeacherConfig.editExhibition.component
+    } 
 
 ];
 
