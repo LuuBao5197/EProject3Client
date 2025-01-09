@@ -8,7 +8,7 @@ import { SidebarContext } from '@/contexts/SidebarContext';
 import React, { useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 // import routes from '@/routes.js';
-import {adminRoutes} from '../../routes';
+import {staffRoutes} from '../../routes';
 // Custom Chakra theme
 export default function Dashboard(props) {
   const { ...rest } = props;
@@ -17,7 +17,7 @@ export default function Dashboard(props) {
   const [toggleSidebar, setToggleSidebar] = useState(false);
   // functions for changing the states from components
   const getRoute = () => {
-    return window.location.pathname !== '/admin/full-screen-maps';
+    return window.location.pathname !== '/staff/full-screen-maps';
   };
   const getActiveRoute = (routes) => {
     let activeRoute = 'Default Brand Text';
@@ -90,7 +90,7 @@ export default function Dashboard(props) {
   };
   const getRoutes = (routes) => {
     return routes.map((route, key) => {
-      if (route.layout === '/admin') {
+      if (route.layout === '/staff') {
         return (
           <Route path={`${route.path}`} element={route.component} key={key} />
         );
@@ -114,7 +114,7 @@ export default function Dashboard(props) {
             setToggleSidebar,
           }}
         >
-          <Sidebar routes={adminRoutes} display="none" {...rest} />
+          <Sidebar routes={staffRoutes} display="none" {...rest} />
           <Box
             float="right"
             minHeight="100vh"
@@ -134,9 +134,9 @@ export default function Dashboard(props) {
                 <Navbar
                   onOpen={onOpen}
                   logoText={'Horizon UI Dashboard PRO'}
-                  brandText={getActiveRoute(adminRoutes)}
-                  secondary={getActiveNavbar(adminRoutes)}
-                  message={getActiveNavbarText(adminRoutes)}
+                  brandText={getActiveRoute(staffRoutes)}
+                  secondary={getActiveNavbar(staffRoutes)}
+                  message={getActiveNavbarText(staffRoutes)}
                   fixed={fixed}
                   {...rest}
                 />
@@ -152,10 +152,10 @@ export default function Dashboard(props) {
                 pt="50px"
               >
                 <Routes>
-                  {getRoutes(adminRoutes)}
+                  {getRoutes(staffRoutes)}
                   <Route
                     path="/"
-                    element={<Navigate to="/admin/default" replace />}
+                    element={<Navigate to="/staff/default" replace />}
                   />
                 </Routes>
               </Box>

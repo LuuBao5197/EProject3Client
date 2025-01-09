@@ -11,6 +11,7 @@ import { } from 'react-router-dom';
 import AuthLayout from './layouts/auth';
 import AdminLayout from './layouts/admin';
 import RTLLayout from './layouts/rtl';
+import StaffLayout from './layouts/staff';
 import {
     ChakraProvider,
     // extendTheme
@@ -33,12 +34,12 @@ function App() {
             />
 
             <Routes>
-                {publicRoutes.map((item, index) => {
+                {/* {publicRoutes.map((item, index) => {
                     return (
                         <Route key={index} path={item.path} element={item.element} />
                     );
-                })}
-                {StaffRoutes.map((item, index) => {
+                })} */}
+                {/* {StaffRoutes.map((item, index) => {
                     const Comp = item.element;
                     return (
 
@@ -54,8 +55,8 @@ function App() {
                             }
                         />
                     );
-                })}
-                {AdminRoutes.map((item, index) => {
+                })} */}
+                {/* {AdminRoutes.map((item, index) => {
                     const Comp = item.element;
                     return (
                         <Route
@@ -70,12 +71,18 @@ function App() {
                             }
                         />
                     );
-                })}
+                })} */}
                 <Route path="auth/*" element={<AuthLayout />} />
                 <Route
                     path="admin/*"
                     element={
                         <AdminLayout theme={currentTheme} setTheme={setCurrentTheme} />
+                    }
+                />
+                <Route
+                    path="staff/*"
+                    element={
+                        <StaffLayout theme={currentTheme} setTheme={setCurrentTheme} />
                     }
                 />
                 <Route

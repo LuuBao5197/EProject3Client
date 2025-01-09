@@ -9,7 +9,7 @@ import { RtlProvider } from '@/components/rtlProvider/RtlProvider.js';
 import { SidebarContext } from '@/contexts/SidebarContext';
 import React, { useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import routes from '@/routes.js';
+import {adminRoutes} from '@/routes.js';
 
 // Custom Chakra theme
 export default function Dashboard(props) {
@@ -114,7 +114,7 @@ export default function Dashboard(props) {
           setToggleSidebar,
         }}
       >
-        <Sidebar routes={routes} display="none" {...rest} />
+        <Sidebar routes={adminRoutes} display="none" {...rest} />
         <Box
           float="left"
           minHeight="100vh"
@@ -134,9 +134,9 @@ export default function Dashboard(props) {
               <Navbar
                 onOpen={onOpen}
                 logoText={'Horizon UI Dashboard'}
-                brandText={getActiveRoute(routes)}
-                secondary={getActiveNavbar(routes)}
-                message={getActiveNavbarText(routes)}
+                brandText={getActiveRoute(adminRoutes)}
+                secondary={getActiveNavbar(adminRoutes)}
+                message={getActiveNavbarText(adminRoutes)}
                 fixed={fixed}
                 {...rest}
               />
@@ -152,7 +152,7 @@ export default function Dashboard(props) {
               pt="50px"
             >
               <Routes>
-                {getRoutes(routes)}
+                {getRoutes(adminRoutes)}
                 <Route
                   path="/"
                   element={<Navigate to="/rtl/default" replace />}
