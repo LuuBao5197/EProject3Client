@@ -4,7 +4,7 @@ import axios from "axios";
 import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
+import DataTable from 'react-data-table-component';
 const ContestList = () => {
     const navigate = useNavigate();
     const [contests, setContests] = useState([]);
@@ -13,6 +13,45 @@ const ContestList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState(""); // Trạng thái tìm kiếm
     const pageSize = 5;
+
+    const columns = [
+        {
+            name: 'ID',
+            selector: row => row.id,
+            sortable: true,
+        },
+        {
+            name: 'Name',
+            selector: row => row.name,
+            sortable: true,
+        },
+        {
+            name: 'Description',
+            selector: row => row.description,
+            sortable: true,
+        },
+        {
+            name: 'StartDate',
+            selector: row => row.startDate,
+            sortable: true,
+        },
+        {
+            name: 'EndDate',
+            selector: row => row.endDate,
+            sortable: true,
+        },
+        {
+            name: 'Active',
+            selector: row => row.active,
+            sortable: true,
+        },
+
+        {
+            name: 'Action',
+            selector: row => <button> Edit</button>,
+            sortable: true,
+        },
+    ];
 
     const fetchContests = async (page, search = "") => {
         setLoading(true);
@@ -25,7 +64,7 @@ const ContestList = () => {
                 },
             });
             setContests(response.data.contests);
-            setPageCount(response.data.totalPages);
+            // setPageCount(response.data.totalPages);
         } catch (error) {
             console.error("Error fetching contests:", error);
             alert("Failed to fetch contests. Please try again.");
@@ -58,14 +97,14 @@ const ContestList = () => {
                 alert("Xóa thành công!");
             } else {
                 toast.error("Xoa that bai", {
-                            position: "top-left",
-                            autoClose: 2000,
-                            hideProgressBar: true,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            theme: "colored",
-                          });
+                    position: "top-left",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    theme: "colored",
+                });
                 // alert("Có lỗi xảy ra khi xóa.");
             }
         } catch (error) {
@@ -73,35 +112,35 @@ const ContestList = () => {
         }
     }
     return (
-        <div className="container mx-auto">
+        <div className="container mx-auto my-4">
             <h2 className="text-center mb-4">Contest List</h2>
-             {/* Nút thêm mới */}
-             <div className="text-start mb-3">
+            {/* Nút thêm mới */}
+            <div className="text-start mb-3">
                 <button
                     className="btn btn-primary"
                     onClick={() => navigate("/staff/contest/add")}
                 >
-                   Add Contest
+                    Add Contest
                 </button>
             </div>
 
             {/* Ô tìm kiếm */}
-          
-                <div className="input-group">
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Search by contest name"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                </div>
+
+            <div className="input-group">
+                <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Search by contest name"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
+            </div>
 
             {loading ? (
                 <div className="text-center">Loading...</div>
             ) : (
                 <>
-                    <table className="table table-bordered">
+                    {/* <table className="table table-bordered">
                         <thead className="thead-light">
                             <tr>
                                 <th>ID</th>
@@ -123,14 +162,21 @@ const ContestList = () => {
                                     <td>{new Date(contest.endDate).toLocaleString()}</td>
                                     <td>{contest.isActive ? "Yes" : "No"}</td>
                                     <td>
-                                        <button className="btn btn-primary" onClick={()=>navigate(`/staff/contest/edit/${contest.id}`)}>Edit</button>
-                                        <button className="btn btn-warning" onClick={()=>handleDelete(contest.id)}>Delete</button>
+                                        <button className="btn btn-primary" onClick={() => navigate(`/staff/contest/edit/${contest.id}`)}>Edit</button>
+                                        <button className="btn btn-warning" onClick={() => handleDelete(contest.id)}>Delete</button>
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
-                    </table>
-                    <ReactPaginate
+                    </table> */}
+                    <DataTable
+                        title="CONTEST LIST"
+                        columns={columns}
+                        data={contests}
+                        pagination
+                        highlightOnHover
+                    />
+                    {/* <ReactPaginate
                         previousLabel={"Previous"}
                         nextLabel={"Next"}
                         breakLabel={"..."}
@@ -149,7 +195,7 @@ const ContestList = () => {
                         breakClassName={"page-item"}
                         breakLinkClassName={"page-link"}
                         activeClassName={"active"}
-                    />
+                    /> */}
                 </>
             )}
         </div>
