@@ -30,7 +30,7 @@ const ContestDetail = () => {
 
 
     return (
-        <Container className="my-5">
+        <Container className="py-1">
             <Row className="justify-content-center">
                 <Col xs={12} md={10} lg={8}>
                     {Object.keys(contest).length === 0 ? (

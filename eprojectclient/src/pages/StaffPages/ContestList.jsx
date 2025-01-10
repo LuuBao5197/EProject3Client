@@ -48,8 +48,11 @@ const ContestList = () => {
 
         {
             name: 'Action',
-            selector: row => <button> Edit</button>,
-            sortable: true,
+            selector: row => (<div className="d-flex">
+                <button className="btn btn-primary" onClick={() => navigate(`/staff/contests/${row.id}`)}> Detail</button>
+
+            </div>),
+            sortable: false,
         },
     ];
 
@@ -112,13 +115,11 @@ const ContestList = () => {
         }
     }
     return (
-        <div className="container mx-auto my-4">
-            <h2 className="text-center mb-4">Contest List</h2>
-            {/* Nút thêm mới */}
+        <div className="container mx-auto my-1">
             <div className="text-start mb-3">
                 <button
                     className="btn btn-primary"
-                    onClick={() => navigate("/staff/contest/add")}
+                    onClick={() => navigate("/staff/contests/add")}
                 >
                     Add Contest
                 </button>

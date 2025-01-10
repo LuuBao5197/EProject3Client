@@ -20,6 +20,9 @@ import RTL from '@/views/admin/rtl';
 import SignInCentered from '@/views/auth/signIn';
 import ContestList from './pages/StaffPages/ContestList';
 import { all } from 'axios';
+import AddContest from './pages/StaffPages/AddContest';
+import EditContest from './pages/StaffPages/EditContest';
+import ContestDetail from './pages/StaffPages/ContestDetail';
 
 export const adminRoutes = [
   {
@@ -134,13 +137,36 @@ export const staffRoutes = [
     path: '/default',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     component: <MainDashboard />,
+    index: true
   },
   {
-    name: 'Data Tables',
+    name: 'Contest List',
     layout: '/staff',
     icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
-    path: '/data-tables',
-    component: <DataTables />,
+    path: '/contests',
+    component: <ContestList/>,
+    index: true
+  },
+  {
+    name: 'Create Contest',
+    layout: '/staff',
+    icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
+    path: '/contests/add',
+    component: <AddContest/>,
+  },
+  {
+    name: 'Edit Contest',
+    layout: '/staff',
+    icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
+    path: '/contests/edit/:id',
+    component: <EditContest/>,
+  },
+  {
+    name: 'Contest Detail',
+    layout: '/staff',
+    icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
+    path: '/contests/:id',
+    component: <ContestDetail/>,
   },
   {
     name: 'Profile',
@@ -163,6 +189,7 @@ export const staffRoutes = [
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     component: <RTL />,
   },
+  
   // {
   //   name: 'ListContest',
   //   layout: '/admin',

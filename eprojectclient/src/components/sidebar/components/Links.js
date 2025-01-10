@@ -21,6 +21,7 @@ export function SidebarLinks(props) {
   // verifies if routeName is the one active (in browser input)
   const activeRoute = (routeName) => {
     return location.pathname.includes(routeName);
+    // return location.pathname.toLowerCase() === routeName.toLowerCase();
   };
 
   // this function creates the links from the secondary accordions (for example auth -> sign-in -> default)
@@ -51,10 +52,10 @@ export function SidebarLinks(props) {
         route.layout === "/auth" ||
         route.layout === "/rtl" ||
         route.layout === "/staff"
-      ) {
+      )   {
         return (
           <NavLink key={index} to={route.layout + route.path}>
-            {route.icon ? (
+            {route.icon&&route.index? (
               <Box>
                 <HStack
                   spacing={
@@ -100,28 +101,29 @@ export function SidebarLinks(props) {
                 </HStack>
               </Box>
             ) : (
-              <Box>
-                <HStack
-                  spacing={
-                    activeRoute(route.path.toLowerCase()) ? "22px" : "26px"
-                  }
-                  py='5px'
-                  ps='10px'>
-                  <Text
-                    me='auto'
-                    color={
-                      activeRoute(route.path.toLowerCase())
-                        ? activeColor
-                        : inactiveColor
-                    }
-                    fontWeight={
-                      activeRoute(route.path.toLowerCase()) ? "bold" : "normal"
-                    }>
-                    {route.name}
-                  </Text>
-                  <Box h='36px' w='4px' bg='brand.400' borderRadius='5px' />
-                </HStack>
-              </Box>
+              <></>
+              // <Box>
+              //   <HStack
+              //     spacing={
+              //       activeRoute(route.path.toLowerCase()) ? "22px" : "26px"
+              //     }
+              //     py='5px'
+              //     ps='10px'>
+              //     <Text
+              //       me='auto'
+              //       color={
+              //         activeRoute(route.path.toLowerCase())
+              //           ? activeColor
+              //           : inactiveColor
+              //       }
+              //       fontWeight={
+              //         activeRoute(route.path.toLowerCase()) ? "bold" : "normal"
+              //       }>
+              //       {route.name}
+              //     </Text>
+              //     <Box h='36px' w='4px' bg='brand.400' borderRadius='5px' />
+              //   </HStack>
+              // </Box>
             )}
           </NavLink>
         );

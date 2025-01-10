@@ -34,11 +34,11 @@ function App() {
             />
 
             <Routes>
-                {/* {publicRoutes.map((item, index) => {
+                {publicRoutes.map((item, index) => {
                     return (
                         <Route key={index} path={item.path} element={item.element} />
                     );
-                })} */}
+                })}
                 {/* {StaffRoutes.map((item, index) => {
                     const Comp = item.element;
                     return (
