@@ -24,7 +24,7 @@ const ContestDetail = () => {
 
 
     const handleEdit = (id) => {
-        navigate(`/staff/contest/edit/${id}`);
+        navigate(`/staff/contests/edit/${id}`);
     }
     console.log("Param: ", id);
 
