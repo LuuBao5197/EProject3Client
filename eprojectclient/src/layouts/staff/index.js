@@ -126,7 +126,8 @@ export default function Dashboard(props) {
           }}
         >
           <Sidebar routes={staffRoutes} display="none" {...rest} />
-          <Box
+          <Box 
+            my="60"
             float="right"
             minHeight="100vh"
             height="100%"

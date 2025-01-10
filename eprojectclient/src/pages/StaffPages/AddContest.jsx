@@ -62,8 +62,7 @@ const AddContest = () => {
     });
 
     return (
-        <div className="container mt-5">
-            <h2 className="text-center mb-4">Add New Contest</h2>
+        <div className="container pt-3">
             <form onSubmit={formik.handleSubmit} className="needs-validation" noValidate>
                 <div className="mb-1">
                     <label className="form-label">Name</label>
