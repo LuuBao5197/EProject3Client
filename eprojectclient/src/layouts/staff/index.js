@@ -5,10 +5,12 @@ import Footer from '@/components/footer/FooterAdmin.js';
 import Navbar from '@/components/navbar/NavbarAdmin.js';
 import Sidebar from '@/components/sidebar/Sidebar.js';
 import { SidebarContext } from '@/contexts/SidebarContext';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 // import routes from '@/routes.js';
 import {staffRoutes} from '../../routes';
+
+import { useLocation } from 'react-router-dom';
 // Custom Chakra theme
 export default function Dashboard(props) {
   const { ...rest } = props;
@@ -19,6 +21,7 @@ export default function Dashboard(props) {
   const getRoute = () => {
     return window.location.pathname !== '/staff/full-screen-maps';
   };
+  const location = useLocation();
   const getActiveRoute = (routes) => {
     let activeRoute = 'Default Brand Text';
     for (let i = 0; i < routes.length; i++) {
@@ -57,7 +60,8 @@ export default function Dashboard(props) {
         }
       } else {
         if (
-          window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1
+          // window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1
+          location.pathname === routes[i].layout + routes[i].path
         ) {
           return routes[i].secondary;
         }
@@ -80,7 +84,8 @@ export default function Dashboard(props) {
         }
       } else {
         if (
-          window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1
+          // window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1
+          location.pathname === routes[i].layout + routes[i].path
         ) {
           return routes[i].messageNavbar;
         }
@@ -102,9 +107,15 @@ export default function Dashboard(props) {
       }
     });
   };
+  
   document.documentElement.dir = 'ltr';
   const { onOpen } = useDisclosure();
   document.documentElement.dir = 'ltr';
+
+  useEffect(() => {
+    
+  }, [useLocation])
+  
   return (
     <Box>
       <Box>
