@@ -36,7 +36,7 @@ function Home(props) {
             .catch(error => {
                 console.error("Error fetching exhibition data:", error);
             });
-    }, []);
+        }, []);
 
     const handleLogout = () => {
         localStorage.removeItem("inforToken");  

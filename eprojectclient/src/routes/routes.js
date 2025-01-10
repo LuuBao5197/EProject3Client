@@ -8,12 +8,18 @@ import Home from "../pages/PublicPages/Home";
 import Login from "../pages/PublicPages/Login";
 import AwardReceived from "../pages/StudentPages/AwardReceived";
 import ForgotPassword from "../pages/PublicPages/ForgotPassword";
+import NewHome from "../pages/PublicPages/NewHome";
 
 
 export const publicRoutes = [
     {
         path: "/",
         element: <Home/>,
+        
+    },
+    {
+        path: "/newhome",
+        element: <NewHome/>,
         
     },
     {

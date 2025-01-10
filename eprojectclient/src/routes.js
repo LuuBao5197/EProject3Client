@@ -20,6 +20,8 @@ import RTL from '@/views/admin/rtl';
 import SignInCentered from '@/views/auth/signIn';
 import ContestList from './pages/StaffPages/ContestList';
 import { all } from 'axios';
+import ForgotPassword from './pages/PublicPages/ForgotPassword';
+import NewHome from './pages/PublicPages/NewHome';
 
 export const adminRoutes = [
   {
@@ -119,6 +121,13 @@ export const routes = [
     component: <SignInCentered />,
   },
   {
+    name: 'Forgot Password',
+    layout: '/auth',
+    path: '/forgot-password',
+    icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
+    component: <ForgotPassword/>,
+  },
+  {
     name: 'RTL Admin',
     layout: '/rtl',
     path: '/rtl-default',
@@ -171,6 +180,23 @@ export const staffRoutes = [
   //   component: <ContestList />,
   // },
 ];
+
+export const publicRoutes = [
+    {
+      name: 'Sign In',
+      layout: '/auth',
+      path: '/sign-in',
+      icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
+      component: <SignInCentered />,
+    },
+    {
+      name: 'Main Home',
+      layout: '/public',
+      path: '/default',
+      icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+      component: <NewHome />,
+    },
+  ];
 
 
 
