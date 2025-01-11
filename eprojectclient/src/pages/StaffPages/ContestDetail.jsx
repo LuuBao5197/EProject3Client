@@ -24,13 +24,13 @@ const ContestDetail = () => {
 
 
     const handleEdit = (id) => {
-        navigate(`/staff/contest/edit/${id}`);
+        navigate(`/staff/contests/edit/${id}`);
     }
     console.log("Param: ", id);
 
 
     return (
-        <Container className="my-5">
+        <Container className="py-1">
             <Row className="justify-content-center">
                 <Col xs={12} md={10} lg={8}>
                     {Object.keys(contest).length === 0 ? (

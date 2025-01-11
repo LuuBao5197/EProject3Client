@@ -22,6 +22,17 @@ import ContestList from './pages/StaffPages/ContestList';
 import { all } from 'axios';
 import ForgotPassword from './pages/PublicPages/ForgotPassword';
 import NewHome from './pages/PublicPages/NewHome';
+import AddContest from './pages/StaffPages/AddContest';
+import EditContest from './pages/StaffPages/EditContest';
+import ContestDetail from './pages/StaffPages/ContestDetail';
+import AwardList from './pages/StaffPages/AwardFeature.jsx/AwardList';
+import AddAwardForm from './pages/StaffPages/AwardFeature.jsx/AddAwardForm';
+import EditAwardForm from './pages/StaffPages/AwardFeature.jsx/EditAwardForm';
+import AwardDetails from './pages/StaffPages/AwardFeature.jsx/AwardDetails';
+import ExhibitionIndex from './pages/StaffPages/ExhibitionFeature/ExhibitionIndex';
+import AddExhibition from './pages/StaffPages/ExhibitionFeature/AddExhibition';
+import EditExhibition from './pages/StaffPages/ExhibitionFeature/EditExhibition';
+
 
 export const adminRoutes = [
   {
@@ -30,6 +41,7 @@ export const adminRoutes = [
     path: '/default',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     component: <MainDashboard />,
+    index: true
   },
   {
     name: 'NFT Marketplace',
@@ -45,6 +57,7 @@ export const adminRoutes = [
     ),
     component: <NFTMarketplace />,
     secondary: true,
+    index: true
   },
   {
     name: 'Data Tables',
@@ -52,6 +65,7 @@ export const adminRoutes = [
     icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
     path: '/data-tables',
     component: <DataTables />,
+    index: true
   },
   {
     name: 'Profile',
@@ -59,6 +73,7 @@ export const adminRoutes = [
     path: '/profile',
     icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
     component: <Profile />,
+    index: true
   },
   {
     name: 'Sign In',
@@ -66,6 +81,7 @@ export const adminRoutes = [
     path: '/sign-in',
     icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
     component: <SignInCentered />,
+    index: true
   },
   {
     name: 'RTL Admin',
@@ -73,6 +89,7 @@ export const adminRoutes = [
     path: '/rtl-default',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     component: <RTL />,
+    index: true
   },
 ];
 
@@ -143,13 +160,36 @@ export const staffRoutes = [
     path: '/default',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     component: <MainDashboard />,
+    index: true
   },
   {
-    name: 'Data Tables',
+    name: 'Contest List',
     layout: '/staff',
     icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
-    path: '/data-tables',
-    component: <DataTables />,
+    path: '/contests',
+    component: <ContestList/>,
+    index: true
+  },
+  {
+    name: 'Create Contest',
+    layout: '/staff',
+    icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
+    path: '/contests/add',
+    component: <AddContest/>,
+  },
+  {
+    name: 'Edit Contest',
+    layout: '/staff',
+    icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
+    path: '/contests/edit/:id',
+    component: <EditContest/>,
+  },
+  {
+    name: 'Contest Detail',
+    layout: '/staff',
+    icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
+    path: '/contests/:id',
+    component: <ContestDetail/>,
   },
   {
     name: 'Profile',
@@ -159,26 +199,66 @@ export const staffRoutes = [
     component: <Profile />,
   },
   {
-    name: 'ListContest',
-    layout: '/staff',
-    path: '/contest',
-    icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
-    component: <ContestList />,
-  },
-  {
     name: 'RTL Admin',
     layout: '/staff',
     path: '/rtl-default',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     component: <RTL />,
   },
-  // {
-  //   name: 'ListContest',
-  //   layout: '/admin',
-  //   path: '/staff/contest',
-  //   icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
-  //   component: <ContestList />,
-  // },
+  {
+    name: 'List Awards',
+    layout: '/staff',
+    path: '/award',
+    icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
+    component: <AwardList />,
+    index: true
+  },
+  {
+    name: 'Create Award',
+    layout: '/staff',
+    path: '/award/add',
+    icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
+    component: <AddAwardForm />,
+  },
+  {
+    name: 'Update Award',
+    layout: '/staff',
+    path: '/award/edit/:id',
+    icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
+    component: <EditAwardForm />,
+  },
+  {
+    name: 'Detail Award',
+    layout: '/staff',
+    path: '/award/:id',
+    icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
+    component: <AwardDetails />,
+  },
+  {
+    name: 'List Exhibition',
+    layout: '/staff',
+    path: '/exhibition',
+    icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
+    component: <ExhibitionIndex />,
+    index: true
+  },
+  {
+    name: 'Create Exhibition',
+    layout: '/staff',
+    path: '/exhibition/add',
+    icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
+    component: <AddExhibition />,
+  },
+  {
+    name: 'Update Exhibition',
+    layout: '/staff',
+    path: '/exhibition/edit/:id',
+    icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
+    component: <EditExhibition/>,
+  },
+  
+  
+  
 ];
 
 export const publicRoutes = [

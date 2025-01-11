@@ -2,7 +2,7 @@
 import { Portal, Box, useDisclosure } from '@chakra-ui/react';
 import Footer from '@/components/footer/FooterAdmin.js';
 // Layout components
-import Navbar from '@/components/navbar/NavbarAdmin.js';
+import Navbar from '@/components/navbar/NavbarStaff.js';
 import Sidebar from '@/components/sidebar/Sidebar.js';
 import { SidebarContext } from '@/contexts/SidebarContext';
 import React, { useState, useEffect } from 'react';
@@ -126,7 +126,7 @@ export default function Dashboard(props) {
           }}
         >
           <Sidebar routes={staffRoutes} display="none" {...rest} />
-          <Box
+          <Box 
             float="right"
             minHeight="100vh"
             height="100%"
@@ -156,6 +156,7 @@ export default function Dashboard(props) {
 
             {getRoute() ? (
               <Box
+                marginTop="120"
                 mx="auto"
                 p={{ base: '20px', md: '30px' }}
                 pe="20px"
