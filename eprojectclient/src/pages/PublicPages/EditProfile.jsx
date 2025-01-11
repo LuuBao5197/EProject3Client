@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import banner from "@/assets/img/auth/banner.png";
-import Banner from './components/Banner';
+import Banner from './components/Profile';
 function EditProfile() {
     const [user, setUser] = useState(null);
 

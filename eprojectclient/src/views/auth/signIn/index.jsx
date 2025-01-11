@@ -76,7 +76,7 @@ function SignIn() {
       console.log("res: ", res);
       localStorage.setItem("inforToken", JSON.stringify(res.data));
       const decodedToken = jwtDecode(res.data.token);
-      navigate("/public/default", { state: { user: decodedToken } }); // Pass user info to home page
+      navigate("/", { state: { user: decodedToken } });
 
       alert("Login successful");
     } catch (err) {
@@ -147,6 +147,12 @@ const handleOtpSubmit = async (event) => {
   }
 };
 
+// Password validation function
+const validatePassword = (password) => {
+  const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+  return regex.test(password);
+};
+
 // Handle the password reset submission
 const handlePasswordSubmit = async (event) => {
   event.preventDefault();
@@ -156,6 +162,13 @@ const handlePasswordSubmit = async (event) => {
   // Check if passwords match
   if (newPassword !== confirmPassword) {
     setMessage('Passwords do not match.');
+    setIsLoading(false);
+    return;
+  }
+
+  // Validate the password
+  if (!validatePassword(newPassword)) {
+    setMessage('Password must be at least 6 characters, include 1 capital letter, 1 digit, and 1 special symbol.');
     setIsLoading(false);
     return;
   }
@@ -179,7 +192,7 @@ const handlePasswordSubmit = async (event) => {
 
     const textData = await response.text();
     setMessage(textData || 'Password has been reset successfully.');
-    
+
     // Close the modal after successful password reset
     setIsModalOpen(false);
 
@@ -189,6 +202,7 @@ const handlePasswordSubmit = async (event) => {
     setIsLoading(false);
   }
 };
+
 
 
 
@@ -407,7 +421,6 @@ const handlePasswordSubmit = async (event) => {
             />
           </FormControl>
           
-          {/* Confirm Password Field */}
           <FormControl>
             <FormLabel>Confirm Password:</FormLabel>
             <Input
@@ -419,6 +432,21 @@ const handlePasswordSubmit = async (event) => {
             />
           </FormControl>
 
+          <FormControl>
+          <FormLabel>Password Requirements:</FormLabel>
+                    {message && (
+            <Text color="red.500" mb="4">
+              {message}
+            </Text>
+          )}
+          <Text fontSize="sm" color="gray.500">
+            - At least 6 characters<br />
+            - At least 1 capital letter<br />
+            - At least 1 digit<br />
+            - At least 1 special symbol (@, $, !, %, *, ?, &)
+          </Text>
+        </FormControl>
+
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={() => setIsModalOpen(false)}>
               Close
@@ -426,7 +454,7 @@ const handlePasswordSubmit = async (event) => {
             <Button
               type="submit"
               colorScheme="blue"
-              isDisabled={newPassword !== confirmPassword} // Disable if passwords don't match
+              isDisabled={newPassword !== confirmPassword}
             >
               Submit
             </Button>

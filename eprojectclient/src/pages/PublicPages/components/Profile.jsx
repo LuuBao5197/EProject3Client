@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import Card from "@/components/card/Card.js";
 
-export default function Banner(props) {
+export default function Profile(props) {
   const { banner, avatar, name, job, email, password, id } = props;
 
   const [user, setUser] = useState({
@@ -291,6 +291,8 @@ export default function Banner(props) {
         </Button>
       </form>
 
+
+      {/* Name Change Modal */}
       <Modal isOpen={isOpen && fieldToChange === "name"} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -314,7 +316,6 @@ export default function Banner(props) {
           </ModalFooter>
         </ModalContent>
       </Modal>
-
 
       {/* Password Change Modal */}
       <Modal isOpen={isOpen && fieldToChange === "password"} onClose={onClose}>
