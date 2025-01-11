@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom"; // Dùng để điều hướng
 import axios from "axios";
 import ReactPaginate from "react-paginate";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Icon } from "@chakra-ui/react";
+import { MdDeleteForever, MdEdit, MdInfoOutline, MdRemove } from "react-icons/md";
 
 const AwardList = () => {
 
@@ -64,7 +66,7 @@ const AwardList = () => {
 
     return (
         <div className="container mt-5">
-            <h2 className="text-center">Danh Sách Giải Thưởng</h2>
+            <h2 className="text-center">List Awards</h2>
 
 
             {/* Nút thêm mới */}
@@ -73,7 +75,7 @@ const AwardList = () => {
                     className="btn btn-primary"
                     onClick={() => navigate("/staff/award/add")}
                 >
-                    Thêm Giải Thưởng
+                    Create Award
                 </button>
             </div>
             {/* Ô tìm kiếm */}
@@ -100,31 +102,31 @@ const AwardList = () => {
                     <table className="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Tên Giải Thưởng</th>
-                                <th>Giá Trị</th>
-                                <th>Số Lượng</th>
-                                <th>Cuộc Thi</th>
-                                <th>Hành Động</th>
+                                <th className="text-center">ID</th>
+                                <th className="text-center">Name</th>
+                                <th className="text-center">Value($)</th>
+                                <th className="text-center">Quantity</th>
+                                <th className="text-center">For Contest</th>
+                                <th className="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {awards.length > 0 ? (
                                 awards.map((award, index) => (
-                                    <tr key={award.id}>
-                                        <td>{index + 1}</td>
-                                        <td>{award.name}</td>
-                                        <td>{award.value}</td>
-                                        <td>{award.awardQuantity}</td>
-                                        <td>{award.contestId}</td>
-                                        <td>
+                                    <tr key={index}>
+                                        <td className="text-center">{award.id}</td>
+                                        <td className="text-center">{award.name}</td>
+                                        <td className="text-center">{award.value}</td>
+                                        <td className="text-center">{award.awardQuantity}</td>
+                                        <td className="text-center">{award.contestId}</td>
+                                        <td className="text-center">
                                             <div className="d-flex justify-content-around">
-                                                {/* Nút xem chi tiết */}
+                                                {/* View Detail */}
                                                 <button
                                                     className="btn btn-info btn-sm"
                                                     onClick={() => navigate(`/staff/award/${award.id}`)}
                                                 >
-                                                    Chi Tiết
+                                                   <Icon as={MdInfoOutline} width="20px" height="20px" color="inherit"/>
                                                 </button>
 
                                                 {/* Nút sửa */}
@@ -132,7 +134,7 @@ const AwardList = () => {
                                                     className="btn btn-warning btn-sm"
                                                     onClick={() => navigate(`/staff/award/edit/${award.id}`)}
                                                 >
-                                                    Sửa
+                                                   <Icon as={MdEdit} width="20px" height="20px" color="inherit"/>
                                                 </button>
 
                                                 {/* Nút xóa */}
@@ -140,7 +142,7 @@ const AwardList = () => {
                                                     className="btn btn-danger btn-sm"
                                                     onClick={() => handleDelete(award.id)}
                                                 >
-                                                    Xóa
+                                                  <Icon as={MdDeleteForever} width="20px" height="20px" color="inherit"/>
                                                 </button>
                                             </div>
                                         </td>
@@ -149,7 +151,7 @@ const AwardList = () => {
                             ) : (
                                 <tr>
                                     <td colSpan="6" className="text-center">
-                                        Không có giải thưởng nào.
+                                        No award .
                                     </td>
                                 </tr>
                             )}
