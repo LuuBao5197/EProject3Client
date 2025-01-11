@@ -12,6 +12,7 @@ import AuthLayout from './layouts/auth';
 import AdminLayout from './layouts/admin';
 import RTLLayout from './layouts/rtl';
 import StaffLayout from './layouts/staff';
+import PublicLayout from './layouts/public';
 import {
     ChakraProvider,
     // extendTheme
@@ -83,6 +84,12 @@ function App() {
                     path="staff/*"
                     element={
                         <StaffLayout theme={currentTheme} setTheme={setCurrentTheme} />
+                    }
+                />
+                <Route
+                    path="public/*"
+                    element={
+                        <PublicLayout theme={currentTheme} setTheme={setCurrentTheme} />
                     }
                 />
                 <Route
