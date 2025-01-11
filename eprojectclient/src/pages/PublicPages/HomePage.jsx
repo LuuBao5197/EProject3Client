@@ -1,66 +1,136 @@
-import React, { useState, useEffect } from 'react';
-import './HomePage.css'; // File CSS cho giao diện
-import CardHome from './components/CardHome';
-
+import React, { useState, useEffect } from "react";
+import CardHome from "./components/card/CardHome";
+import { Box, SimpleGrid, Input, Select, VStack, Button, HStack } from "@chakra-ui/react";
+import FooterHome from "./components/footer/FooterHome";
+import NavbarHome from "./components/navbar/NavbarHome";
 
 const HomePage = () => {
-  const [contests, setContests] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filter, setFilter] = useState('ongoing');
+  const [exhibitions, setExhibitions] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortOption, setSortOption] = useState("all"); // 'ongoing', 'upcoming', 'all'
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4; // Số exhibitions trên mỗi trang
 
-  // Lấy dữ liệu giả lập từ API (hoặc hardcode)
+  // Fetch data from API
   useEffect(() => {
-    // Fake API data
-    const fetchData = async () => {
-      const data = [
-        { id: 1, title: 'Toán', startTime: '12h46 20/8/2029', endTime: '12h46 20/8/2029', image: 'image1.jpg' },
-        { id: 2, title: 'Lịch sử', startTime: '08h31 20/8/2030', endTime: '08h31 20/8/2030', image: 'image2.jpg' },
-        { id: 3, title: 'Vật lý', startTime: '10h00 15/9/2028', endTime: '12h00 15/9/2028', image: 'image3.jpg' },
-      ];
-      setContests(data);
+    const fetchExhibitions = async () => {
+      try {
+        const response = await fetch("http://localhost:5190/api/Exhibition");
+        if (!response.ok) {
+          throw new Error("Failed to fetch exhibitions");
+        }
+        const data = await response.json();
+        setExhibitions(data); // Assuming `data` is an array of exhibitions
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
-    fetchData();
+    fetchExhibitions();
   }, []);
 
-  // Lọc dữ liệu theo tên hoặc trạng thái
-  const filteredContests = contests.filter((contest) =>
-    contest.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Lọc và sắp xếp danh sách exhibitions
+  const filteredExhibitions = exhibitions
+    .filter((exhibition) =>
+      exhibition.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .filter((exhibition) => {
+      if (sortOption === "ongoing") {
+        const now = new Date();
+        const startDate = new Date(exhibition.startDate);
+        const endDate = new Date(exhibition.endDate);
+        return now >= startDate && now <= endDate; // Đang tổ chức
+      }
+      if (sortOption === "upcoming") {
+        const now = new Date();
+        const startDate = new Date(exhibition.startDate);
+        return startDate > now; // Sắp tổ chức
+      }
+      return true; // Mặc định: tất cả
+    });
+
+  // Xử lý phân trang
+  const indexOfLastExhibition = currentPage * itemsPerPage;
+  const indexOfFirstExhibition = indexOfLastExhibition - itemsPerPage;
+  const currentExhibitions = filteredExhibitions.slice(indexOfFirstExhibition, indexOfLastExhibition);
+
+  const totalPages = Math.ceil(filteredExhibitions.length / itemsPerPage);
+
+  // Chuyển trang
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <div className="container">
-      <header className="header">
-        <input
-          type="text"
-          className="search-bar"
-          placeholder="Tìm kiếm"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <select
-          className="filter-dropdown"
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-        >
-          <option value="ongoing">Cuộc thi đang diễn ra</option>
-          <option value="ended">Cuộc thi đã kết thúc</option>
-        </select>
+      <NavbarHome/>
+      <header>
+        <h1>Exhibition List</h1>
+        <VStack align="start" spacing={4} mb={6}>
+          {/* Ô tìm kiếm */}
+          <Input
+            placeholder="Search by name..."
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1); // Reset page khi tìm kiếm thay đổi
+            }}
+          />
+
+          {/* Dropdown chọn kiểu sắp xếp */}
+          <Select
+            placeholder="Sort exhibitions"
+            value={sortOption}
+            onChange={(e) => setSortOption(e.target.value)}
+          >
+            <option value="all">All</option>
+            <option value="ongoing">Ongoing</option>
+            <option value="upcoming">Upcoming</option>
+          </Select>
+        </VStack>
       </header>
 
-      <div className="cards">
-        <CardHome/>
-        {filteredContests.map((contest) => (
-          <div className="card" key={contest.id}>
-            <img src={contest.image} alt={contest.title} className="card-image" />
-            <div className="card-content">
-              <h3>{contest.title}</h3>
-              <p>Bắt đầu: {contest.startTime}</p>
-              <p>Kết thúc: {contest.endTime}</p>
-            </div>
-          </div>
-        ))}
-      </div>
+      <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : error ? (
+          <p>Error: {error}</p>
+        ) : (
+          <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px" mb="20px">
+            {currentExhibitions.map((exhibition) => (
+              <CardHome key={exhibition.id} exhibition={exhibition} />
+            ))}
+          </SimpleGrid>
+        )}
+
+        {/* Phân trang */}
+        <HStack spacing={4} justify="center" mt="20px">
+          {currentPage > 1 && (
+            <Button onClick={() => handlePageChange(currentPage - 1)}>
+              Previous
+            </Button>
+          )}
+          {[...Array(totalPages)].map((_, index) => (
+            <Button
+              key={index}
+              onClick={() => handlePageChange(index + 1)}
+              variant={index + 1 === currentPage ? "solid" : "outline"}
+            >
+              {index + 1}
+            </Button>
+          ))}
+          {currentPage < totalPages && (
+            <Button onClick={() => handlePageChange(currentPage + 1)}>
+              Next
+            </Button>
+          )}
+        </HStack>
+      </Box>
+      <FooterHome/>
     </div>
   );
 };
