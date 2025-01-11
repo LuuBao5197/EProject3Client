@@ -3,9 +3,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 const EditContest = () => {
-    const {id} = useParams();
+    const navigate = useNavigate();
+    const { id } = useParams();
     const [contestEdit, setContestEdit] = useState({});
     const formik = useFormik({
         initialValues: {
@@ -55,8 +58,8 @@ const EditContest = () => {
                     createdAt: new Date(),
                     updatedAt: new Date(),
                 });
-                alert("Contest added successfully!");
-                resetForm();
+                alert("Contest edit successfully!");
+                navigate('/staff/contests');
             } catch (error) {
                 console.error("Error adding contest:", error);
                 alert(`Failed to add contest: ${error.response?.data?.message || error.message}`);
@@ -74,8 +77,8 @@ const EditContest = () => {
         };
         fetchContest();
     }, [id]);
-    
-    
+
+
     useEffect(() => {
         formik.setValues(
             {
@@ -95,7 +98,7 @@ const EditContest = () => {
 
     return (
         <div className="container mt-5">
-            <h2 className="text-center mb-4">Add New Contest</h2>
+            <h2 className="text-center mb-4">Update Contest</h2>
             <form onSubmit={formik.handleSubmit} className="needs-validation" noValidate>
                 <div className="mb-1">
                     <label className="form-label">ID</label>
@@ -127,14 +130,24 @@ const EditContest = () => {
                 </div>
                 <div className="mb-1">
                     <label className="form-label">Description</label>
-                    <textarea
+                    <ReactQuill theme="snow" value={formik.values.description || ""}
+                     onChange={(value) => formik.setFieldValue("description", value)} 
+                     onBlur={() => {
+                        formik.setFieldTouched("description", true); // Đánh dấu là đã blur
+                        if (formik.values.description === "<p><br></p>") {
+                            formik.setFieldValue("description", ""); // Chuyển về chuỗi trống
+                            formik.setFieldError("description", "Description is required!"); // Set lỗi nếu cần
+                        }
+                      }}  />
+
+                    {/* <textarea
                         name="description"
                         className="form-control text-center"
                         value={formik.values.description || ""}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
 
-                    ></textarea>
+                    ></textarea> */}
                     {formik.touched.description && formik.errors.description && (
                         <div className="text-danger">{formik.errors.description}</div>
                     )}

@@ -7,6 +7,15 @@ import {
   MdHome,
   MdLock,
   MdOutlineShoppingCart,
+  MdList,
+  MdGifBox,
+  MdCardGiftcard,
+  MdFestival,
+  MdOutlineFestival,
+  MdInfoOutline,
+  MdCreate,
+  MdUpdate,
+  MdLogin,
 } from 'react-icons/md';
 
 // Admin Imports
@@ -165,7 +174,7 @@ export const staffRoutes = [
   {
     name: 'Contest List',
     layout: '/staff',
-    icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
     path: '/contests',
     component: <ContestList/>,
     index: true
@@ -173,7 +182,7 @@ export const staffRoutes = [
   {
     name: 'Create Contest',
     layout: '/staff',
-    icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
     path: '/contests/add',
     component: <AddContest/>,
   },
@@ -209,7 +218,7 @@ export const staffRoutes = [
     name: 'List Awards',
     layout: '/staff',
     path: '/award',
-    icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
+    icon: <Icon as={MdCardGiftcard} width="20px" height="20px" color="inherit" />,
     component: <AwardList />,
     index: true
   },
@@ -224,21 +233,21 @@ export const staffRoutes = [
     name: 'Update Award',
     layout: '/staff',
     path: '/award/edit/:id',
-    icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
     component: <EditAwardForm />,
   },
   {
     name: 'Detail Award',
     layout: '/staff',
     path: '/award/:id',
-    icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
+    icon: <Icon as={MdInfoOutline} width="20px" height="20px" color="inherit" />,
     component: <AwardDetails />,
   },
   {
     name: 'List Exhibition',
     layout: '/staff',
     path: '/exhibition',
-    icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
+    icon: <Icon as={MdOutlineFestival} width="20px" height="20px" color="inherit" />,
     component: <ExhibitionIndex />,
     index: true
   },
@@ -246,14 +255,14 @@ export const staffRoutes = [
     name: 'Create Exhibition',
     layout: '/staff',
     path: '/exhibition/add',
-    icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
+    icon: <Icon as={MdCreate} width="20px" height="20px" color="inherit" />,
     component: <AddExhibition />,
   },
   {
     name: 'Update Exhibition',
     layout: '/staff',
     path: '/exhibition/edit/:id',
-    icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
+    icon: <Icon as={MdUpdate} width="20px" height="20px" color="inherit" />,
     component: <EditExhibition/>,
   },
   
@@ -266,7 +275,7 @@ export const publicRoutes = [
       name: 'Sign In',
       layout: '/auth',
       path: '/sign-in',
-      icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
+      icon: <Icon as={MdLogin} width="20px" height="20px" color="inherit" />,
       component: <SignInCentered />,
     },
     {

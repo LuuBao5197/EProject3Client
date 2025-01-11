@@ -5,6 +5,13 @@ import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import DataTable from 'react-data-table-component';
+
+import { Icon } from '@chakra-ui/react';
+import {
+
+    MdInfoOutline,
+} from 'react-icons/md';
+
 const ContestList = () => {
     const navigate = useNavigate();
     const [contests, setContests] = useState([]);
@@ -49,7 +56,7 @@ const ContestList = () => {
         {
             name: 'Action',
             selector: row => (<div className="d-flex">
-                <button className="btn btn-primary" onClick={() => navigate(`/staff/contests/${row.id}`)}> Detail</button>
+                <button className="btn btn-primary" onClick={() => navigate(`/staff/contests/${row.id}`)}>  <Icon as={MdInfoOutline} width="20px" height="20px" color="inherit" /></button>
 
             </div>),
             sortable: false,
