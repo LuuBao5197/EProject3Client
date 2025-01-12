@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import banner from "@/assets/img/auth/banner.png";
-import Banner from './components/Profile';
+import Profile from './components/Profile';
+
 function EditProfile() {
     const [user, setUser] = useState(null);
 
@@ -30,8 +31,8 @@ function EditProfile() {
 
     return (
         <div className="login-container">
-            <div className="login-form-user">
-                <Banner
+            <div>
+                <Profile
                     gridArea='1 / 3/ 2 / 2'
                     banner={banner}
                     id={user?.id}
@@ -41,7 +42,9 @@ function EditProfile() {
                     username={user?.username || ''}
                     email={user?.email || ''}
                     password={user?.password || ''}
+                    phone={user?.phone || ''}
                 />
+                
             </div>
         </div>
     );
