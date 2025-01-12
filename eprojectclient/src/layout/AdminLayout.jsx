@@ -10,7 +10,7 @@ const AdminLayout = ({ children }) => {
         <h2>Manager Panel</h2>
         <nav>
           <ul>
-            <li><a href="/admin/studentmanagement"><i className="fas fa-user-graduate"></i> Student Management</a></li>
+            <li><a href="/admin/classesmanagement"><i className="fas fa-user-graduate"></i> Classes Management</a></li>
             <li><a href="/admin/competitionmanagement"><i className="fas fa-trophy"></i> Competition Management</a></li>
             <li><a href="/admin/armanagement"><i className="fas fa-file-alt"></i> Academic Records Management</a></li>
             <li><a href="/admin/awardmanagement"><i className="fas fa-medal"></i> Award Management</a></li>

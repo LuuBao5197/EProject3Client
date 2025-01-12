@@ -100,6 +100,10 @@ export const AdminRoutes =[
         element: AdminConfig.adminlayout.component
     },
     {
+        path: AdminConfig.classesmanagement.path,
+        element: AdminConfig.classesmanagement.component
+    },
+    {
         path: AdminConfig.studentmanagement.path,
         element: AdminConfig.studentmanagement.component
     },
