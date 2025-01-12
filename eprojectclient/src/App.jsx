@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './assets/css/App.css';
 import { } from 'react-router-dom';
 import AuthLayout from './layouts/auth';
-import AdminLayout from './layouts/admin';
+import AdminLayout from './layout/AdminLayout';
 import RTLLayout from './layouts/rtl';
 import StaffLayout from './layouts/staff';
 import PublicLayout from './layouts/public';
@@ -57,7 +57,7 @@ function App() {
                         />
                     );
                 })} */}
-                {/* {AdminRoutes.map((item, index) => {
+                {AdminRoutes.map((item, index) => {
                     const Comp = item.element;
                     return (
                         <Route
@@ -72,7 +72,7 @@ function App() {
                             }
                         />
                     );
-                })} */}
+                })}
                 <Route path="auth/*" element={<AuthLayout />} />
                 <Route
                     path="admin/*"
