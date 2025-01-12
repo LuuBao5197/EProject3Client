@@ -30,7 +30,6 @@ import SignInCentered from '@/views/auth/signIn';
 import ContestList from './pages/StaffPages/ContestList';
 import { all } from 'axios';
 import ForgotPassword from './pages/PublicPages/ForgotPassword';
-import NewHome from './pages/PublicPages/NewHome';
 import AddContest from './pages/StaffPages/AddContest';
 import EditContest from './pages/StaffPages/EditContest';
 import ContestDetail from './pages/StaffPages/ContestDetail';
@@ -277,13 +276,6 @@ export const publicRoutes = [
       path: '/sign-in',
       icon: <Icon as={MdLogin} width="20px" height="20px" color="inherit" />,
       component: <SignInCentered />,
-    },
-    {
-      name: 'Main Home',
-      layout: '/public',
-      path: '/default',
-      icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
-      component: <NewHome />,
     },
   ];
 

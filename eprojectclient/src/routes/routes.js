@@ -7,7 +7,6 @@ import Contest from "../pages/StudentPages/Contest";
 import Login from "../pages/PublicPages/Login";
 import AwardReceived from "../pages/StudentPages/AwardReceived";
 import ForgotPassword from "../pages/PublicPages/ForgotPassword";
-import NewHome from "../pages/PublicPages/NewHome";
 import HomePage from "../pages/PublicPages/HomePage";
 
 
@@ -15,11 +14,6 @@ export const publicRoutes = [
     {
         path: "/",
         element: <HomePage/>,
-        
-    },
-    {
-        path: "/newhome",
-        element: <NewHome/>,
         
     },
     {
