@@ -48,8 +48,8 @@ const ContestList = () => {
             sortable: true,
         },
         {
-            name: 'Active',
-            selector: row => row.active,
+            name: 'Status',
+            selector: row => row.Status,
             sortable: true,
         },
 
