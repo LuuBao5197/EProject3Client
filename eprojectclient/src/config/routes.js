@@ -19,6 +19,7 @@ import ExhibitionDetail from "../pages/AdminPages/ExhibitionDetail";
 import ExhibitionIndex from "../pages/StaffPages/ExhibitionFeature/ExhibitionIndex";
 import AddExhibition from "../pages/StaffPages/ExhibitionFeature/AddExhibition";
 import EditExhibition from "../pages/StaffPages/ExhibitionFeature/EditExhibition";
+import ClassesManagement from "../pages/AdminPages/CLassesManagement";
 export const config = {
 
     // home: {
@@ -90,9 +91,13 @@ export const AdminConfig = {
         component: AdminLayout,
         path: '/admin/adminlayout'
     },
+    classesmanagement: {
+        component: ClassesManagement,
+        path: '/admin/classesmanagement'
+    },
     studentmanagement: {
         component: StudentManagement,
-        path: '/admin/studentmanagement'
+        path: '/admin/studentmanagement/:classId'
     },
     competitionmanagement: {
         component: CompetitionManagement,

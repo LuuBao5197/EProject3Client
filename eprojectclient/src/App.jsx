@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './assets/css/App.css';
 import { } from 'react-router-dom';
 import AuthLayout from './layouts/auth';
-import AdminLayout from './layouts/admin';
+import AdminLayout from './layout/AdminLayout';
 import RTLLayout from './layouts/rtl';
 import {
     ChakraProvider,
@@ -71,7 +71,7 @@ function App() {
                         />
                     );
                 })}
-                <Route path="auth/*" element={<AuthLayout />} />
+                {/* <Route path="auth/*" element={<AuthLayout />} />
                 <Route
                     path="admin/*"
                     element={
@@ -84,7 +84,7 @@ function App() {
                         <RTLLayout theme={currentTheme} setTheme={setCurrentTheme} />
                     }
                 />
-                <Route path="/" element={<Navigate to="/admin" replace />} />
+                <Route path="/" element={<Navigate to="/admin" replace />} /> */}
             </Routes>
            
         </ChakraProvider>
