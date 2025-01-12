@@ -5,6 +5,13 @@ import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import DataTable from 'react-data-table-component';
+
+import { Icon } from '@chakra-ui/react';
+import {
+
+    MdInfoOutline,
+} from 'react-icons/md';
+
 const ContestList = () => {
     const navigate = useNavigate();
     const [contests, setContests] = useState([]);
@@ -48,8 +55,11 @@ const ContestList = () => {
 
         {
             name: 'Action',
-            selector: row => <button> Edit</button>,
-            sortable: true,
+            selector: row => (<div className="d-flex">
+                <button className="btn btn-primary" onClick={() => navigate(`/staff/contests/${row.id}`)}>  <Icon as={MdInfoOutline} width="20px" height="20px" color="inherit" /></button>
+
+            </div>),
+            sortable: false,
         },
     ];
 
@@ -112,13 +122,11 @@ const ContestList = () => {
         }
     }
     return (
-        <div className="container mx-auto my-4">
-            <h2 className="text-center mb-4">Contest List</h2>
-            {/* Nút thêm mới */}
+        <div className="container mx-auto my-1">
             <div className="text-start mb-3">
                 <button
                     className="btn btn-primary"
-                    onClick={() => navigate("/staff/contest/add")}
+                    onClick={() => navigate("/staff/contests/add")}
                 >
                     Add Contest
                 </button>

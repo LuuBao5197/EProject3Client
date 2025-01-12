@@ -3,6 +3,10 @@ import React from "react";
 import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { Icon } from "@chakra-ui/react";
+import { MdAddBox } from "react-icons/md";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const AddContest = () => {
     const formik = useFormik({
@@ -18,30 +22,54 @@ const AddContest = () => {
         },
         validationSchema: Yup.object({
             name: Yup.string().required("Name is required"),
-            description: Yup.string().min(10, "Description must be at least 10 characters").required("Description is required"),
-            startDate: Yup.date().required("Start date is required"),
-            endDate: Yup.date().required("End date is required").test(
-                "is-after-startDate",
-                "End date must be after start date",
-                function (value) {
-                    const { startDate } = this.parent;
-                    return value && startDate && value > startDate;
-                }
-            ),
-
-            submissionDeadline: Yup.date().required("Submission deadline is required")
+            description: Yup.string()
+                .min(10, "Description must be at least 10 characters")
+                .required("Description is required"),
+            startDate: Yup.date()
+                .required("Start date is required")
+                .test(
+                    "is-after-today",
+                    "Start date must be after today",
+                    function (value) {
+                        const today = new Date();
+                        // Xóa giờ, phút, giây của hôm nay để so sánh chỉ ngày
+                        today.setHours(0, 0, 0, 0);
+                        return value && value > today;
+                    }
+                ),
+            endDate: Yup.date()
+                .required("End date is required")
+                .test(
+                    "is-after-startDate",
+                    "End date must be after start date",
+                    function (value) {
+                        const { startDate } = this.parent;
+                        return value && startDate && value > startDate;
+                    }
+                ),
+            submissionDeadline: Yup.date()
+                .required("Submission deadline is required")
+                .test(
+                    "is-after-today",
+                    "Submission deadline must be after today",
+                    function (value) {
+                        const today = new Date();
+                        today.setHours(0, 0, 0, 0);
+                        return value && value > today;
+                    }
+                )
                 .test(
                     "is-before-startDate",
                     "Submission deadline must be after start date and before end date",
                     function (value) {
-                        const { startDate } = this.parent;
-                        const { endDate } = this.parent;
-                        return value && startDate && value > startDate && value < endDate 
+                        const { startDate, endDate } = this.parent;
+                        return value && startDate && value > startDate && value < endDate;
                     }
                 ),
             participationCriteria: Yup.string().required("Participation criteria is required"),
             organizedBy: Yup.number().required("Organizer ID is required"),
         }),
+        
         onSubmit: async (values, { resetForm }) => {
             try {
                 await axios.post("http://localhost:5190/api/Staff/AddContest", {
@@ -62,8 +90,7 @@ const AddContest = () => {
     });
 
     return (
-        <div className="container mt-5">
-            <h2 className="text-center mb-4">Add New Contest</h2>
+        <div className="container pt-3">
             <form onSubmit={formik.handleSubmit} className="needs-validation" noValidate>
                 <div className="mb-1">
                     <label className="form-label">Name</label>
@@ -74,7 +101,7 @@ const AddContest = () => {
                         value={formik.values.name}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        
+
                     />
                     {formik.touched.name && formik.errors.name && (
                         <div className="text-danger">{formik.errors.name}</div>
@@ -82,14 +109,14 @@ const AddContest = () => {
                 </div>
                 <div className="mb-1">
                     <label className="form-label">Description</label>
-                    <textarea
-                        name="description"
-                        className="form-control"
-                        value={formik.values.description}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        
-                    ></textarea>
+                    <ReactQuill theme="snow" value={formik.values.description}
+                        onChange={(value) => formik.setFieldValue("description", value)} // Cập nhật giá trị cho Formik
+                        onBlur={() => {
+                                if (formik.values.description === "<p><br></p>") {
+                                    formik.setFieldValue("description", ""); // Chuyển về chuỗi trống
+                                    formik.setFieldError("description", "Description is required!"); // Set lỗi nếu cần
+                                }
+                          }} />
                     {formik.touched.description && formik.errors.description && (
                         <div className="text-danger">{formik.errors.description}</div>
                     )}
@@ -103,7 +130,7 @@ const AddContest = () => {
                         value={formik.values.startDate}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        
+
                     />
                     {formik.touched.startDate && formik.errors.startDate && (
                         <div className="text-danger">{formik.errors.startDate}</div>
@@ -118,7 +145,7 @@ const AddContest = () => {
                         value={formik.values.endDate}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        
+
                     />
                     {formik.touched.endDate && formik.errors.endDate && (
                         <div className="text-danger">{formik.errors.endDate}</div>
@@ -133,7 +160,7 @@ const AddContest = () => {
                         value={formik.values.submissionDeadline}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                       
+
                     />
                     {formik.touched.submissionDeadline && formik.errors.submissionDeadline && (
                         <div className="text-danger">{formik.errors.submissionDeadline}</div>
@@ -147,7 +174,7 @@ const AddContest = () => {
                         value={formik.values.participationCriteria}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        
+
                     ></textarea>
                     {formik.touched.participationCriteria && formik.errors.participationCriteria && (
                         <div className="text-danger">{formik.errors.participationCriteria}</div>
@@ -182,7 +209,7 @@ const AddContest = () => {
                     </label>
                 </div>
                 <button type="submit" className="btn btn-primary w-100">
-                    Submit
+                    <Icon as={MdAddBox} width="20px" height="20px" color="inherit" />
                 </button>
             </form>
         </div>

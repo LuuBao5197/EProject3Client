@@ -5,20 +5,22 @@ import Footer from '@/components/footer/FooterAdmin.js';
 import Navbar from '@/components/navbar/NavbarAdmin.js';
 import Sidebar from '@/components/sidebar/Sidebar.js';
 import { SidebarContext } from '@/contexts/SidebarContext';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 // import routes from '@/routes.js';
-import {adminRoutes} from '../../routes';
+import {publicRoutes} from '../../routes';
+import { useLocation } from 'react-router-dom';
 // Custom Chakra theme
-export default function Dashboard(props) {
+export default function NewHome(props) {
   const { ...rest } = props;
   // states and functions
   const [fixed] = useState(false);
   const [toggleSidebar, setToggleSidebar] = useState(false);
   // functions for changing the states from components
   const getRoute = () => {
-    return window.location.pathname !== '/admin/full-screen-maps';
+    return window.location.pathname !== '/public/full-screen-maps';
   };
+  const location = useLocation();
   const getActiveRoute = (routes) => {
     let activeRoute = 'Default Brand Text';
     for (let i = 0; i < routes.length; i++) {
@@ -57,7 +59,8 @@ export default function Dashboard(props) {
         }
       } else {
         if (
-          window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1
+          // window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1
+          location.pathname === routes[i].layout + routes[i].path
         ) {
           return routes[i].secondary;
         }
@@ -80,7 +83,8 @@ export default function Dashboard(props) {
         }
       } else {
         if (
-          window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1
+          // window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1
+          location.pathname === routes[i].layout + routes[i].path
         ) {
           return routes[i].messageNavbar;
         }
@@ -90,7 +94,7 @@ export default function Dashboard(props) {
   };
   const getRoutes = (routes) => {
     return routes.map((route, key) => {
-      if (route.layout === '/admin') {
+      if (route.layout === '/public') {
         return (
           <Route path={`${route.path}`} element={route.component} key={key} />
         );
@@ -102,9 +106,15 @@ export default function Dashboard(props) {
       }
     });
   };
+  
   document.documentElement.dir = 'ltr';
   const { onOpen } = useDisclosure();
   document.documentElement.dir = 'ltr';
+
+  useEffect(() => {
+    
+  }, [useLocation])
+  
   return (
     <Box>
       <Box>
@@ -114,7 +124,7 @@ export default function Dashboard(props) {
             setToggleSidebar,
           }}
         >
-          <Sidebar routes={adminRoutes} display="none" {...rest} />
+          <Sidebar routes={publicRoutes} display="none" {...rest} />
           <Box
             float="right"
             minHeight="100vh"
@@ -134,9 +144,9 @@ export default function Dashboard(props) {
                 <Navbar
                   onOpen={onOpen}
                   logoText={'Horizon UI Dashboard PRO'}
-                  brandText={getActiveRoute(adminRoutes)}
-                  secondary={getActiveNavbar(adminRoutes)}
-                  message={getActiveNavbarText(adminRoutes)}
+                  brandText={getActiveRoute(publicRoutes)}
+                  secondary={getActiveNavbar(publicRoutes)}
+                  message={getActiveNavbarText(publicRoutes)}
                   fixed={fixed}
                   {...rest}
                 />
@@ -152,10 +162,10 @@ export default function Dashboard(props) {
                 pt="50px"
               >
                 <Routes>
-                  {getRoutes(adminRoutes)}
+                  {getRoutes(publicRoutes)}
                   <Route
                     path="/"
-                    element={<Navigate to="/admin/default" replace />}
+                    element={<Navigate to="/public/default" replace />}
                   />
                 </Routes>
               </Box>

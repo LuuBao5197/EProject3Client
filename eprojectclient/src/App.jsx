@@ -11,6 +11,8 @@ import { } from 'react-router-dom';
 import AuthLayout from './layouts/auth';
 import AdminLayout from './layout/AdminLayout';
 import RTLLayout from './layouts/rtl';
+import StaffLayout from './layouts/staff';
+import PublicLayout from './layouts/public';
 import {
     ChakraProvider,
     // extendTheme
@@ -38,7 +40,7 @@ function App() {
                         <Route key={index} path={item.path} element={item.element} />
                     );
                 })}
-                {StaffRoutes.map((item, index) => {
+                {/* {StaffRoutes.map((item, index) => {
                     const Comp = item.element;
                     return (
 
@@ -54,7 +56,7 @@ function App() {
                             }
                         />
                     );
-                })}
+                })} */}
                 {AdminRoutes.map((item, index) => {
                     const Comp = item.element;
                     return (
@@ -71,11 +73,23 @@ function App() {
                         />
                     );
                 })}
-                {/* <Route path="auth/*" element={<AuthLayout />} />
+                <Route path="auth/*" element={<AuthLayout />} />
                 <Route
                     path="admin/*"
                     element={
                         <AdminLayout theme={currentTheme} setTheme={setCurrentTheme} />
+                    }
+                />
+                <Route
+                    path="staff/*"
+                    element={
+                        <StaffLayout theme={currentTheme} setTheme={setCurrentTheme} />
+                    }
+                />
+                <Route
+                    path="public/*"
+                    element={
+                        <PublicLayout theme={currentTheme} setTheme={setCurrentTheme} />
                     }
                 />
                 <Route
@@ -84,7 +98,7 @@ function App() {
                         <RTLLayout theme={currentTheme} setTheme={setCurrentTheme} />
                     }
                 />
-                <Route path="/" element={<Navigate to="/admin" replace />} /> */}
+                <Route path="/" element={<Navigate to="/admin" replace />} />
             </Routes>
            
         </ChakraProvider>

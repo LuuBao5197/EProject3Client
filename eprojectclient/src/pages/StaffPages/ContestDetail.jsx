@@ -2,6 +2,12 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
+import { Icon } from '@chakra-ui/react';
+import {
+    MdEdit,
+    MdDeleteOutline,
+    MdDelete
+} from 'react-icons/md';
 
 const ContestDetail = () => {
     const { id } = useParams();
@@ -24,13 +30,13 @@ const ContestDetail = () => {
 
 
     const handleEdit = (id) => {
-        navigate(`/staff/contest/edit/${id}`);
+        navigate(`/staff/contests/edit/${id}`);
     }
     console.log("Param: ", id);
 
 
     return (
-        <Container className="my-5">
+        <Container className="py-1">
             <Row className="justify-content-center">
                 <Col xs={12} md={10} lg={8}>
                     {Object.keys(contest).length === 0 ? (
@@ -66,10 +72,10 @@ const ContestDetail = () => {
                             </Card.Body>
                             <Card.Footer className="text-center">
                                 <Button variant="primary" className="mx-2" onClick={() => handleEdit(contest.id)}>
-                                    Edit Contest
+                                    <Icon as={MdEdit} width="20px" height="20px" color="inherit" />
                                 </Button>
                                 <Button variant="danger" className="mx-2">
-                                    Delete Contest
+                                    <Icon as={MdDelete} width="20px" height="20px" color="inherit" />
                                 </Button>
                             </Card.Footer>
                         </Card>
