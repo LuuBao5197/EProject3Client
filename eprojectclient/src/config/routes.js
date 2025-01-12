@@ -13,6 +13,10 @@ import EditContest from "../pages/StaffPages/EditContest";
 import ContestDetail from "../pages/StaffPages/ContestDetail";
 import AddAwardForm from "../pages/StaffPages/AwardFeature.jsx/AddAwardForm";
 import AwardList from "../pages/StaffPages/AwardFeature.jsx/AwardList";
+import AdminStaffLayout from "../pages/AdminStaffPages/AdminStaffLayout";
+import AdminStaffAdd from "../pages/AdminStaffPages/AdminStaffAdd";
+import AdminStudentList from "../pages/AdminStudentPages/AdminStudentList";
+import AdminStaffDetail from "../pages/AdminStaffPages/AdminStaffDetail";
 export const config = {
 
     // home: {
@@ -93,5 +97,25 @@ export const AdminConfig = {
         path: '/admin/studentdetail/:id'
     }
 
+}
+export const AdminStaffConfig = {
+    adminstafflayout: {
+        component: AdminStaffLayout,
+        path: '/adminstaff/adminstafflayout'
+     },
+     adminstaffadd: {
+        component: AdminStaffAdd,
+        path: '/adminstaff/adminstaffadd'
+     },
+     adminstaffdetail:{
+        component: AdminStaffDetail,
+        path: '/adminstaff/adminstaffdetail/:id'
+     }
+}
+export const AdminStudentConfig = {
+    adminstudentlist: {
+        component: AdminStudentList,
+        path: '/adminstudent/adminstudentlist'
+     }
 }
 

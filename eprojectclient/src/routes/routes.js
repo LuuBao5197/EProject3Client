@@ -1,6 +1,6 @@
 // import config from '../config/routes';
 
-import { AdminConfig, TeacherConfig } from "../config/routes";
+import { AdminConfig, AdminStaffConfig, AdminStudentConfig, TeacherConfig } from "../config/routes";
 // import Contest from "../pages/Contest";
 import EditProfile from "../pages/PublicPages/EditProfile";
 import Contest from "../pages/StudentPages/Contest";
@@ -100,6 +100,26 @@ export const AdminRoutes =[
     {
         path: AdminConfig.studentdetail.path,
         element: AdminConfig.studentdetail.component
+    }
+];
+export const AdminStaffRoute = [
+    {
+        path: AdminStaffConfig.adminstafflayout.path,
+        element: AdminStaffConfig.adminstafflayout.component
+    },
+    {
+        path: AdminStaffConfig.adminstaffadd.path,
+        element: AdminStaffConfig.adminstaffadd.component
+    },
+    {
+        path: AdminStaffConfig.adminstaffdetail.path,
+        element: AdminStaffConfig.adminstaffdetail.component
+    }
+];
+export const AdminStudentRoute = [
+    {
+        path: AdminStudentConfig.adminstudentlist.path,
+        element: AdminStudentConfig.adminstudentlist.component
     }
 ];
 export const privateRoutes = [

@@ -1,6 +1,6 @@
 
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom'
-import { AdminRoutes, publicRoutes, StaffRoutes } from './routes/routes';
+import { AdminRoutes, AdminStaffRoute, AdminStudentRoute, publicRoutes, StaffRoutes } from './routes/routes';
 import TeacherLayout from './layout/TeacherLayout';
 import AdminLayout from './layout/AdminLayout';
 
@@ -33,6 +33,38 @@ function App() {
                     );
                 })}
                 {AdminRoutes.map((item, index) => {
+                    const Comp = item.element;
+                    return (
+                        <Route
+                            path={item.path}
+                            key={index}
+                            element={
+                                <div>
+                                    <AdminLayout>
+                                        <Comp />
+                                    </AdminLayout>
+                                </div>
+                            }
+                        />
+                    );
+                })}
+                {AdminStaffRoute.map((item, index) => {
+                    const Comp = item.element;
+                    return (
+                        <Route
+                            path={item.path}
+                            key={index}
+                            element={
+                                <div>
+                                    <AdminLayout>
+                                        <Comp />
+                                    </AdminLayout>
+                                </div>
+                            }
+                        />
+                    );
+                })}
+                {AdminStudentRoute.map((item, index) => {
                     const Comp = item.element;
                     return (
                         <Route

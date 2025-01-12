@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom'; // Import Link và useNavigate
 import { getAllStaff, deleteStaff } from '../../API/getAdminStaff';
 
 const AdminStaffLayout = ({ onEdit }) => {
   const [staffList, setStaffList] = useState([]);
+  const navigate = useNavigate(); // Để điều hướng đến trang khác
 
   useEffect(() => {
     fetchStaff();
@@ -21,14 +23,17 @@ const AdminStaffLayout = ({ onEdit }) => {
     if (window.confirm('Are you sure you want to delete this staff?')) {
       try {
         await deleteStaff(id);
-        fetchStaff();  // Refresh the list
+        fetchStaff(); // Refresh the list
       } catch (error) {
         console.error('Failed to delete staff:', error.response?.data?.message || error.message);
       }
     }
   };
-  
 
+  const handleDetail = (id) => {
+    navigate(`/adminstaff/adminstaffdetail/${id}`); // Điều hướng đến đường dẫn mới
+  };
+  
 
   return (
     <div>
@@ -51,6 +56,7 @@ const AdminStaffLayout = ({ onEdit }) => {
               <td>
                 <button onClick={() => onEdit(staff)}>Edit</button>
                 <button onClick={() => handleDelete(staff.id)}>Delete</button>
+                <button onClick={() => handleDetail(staff.id)}>Detail</button> {/* Nút Detail */}
               </td>
             </tr>
           ))}

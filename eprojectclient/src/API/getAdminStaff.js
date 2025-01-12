@@ -24,3 +24,12 @@ export const deleteStaff = async (id) => {
     const response = await axios.delete(`${API_URL}/${id}`);
   return response.data;
 };
+export const getStaffDetails = async (id) => {
+  try {
+    const response = await axios.get(`${API_URL}/${id}`);
+    return response.data; // Trả về dữ liệu chi tiết Staff
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to fetch staff details');
+  }
+};
+
