@@ -53,8 +53,7 @@ function ClassesManagement() {
                 ) : (
                     filteredClasses.map((item, index) => (
                         <div className={styles.exhibitionItem} key={index}>
-                            {/* Link to student management page with ClassId as URL parameter */}
-                            <Link to={`/admin/studentmanagement/${item.id}`} className={styles.imageLink}>
+                            <Link to={`/manager/students/${item.id}`} className={styles.imageLink}>
                                 <div className={styles.defaultImage}>
                                     {item.imageUrl ? (
                                         <img src={item.imageUrl} alt={item.name} /> 

@@ -1,6 +1,6 @@
 // import config from '../config/routes';
 
-import { AdminConfig, TeacherConfig } from "../config/routes";
+import { ManagerConfig, TeacherConfig } from "../config/routes";
 // import Contest from "../pages/Contest";
 import EditProfile from "../pages/PublicPages/EditProfile";
 import Contest from "../pages/StudentPages/Contest";
@@ -94,46 +94,42 @@ export const StaffRoutes = [
 
 ];
 
-export const AdminRoutes =[
+export const ManagerRoutes =[
     {
-        path: AdminConfig.adminlayout.path,
-        element: AdminConfig.adminlayout.component
+        path: ManagerConfig.managerlayout.path,
+        element: ManagerConfig.managerlayout.component
     },
     {
-        path: AdminConfig.classesmanagement.path,
-        element: AdminConfig.classesmanagement.component
+        path: ManagerConfig.classesmanagement.path,
+        element: ManagerConfig.classesmanagement.component
     },
     {
-        path: AdminConfig.studentmanagement.path,
-        element: AdminConfig.studentmanagement.component
+        path: ManagerConfig.studentmanagement.path,
+        element: ManagerConfig.studentmanagement.component
     },
     {
-        path: AdminConfig.competitionmanagement.path,
-        element: AdminConfig.competitionmanagement.component
+        path: ManagerConfig.competitionmanagement.path,
+        element: ManagerConfig.competitionmanagement.component
     },
     {
-        path: AdminConfig.armanagement.path,
-        element: AdminConfig.armanagement.component
+        path: ManagerConfig.armanagement.path,
+        element: ManagerConfig.armanagement.component
     },
     {
-        path: AdminConfig.awardmanagement.path,
-        element: AdminConfig.awardmanagement.component
+        path: ManagerConfig.awardmanagement.path,
+        element: ManagerConfig.awardmanagement.component
     },
     {
-        path: AdminConfig.exhibitionmanagement.path,
-        element: AdminConfig.exhibitionmanagement.component
+        path: ManagerConfig.exhibitionmanagement.path,
+        element: ManagerConfig.exhibitionmanagement.component
     },
     {
-        path: AdminConfig.designmanagement.path,
-        element: AdminConfig.designmanagement.component
+        path: ManagerConfig.designmanagement.path,
+        element: ManagerConfig.designmanagement.component
     },
     {
-        path: AdminConfig.studentdetail.path,
-        element: AdminConfig.studentdetail.component
-    },
-    {
-        path: AdminConfig.exhibitiondetail.path,
-        element: AdminConfig.exhibitiondetail.component
+        path: ManagerConfig.exhibitiondetail.path,
+        element: ManagerConfig.exhibitiondetail.component
     }
 ];
 export const privateRoutes = [
