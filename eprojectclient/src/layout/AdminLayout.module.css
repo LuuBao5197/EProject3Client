@@ -6,6 +6,7 @@
   margin: 0;
   padding: 0;
   transition: all 0.3s ease-in-out; 
+  width: 100vw;
 }
 
 .sidebar {
@@ -156,27 +157,6 @@
   border-radius: 8px;
 }
 
-.title {
-  font-size: 2.5rem; 
-  font-weight: 700; 
-  color: #2c3e50; 
-  margin-bottom: 50px; 
-  text-align: center; 
-  letter-spacing: 1px; 
-  padding: 10px 0; 
-  text-transform: uppercase; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-  font-family: 'Helvetica Neue', Arial, sans-serif; 
-  transition: all 0.3s ease; 
-}
-
-.title:hover {
-  color: #3498db; 
-  transform: translateY(-5px); 
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); 
-}
-
-
 .studentRows {
   display: flex;
   flex-direction: column;
@@ -190,7 +170,6 @@
   justify-content: flex-start;
   gap: 15px;
 }
-
 
 .studentItem {
   padding: 10px 15px;
@@ -211,8 +190,27 @@
 .searchContainer {
   margin-top: 20px;
   margin-bottom: 20px;
+  margin-left: 700px;
   display: flex;
   justify-content: center;
+}
+
+.titleStudentList{
+  font-size: 2.5rem; 
+  font-weight: 700; 
+  color: #2c3e50; 
+  margin-bottom: 50px; 
+  text-align: center; 
+  letter-spacing: 1px; 
+  padding: 10px 0; 
+  text-transform: uppercase; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  font-family: 'Helvetica Neue', Arial, sans-serif; 
+  transition: all 0.3s ease; 
+  position: sticky; 
+  top: 0; 
+  background-color: #f8f9fa; 
+  z-index: 10; 
 }
 
 .searchInput {
@@ -224,6 +222,10 @@
   outline: none;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: all 0.3s;
+  background-color: white;
+}
+.searchInput::placeholder{
+  color: grey;
 }
 
 .searchInput:focus {

@@ -17,7 +17,7 @@ function ExhibitionManagement() {
             .catch(err => {
                 console.error('Error fetching exhibitions', err);
             });
-    }, [exhibitions]);
+    }, []);
 
     return (
         <div className={styles.exhibitionManagementContainer}>
@@ -36,6 +36,7 @@ function ExhibitionManagement() {
                                         <span>No Image</span>
                                     )}
                                 </div>
+                                <h4>{item.name}</h4>
                             </Link>
                         </div>
                     ))

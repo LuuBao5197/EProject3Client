@@ -1,62 +1,81 @@
 import axios from "axios";
 import React, { useState, useEffect } from 'react';
-//import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from '../../layout/AdminLayout.module.css';
 
 function StudentManagement() {
-    const [students, setStudents] = useState([]);
-    const [searchQuery, setSearchQuery] = useState(""); 
-    const [filteredStudents, setFilteredStudents] = useState([]);
+    const [classDetails, setClassDetails] = useState(null);  
+    const { classId } = useParams();
 
     useEffect(() => {
-        axios.get("http://localhost:5190/api/Manager/GetAllStudent")
+        axios.get(`http://localhost:5190/api/Manager/GetStudentByClass/${classId}`)
             .then(res => {
                 if (res.status === 200) {
-                    setStudents(res.data);
-                    setFilteredStudents(res.data); 
+                    console.log(res.data);  
+                    setClassDetails(res.data);  
                 }
             })
             .catch(err => {
-                console.error('Error fetching students', err);
+                console.error('Error fetching class details', err);
             });
-    }, []);
+    }, [classId]);
 
-    useEffect(() => {
-        if (searchQuery === "") {
-            setFilteredStudents(students); 
-        } else {
-            setFilteredStudents(
-                students.filter(student =>
-                    student.parentName.toLowerCase().includes(searchQuery.toLowerCase())
-                )
-            );
-        }
-    }, [searchQuery, students]);
+    if (!classDetails) {
+        return <p>Loading...</p>;  
+    }
+
+    const students = classDetails.students || [];  
+
+    if (students.length === 0) {
+        return <p>No students available for this class.</p>;  
+    }
 
     return (
         <div className={styles.studentManagementContainer}>
-            <h1 className={styles.title}>STUDENT LIST</h1>
+            <h1 className={styles.title}>Students of Class {classDetails.className}</h1>
+            
+            <table className="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th colSpan="2" className="">Teacher Of Class</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Teacher Name:</strong></td>
+                        <td>{classDetails.teacherName}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>School Year:</strong></td>
+                        <td>{classDetails.schoolYear}</td>
+                    </tr>
+                </tbody>
+            </table>
 
-            <div className={styles.searchContainer}>
-                <input
-                    type="text"
-                    placeholder="Search by Name"
-                    className={styles.searchInput}
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)} 
-                />
-            </div>
-
-            <div className={styles.studentRows}>
-                {filteredStudents.length > 0 && filteredStudents.map((item, index) => (
-                    <div className={styles.studentRow} key={index}>
-                        <Link to={`/admin/studentdetail/${item.id}`} className={styles.studentItem}>
-                            <span className={styles.link}>{item.parentName}</span>
-                        </Link>
-                    </div>
-                ))}
-            </div>
+            <h3 className={styles.titleStudentList}>Student List</h3>
+            <table className="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Student Name</th>
+                        <th>Admission Date</th>
+                        <th>Parent Name</th>
+                        <th>Parent Phone</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {students.map((student, index) => (
+                        <tr key={index}>
+                            <td>{student.id}</td>
+                            <td>{student.user?.name || "No name available"}</td>
+                            <td>{new Date(student.enrollmentDate).toLocaleDateString()}</td>
+                            <td>{student.parentName}</td>
+                            <td>{student.parentPhoneNumber}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 }

@@ -4,16 +4,18 @@ import { AdminConfig, TeacherConfig } from "../config/routes";
 // import Contest from "../pages/Contest";
 import EditProfile from "../pages/PublicPages/EditProfile";
 import Contest from "../pages/StudentPages/Contest";
-import Home from "../pages/PublicPages/Home";
 import Login from "../pages/PublicPages/Login";
 import AwardReceived from "../pages/StudentPages/AwardReceived";
 import CreateNewSubmission from "../pages/StudentPages/CreateNewSubmission";
+import ForgotPassword from "../pages/PublicPages/ForgotPassword";
+import HomePage from "../pages/PublicPages/HomePage";
+
 
 
 export const publicRoutes = [
     {
         path: "/",
-        element: <Home/>,
+        element: <HomePage/>,
         
     },
     {
@@ -25,6 +27,11 @@ export const publicRoutes = [
 
         path: "/edit",
         element: <EditProfile/>,
+    },
+    {
+
+        path: "/forgotpassword",
+        element: <ForgotPassword/>,
     },
     {
 
@@ -71,6 +78,26 @@ export const StaffRoutes = [
         path: TeacherConfig.listAward.path,
         element: TeacherConfig.listAward.component,
     }, 
+    {
+        path: TeacherConfig.editAward.path,
+        element: TeacherConfig.editAward.component,
+    }, 
+    {
+        path: TeacherConfig.detailAward.path,
+        element: TeacherConfig.detailAward.component,
+    },
+    {
+        path: TeacherConfig.listExhibition.path,
+        element: TeacherConfig.listExhibition.component,
+    },
+    {
+        path: TeacherConfig.addExhibition.path,
+        element: TeacherConfig.addExhibition.component
+    },
+    {
+        path: TeacherConfig.editExhibition.path,
+        element: TeacherConfig.editExhibition.component
+    } 
 
 ];
 
@@ -78,6 +105,10 @@ export const AdminRoutes =[
     {
         path: AdminConfig.adminlayout.path,
         element: AdminConfig.adminlayout.component
+    },
+    {
+        path: AdminConfig.classesmanagement.path,
+        element: AdminConfig.classesmanagement.component
     },
     {
         path: AdminConfig.studentmanagement.path,
@@ -106,6 +137,10 @@ export const AdminRoutes =[
     {
         path: AdminConfig.studentdetail.path,
         element: AdminConfig.studentdetail.component
+    },
+    {
+        path: AdminConfig.exhibitiondetail.path,
+        element: AdminConfig.exhibitiondetail.component
     }
 ];
 export const privateRoutes = [

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useParams } from "react-router-dom"; // Dùng để lấy tham số từ URL
+import { useNavigate, useParams } from "react-router-dom"; // Dùng để lấy tham số từ URL
 import "bootstrap/dist/css/bootstrap.min.css";
+import { toast } from "react-toastify";
 
 const EditAwardForm = () => {
+  const navigate = useNavigate();
   const { id } = useParams(); // Lấy ID từ tham số URL
-  const [initialData, setInitialData] = useState(null); // Lưu dữ liệu ban đầu của giải thưởng
+  const [initialData, setInitialData] = useState({}); // Lưu dữ liệu ban đầu của giải thưởng
   const [contestOptions, setContestOptions] = useState([]); // Lưu danh sách cuộc thi từ API
   const [loading, setLoading] = useState(true); // Trạng thái tải dữ liệu
 
@@ -15,20 +17,23 @@ const EditAwardForm = () => {
     const fetchData = async () => {
       try {
         // Lấy dữ liệu giải thưởng
-        const awardResponse = await fetch(`https://api.example.com/awards/${id}`); // Đổi URL phù hợp với API của bạn
+        const awardResponse = await fetch(`http://localhost:5190/api/Staff/GetDetailAward/${id}`); // Đổi URL phù hợp với API của bạn
         const awardData = await awardResponse.json();
+        console.log(awardData);
 
         // Lấy danh sách cuộc thi
-        const contestResponse = await fetch("https://api.example.com/contests"); // Đổi URL phù hợp với API của bạn
+        const contestResponse = await fetch("http://localhost:5190/api/Staff/GetAllContest"); // Đổi URL phù hợp với API của bạn
         const contestData = await contestResponse.json();
+        
 
         setInitialData({
+          id: id,
           name: awardData.name,
           value: awardData.value,
           contestId: awardData.contestId,
           awardQuantity: awardData.awardQuantity,
         });
-        setContestOptions(contestData);
+        setContestOptions(contestData.contests);
         setLoading(false);
       } catch (error) {
         console.error("Lỗi khi tải dữ liệu:", error);
@@ -43,6 +48,7 @@ const EditAwardForm = () => {
   const formik = useFormik({
     enableReinitialize: true, // Cho phép khởi tạo lại form khi initialValues thay đổi
     initialValues: initialData || {
+      id: id,
       name: "",
       value: "",
       contestId: "",
@@ -66,7 +72,7 @@ const EditAwardForm = () => {
     onSubmit: async (values) => {
       try {
         console.log("Dữ liệu cập nhật:", values);
-        const response = await fetch(`https://api.example.com/awards/${id}`, {
+        const response = await fetch(`http://localhost:5190/api/Staff/EditAward/${id}`, {
           method: "PUT", // Hoặc PATCH nếu API của bạn hỗ trợ
           headers: {
             "Content-Type": "application/json",
@@ -75,7 +81,18 @@ const EditAwardForm = () => {
         });
 
         if (response.ok) {
-          alert("Cập nhật giải thưởng thành công!");
+          toast.success("Cập nhật giải thưởng thành công", {
+            position: "top-left",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "colored",
+          });
+          navigate(-1);
+          
+          // alert("Cập nhật giải thưởng thành công!");
         } else {
           alert("Có lỗi xảy ra khi cập nhật.");
         }
@@ -109,7 +126,7 @@ const EditAwardForm = () => {
               }`}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.name}
+              value={formik.values.name||""}
             />
             {formik.touched.name && formik.errors.name ? (
               <div className="invalid-feedback">{formik.errors.name}</div>
@@ -129,7 +146,7 @@ const EditAwardForm = () => {
               }`}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.value}
+              value={formik.values.value||1}
             />
             {formik.touched.value && formik.errors.value ? (
               <div className="invalid-feedback">{formik.errors.value}</div>
@@ -150,7 +167,7 @@ const EditAwardForm = () => {
               }`}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.contestId}
+              value={formik.values.contestId||""}
             >
               <option value="">-- Chọn cuộc thi --</option>
               {contestOptions.map((contest) => (
@@ -179,7 +196,7 @@ const EditAwardForm = () => {
               }`}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.awardQuantity}
+              value={formik.values.awardQuantity||0}
             />
             {formik.touched.awardQuantity && formik.errors.awardQuantity ? (
               <div className="invalid-feedback">{formik.errors.awardQuantity}</div>
