@@ -27,12 +27,12 @@ import RTL from '@/views/admin/rtl';
 
 // Auth Imports
 import SignInCentered from '@/views/auth/signIn';
-import ContestList from './pages/StaffPages/ContestList';
+import ContestList from './pages/StaffPages/ContestFeature/ContestList';
 import { all } from 'axios';
 import ForgotPassword from './pages/PublicPages/ForgotPassword';
-import AddContest from './pages/StaffPages/AddContest';
-import EditContest from './pages/StaffPages/EditContest';
-import ContestDetail from './pages/StaffPages/ContestDetail';
+import AddContest from './pages/StaffPages/ContestFeature/AddContest';
+import EditContest from './pages/StaffPages/ContestFeature/EditContest';
+import ContestDetail from './pages/StaffPages/ContestFeature/ContestDetail';
 import AwardList from './pages/StaffPages/AwardFeature.jsx/AwardList';
 import AddAwardForm from './pages/StaffPages/AwardFeature.jsx/AddAwardForm';
 import EditAwardForm from './pages/StaffPages/AwardFeature.jsx/EditAwardForm';

@@ -12,6 +12,8 @@ import {
     MdInfoOutline,
 } from 'react-icons/md';
 
+import { Box, Select, Flex } from "@chakra-ui/react";
+
 const ContestList = () => {
     const navigate = useNavigate();
     const [contests, setContests] = useState([]);
@@ -19,7 +21,22 @@ const ContestList = () => {
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState(""); // Trạng thái tìm kiếm
-    const pageSize = 5;
+    const pageSize = 10;
+
+    // Filter 
+    const [status, setStatus] = useState(""); // Lưu trạng thái đã chọn
+    const [phase, setPhase] = useState(""); // Lưu phase đã chọn
+
+    const handleStatusChange = (e) => {
+        setStatus(e.target.value);
+        console.log("Selected Status:", e.target.value);
+    };
+
+    const handlePhaseChange = (e) => {
+        setPhase(e.target.value);
+        console.log("Selected Phase:", e.target.value);
+    };
+
 
     const columns = [
         {
@@ -48,8 +65,13 @@ const ContestList = () => {
             sortable: true,
         },
         {
-            name: 'Active',
-            selector: row => row.active,
+            name: 'Status',
+            selector: row => row.status,
+            sortable: true,
+        },
+        {
+            name: 'Phase',
+            selector: row => row.phase,
             sortable: true,
         },
 
@@ -132,6 +154,55 @@ const ContestList = () => {
                 </button>
             </div>
 
+            <Flex
+                gap={4}
+                direction={{ base: "column", md: "row" }}
+                alignItems="center"
+                justifyContent="space-between"
+                bg="gray.50"
+                p={4}
+                rounded="md"
+                boxShadow="sm"
+            >
+                {/* Dropdown lọc Status */}
+                <Box>
+                    <Select
+                        placeholder="Select Status"
+                        value={status}
+                        onChange={handleStatusChange}
+                        bg="white"
+                        border="1px solid"
+                        borderColor="gray.300"
+                        _hover={{ borderColor: "gray.400" }}
+                        _focus={{ borderColor: "blue.500", boxShadow: "0 0 0 1px blue.500" }}
+                    >
+                        <option value="active">Pending</option>
+                        <option value="inactive"> Approved by Manager</option>
+                        <option value="pending">Approved by Director</option>
+                        <option value="completed">Rejected</option>
+                    </Select>
+                </Box>
+
+                {/* Dropdown lọc Phase */}
+                <Box>
+                    <Select
+                        placeholder="Select Phase"
+                        value={phase}
+                        onChange={handlePhaseChange}
+                        bg="white"
+                        border="1px solid"
+                        borderColor="gray.300"
+                        _hover={{ borderColor: "gray.400" }}
+                        _focus={{ borderColor: "green.500", boxShadow: "0 0 0 1px green.500" }}
+                    >
+                        <option value="planning">Upcoming</option>
+                        <option value="development">Ongoing</option>
+                        <option value="testing">Completed</option>
+                    </Select>
+                </Box>
+            </Flex>
+
+
             {/* Ô tìm kiếm */}
 
             <div className="input-group">
@@ -143,6 +214,8 @@ const ContestList = () => {
                     onChange={(e) => setSearchQuery(e.target.value)}
                 />
             </div>
+
+
 
             {loading ? (
                 <div className="text-center">Loading...</div>

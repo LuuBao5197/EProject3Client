@@ -5,6 +5,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Image } from "@chakra-ui/react";
 
 const EditExhibition = () => {
     const { id } = useParams();
@@ -23,24 +24,25 @@ const EditExhibition = () => {
     const endDate = watch("endDate");
 
     useEffect(() => {
-        // Fetch exhibition data by ID
         const fetchExhibition = () => {
             axios
                 .get(`http://localhost:5190/api/Staff/GetDetailExhibition/${id}`)
                 .then((response) => {
                     const data = response.data;
-                    // Chuyển đổi định dạng ngày nếu cần
                     const formatDate = (dateString) => {
                         const date = new Date(dateString);
-                        return date.toISOString().split("T")[0]; // Chuyển sang YYYY-MM-DD
+                        
+                        return date.toISOString().split("T")[0];
                     };
-                    console.log(data)
                     setValue("id", id);
                     setValue("name", data.name);
-                    setValue("startDate", formatDate(data.startDate));
-                    setValue("endDate", formatDate(data.endDate));
+                    setValue("startDate", data.startDate);
+                    setValue("endDate", data.endDate);
                     setValue("location", data.location);
                     setValue("organizedBy", data.organizedBy);
+                    setValue("thumbnail", data.thumbnail);
+                    setValue("status", data.status);
+                    setValue("phase", data.phase);
                     setLoading(false);
                 })
                 .catch((error) => {
@@ -48,15 +50,33 @@ const EditExhibition = () => {
                     toast.error("Failed to fetch exhibition data.");
                     setLoading(false);
                 });
-
-        }
+        };
         fetchExhibition();
-
     }, [id, setValue]);
 
     const onSubmit = (data) => {
+        const formData = new FormData();
+        formData.append("id", id);
+        formData.append("name", data.name);
+        formData.append("startDate", data.startDate);
+        formData.append("endDate", data.endDate);
+        formData.append("location", data.location);
+        formData.append("organizedBy", data.organizedBy);
+        formData.append("thumbnail", data.thumbnail);
+        formData.append("status", data.status);
+        formData.append("phase", data.phase);
+
+
+        if (data.image && data.image[0]) {
+            formData.append("image", data.image[0]);
+        }
+
         axios
-            .put(`http://localhost:5190/api/Staff/EditExhibition/${id}`, data)
+            .put(`http://localhost:5190/api/Staff/EditExhibition/${id}`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            })
             .then(() => {
                 toast.success("Exhibition updated successfully!");
                 setTimeout(() => navigate("/staff/exhibition"), 2000);
@@ -93,7 +113,7 @@ const EditExhibition = () => {
                         Start Date
                     </label>
                     <input
-                        type="date"
+                        type="datetime-local"
                         id="startDate"
                         className={`form-control ${errors.startDate ? "is-invalid" : ""}`}
                         {...register("startDate", {
@@ -114,7 +134,7 @@ const EditExhibition = () => {
                         End Date
                     </label>
                     <input
-                        type="date"
+                        type="datetime-local"
                         id="endDate"
                         className={`form-control ${errors.endDate ? "is-invalid" : ""}`}
                         {...register("endDate", {
@@ -152,6 +172,33 @@ const EditExhibition = () => {
                         {...register("organizedBy", { required: "Organizer ID is required" })}
                     />
                     {errors.organizedBy && <div className="invalid-feedback">{errors.organizedBy.message}</div>}
+                </div>
+
+                <div className="mb-3">
+                    <label htmlFor="file" className="form-label">
+                        Exhibition Image (Optional)
+                    </label>
+                       <Image src={watch("thumbnail")}
+                        boxSize="150px"
+                        borderRadius="full"
+                        fit="cover"
+                        alt="" />
+                    <input
+                        type="file"
+                        id="image"
+                        className={`form-control ${errors.file ? "is-invalid" : ""}`}
+                        {...register("image", {
+                            validate: {
+                                isImage: (value) => {
+                                    if (!value.length) return true; // Cho phép giá trị null
+                                    const file = value[0];
+                                    const validImageTypes = ["image/jpeg", "image/png", "image/gif"];
+                                    return file && validImageTypes.includes(file.type) || "File must be an image (jpg, png, gif)";
+                                },
+                            },
+                        })}
+                    />
+                    {errors.image && <div className="invalid-feedback">{errors.image.message}</div>}
                 </div>
 
                 <button type="submit" className="btn btn-primary">
