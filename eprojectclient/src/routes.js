@@ -16,6 +16,7 @@ import {
   MdCreate,
   MdUpdate,
   MdLogin,
+  MdViewCarousel,
 } from 'react-icons/md';
 
 // Admin Imports
@@ -40,6 +41,7 @@ import AwardDetails from './pages/StaffPages/AwardFeature.jsx/AwardDetails';
 import ExhibitionIndex from './pages/StaffPages/ExhibitionFeature/ExhibitionIndex';
 import AddExhibition from './pages/StaffPages/ExhibitionFeature/AddExhibition';
 import EditExhibition from './pages/StaffPages/ExhibitionFeature/EditExhibition';
+import ListSubmission from './pages/StaffPages/SummisionFeature/ListSubmission';
 
 
 export const adminRoutes = [
@@ -263,6 +265,15 @@ export const staffRoutes = [
     path: '/exhibition/edit/:id',
     icon: <Icon as={MdUpdate} width="20px" height="20px" color="inherit" />,
     component: <EditExhibition/>,
+  },
+  {
+    name: 'View and review Submissions',
+    layout: '/staff',
+    path: '/submissions',
+    icon: <Icon as={MdViewCarousel} width="20px" height="20px" color="inherit" />,
+    component: <ListSubmission/>,
+    index: true
+    
   },
   
   
