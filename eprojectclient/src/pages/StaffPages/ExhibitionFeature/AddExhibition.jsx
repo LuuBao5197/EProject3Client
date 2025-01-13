@@ -16,17 +16,31 @@ const AddExhibition = () => {
     } = useForm();
 
     const onSubmit = async (data) => {
-        console.log(data);
+        const formData = new FormData();
+
+        // Append form data fields
+        formData.append("name", data.name);
+        formData.append("startDate", data.startDate);
+        formData.append("endDate", data.endDate);
+        formData.append("location", data.location);
+        formData.append("organizedBy", data.organizedBy);
+
+        // Append file to FormData
+        if (data.image[0]) {
+            formData.append("image", data.image[0]);
+        }
+
         try {
-            await axios.post("http://localhost:5190/api/Staff/AddExhibition", {
-                ...data
+            await axios.post("http://localhost:5190/api/Staff/AddExhibition", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
             });
             toast.success("Exhibition added successfully!");
             navigate(-1);
         } catch (error) {
-            toast.error("Exhibition added failed!");
+            toast.error("Exhibition addition failed!");
         }
-       
     };
 
     const startDate = watch("startDate");
@@ -55,7 +69,7 @@ const AddExhibition = () => {
                         Start Date
                     </label>
                     <input
-                        type="date"
+                        type="datetime-local"
                         id="startDate"
                         className={`form-control ${errors.startDate ? "is-invalid" : ""}`}
                         {...register("startDate", {
@@ -76,7 +90,7 @@ const AddExhibition = () => {
                         End Date
                     </label>
                     <input
-                        type="date"
+                        type="datetime-local"
                         id="endDate"
                         className={`form-control ${errors.endDate ? "is-invalid" : ""}`}
                         {...register("endDate", {
@@ -114,6 +128,29 @@ const AddExhibition = () => {
                         {...register("organizedBy", { required: "Organizer ID is required" })}
                     />
                     {errors.organizedBy && <div className="invalid-feedback">{errors.organizedBy.message}</div>}
+                </div>
+
+                <div className="mb-3">
+                    <label htmlFor="image" className="form-label">
+                        Exhibition Image
+                    </label>
+                    <input
+                        type="file"
+                        id="image"
+                        className={`form-control ${errors.image ? "is-invalid" : ""}`}
+                        {...register("image", {
+                            // required: "Image is required",
+                            validate: {
+                                isImage: (value) => {
+                                    if (!value.length) return true; // Cho phép giá trị null
+                                    const file = value[0];
+                                    const validImageTypes = ["image/jpeg", "image/png", "image/gif"];
+                                    return file && validImageTypes.includes(file.type) || "File must be an image (jpg, png, gif)";
+                                },
+                            },
+                        })}
+                    />
+                    {errors.image && <div className="invalid-feedback">{errors.image.message}</div>}
                 </div>
 
                 <button type="submit" className="btn btn-primary">

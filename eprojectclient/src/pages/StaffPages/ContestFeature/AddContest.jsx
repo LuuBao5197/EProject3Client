@@ -7,8 +7,10 @@ import { Icon } from "@chakra-ui/react";
 import { MdAddBox } from "react-icons/md";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 const AddContest = () => {
+
     const formik = useFormik({
         initialValues: {
             name: "",
@@ -16,9 +18,8 @@ const AddContest = () => {
             startDate: "",
             endDate: "",
             submissionDeadline: "",
-            participationCriteria: "",
             organizedBy: 5,
-            isActive: false,
+            file: null,
         },
         validationSchema: Yup.object({
             name: Yup.string().required("Name is required"),
@@ -66,28 +67,45 @@ const AddContest = () => {
                         return value && startDate && value > startDate && value < endDate;
                     }
                 ),
-            participationCriteria: Yup.string().required("Participation criteria is required"),
             organizedBy: Yup.number().required("Organizer ID is required"),
+            file: Yup.mixed().nullable()
+                .test(
+                    "fileType",
+                    "Only images are allowed",
+                    (value) => !value || ["image/jpeg", "image/png"].includes(value?.type)
+                )
+                .test(
+                    "fileSize",
+                    "File size is too large",
+                    (value) => !value || value.size <= 2 * 1024 * 1024 // 2MB
+                ),
         }),
-        
+
         onSubmit: async (values, { resetForm }) => {
             try {
-                await axios.post("http://localhost:5190/api/Staff/AddContest", {
-                    ...values,
-                    startDate: new Date(values.startDate),
-                    endDate: new Date(values.endDate),
-                    submissionDeadline: new Date(values.submissionDeadline),
-                    createdAt: new Date(),
-                    updatedAt: new Date(),
+                const formData = new FormData();
+                Object.keys(values).forEach((key) => {
+                    if (key === "file") {
+                        formData.append(key, values[key]);
+                    } else {
+                        formData.append(key, values[key]);
+                    }
+                })
+                const result = await axios.post("http://localhost:5190/api/Staff/AddContest", formData, {
+                    headers: { "Content-Type": "multipart/form-data" },
                 });
-                alert("Contest added successfully!");
+                // console.log("result add: ",result);
+                toast.success("Contest added successfully!");
                 resetForm();
+                navigate(`/staff/contests`);
             } catch (error) {
                 console.error("Error adding contest:", error);
-                alert(`Failed to add contest: ${error.response?.data?.message || error.message}`);
+                toast.error(`Failed to add contest: ${error.response?.data?.message || error.message}`);
+                // alert(`Failed to add contest: ${error.response?.data?.message || error.message}`);
             }
         },
     });
+    const navigate = useNavigate();
 
     return (
         <div className="container pt-3">
@@ -112,11 +130,11 @@ const AddContest = () => {
                     <ReactQuill theme="snow" value={formik.values.description}
                         onChange={(value) => formik.setFieldValue("description", value)} // Cập nhật giá trị cho Formik
                         onBlur={() => {
-                                if (formik.values.description === "<p><br></p>") {
-                                    formik.setFieldValue("description", ""); // Chuyển về chuỗi trống
-                                    formik.setFieldError("description", "Description is required!"); // Set lỗi nếu cần
-                                }
-                          }} />
+                            if (formik.values.description === "<p><br></p>") {
+                                formik.setFieldValue("description", ""); // Chuyển về chuỗi trống
+                                formik.setFieldError("description", "Description is required!"); // Set lỗi nếu cần
+                            }
+                        }} />
                     {formik.touched.description && formik.errors.description && (
                         <div className="text-danger">{formik.errors.description}</div>
                     )}
@@ -166,20 +184,7 @@ const AddContest = () => {
                         <div className="text-danger">{formik.errors.submissionDeadline}</div>
                     )}
                 </div>
-                <div className="mb-1">
-                    <label className="form-label">Participation Criteria</label>
-                    <textarea
-                        name="participationCriteria"
-                        className="form-control"
-                        value={formik.values.participationCriteria}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
 
-                    ></textarea>
-                    {formik.touched.participationCriteria && formik.errors.participationCriteria && (
-                        <div className="text-danger">{formik.errors.participationCriteria}</div>
-                    )}
-                </div>
                 <div className="mb-1">
                     <label className="form-label">Organized By (Staff ID)</label>
                     <input
@@ -195,18 +200,21 @@ const AddContest = () => {
                         <div className="text-danger">{formik.errors.organizedBy}</div>
                     )}
                 </div>
-                <div className="form-check mb-1">
+                <div className="mb-1">
+                    <label className="form-label">Upload File</label>
                     <input
-                        type="checkbox"
-                        name="isActive"
-                        className="form-check-input"
-                        id="isActive"
-                        checked={formik.values.isActive}
-                        onChange={formik.handleChange}
+                        type="file"
+                        name="file"
+                        className="form-control"
+                        onChange={(event) => {
+                            const file = event.target.files[0];
+                            formik.setFieldValue("file", file); // Cập nhật giá trị cho file
+                        }}
+                        onBlur={formik.handleBlur}
                     />
-                    <label className="form-check-label" htmlFor="isActive">
-                        Is Active
-                    </label>
+                    {formik.touched.file && formik.errors.file && (
+                        <div className="text-danger">{formik.errors.file}</div>
+                    )}
                 </div>
                 <button type="submit" className="btn btn-primary w-100">
                     <Icon as={MdAddBox} width="20px" height="20px" color="inherit" />
