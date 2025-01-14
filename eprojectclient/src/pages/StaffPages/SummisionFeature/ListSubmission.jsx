@@ -31,6 +31,13 @@ const ListSubmission = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const pageSize = 5;
+
+  const [content, setContent] = useState("");
+  const handleEditorChange = (event, editor) => {
+    const data = editor.getData();
+    setContent(data);
+    console.log("Current Content:", data);
+  };
   //React-Hook
   const { control, handleSubmit, reset, watch } = useForm({
     defaultValues: {
@@ -295,6 +302,30 @@ const ListSubmission = () => {
                       setReviewText(data);
                     }}
                   /> */}
+                  <CKEditor
+                    editor={ClassicEditor}
+                    config={{
+                      toolbar: [
+                        "heading",
+                        "|",
+                        "bold",
+                        "italic",
+                        "link",
+                        "bulletedList",
+                        "numberedList",
+                        "blockQuote",
+                        "|",
+                        "undo",
+                        "redo",
+                      ],
+                    }}
+                    data="<p>Hello, world!</p>"
+                  // onChange={handleEditorChange}
+                  />
+                  <div style={{ marginTop: "20px", padding: "10px", border: "1px solid #ccc" }}>
+                    <h3>Preview:</h3>
+                    <div dangerouslySetInnerHTML={{ __html: content }} />
+                  </div>
                   <Form.Control
                     as="textarea"
                     rows={3}
