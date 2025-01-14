@@ -64,10 +64,17 @@ const ContestDetail = () => {
                                     </Col>
                                 </Row>
                                 <Row className="mb-3">
-                                    <Col xs={12}>
+                                    <Col xs={6}>
                                         <h5 className="text-secondary">Status:</h5>
-                                        <p>{contest.isActive ? "Active" : "Inactive"}</p>
+                                        <p>{contest.status}</p>
                                     </Col>
+                                    <Col xs={6}>
+                                        <h5 className="text-secondary">Phase:</h5>
+                                        <p>{contest.phase}</p>
+                                    </Col>
+                                </Row>
+                                <Row className="mb-3">
+                                    
                                 </Row>
                             </Card.Body>
                             <Card.Footer className="text-center">

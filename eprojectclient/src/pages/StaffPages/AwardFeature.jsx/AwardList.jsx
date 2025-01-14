@@ -84,7 +84,7 @@ const AwardList = () => {
                 <input
                     type="text"
                     className="form-control"
-                    placeholder="Search by contest name"
+                    placeholder="Search by award name"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                 />

@@ -6,21 +6,26 @@ import * as Yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { Image, Input } from "@chakra-ui/react";
 const EditContest = () => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const { id } = useParams();
     const [contestEdit, setContestEdit] = useState({});
     const formik = useFormik({
         initialValues: {
             id: id,
-            name: contestEdit.name,
+            name: "",
             description: "",
             startDate: "",
             endDate: "",
             submissionDeadline: "",
-            participationCriteria: "",
             organizedBy: 5,
-            isActive: false,
+            thumbnail: "",
+            createdAt: "",
+            updateAt: "",
+            status: "",
+            phase: "",
+            file: null,
         },
         validationSchema: Yup.object({
             name: Yup.string().required("Name is required"),
@@ -45,22 +50,43 @@ const EditContest = () => {
                         return value && startDate && value > startDate && value < endDate
                     }
                 ),
-            participationCriteria: Yup.string().required("Participation criteria is required"),
             organizedBy: Yup.number().required("Organizer ID is required"),
+            file: Yup.mixed().nullable()
+                .test(
+                    "fileType",
+                    "Only images are allowed",
+                    (value) => !value || ["image/jpeg", "image/png"].includes(value?.type)
+                )
+                .test(
+                    "fileSize",
+                    "File size is too large",
+                    (value) => !value || value.size <= 2 * 1024 * 1024 // 2MB
+                ),
         }),
         onSubmit: async (values, { resetForm }) => {
+            // console.log("Form submitted!", values);
             try {
-                await axios.put(`http://localhost:5190/api/Staff/EditContest/${id}`, {
-                    ...values,
-                    startDate: new Date(values.startDate),
-                    endDate: new Date(values.endDate),
-                    submissionDeadline: new Date(values.submissionDeadline),
-                    createdAt: new Date(),
-                    updatedAt: new Date(),
+                const formData = new FormData();
+                Object.keys(values).forEach((key) => {
+                    if (key === "file" && values[key]) {
+                        // Chỉ thêm file nếu người dùng chọn
+                        formData.append(key, values[key]);
+                    } else {
+                        // Bỏ qua "thumbnail" nếu không cần thay đổi
+                        formData.append(key, values[key]);
+                    }
                 });
+                console.log("FormData content:");
+                for (let pair of formData.entries()) {
+                    console.log(pair[0], pair[1]);
+                }
+
+                var response = await axios.put(`http://localhost:5190/api/Staff/EditContest/${id}`, formData);
+
                 alert("Contest edit successfully!");
-                navigate('/staff/contests');
+                // navigate('/staff/contests');
             } catch (error) {
+
                 console.error("Error adding contest:", error);
                 alert(`Failed to add contest: ${error.response?.data?.message || error.message}`);
             }
@@ -88,9 +114,13 @@ const EditContest = () => {
                 startDate: contestEdit.startDate || "",
                 endDate: contestEdit.endDate || "",
                 submissionDeadline: contestEdit.submissionDeadline || "",
-                participationCriteria: contestEdit.participationCriteria || "",
                 organizedBy: contestEdit.organizedBy || 5,
-                isActive: contestEdit.isActive || false,
+                thumbnail: contestEdit.thumbnail || "",
+                createdAt: contestEdit.createdAt || "",
+                updateAt: contestEdit.UpdateAt || "",
+                status: contestEdit.status || "",
+                phase: contestEdit.phase || "",
+                file: null,
 
             });
     }, [contestEdit]);
@@ -131,23 +161,15 @@ const EditContest = () => {
                 <div className="mb-1">
                     <label className="form-label">Description</label>
                     <ReactQuill theme="snow" value={formik.values.description || ""}
-                     onChange={(value) => formik.setFieldValue("description", value)} 
-                     onBlur={() => {
-                        formik.setFieldTouched("description", true); // Đánh dấu là đã blur
-                        if (formik.values.description === "<p><br></p>") {
-                            formik.setFieldValue("description", ""); // Chuyển về chuỗi trống
-                            formik.setFieldError("description", "Description is required!"); // Set lỗi nếu cần
-                        }
-                      }}  />
+                        onChange={(value) => formik.setFieldValue("description", value)}
+                        onBlur={() => {
+                            formik.setFieldTouched("description", true); // Đánh dấu là đã blur
+                            if (formik.values.description === "<p><br></p>") {
+                                formik.setFieldValue("description", ""); // Chuyển về chuỗi trống
+                                formik.setFieldError("description", "Description is required!"); // Set lỗi nếu cần
+                            }
+                        }} />
 
-                    {/* <textarea
-                        name="description"
-                        className="form-control text-center"
-                        value={formik.values.description || ""}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-
-                    ></textarea> */}
                     {formik.touched.description && formik.errors.description && (
                         <div className="text-danger">{formik.errors.description}</div>
                     )}
@@ -169,15 +191,24 @@ const EditContest = () => {
                 </div>
                 <div className="mb-1">
                     <label className="form-label">End Date</label>
-                    <input
-                        type="datetime-local"
+                    <Input 
+                        focusBorderColor='pink.400'
+                        placeholder='Select Date and Time' size='md'
                         name="endDate"
-                        className="form-control text-center"
+                        className="text-center"
+                        type='datetime-local'
                         value={formik.values.endDate || ""}
                         onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
+                        onBlur={formik.handleBlur} />
+                    {/* <input
+                            type="datetime-local"
+                            name="endDate"
+                            className="form-control text-center"
+                            value={formik.values.endDate || ""}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
 
-                    />
+                        /> */}
                     {formik.touched.endDate && formik.errors.endDate && (
                         <div className="text-danger">{formik.errors.endDate}</div>
                     )}
@@ -198,20 +229,6 @@ const EditContest = () => {
                     )}
                 </div>
                 <div className="mb-1">
-                    <label className="form-label">Participation Criteria</label>
-                    <textarea
-                        name="participationCriteria"
-                        className="form-control text-center"
-                        value={formik.values.participationCriteria || ""}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-
-                    ></textarea>
-                    {formik.touched.participationCriteria && formik.errors.participationCriteria && (
-                        <div className="text-danger">{formik.errors.participationCriteria}</div>
-                    )}
-                </div>
-                <div className="mb-1">
                     <label className="form-label">Organized By (Staff ID)</label>
                     <input
                         type="number"
@@ -226,18 +243,31 @@ const EditContest = () => {
                         <div className="text-danger">{formik.errors.organizedBy}</div>
                     )}
                 </div>
-                <div className="form-check mb-1">
-                    <input
-                        type="checkbox"
-                        name="isActive"
-                        className="form-check-input text-center"
-                        id="isActive"
-                        checked={formik.values.isActive || false}
-                        onChange={formik.handleChange}
-                    />
-                    <label className="form-check-label" htmlFor="isActive">
-                        Is Active
-                    </label>
+                <div className="mb-1">
+                    <label className="form-label">Thumbnaill </label>
+                    <Image src={formik.values.thumbnail}
+                        boxSize="150px"
+                        borderRadius="full"
+                        fit="cover"
+                        alt={formik.values.thumbnail} />
+                    <div className="mb-1">
+                        <label className="form-label">Change Thumbnail</label>
+                        <input
+                            type="file"
+                            name="file"
+                            className="form-control"
+                            onChange={(event) => {
+                                const file = event.target.files[0];
+                                formik.setFieldValue("file", file); // Cập nhật giá trị cho file
+                            }}
+                            onBlur={formik.handleBlur}
+                        />
+                        {formik.touched.file && formik.errors.file && (
+                            <div className="text-danger">{formik.errors.file}</div>
+                        )}
+                    </div>
+
+
                 </div>
                 <button type="submit" className="btn btn-primary w-100">
                     Submit

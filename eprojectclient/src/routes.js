@@ -16,6 +16,7 @@ import {
   MdCreate,
   MdUpdate,
   MdLogin,
+  MdViewCarousel,
 } from 'react-icons/md';
 
 // Admin Imports
@@ -27,12 +28,12 @@ import RTL from '@/views/admin/rtl';
 
 // Auth Imports
 import SignInCentered from '@/views/auth/signIn';
-import ContestList from './pages/StaffPages/ContestList';
+import ContestList from './pages/StaffPages/ContestFeature/ContestList';
 import { all } from 'axios';
 import ForgotPassword from './pages/PublicPages/ForgotPassword';
-import AddContest from './pages/StaffPages/AddContest';
-import EditContest from './pages/StaffPages/EditContest';
-import ContestDetail from './pages/StaffPages/ContestDetail';
+import AddContest from './pages/StaffPages/ContestFeature/AddContest';
+import EditContest from './pages/StaffPages/ContestFeature/EditContest';
+import ContestDetail from './pages/StaffPages/ContestFeature/ContestDetail';
 import AwardList from './pages/StaffPages/AwardFeature.jsx/AwardList';
 import AddAwardForm from './pages/StaffPages/AwardFeature.jsx/AddAwardForm';
 import EditAwardForm from './pages/StaffPages/AwardFeature.jsx/EditAwardForm';
@@ -40,6 +41,7 @@ import AwardDetails from './pages/StaffPages/AwardFeature.jsx/AwardDetails';
 import ExhibitionIndex from './pages/StaffPages/ExhibitionFeature/ExhibitionIndex';
 import AddExhibition from './pages/StaffPages/ExhibitionFeature/AddExhibition';
 import EditExhibition from './pages/StaffPages/ExhibitionFeature/EditExhibition';
+
 import ManagerLayout from './pages/ManagerPages/ManagerLayout';
 import ClassesManagement from './pages/ManagerPages/CLassesManagement';
 import StudentManagement from './pages/ManagerPages/StudentManagement';
@@ -49,6 +51,8 @@ import AwardManagement from './pages/ManagerPages/AwardManagement';
 import ARMangement from './pages/ManagerPages/ARMangement';
 import ExhibitionDetail from './pages/ManagerPages/ExhibitionDetail';
 import StudentDetail from './pages/ManagerPages/StudentDetail';
+import ListSubmission from './pages/StaffPages/SummisionFeature/ListSubmission';
+
 
 
 export const adminRoutes = [
@@ -272,6 +276,15 @@ export const staffRoutes = [
     path: '/exhibition/edit/:id',
     icon: <Icon as={MdUpdate} width="20px" height="20px" color="inherit" />,
     component: <EditExhibition/>,
+  },
+  {
+    name: 'View and review Submissions',
+    layout: '/staff',
+    path: '/submissions',
+    icon: <Icon as={MdViewCarousel} width="20px" height="20px" color="inherit" />,
+    component: <ListSubmission/>,
+    index: true
+    
   },
   
   
