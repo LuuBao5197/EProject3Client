@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import * as Yup from 'yup';
 import { Container, Table, Button, Modal, Form } from 'react-bootstrap';
 import {
   Box,
@@ -11,12 +12,14 @@ import {
   Divider,
   Select,
 } from '@chakra-ui/react';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import ReactPaginate from 'react-paginate';
-import { useForm } from 'react-hook-form';
 
+import ReactPaginate from 'react-paginate';
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import { useFormik } from 'formik';
+import ContestDetail from '../ContestFeature/ContestDetail';
 const ListSubmission = () => {
+
   const [selectedRating, setSelectedRating] = useState(null);
   const [ratingLevel, setRatingLevel] = useState([]);
   const [contests, setContests] = useState([]);
@@ -31,19 +34,48 @@ const ListSubmission = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const pageSize = 5;
-
-  const [content, setContent] = useState("");
-  const handleEditorChange = (event, editor) => {
-    const data = editor.getData();
-    setContent(data);
-    console.log("Current Content:", data);
+  //config quill tool
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, 3, false] }], // Tiêu đề
+      ["bold", "italic", "underline", "strike"], // In đậm, nghiêng, gạch chân, gạch ngang
+      [{ list: "ordered" }, { list: "bullet" }], // Danh sách có thứ tự/không thứ tự
+      [{ indent: "-1" }, { indent: "+1" }], // Thụt lề
+      [{ align: [] }], // Căn chỉnh
+      ["link", "image"], // Thêm liên kết, hình ảnh
+      ["clean"], // Xóa định dạng
+    ],
   };
-  //React-Hook
-  const { control, handleSubmit, reset, watch } = useForm({
-    defaultValues: {
-      ratingLevel: "",
+
+
+  // Inside your component
+  const formik = useFormik({
+    initialValues: {
+      submissionId: submissionDetails?.id || '', // Set from submission details
+      staffId: 6,
+      reviewText: '',
+      ratingId: 1,
+      reviewDate: '',
+    },
+    validationSchema: Yup.object({
+      reviewText: Yup.string().required('Review text is required'),
+      ratingId: Yup.number().required('Rating is required'),
+    }),
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        console.log("value", values);
+        const response = await axios.post(`http://localhost:5190/api/Staff/AddSubmissionReview`, values);
+        alert('Review submitted successfully!');
+        resetForm(); // Reset form after successful submission
+        handleCloseReviewModal(); // Close modal
+      } catch (error) {
+        console.error('Error submitting review:', error);
+        alert('Failed to submit review.');
+      }
     },
   });
+
+
   useEffect(() => {
     const fetchRatingLevel = async () => {
       try {
@@ -126,6 +158,15 @@ const ListSubmission = () => {
   const handleReviewClick = (submission) => {
     setSubmissionDetails(submission);
     setShowReviewModal(true);
+    formik.setValues(
+      {
+          submissionId: submission.id,
+          staffId: 5,
+          reviewText: "",
+          ratingId: 0,
+          reviewDate: new Date()
+      });
+
   };
 
   const handleCloseReviewModal = () => {
@@ -158,7 +199,6 @@ const ListSubmission = () => {
         <Heading as="h1" my={4} textAlign="center">
           Contest Submissions
         </Heading>
-
 
         <VStack spacing={4} align="stretch">
           <Box>
@@ -285,82 +325,59 @@ const ListSubmission = () => {
         )}
 
         {/* Modal for reviewing submissions */}
-        {submissionDetails && (
-          <Modal show={showReviewModal} onHide={handleCloseReviewModal} centered>
-            <Modal.Header closeButton>
-              <Modal.Title>Review Submission</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <Form>
-                <Form.Group className="mb-3" controlId="reviewText">
-                  <Form.Label>Review Text</Form.Label>
-                  {/* <CKEditor
-                    editor={ClassicEditor}
-                    data={reviewText}
-                    onChange={(event, editor) => {
-                      const data = editor.getData();
-                      setReviewText(data);
-                    }}
-                  /> */}
+        <Modal show={showReviewModal} onHide={handleCloseReviewModal} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Review Submission</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form onSubmit={formik.handleSubmit}>
+              {/* Review Text */}
+              <Form.Group className="mb-3" controlId="reviewText">
+                <Form.Label>Review Text</Form.Label>
+                <ReactQuill
+                  theme="snow"
+                  value={formik.values.reviewText}
+                  modules={modules}
+                  onChange={(value) => formik.setFieldValue('reviewText', value)}
+                  onBlur={formik.handleBlur}
+                />
+                {formik.touched.reviewText && formik.errors.reviewText && (
+                  <div className="text-danger">{formik.errors.reviewText}</div>
+                )}
+              </Form.Group>
 
-                  <CKEditor
-                    editor={ClassicEditor}
-                    data="<p>Type something here...</p>"
-                    onChange={(event, editor) => {
-                      const data = editor.getData();
-                      setContent(data);
-                    }}
-                  />
-                  <h2>Output:</h2>
-                  <div style={{ border: '1px solid #ddd', padding: '10px', marginTop: '10px' }}>
-                    <div dangerouslySetInnerHTML={{ __html: content }} />
-                  </div>
-                  <div style={{ marginTop: "20px", padding: "10px", border: "1px solid #ccc" }}>
-                    <h3>Preview:</h3>
-                    <div dangerouslySetInnerHTML={{ __html: content }} />
-                  </div>
-                  <Form.Control
-                    as="textarea"
-                    rows={3}
-                    value={reviewText}
-                    onChange={(e) => setReviewText(e.target.value)}
-                  />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="rating">
-                  <Form.Label>Rating</Form.Label>
+              {/* Rating */}
+              <Form.Group className="mb-3" controlId="rating">
+                <Form.Label>Rating</Form.Label>
+                <Select
+                  id="rating"
+                  placeholder="Select rating level"
+                  value={formik.values.ratingId}
+                  onChange={(e) => formik.setFieldValue('ratingId', Number(e.target.value))}
+                  onBlur={formik.handleBlur}
+                >
+                  {ratingLevel.map((level) => (
+                    <option key={level.id} value={level.id}>
+                      {level.name}
+                    </option>
+                  ))}
+                </Select>
+                {formik.touched.ratingId && formik.errors.ratingId && (
+                  <div className="text-danger">{formik.errors.ratingId}</div>
+                )}
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseReviewModal}>
+              Cancel
+            </Button>
+            <Button variant="primary" type="submit" onClick={formik.handleSubmit}>
+              Submit Review
+            </Button>
+          </Modal.Footer>
+        </Modal>
 
-                  <Select
-                    id="rating-level"
-                    placeholder="Select rating level"
-                    value={selectedRating}
-                  // onChange={handleSelectChange}
-                  >
-                    {ratingLevel.length > 0 ? (
-                      ratingLevel.map((level) => (
-                        <option key={level.id} value={level.id}>
-                          {level.name}
-                        </option>
-                      ))
-                    ) : (
-                      <option value="" disabled>
-                        No rating levels available
-                      </option>
-                    )}
-                  </Select>
-
-                </Form.Group>
-              </Form>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleCloseReviewModal}>
-                Cancel
-              </Button>
-              <Button variant="primary" onClick={handleSubmitReview}>
-                Submit Review
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        )}
       </Container>
     </ChakraProvider>
   );
