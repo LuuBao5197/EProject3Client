@@ -8,11 +8,15 @@ import {
     MdDeleteOutline,
     MdDelete
 } from 'react-icons/md';
+import { jwtDecode } from "jwt-decode";
 
 const ContestDetail = () => {
+    const token = localStorage.getItem('token');
+    const userId = jwtDecode(token).Id;
     const { id } = useParams();
     const navigate = useNavigate();
     const [contest, setContest] = useState({});
+    const [staffCurent, setStaffCurrent] = useState({});
     useEffect(() => {
         const fetchContest = async (id) => {
             try {
@@ -22,11 +26,15 @@ const ContestDetail = () => {
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
-
-
+        }
+        const fetchInfoOfStaff = async (userId) => {
+            var result = await axios.get(`http://localhost:5190/api/Staff/GetInfoStaff/${userId}`);
+            setStaffCurrent(result.data);
+            console.log(result);
         }
         fetchContest(id);
-    }, [id]); // Update dependency array to include id
+        fetchInfoOfStaff(userId);
+    }, [id, token]); // Update dependency array to include id
 
 
     const handleEdit = (id) => {
@@ -34,7 +42,7 @@ const ContestDetail = () => {
     }
     console.log("Param: ", id);
 
-
+ 
     return (
         <Container className="py-1">
             <Row className="justify-content-center">
@@ -74,17 +82,21 @@ const ContestDetail = () => {
                                     </Col>
                                 </Row>
                                 <Row className="mb-3">
-                                    
+
                                 </Row>
                             </Card.Body>
+                            {console.log("currentStaff", staffCurent)}
+                            {console.log("Contest", contest)}
+                            {(contest.organizedBy == staffCurent.id) && (
                             <Card.Footer className="text-center">
+                                
                                 <Button variant="primary" className="mx-2" onClick={() => handleEdit(contest.id)}>
                                     <Icon as={MdEdit} width="20px" height="20px" color="inherit" />
                                 </Button>
                                 <Button variant="danger" className="mx-2">
                                     <Icon as={MdDelete} width="20px" height="20px" color="inherit" />
                                 </Button>
-                            </Card.Footer>
+                            </Card.Footer> )}
                         </Card>
                     )}
                 </Col>

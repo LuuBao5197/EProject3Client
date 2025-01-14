@@ -126,36 +126,20 @@ const EditContest = () => {
             });
     }, [contestEdit]);
     const navigate = useNavigate();
-    // const token = localStorage.getItem('token');
-    // if(!token){
-    //     alert("Please login with a valid role to view this page");
-    //     navigate('/auth/sign-in');
-    //     return
-    // }
-    // console.log("token", token);
-    // const userId = jwtDecode(token).Id;
-    // useEffect(() => {
-    //     const fetchInfoOfStaff = async (userId) => {
-    //         var result = await axios.get(`http://localhost:5190/api/Staff/GetInfoStaff/${userId}`);
-    //         console.log(result);
-    //         formik.setValues({
-    //             id: id,
-    //             name: "",
-    //             description: "",
-    //             startDate: "",
-    //             endDate: "",
-    //             submissionDeadline: "",
-    //             organizedBy: Number(result.data.id),
-    //             thumbnail: "",
-    //             createdAt: "",
-    //             updateAt: "",
-    //             status: "",
-    //             phase: "",
-    //             file: null,
-    //         })
-    //     }
-    //     fetchInfoOfStaff(userId);
-    // }, [token])
+    const token = localStorage.getItem('token');
+    const userId = jwtDecode(token).Id;
+    useEffect(() => {
+        const fetchInfoOfStaff = async (userId) => {
+            var result = await axios.get(`http://localhost:5190/api/Staff/GetInfoStaff/${userId}`);
+            console.log(result);
+            formik.setValues(...values, {
+               
+                organizedBy: Number(result.data.id),
+              
+            })
+        }
+        fetchInfoOfStaff(userId);
+    }, [token])
 
     return (
         <div className="container mt-5">
