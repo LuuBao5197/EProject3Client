@@ -1,14 +1,12 @@
 
 import ContestList from "../pages/StaffPages/ContestFeature/ContestList";
 import AddContest from "../pages/StaffPages/ContestFeature/AddContest";
-import AdminLayout from "../pages/AdminPages/AdminLayout"
-import StudentManagement from "../pages/AdminPages/StudentManagement";
-import CompetitionManagement from "../pages/AdminPages/CompetitionManagement";
-import ARMangement from "../pages/AdminPages/ARMangement";
-import AwardManagement from "../pages/AdminPages/AwardManagement";
-import ExhibitionManagement from "../pages/AdminPages/ExhibitionManagement";
-import DesignManagement from "../pages/AdminPages/DesignManagement";
-import StudentDetail from "../pages/AdminPages/StudentDetail";
+import StudentManagement from "../pages/ManagerPages/StudentManagement";
+import CompetitionManagement from "../pages/ManagerPages/CompetitionManagement";
+import ARMangement from "../pages/ManagerPages/ARMangement";
+import AwardManagement from "../pages/ManagerPages/AwardManagement";
+import ExhibitionManagement from "../pages/ManagerPages/ExhibitionManagement";
+import DesignManagement from "../pages/ManagerPages/DesignManagement";
 import EditContest from "../pages/StaffPages/ContestFeature/EditContest";
 import ContestDetail from "../pages/StaffPages/ContestFeature/ContestDetail";
 import AddAwardForm from "../pages/StaffPages/AwardFeature.jsx/AddAwardForm";
@@ -21,22 +19,6 @@ import AddExhibition from "../pages/StaffPages/ExhibitionFeature/AddExhibition";
 import EditExhibition from "../pages/StaffPages/ExhibitionFeature/EditExhibition";
 import ClassesManagement from "../pages/ManagerPages/CLassesManagement";
 import ManagerLayout from "../pages/ManagerPages/ManagerLayout";
-export const config = {
-
-    // home: {
-    //     component: Home,
-    //     path: '/',
-    // },
-    // home: {
-    //     component: Home,
-    //     path: '/',
-    // },
-    // home: {
-    //     component: Home,
-    //     path: '/',
-    // },
-
-};
 
 
 export const TeacherConfig = {
