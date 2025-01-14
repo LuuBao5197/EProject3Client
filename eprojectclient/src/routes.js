@@ -41,7 +41,18 @@ import AwardDetails from './pages/StaffPages/AwardFeature.jsx/AwardDetails';
 import ExhibitionIndex from './pages/StaffPages/ExhibitionFeature/ExhibitionIndex';
 import AddExhibition from './pages/StaffPages/ExhibitionFeature/AddExhibition';
 import EditExhibition from './pages/StaffPages/ExhibitionFeature/EditExhibition';
+
+import ManagerLayout from './pages/ManagerPages/ManagerLayout';
+import ClassesManagement from './pages/ManagerPages/CLassesManagement';
+import StudentManagement from './pages/ManagerPages/StudentManagement';
+import ExhibitionManagement from './pages/ManagerPages/ExhibitionManagement';
+import CompetitionManagement from './pages/ManagerPages/CompetitionManagement';
+import AwardManagement from './pages/ManagerPages/AwardManagement';
+import ARMangement from './pages/ManagerPages/ARMangement';
+import ExhibitionDetail from './pages/ManagerPages/ExhibitionDetail';
+import StudentDetail from './pages/ManagerPages/StudentDetail';
 import ListSubmission from './pages/StaffPages/SummisionFeature/ListSubmission';
+
 
 
 export const adminRoutes = [
@@ -274,6 +285,75 @@ export const staffRoutes = [
     component: <ListSubmission/>,
     index: true
     
+  },
+  
+  
+  
+];
+export const managerRoutes = [
+  {
+    name: 'Main Dashboard',
+    layout: '/manager',
+    path: '/default',
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    component: <ManagerLayout/>,
+    index: true
+  },
+  {
+    name: 'Classes',
+    layout: '/manager',
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    path: '/classes',
+    component: <ClassesManagement/>,
+    index: true
+  },
+  {
+    name: 'Student List',
+    layout: '/manager',
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    path: '/students/:classId',
+    component: <StudentManagement/>,
+    index: false
+  },
+  {
+    name: 'Exhibition List',
+    layout: '/manager',
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    path: '/exhibitions',
+    component: <ExhibitionManagement/>,
+    index: true
+  },
+  {
+    name: 'Competition List',
+    layout: '/manager',
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    path: '/competitions',
+    component: <CompetitionManagement/>,
+    index: true
+  },
+  {
+    name: 'Award List',
+    layout: '/manager',
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    path: '/awards',
+    component: <AwardManagement/>,
+    index: true
+  },
+  {
+    name: 'Exhibition Detail',
+    layout: '/manager',
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    path: '/exhibitiondetail/:id',
+    component: <ExhibitionDetail/>,
+    index: false
+  },
+  {
+    name: 'Student Detail',
+    layout: '/manager',
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    path: '/studentdetail/:id',
+    component: <StudentDetail/>,
+    index: false
   },
   
   

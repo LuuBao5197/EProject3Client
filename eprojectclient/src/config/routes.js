@@ -1,3 +1,4 @@
+
 import ContestList from "../pages/StaffPages/ContestFeature/ContestList";
 import AddContest from "../pages/StaffPages/ContestFeature/AddContest";
 import AdminLayout from "../pages/AdminPages/AdminLayout"
@@ -14,11 +15,12 @@ import AddAwardForm from "../pages/StaffPages/AwardFeature.jsx/AddAwardForm";
 import AwardList from "../pages/StaffPages/AwardFeature.jsx/AwardList";
 import EditAwardForm from "../pages/StaffPages/AwardFeature.jsx/EditAwardForm";
 import AwardDetails from "../pages/StaffPages/AwardFeature.jsx/AwardDetails";
-import ExhibitionDetail from "../pages/AdminPages/ExhibitionDetail";
+import ExhibitionDetail from "../pages/ManagerPages/ExhibitionDetail";
 import ExhibitionIndex from "../pages/StaffPages/ExhibitionFeature/ExhibitionIndex";
 import AddExhibition from "../pages/StaffPages/ExhibitionFeature/AddExhibition";
 import EditExhibition from "../pages/StaffPages/ExhibitionFeature/EditExhibition";
-import ClassesManagement from "../pages/AdminPages/CLassesManagement";
+import ClassesManagement from "../pages/ManagerPages/CLassesManagement";
+import ManagerLayout from "../pages/ManagerPages/ManagerLayout";
 export const config = {
 
     // home: {
@@ -85,45 +87,41 @@ export const TeacherConfig = {
 
 };
 
-export const AdminConfig = {
-    adminlayout: {
-        component: AdminLayout,
-        path: '/admin/adminlayout'
+export const ManagerConfig = {
+    managerlayout: {
+        component: ManagerLayout,
+        path: '/manager/managerlayout'
     },
     classesmanagement: {
         component: ClassesManagement,
-        path: '/admin/classesmanagement'
+        path: '/manager/classesmanagement'
     },
     studentmanagement: {
         component: StudentManagement,
-        path: '/admin/studentmanagement/:classId'
+        path: '/manager/students/:classId'
     },
     competitionmanagement: {
         component: CompetitionManagement,
-        path: '/admin/competitionmanagement'
+        path: '/manager/competitionmanagement'
     },
     armanagement: {
         component: ARMangement,
-        path: '/admin/armanagement'
+        path: '/manager/armanagement'
     },
     awardmanagement: {
         component: AwardManagement,
-        path: '/admin/awardmanagement'
+        path: '/manager/awardmanagement'
     },
     exhibitionmanagement: {
         component: ExhibitionManagement,
-        path: '/admin/exhibitionmanagement'
+        path: '/manager/exhibitionmanagement'
     },
     designmanagement: {
         component: DesignManagement,
-        path: '/admin/designmanagement'
-    },
-    studentdetail: {
-        component: StudentDetail,
-        path: '/admin/studentdetail/:id'
+        path: '/manager/designmanagement'
     },
     exhibitiondetail: {
         component: ExhibitionDetail,
-        path: '/admin/exhibitiondetail/:id'
+        path: '/manager/exhibitiondetail/:id'
     }
 }

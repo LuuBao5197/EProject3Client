@@ -1,5 +1,8 @@
 
 import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from 'react-router-dom'
+
+
+import TeacherLayout from './layout/TeacherLayout';
 import { AdminRoutes, publicRoutes, StaffRoutes } from './routes/routes';
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -8,9 +11,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import './assets/css/App.css';
 import { } from 'react-router-dom';
 import AuthLayout from './layouts/auth';
-import AdminLayout from './layout/AdminLayout';
 import RTLLayout from './layouts/rtl';
 import StaffLayout from './layouts/staff';
+import ManagerLayout from './layouts/manager';
 import PublicLayout from './layouts/public';
 import {
     ChakraProvider,
@@ -39,7 +42,9 @@ function App() {
                         <Route key={index} path={item.path} element={item.element} />
                     );
                 })}
-                {AdminRoutes.map((item, index) => {
+
+                {/* {AdminRoutes.map((item, index) => {
+
                     const Comp = item.element;
                     return (
                         <Route
@@ -54,19 +59,32 @@ function App() {
                             }
                         />
                     );
-                })}
+                })} */}
                 <Route path="auth/*" element={<AuthLayout />} />
-                <Route
+                {/* <Route
                     path="admin/*"
                     element={
                         <AdminLayout theme={currentTheme} setTheme={setCurrentTheme} />
                     }
-                />
+                /> */}
                 <Route
                     path="staff/*"
                     element={
                         <StaffLayout theme={currentTheme} setTheme={setCurrentTheme} />
                     }
+                />
+                <Route
+                    path="manager/*"
+                    element={
+                        <ManagerLayout theme={currentTheme} setTheme={setCurrentTheme} />
+                    }
+                    position="top-right" // Vị trí hiển thị
+                    autoClose={3000} // Thời gian tự động đóng (ms)
+                    hideProgressBar={false} // Hiển thị thanh tiến trình
+                    newestOnTop={false} // Sắp xếp thông báo mới nhất lên đầu
+                    closeOnClick // Đóng khi click
+                    pauseOnHover // Dừng lại khi hover
+                    draggable // Kéo thả
                 />
                 <Route
                     path="public/*"
@@ -82,7 +100,7 @@ function App() {
                 />
                 <Route path="/" element={<Navigate to="/admin" replace />} />
             </Routes>
-           
+
         </ChakraProvider>
 
     )
