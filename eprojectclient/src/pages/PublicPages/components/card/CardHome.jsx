@@ -52,8 +52,8 @@ export default function CardHome({ exhibition, ...props }) {
         {/* Right Column - Image */}
         <Box w="250px" h="300px">
           <img
-            src={exhibition.image || "/images/placeholder.png"}
-            alt={exhibition.name || "Exhibition Image"}
+            src={exhibition.thumbnail || "/images/placeholder.png"}
+            alt={exhibition.thumbnail || "Exhibition Image"}
             style={{
               width: "100%",
               height: "100%",
