@@ -10,6 +10,14 @@ export const getAllStudents = async () => {
     throw new Error(error.response?.data?.message || 'Failed to fetch students');
   }
 };
+export const getAllClasses = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/classes`);
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Failed to fetch students');
+    }
+  };
 
 export const addStudent = async (studentData) => {
   try {
@@ -40,4 +48,13 @@ export const deleteStudent = async (id) => {
       throw new Error(error.response?.data?.message || 'Failed to delete student');
     }
   };
+  export const getStudentDetails = async (id) => {
+    try {
+      const response = await axios.get(`${API_URL}/${id}`);
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Failed to fetch student details');
+    }
+  };
+  
   

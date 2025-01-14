@@ -60,7 +60,7 @@ const CreateStaffForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("/staff", formData);
+            const response = await axios.post("http://localhost:5190/api/AdminStaff/staff", formData);
             alert(response.data.message);
         } catch (error) {
             alert(
@@ -190,7 +190,9 @@ const CreateStaffForm = () => {
                     ))}
                 </ul>
             </div>
-            <button type="submit">Create Staff</button>
+            <div>
+                <button type="submit">Submit</button>
+            </div>
         </form>
     );
 };

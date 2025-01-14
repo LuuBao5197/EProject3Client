@@ -120,6 +120,18 @@ export const AdminStudentRoute = [
     {
         path: AdminStudentConfig.adminstudentlist.path,
         element: AdminStudentConfig.adminstudentlist.component
+    },
+    {
+        path: AdminStudentConfig.adminstudentadd.path,
+        element: AdminStudentConfig.adminstudentadd.component
+    },
+    {
+        path: AdminStudentConfig.adminstudentimport.path,
+        element: AdminStudentConfig.adminstudentimport.component
+    },
+    {
+        path: AdminStudentConfig.adminstudentdetail.path,
+        element: AdminStudentConfig.adminstudentdetail.component
     }
 ];
 export const privateRoutes = [

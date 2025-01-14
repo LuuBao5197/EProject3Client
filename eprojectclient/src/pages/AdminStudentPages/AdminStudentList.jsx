@@ -1,65 +1,54 @@
 import React, { useEffect, useState } from 'react';
-import {
-  getAllStudents,
-  deleteStudent,
-} from '../../API/getAdminStudent';
+import $ from 'jquery';
+import 'datatables.net';
+import './AdminStudentList.css';
+import { getAllStudents } from '../../API/getAdminStudent';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate để điều hướng
 
-const AdminStudentList = ({ onEdit }) => {
+const AdminStudentList = () => {
   const [students, setStudents] = useState([]);
-  const [search, setSearch] = useState("");
+  const navigate = useNavigate(); // Khai báo hook navigate
 
-  // Fetch all students on component mount
   useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const data = await getAllStudents();
+        setStudents(data);
+        console.log(data);
+      } catch (error) {
+        console.error('Error fetching students:', error.message);
+      }
+    };
     fetchStudents();
   }, []);
 
-  const fetchStudents = async () => {
-    try {
-      const data = await getAllStudents(); // Lấy danh sách sinh viên
-      setStudents(data); // Giả sử data là danh sách sinh viên
-      console.log(data);
-    } catch (error) {
-      console.error("Error fetching students:", error.message);
+  useEffect(() => {
+    if (students.length > 0) {
+      $('#studentsTable').DataTable();
     }
-  };
+    return () => {
+      if ($.fn.DataTable.isDataTable('#studentsTable')) {
+        $('#studentsTable').DataTable().destroy();
+      }
+    };
+  }, [students]);
 
-  const handleSearch = async () => {
-    try {
-      const data = await searchStudentsByName(search); // Gọi hàm tìm kiếm
-      setStudents(data); // Giả sử data trả về là danh sách đã tìm kiếm
-    } catch (error) {
-      alert("No students found with that name.");
-      console.error("Error searching students:", error.message);
-    }
-  };
-
-  const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this student?")) return;
-    try {
-     
-      await deleteStudent(id); 
-      fetchStudents(); 
-    } catch (error) {
-      console.error("Error deleting student:", error);
-    }
+  const handleDetailClick = (id) => {
+    // Điều hướng tới trang chi tiết của sinh viên với id
+    navigate(`/adminstudent/adminstudentdetail/${id}`);
   };
 
   return (
     <div>
-      <h2>Student List</h2>
-      <input
-        type="text"
-        placeholder="Search by name"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
-      <button onClick={handleSearch}>Search</button>
-      <table>
+      <table id="studentsTable" className="display">
         <thead>
           <tr>
             <th>ID</th>
+            <th>Username</th>
             <th>Name</th>
             <th>Email</th>
+            <th>Phone</th>
+            <th>Class</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -67,11 +56,20 @@ const AdminStudentList = ({ onEdit }) => {
           {students.map((student) => (
             <tr key={student.id}>
               <td>{student.id}</td>
-              <td>{student.user.name }</td>
-              <td>{student.user.email }</td>
+              <td>{student.user.username}</td>
+              <td>{student.user.name}</td>
+              <td>{student.user.email}</td>
+              <td>{student.user.phone}</td>
               <td>
-                <button onClick={() => onEdit(student)}>Edit</button>
-                <button onClick={() => handleDelete(student.id)}>Delete</button>
+                {student.studentClasses && student.studentClasses.length > 0
+                  ? student.studentClasses.map((sc, index) => (
+                      <span key={index}>{sc.class.name}</span>  // Hiển thị tên lớp
+                    ))
+                  : 'No classes'}
+              </td>
+              <td>
+                {/* Thay thế Delete bằng Detail */}
+                <button onClick={() => handleDetailClick(student.id)}>View Details</button>
               </td>
             </tr>
           ))}

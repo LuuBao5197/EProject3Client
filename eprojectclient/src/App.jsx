@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-route
 import { AdminRoutes, AdminStaffRoute, AdminStudentRoute, publicRoutes, StaffRoutes } from './routes/routes';
 import TeacherLayout from './layout/TeacherLayout';
 import AdminLayout from './layout/AdminLayout';
+import AdminStaffLayout from './layout/AdminStaffLayout';
 
 function App() {
 
@@ -56,9 +57,9 @@ function App() {
                             key={index}
                             element={
                                 <div>
-                                    <AdminLayout>
+                                    <AdminStaffLayout>
                                         <Comp />
-                                    </AdminLayout>
+                                    </AdminStaffLayout>
                                 </div>
                             }
                         />
@@ -72,9 +73,9 @@ function App() {
                             key={index}
                             element={
                                 <div>
-                                    <AdminLayout>
+                                    <AdminStaffLayout>
                                         <Comp />
-                                    </AdminLayout>
+                                    </AdminStaffLayout>
                                 </div>
                             }
                         />

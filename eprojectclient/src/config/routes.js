@@ -17,6 +17,9 @@ import AdminStaffLayout from "../pages/AdminStaffPages/AdminStaffLayout";
 import AdminStaffAdd from "../pages/AdminStaffPages/AdminStaffAdd";
 import AdminStudentList from "../pages/AdminStudentPages/AdminStudentList";
 import AdminStaffDetail from "../pages/AdminStaffPages/AdminStaffDetail";
+import AdminStudentAdd from "../pages/AdminStudentPages/AdminStudentAdd";
+import AdminStudentImportForm from "../pages/AdminStudentPages/AdminStudentImportForm";
+import AdminStudentDetail from "../pages/AdminStudentPages/AdminStudentDetail";
 export const config = {
 
     // home: {
@@ -116,6 +119,18 @@ export const AdminStudentConfig = {
     adminstudentlist: {
         component: AdminStudentList,
         path: '/adminstudent/adminstudentlist'
-     }
+     },
+     adminstudentadd: {
+        component: AdminStudentAdd,
+        path: '/adminstudent/adminstudentadd'
+     },
+     adminstudentimport: {
+        component: AdminStudentImportForm,
+        path: '/adminstudent/adminstudentimport'
+     },
+     adminstudentdetail: {
+        component: AdminStudentDetail,
+        path: '/adminstudent/adminstudentdetail/:id'
+     },
 }
 
