@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from '../../layout/AdminLayout.module.css';
-function AdminLayout(props) {
+function ManagerLayout(props) {
     return (
         <div className={styles.title}>
-            <h1>Welcome to Admin Layout</h1>
+            <h1>Welcome to Manager Layout</h1>
         </div>
     );
 }
 
-export default AdminLayout;
+export default ManagerLayout;

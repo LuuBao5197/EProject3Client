@@ -28,7 +28,7 @@ function ExhibitionManagement() {
                 ) : (
                     exhibitions.map((item, index) => (
                         <div className={styles.exhibitionItem} key={index}>
-                            <Link to={`/admin/exhibitiondetail/${item.id}`} className={styles.imageLink}>
+                            <Link to={`/manager/exhibitiondetail/${item.id}`} className={styles.imageLink}>
                                 <div className={styles.defaultImage}>
                                     {item.imageUrl ? (
                                         <img src={item.imageUrl} alt={item.name} />
