@@ -26,6 +26,7 @@ import { MdNotificationsNone, MdInfoOutline } from 'react-icons/md';
 import { IoMdMoon, IoMdSunny } from 'react-icons/io';
 import { FaEthereum } from 'react-icons/fa';
 import {staffRoutes} from '@/routes';
+import { useNavigate } from 'react-router-dom';
 export default function HeaderLinks(props) {
   const { secondary } = props;
   const { colorMode, toggleColorMode } = useColorMode();
@@ -43,6 +44,14 @@ export default function HeaderLinks(props) {
     '14px 17px 40px 4px rgba(112, 144, 176, 0.06)',
   );
   const borderButton = useColorModeValue('secondaryGray.500', 'whiteAlpha.200');
+  const navigate = useNavigate();
+
+  // handle logout 
+  const handleLogOut = () => {
+    localStorage.removeItem('inforToken');
+    localStorage.removeItem('token');
+    navigate(`/`);
+  }
   return (
     <Flex
       w={{ sm: '100%', md: 'auto' }}
@@ -54,7 +63,7 @@ export default function HeaderLinks(props) {
       borderRadius="30px"
       boxShadow={shadow}
     >
-      <SearchBar
+      {/* <SearchBar
         mb={() => {
           if (secondary) {
             return { base: '10px', md: 'unset' };
@@ -63,7 +72,7 @@ export default function HeaderLinks(props) {
         }}
         me="10px"
         borderRadius="30px"
-      />
+      /> */}
       <Flex
         bg={ethBg}
         display={secondary ? 'flex' : 'none'}
@@ -290,7 +299,7 @@ export default function HeaderLinks(props) {
             >
               <Text fontSize="sm">Newsletter Settings</Text>
             </MenuItem>
-            <MenuItem
+            <MenuItem onClick={()=>handleLogOut()}
               _hover={{ bg: 'none' }}
               _focus={{ bg: 'none' }}
               color="red.400"

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 //import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { useFormik } from "formik";
@@ -9,8 +9,29 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { jwtDecode } from "jwt-decode";
 const AddContest = () => {
-
+    const token = localStorage.getItem('token');
+    console.log("token", token);
+    const userId = jwtDecode(token).Id;
+    useEffect(() => {
+        const fetchInfoOfStaff = async (userId)=> {
+            var result = await axios.get(`http://localhost:5190/api/Staff/GetInfoStaff/${userId}`);
+            console.log(result);
+            formik.setValues({
+                name: "",
+                description: "",
+                startDate: "",
+                endDate: "",
+                submissionDeadline: "",
+                organizedBy: Number(result.data.id),
+                file: null,
+            })
+        }
+        fetchInfoOfStaff(userId);
+    }, [token])
+    
+    console.log("userId", userId);
     const formik = useFormik({
         initialValues: {
             name: "",
@@ -18,7 +39,7 @@ const AddContest = () => {
             startDate: "",
             endDate: "",
             submissionDeadline: "",
-            organizedBy: 5,
+            organizedBy: "",
             file: null,
         },
         validationSchema: Yup.object({
