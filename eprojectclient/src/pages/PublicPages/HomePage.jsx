@@ -10,12 +10,10 @@ const HomePage = () => {
   return (
     <div className="container">
       <NavbarHome />
-      <body>
         <ContestStats/>
         <StudentAward/>
         <ExhibitionList />
         <ContestList />
-      </body>
       <FooterHome />
      
     </div>
