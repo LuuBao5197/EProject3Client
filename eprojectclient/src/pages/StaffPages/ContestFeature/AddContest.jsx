@@ -106,7 +106,17 @@ const AddContest = () => {
         },
     });
     const navigate = useNavigate();
-
+    const modules = {
+        toolbar: [
+          [{ header: [1, 2, 3, false] }], // Tiêu đề
+          ["bold", "italic", "underline", "strike"], // In đậm, nghiêng, gạch chân, gạch ngang
+          [{ list: "ordered" }, { list: "bullet" }], // Danh sách có thứ tự/không thứ tự
+          [{ indent: "-1" }, { indent: "+1" }], // Thụt lề
+          [{ align: [] }], // Căn chỉnh
+          ["link", "image"], // Thêm liên kết, hình ảnh
+          ["clean"], // Xóa định dạng
+        ],
+      };
     return (
         <div className="container pt-3">
             <form onSubmit={formik.handleSubmit} className="needs-validation" noValidate>
@@ -127,7 +137,10 @@ const AddContest = () => {
                 </div>
                 <div className="mb-1">
                     <label className="form-label">Description</label>
-                    <ReactQuill theme="snow" value={formik.values.description}
+                    <ReactQuill theme="snow" value={formik.values.description} 
+                        className="bg-light text-black"
+                        
+                        modules={modules}
                         onChange={(value) => formik.setFieldValue("description", value)} // Cập nhật giá trị cho Formik
                         onBlur={() => {
                             if (formik.values.description === "<p><br></p>") {
