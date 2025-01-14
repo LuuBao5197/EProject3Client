@@ -54,7 +54,7 @@ const ListSubmission = () => {
       submissionId: submissionDetails?.id || '', // Set from submission details
       staffId: 6,
       reviewText: '',
-      ratingId: 1,
+      ratingId: "",
       reviewDate: '',
     },
     validationSchema: Yup.object({
@@ -163,7 +163,7 @@ const ListSubmission = () => {
           submissionId: submission.id,
           staffId: 5,
           reviewText: "",
-          ratingId: 0,
+          ratingId: "",
           reviewDate: new Date()
       });
 

@@ -6,11 +6,13 @@ import Navbar from '@/components/navbar/NavbarStaff.js';
 import Sidebar from '@/components/sidebar/Sidebar.js';
 import { SidebarContext } from '@/contexts/SidebarContext';
 import React, { useState, useEffect } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 // import routes from '@/routes.js';
-import {staffRoutes} from '../../routes';
+import { staffRoutes } from '../../routes';
 
 import { useLocation } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+import { toast } from 'react-toastify';
 // Custom Chakra theme
 export default function Dashboard(props) {
   const { ...rest } = props;
@@ -107,15 +109,38 @@ export default function Dashboard(props) {
       }
     });
   };
-  
+
   document.documentElement.dir = 'ltr';
   const { onOpen } = useDisclosure();
   document.documentElement.dir = 'ltr';
+  const navigate = useNavigate();
+  //Check is login 
+  
+  
+  // useEffect(() => {
+  //   const fetchInfoOfStaff = async (userId) => {
+  //     var result = await axios.get(`http://localhost:5190/api/Staff/GetInfoStaff/${userId}`);
+  //     console.log(result);
+  //   }
+  //   fetchInfoOfStaff(userId);
+  // }, [token])
 
   useEffect(() => {
-    
+    const token = localStorage.getItem('token');
+    if(!token) {
+      toast.warning("Please login with a valid role to view this page");
+      navigate('/');
+      return
+    }
+    console.log("token", token);
+    const userInfo = jwtDecode(token);
+    if(userInfo.role !== "Staff"){
+      toast.warning("Please login with a valid role to view this page");
+      navigate('/');
+      return
+    }
   }, [useLocation])
-  
+
   return (
     <Box>
       <Box>
@@ -126,7 +151,7 @@ export default function Dashboard(props) {
           }}
         >
           <Sidebar routes={staffRoutes} display="none" {...rest} />
-          <Box 
+          <Box
             float="right"
             minHeight="100vh"
             height="100%"
