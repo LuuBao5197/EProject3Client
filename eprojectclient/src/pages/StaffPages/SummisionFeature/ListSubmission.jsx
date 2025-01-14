@@ -302,26 +302,19 @@ const ListSubmission = () => {
                       setReviewText(data);
                     }}
                   /> */}
+
                   <CKEditor
                     editor={ClassicEditor}
-                    config={{
-                      toolbar: [
-                        "heading",
-                        "|",
-                        "bold",
-                        "italic",
-                        "link",
-                        "bulletedList",
-                        "numberedList",
-                        "blockQuote",
-                        "|",
-                        "undo",
-                        "redo",
-                      ],
+                    data="<p>Type something here...</p>"
+                    onChange={(event, editor) => {
+                      const data = editor.getData();
+                      setContent(data);
                     }}
-                    data="<p>Hello, world!</p>"
-                  // onChange={handleEditorChange}
                   />
+                  <h2>Output:</h2>
+                  <div style={{ border: '1px solid #ddd', padding: '10px', marginTop: '10px' }}>
+                    <div dangerouslySetInnerHTML={{ __html: content }} />
+                  </div>
                   <div style={{ marginTop: "20px", padding: "10px", border: "1px solid #ccc" }}>
                     <h3>Preview:</h3>
                     <div dangerouslySetInnerHTML={{ __html: content }} />
