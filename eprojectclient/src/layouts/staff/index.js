@@ -126,19 +126,19 @@ export default function Dashboard(props) {
   // }, [token])
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if(!token) {
-      toast.warning("Please login with a valid role to view this page");
-      navigate('/');
-      return
-    }
-    console.log("token", token);
-    const userInfo = jwtDecode(token);
-    if(userInfo.role !== "Staff"){
-      toast.warning("Please login with a valid role to view this page");
-      navigate('/');
-      return
-    }
+    // const token = localStorage.getItem('token');
+    // if(!token) {
+    //   toast.warning("Please login with a valid role to view this page");
+    //   navigate('/');
+    //   return
+    // }
+    // console.log("token", token);
+    // const userInfo = jwtDecode(token);
+    // if(userInfo.role !== "Staff"){
+    //   toast.warning("Please login with a valid role to view this page");
+    //   navigate('/');
+    //   return
+    // }
   }, [useLocation])
 
   return (

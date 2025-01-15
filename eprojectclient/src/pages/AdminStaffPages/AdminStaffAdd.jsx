@@ -13,7 +13,8 @@ const AdminStaffAdd = () => {
         dob: '',
         joinDate: '',
         subjectIds: [],
-        qualificationIds: []
+        qualificationIds: [],
+        role: 'Staff' // Gán mặc định là Staff
     });
 
     const [subjects, setSubjects] = useState([]);
@@ -64,11 +65,11 @@ const AdminStaffAdd = () => {
         setMessage('');
         setError('');
         
-        console.log(formData);  // Kiểm tra dữ liệu formData
+        console.log(formData); // Kiểm tra dữ liệu formData
     
         try {
             const response = await addStaff(formData);
-            console.log(response);  // Kiểm tra phản hồi từ API
+            console.log(response); // Kiểm tra phản hồi từ API
             setMessage('Staff added successfully');
             setFormData({
                 username: '',
@@ -79,15 +80,16 @@ const AdminStaffAdd = () => {
                 dob: '',
                 joinDate: '',
                 subjectIds: [],
-                qualificationIds: []
+                qualificationIds: [],
+                role: 'Staff'
             });
-            navigate('/admin/staff-list');
+            navigate('/adminstaff/adminstafflayout');
         } catch (err) {
-            console.error(err);  // In lỗi ra console để kiểm tra
+            console.error(err); // In lỗi ra console để kiểm tra
             setError(err.message);
         }
     };
-    
+
     return (
         <div className={styles.container}>
             <h2>Create Staff</h2>
@@ -122,7 +124,19 @@ const AdminStaffAdd = () => {
                     <label>Join Date</label>
                     <input type="date" name="joinDate" value={formData.joinDate} onChange={handleInputChange} required />
                 </div>
-                
+
+                <div className={styles.formGroup}>
+                    <label htmlFor="role">Role</label>
+                    <input
+                        type="text"
+                        id="role"
+                        name="role"
+                        className="form-control"
+                        value={formData.role}
+                        disabled // Không cho phép thay đổi
+                    />
+                </div>
+
                 <div className={styles.formGroup}>
                     <label htmlFor="subjectIds" className="form-label">Subjects</label>
                     <select

@@ -1,33 +1,43 @@
-
 import { AdminStaffRoute, AdminStudentRoute, publicRoutes, StaffRoutes } from './routes/routes';
 import AdminStaffLayout from './layout/AdminStaffLayout';
 import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from 'react-router-dom'
 // import {publicRoutes, StaffRoutes } from './routes/routes';
 import React, { useState } from "react";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-
-import { publicRoutes } from './routes';
-import AdminStaffLayout from './layout/AdminStaffLayout';
+import './assets/css/App.css';
+import { } from 'react-router-dom';
 import AuthLayout from './layouts/auth';
 import RTLLayout from './layouts/rtl';
 import StaffLayout from './layouts/staff';
 import ManagerLayout from './layouts/manager';
 import PublicLayout from './layouts/public';
-import { ChakraProvider } from '@chakra-ui/react';
-import initialTheme from './theme/theme';
+import {
+    ChakraProvider,
+    // extendTheme
+} from '@chakra-ui/react';
+import initialTheme from './theme/theme'; //  { themeGreen };
 
 function App() {
     const [currentTheme, setCurrentTheme] = useState(initialTheme);
 
+
     return (
         <ChakraProvider theme={currentTheme}>
-            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
+            <ToastContainer
+                position="top-right" // Vị trí hiển thị
+                autoClose={3000} // Thời gian tự động đóng (ms)
+                hideProgressBar={false} // Hiển thị thanh tiến trình
+                newestOnTop={false} // Sắp xếp thông báo mới nhất lên đầu
+                closeOnClick // Đóng khi click
+                pauseOnHover // Dừng lại khi hover
+                draggable // Kéo thả
+            />
 
-            <Router>
-                <Routes>
-                    {publicRoutes.map((item, index) => (
+            <Routes>
+                {publicRoutes.map((item, index) => {
+                    return (
                         <Route key={index} path={item.path} element={item.element} />
                     );
                 })}
@@ -48,25 +58,25 @@ function App() {
                             }
                         />
                     );
-                })}
+                })} */}
                 {AdminStaffRoute.map((item, index) => {
                     const Comp = item.element;
-                    return (
-                        <Route
-                            path={item.path}
-                            key={index}
-                            element={
-                                <div>
-                                    <AdminStaffLayout>
-                                        <Comp />
-                                    </AdminStaffLayout>
-                                </div>
-                            }
-                        />
-                    );
+                return (
+                <Route
+                    path={item.path}
+                    key={index}
+                    element={
+                        <div>
+                            <AdminStaffLayout>
+                                <Comp />
+                            </AdminStaffLayout>
+                        </div>
+                    }
+                />
+                );
                 })}
                 {AdminStudentRoute.map((item, index) => {
-                    const Comp = item.element;
+const Comp = item.element;
                     return (
                         <Route
                             path={item.path}
@@ -125,7 +135,7 @@ function App() {
             </Routes>
 
         </ChakraProvider>
-    );
-}
 
+    )
+}
 export default App;

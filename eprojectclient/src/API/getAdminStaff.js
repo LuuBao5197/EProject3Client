@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { error } from 'jquery';
 
 const API_URL = 'http://localhost:5190/api/AdminStaff'; 
 export const getAllStaff = async () => {
@@ -8,7 +9,10 @@ export const getAllStaff = async () => {
 export const addStaff = async (staffData) => {
   try {
     const response = await axios.post(`${API_URL}/staff`, staffData);
+    console.log("Chi tiết lỗi:", error.response?.data?.errors);
     return response.data;
+  
+    
   } catch (error) {
     // Kiểm tra lỗi nếu có phản hồi từ API
     if (error.response) {
