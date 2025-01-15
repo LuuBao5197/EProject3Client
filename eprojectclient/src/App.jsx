@@ -1,11 +1,14 @@
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom'
 import { AdminRoutes, AdminStaffRoute, AdminStudentRoute, publicRoutes, StaffRoutes } from './routes/routes';
 import TeacherLayout from './layout/TeacherLayout';
 import AdminLayout from './layout/AdminLayout';
 import AdminStaffLayout from './layout/AdminStaffLayout';
 =======
+=======
+>>>>>>> b3b6a212cf295f39f8865ee5b63aa87f57d26aaf
 import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from 'react-router-dom'
 import {publicRoutes, StaffRoutes } from './routes/routes';
 import React, { useState } from "react";
@@ -24,6 +27,9 @@ import {
     // extendTheme
 } from '@chakra-ui/react';
 import initialTheme from './theme/theme'; //  { themeGreen };
+<<<<<<< HEAD
+>>>>>>> b3b6a212cf295f39f8865ee5b63aa87f57d26aaf
+=======
 >>>>>>> b3b6a212cf295f39f8865ee5b63aa87f57d26aaf
 
 function App() {
@@ -66,6 +72,7 @@ function App() {
                         />
                     );
 <<<<<<< HEAD
+<<<<<<< HEAD
                 })}
                 {AdminStaffRoute.map((item, index) => {
                     const Comp = item.element;
@@ -100,6 +107,8 @@ function App() {
                     );
                 })}
 =======
+=======
+>>>>>>> b3b6a212cf295f39f8865ee5b63aa87f57d26aaf
                 })} */}
                 <Route path="auth/*" element={<AuthLayout />} />
                 {/* <Route
@@ -141,6 +150,9 @@ function App() {
                     }
                 />
                 <Route path="/" element={<Navigate to="/admin" replace />} />
+<<<<<<< HEAD
+>>>>>>> b3b6a212cf295f39f8865ee5b63aa87f57d26aaf
+=======
 >>>>>>> b3b6a212cf295f39f8865ee5b63aa87f57d26aaf
             </Routes>
 

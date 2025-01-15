@@ -1,7 +1,11 @@
 // import config from '../config/routes';
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { AdminConfig, AdminStaffConfig, AdminStudentConfig, TeacherConfig } from "../config/routes";
+=======
+import { ManagerConfig, TeacherConfig } from "../config/routes";
+>>>>>>> b3b6a212cf295f39f8865ee5b63aa87f57d26aaf
 =======
 import { ManagerConfig, TeacherConfig } from "../config/routes";
 >>>>>>> b3b6a212cf295f39f8865ee5b63aa87f57d26aaf
@@ -141,6 +145,7 @@ export const ManagerRoutes =[
     {
         path: ManagerConfig.exhibitiondetail.path,
         element: ManagerConfig.exhibitiondetail.component
+<<<<<<< HEAD
     }
 ];
 export const AdminStaffRoute = [
@@ -173,6 +178,8 @@ export const AdminStudentRoute = [
     {
         path: AdminStudentConfig.adminstudentdetail.path,
         element: AdminStudentConfig.adminstudentdetail.component
+=======
+>>>>>>> b3b6a212cf295f39f8865ee5b63aa87f57d26aaf
     }
 ];
 export const privateRoutes = [
