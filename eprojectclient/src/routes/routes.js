@@ -1,18 +1,25 @@
 // import config from '../config/routes';
 
+<<<<<<< HEAD
 import { AdminConfig, AdminStaffConfig, AdminStudentConfig, TeacherConfig } from "../config/routes";
+=======
+import { ManagerConfig, TeacherConfig } from "../config/routes";
+>>>>>>> b3b6a212cf295f39f8865ee5b63aa87f57d26aaf
 // import Contest from "../pages/Contest";
 import EditProfile from "../pages/PublicPages/EditProfile";
 import Contest from "../pages/StudentPages/Contest";
-import Home from "../pages/PublicPages/Home";
 import Login from "../pages/PublicPages/Login";
 import AwardReceived from "../pages/StudentPages/AwardReceived";
+import CreateNewSubmission from "../pages/StudentPages/CreateNewSubmission";
+import ForgotPassword from "../pages/PublicPages/ForgotPassword";
+import HomePage from "../pages/PublicPages/HomePage";
+
 
 
 export const publicRoutes = [
     {
         path: "/",
-        element: <Home/>,
+        element: <HomePage/>,
         
     },
     {
@@ -27,6 +34,11 @@ export const publicRoutes = [
     },
     {
 
+        path: "/forgotpassword",
+        element: <ForgotPassword/>,
+    },
+    {
+
         path: "/contest",
         element: <Contest/>,
         
@@ -35,6 +47,11 @@ export const publicRoutes = [
 
         path: "/awardreceived",
         element: <AwardReceived/>,
+        
+    },{
+
+        path: "/createsubmission",
+        element: <CreateNewSubmission/>,
         
     },
 
@@ -65,41 +82,65 @@ export const StaffRoutes = [
         path: TeacherConfig.listAward.path,
         element: TeacherConfig.listAward.component,
     }, 
+    {
+        path: TeacherConfig.editAward.path,
+        element: TeacherConfig.editAward.component,
+    }, 
+    {
+        path: TeacherConfig.detailAward.path,
+        element: TeacherConfig.detailAward.component,
+    },
+    {
+        path: TeacherConfig.listExhibition.path,
+        element: TeacherConfig.listExhibition.component,
+    },
+    {
+        path: TeacherConfig.addExhibition.path,
+        element: TeacherConfig.addExhibition.component
+    },
+    {
+        path: TeacherConfig.editExhibition.path,
+        element: TeacherConfig.editExhibition.component
+    } 
 
 ];
 
-export const AdminRoutes =[
+export const ManagerRoutes =[
     {
-        path: AdminConfig.adminlayout.path,
-        element: AdminConfig.adminlayout.component
+        path: ManagerConfig.managerlayout.path,
+        element: ManagerConfig.managerlayout.component
     },
     {
-        path: AdminConfig.studentmanagement.path,
-        element: AdminConfig.studentmanagement.component
+        path: ManagerConfig.classesmanagement.path,
+        element: ManagerConfig.classesmanagement.component
     },
     {
-        path: AdminConfig.competitionmanagement.path,
-        element: AdminConfig.competitionmanagement.component
+        path: ManagerConfig.studentmanagement.path,
+        element: ManagerConfig.studentmanagement.component
     },
     {
-        path: AdminConfig.armanagement.path,
-        element: AdminConfig.armanagement.component
+        path: ManagerConfig.competitionmanagement.path,
+        element: ManagerConfig.competitionmanagement.component
     },
     {
-        path: AdminConfig.awardmanagement.path,
-        element: AdminConfig.awardmanagement.component
+        path: ManagerConfig.armanagement.path,
+        element: ManagerConfig.armanagement.component
     },
     {
-        path: AdminConfig.exhibitionmanagement.path,
-        element: AdminConfig.exhibitionmanagement.component
+        path: ManagerConfig.awardmanagement.path,
+        element: ManagerConfig.awardmanagement.component
     },
     {
-        path: AdminConfig.designmanagement.path,
-        element: AdminConfig.designmanagement.component
+        path: ManagerConfig.exhibitionmanagement.path,
+        element: ManagerConfig.exhibitionmanagement.component
     },
     {
-        path: AdminConfig.studentdetail.path,
-        element: AdminConfig.studentdetail.component
+        path: ManagerConfig.designmanagement.path,
+        element: ManagerConfig.designmanagement.component
+    },
+    {
+        path: ManagerConfig.exhibitiondetail.path,
+        element: ManagerConfig.exhibitiondetail.component
     }
 ];
 export const AdminStaffRoute = [

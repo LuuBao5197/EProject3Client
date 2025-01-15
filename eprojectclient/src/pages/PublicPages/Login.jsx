@@ -17,7 +17,7 @@ function Login() {
             const decodedToken = jwtDecode(res.data.token);
             navigate("/", { state: { user: decodedToken } }); // Pass user info to home page
 
-            alert("Login successful");
+            alert("Login successfuly");
         } catch (err) {
             console.error(err);
             alert("Login failed. Please check your credentials.");
@@ -59,6 +59,7 @@ function Login() {
                         <button type="submit" className="open-modal-btn">
                             Đăng nhập
                         </button>
+                        <p className="close-icon-user" onClick={() => window.location.href = '/forgotpassword'}>Forgot Password</p>
                     </div>
                 </form>
             </div>
