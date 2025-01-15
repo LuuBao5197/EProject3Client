@@ -1,4 +1,8 @@
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+
+import { AdminStaffRoute, AdminStudentRoute, publicRoutes, StaffRoutes } from './routes/routes';
+import AdminStaffLayout from './layout/AdminStaffLayout';
+import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from 'react-router-dom'
+// import {publicRoutes, StaffRoutes } from './routes/routes';
 import React, { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,58 +29,101 @@ function App() {
                 <Routes>
                     {publicRoutes.map((item, index) => (
                         <Route key={index} path={item.path} element={item.element} />
-                    ))}
-                    {AdminRoutes.map((item, index) => {
-                        const Comp = item.element;
-                        return (
-                            <Route
-                                path={item.path}
-                                key={index}
-                                element={
+                    );
+                })}
+                {/* 
+                {AdminRoutes.map((item, index) => {
+
+                    const Comp = item.element;
+                    return (
+                        <Route
+                            path={item.path}
+                            key={index}
+                            element={
+                                <div>
                                     <AdminLayout>
                                         <Comp />
                                     </AdminLayout>
-                                }
-                            />
-                        );
-                    })}
-                    {AdminStaffRoute.map((item, index) => {
-                        const Comp = item.element;
-                        return (
-                            <Route
-                                path={item.path}
-                                key={index}
-                                element={
+                                </div>
+                            }
+                        />
+                    );
+                })}
+                {AdminStaffRoute.map((item, index) => {
+                    const Comp = item.element;
+                    return (
+                        <Route
+                            path={item.path}
+                            key={index}
+                            element={
+                                <div>
                                     <AdminStaffLayout>
                                         <Comp />
                                     </AdminStaffLayout>
-                                }
-                            />
-                        );
-                    })}
-                    {AdminStudentRoute.map((item, index) => {
-                        const Comp = item.element;
-                        return (
-                            <Route
-                                path={item.path}
-                                key={index}
-                                element={
+                                </div>
+                            }
+                        />
+                    );
+                })}
+                {AdminStudentRoute.map((item, index) => {
+                    const Comp = item.element;
+                    return (
+                        <Route
+                            path={item.path}
+                            key={index}
+                            element={
+                                <div>
                                     <AdminStaffLayout>
                                         <Comp />
                                     </AdminStaffLayout>
-                                }
-                            />
-                        );
-                    })}
+                                </div>
+                            }
+                        />
+                    );
+                })}
+                <Route path="auth/*" element={<AuthLayout />} />
+                {/* <Route
+                    path="admin/*"
+                    element={
+                        <AdminLayout theme={currentTheme} setTheme={setCurrentTheme} />
+                    }
+                /> */}
 
-                    <Route path="auth/*" element={<AuthLayout />} />
-                    <Route path="staff/*" element={<StaffLayout theme={currentTheme} setTheme={setCurrentTheme} />} />
-                    <Route path="manager/*" element={<ManagerLayout theme={currentTheme} setTheme={setCurrentTheme} />} />
-                    <Route path="public/*" element={<PublicLayout theme={currentTheme} setTheme={setCurrentTheme} />} />
-                    <Route path="rtl/*" element={<RTLLayout theme={currentTheme} setTheme={setCurrentTheme} />} />
-                    <Route path="/" element={<Navigate to="/admin" replace />} />
-                </Routes>
-            </Router>
+                <Route
+                    path="staff/*"
+                    element={
+                        <StaffLayout theme={currentTheme} setTheme={setCurrentTheme} />
+                    }
+                />
+                <Route
+                    path="manager/*"
+                    element={
+                        <ManagerLayout theme={currentTheme} setTheme={setCurrentTheme} />
+                    }
+                    position="top-right" // Vị trí hiển thị
+                    autoClose={3000} // Thời gian tự động đóng (ms)
+                    hideProgressBar={false} // Hiển thị thanh tiến trình
+                    newestOnTop={false} // Sắp xếp thông báo mới nhất lên đầu
+                    closeOnClick // Đóng khi click
+                    pauseOnHover // Dừng lại khi hover
+                    draggable // Kéo thả
+                />
+                <Route
+                    path="public/*"
+                    element={
+                        <PublicLayout theme={currentTheme} setTheme={setCurrentTheme} />
+                    }
+                />
+                <Route
+                    path="rtl/*"
+                    element={
+                        <RTLLayout theme={currentTheme} setTheme={setCurrentTheme} />
+                    }
+                />
+                <Route path="/" element={<Navigate to="/admin" replace />} />
+
+            </Routes>
+
         </ChakraProvider>
     );
 }
