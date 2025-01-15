@@ -1,4 +1,9 @@
 
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom'
+import { AdminRoutes, AdminStaffRoute, AdminStudentRoute, publicRoutes, StaffRoutes } from './routes/routes';
+import TeacherLayout from './layout/TeacherLayout';
+import AdminLayout from './layout/AdminLayout';
+import AdminStaffLayout from './layout/AdminStaffLayout';
 import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from 'react-router-dom'
 import {publicRoutes, StaffRoutes } from './routes/routes';
 import React, { useState } from "react";
@@ -57,6 +62,39 @@ function App() {
                             }
                         />
                     );
+                })}
+                {AdminStaffRoute.map((item, index) => {
+                    const Comp = item.element;
+                    return (
+                        <Route
+                            path={item.path}
+                            key={index}
+                            element={
+                                <div>
+                                    <AdminStaffLayout>
+                                        <Comp />
+                                    </AdminStaffLayout>
+                                </div>
+                            }
+                        />
+                    );
+                })}
+                {AdminStudentRoute.map((item, index) => {
+                    const Comp = item.element;
+                    return (
+                        <Route
+                            path={item.path}
+                            key={index}
+                            element={
+                                <div>
+                                    <AdminStaffLayout>
+                                        <Comp />
+                                    </AdminStaffLayout>
+                                </div>
+                            }
+                        />
+                    );
+                })}
                 })} */}
                 <Route path="auth/*" element={<AuthLayout />} />
                 {/* <Route
@@ -98,6 +136,7 @@ function App() {
                     }
                 />
                 <Route path="/" element={<Navigate to="/admin" replace />} />
+
             </Routes>
 
         </ChakraProvider>
