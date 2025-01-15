@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Icon } from '@chakra-ui/react';
+import { Icon, layout } from '@chakra-ui/react';
 import {
   MdBarChart,
   MdPerson,
@@ -355,7 +355,12 @@ export const managerRoutes = [
     component: <StudentDetail/>,
     index: false
   },
-  
+  {
+    name: 'Teacher Detail',
+    layout: '/manager',
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    path: '/'
+  }
   
   
 ];
