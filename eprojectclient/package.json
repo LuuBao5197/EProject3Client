@@ -41,11 +41,9 @@
     "apexcharts": "3.50.0",
     "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
-
     "datatables.net": "^2.2.1",
     "datatables.net-dt": "^2.2.1",
     "jquery": "^3.7.1",
-
     "font-awesome": "^4.7.0",
     "formik": "^2.4.6",
     "framer-motion": "^11.3.7",
