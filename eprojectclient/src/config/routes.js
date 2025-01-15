@@ -11,9 +11,6 @@ import EditContest from "../pages/StaffPages/ContestFeature/EditContest";
 import ContestDetail from "../pages/StaffPages/ContestFeature/ContestDetail";
 import AddAwardForm from "../pages/StaffPages/AwardFeature.jsx/AddAwardForm";
 import AwardList from "../pages/StaffPages/AwardFeature.jsx/AwardList";
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 import AdminStaffLayout from "../pages/AdminStaffPages/AdminStaffLayout";
 import AdminStaffAdd from "../pages/AdminStaffPages/AdminStaffAdd";
 import AdminStudentList from "../pages/AdminStudentPages/AdminStudentList";
@@ -37,11 +34,6 @@ export const config = {
     // },
 
 };
-=======
-=======
->>>>>>> b3b6a212cf295f39f8865ee5b63aa87f57d26aaf
-=======
->>>>>>> b3b6a212cf295f39f8865ee5b63aa87f57d26aaf
 import EditAwardForm from "../pages/StaffPages/AwardFeature.jsx/EditAwardForm";
 import AwardDetails from "../pages/StaffPages/AwardFeature.jsx/AwardDetails";
 import ExhibitionDetail from "../pages/ManagerPages/ExhibitionDetail";
@@ -50,14 +42,6 @@ import AddExhibition from "../pages/StaffPages/ExhibitionFeature/AddExhibition";
 import EditExhibition from "../pages/StaffPages/ExhibitionFeature/EditExhibition";
 import ClassesManagement from "../pages/ManagerPages/CLassesManagement";
 import ManagerLayout from "../pages/ManagerPages/ManagerLayout";
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> b3b6a212cf295f39f8865ee5b63aa87f57d26aaf
-=======
->>>>>>> b3b6a212cf295f39f8865ee5b63aa87f57d26aaf
-=======
->>>>>>> b3b6a212cf295f39f8865ee5b63aa87f57d26aaf
-
 
 export const TeacherConfig = {
     listcontest: {
