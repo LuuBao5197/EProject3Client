@@ -1,7 +1,7 @@
 // import config from '../config/routes';
 
 
-import { AdminConfig, AdminStaffConfig, AdminStudentConfig, TeacherConfig } from "../config/routes";
+import {AdminStaffConfig, AdminStudentConfig } from "../config/routes";
 
 import { ManagerConfig, TeacherConfig } from "../config/routes";
 

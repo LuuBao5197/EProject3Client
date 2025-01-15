@@ -1,11 +1,8 @@
 
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom'
-import { AdminRoutes, AdminStaffRoute, AdminStudentRoute, publicRoutes, StaffRoutes } from './routes/routes';
-import TeacherLayout from './layout/TeacherLayout';
-import AdminLayout from './layout/AdminLayout';
+import { AdminStaffRoute, AdminStudentRoute, publicRoutes, StaffRoutes } from './routes/routes';
 import AdminStaffLayout from './layout/AdminStaffLayout';
 import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from 'react-router-dom'
-import {publicRoutes, StaffRoutes } from './routes/routes';
+// import {publicRoutes, StaffRoutes } from './routes/routes';
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -45,8 +42,8 @@ function App() {
                         <Route key={index} path={item.path} element={item.element} />
                     );
                 })}
-
-                {/* {AdminRoutes.map((item, index) => {
+                {/* 
+                {AdminRoutes.map((item, index) => {
 
                     const Comp = item.element;
                     return (
@@ -62,22 +59,22 @@ function App() {
                             }
                         />
                     );
-                })}
+                })} */}
                 {AdminStaffRoute.map((item, index) => {
                     const Comp = item.element;
-                    return (
-                        <Route
-                            path={item.path}
-                            key={index}
-                            element={
-                                <div>
-                                    <AdminStaffLayout>
-                                        <Comp />
-                                    </AdminStaffLayout>
-                                </div>
-                            }
-                        />
-                    );
+                return (
+                <Route
+                    path={item.path}
+                    key={index}
+                    element={
+                        <div>
+                            <AdminStaffLayout>
+                                <Comp />
+                            </AdminStaffLayout>
+                        </div>
+                    }
+                />
+                );
                 })}
                 {AdminStudentRoute.map((item, index) => {
                     const Comp = item.element;
@@ -95,7 +92,6 @@ function App() {
                         />
                     );
                 })}
-                })} */}
                 <Route path="auth/*" element={<AuthLayout />} />
                 {/* <Route
                     path="admin/*"
@@ -103,7 +99,7 @@ function App() {
                         <AdminLayout theme={currentTheme} setTheme={setCurrentTheme} />
                     }
                 /> */}
-                
+
                 <Route
                     path="staff/*"
                     element={
