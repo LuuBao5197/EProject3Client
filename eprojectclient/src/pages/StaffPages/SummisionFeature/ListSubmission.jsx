@@ -18,13 +18,17 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useFormik } from 'formik';
 import ContestDetail from '../ContestFeature/ContestDetail';
+import { jwtDecode } from 'jwt-decode';
 const ListSubmission = () => {
+  const [staffCurrent, setStaffCurrent] = useState({});
 
-  const [selectedRating, setSelectedRating] = useState(null);
+  // const [selectedRating, setSelectedRating] = useState(null);
   const [ratingLevel, setRatingLevel] = useState([]);
   const [contests, setContests] = useState([]);
   const [selectedContest, setSelectedContest] = useState(null);
   const [submissions, setSubmissions] = useState([]);
+  const [submissionsNotReview, setSubmissionsNotReview] = useState([])
+  const [submissionsHasReview, setSubmissionsHasReview] = useState([])
   const [showModal, setShowModal] = useState(false);
   const [submissionDetails, setSubmissionDetails] = useState(null);
   const [showReviewModal, setShowReviewModal] = useState(false);
@@ -33,7 +37,7 @@ const ListSubmission = () => {
   const [rating, setRating] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const pageSize = 5;
+  const pageSize = 20;
   //config quill tool
   const modules = {
     toolbar: [
@@ -46,6 +50,7 @@ const ListSubmission = () => {
       ["clean"], // Xóa định dạng
     ],
   };
+
 
 
   // Inside your component
@@ -75,7 +80,8 @@ const ListSubmission = () => {
     },
   });
 
-
+  const token = localStorage.getItem('token');
+  const userId = jwtDecode(token).Id;
   useEffect(() => {
     const fetchRatingLevel = async () => {
       try {
@@ -113,22 +119,48 @@ const ListSubmission = () => {
 
       }
     };
+
+    const fetchInfoOfStaff = async () => {
+
+      var result = await axios.get(`http://localhost:5190/api/Staff/GetInfoStaff/${userId}`);
+      // console.log(result);
+      setStaffCurrent(result.data);
+    }
+    fetchInfoOfStaff();
     fetchContests(currentPage);
     fetchRatingLevel();
-  }, [currentPage]);
+  }, [currentPage, token]);
 
 
-  const fetchSubmissionByContest = async (id, page, search = "") => {
+  const fetchSubmissionNonReviewByContest = async (id, page, search = "", staffId = "-1") => {
     try {
-      const response = await axios.get(`http://localhost:5190/api/Staff/GetSubmissionByContest/${id}`, {
+      const response = await axios.get(`http://localhost:5190/api/Staff/GetSubmissionNotReviewByContest/${id}`, {
         params: {
           page,
           pageSize,
           search,
+          staffId
         },
       });
       console.log(response)
-      setSubmissions(response.data.submissions);
+      setSubmissionsNotReview(response.data.submissions);
+      // setSubmissions(response.data.submissions);
+    } catch (error) {
+      console.error('Error fetching submissions:', error);
+    }
+  }
+  const fetchSubmissionHasReviewByContest = async (id, page, search = "", staffId = "-1") => {
+    try {
+      const response = await axios.get(`http://localhost:5190/api/Staff/GetSubmissionHasReviewByContest/${id}`, {
+        params: {
+          page,
+          pageSize,
+          search,
+          staffId
+        },
+      });
+      console.log(response)
+      setSubmissionsHasReview(response.data.submissions);
     } catch (error) {
       console.error('Error fetching submissions:', error);
     }
@@ -141,8 +173,9 @@ const ListSubmission = () => {
   };
   const handleContestClick = async (contest) => {
     setSelectedContest(contest);
-    fetchSubmissionByContest(contest.id, currentPage);
-
+    console.log("contest", contest);
+    fetchSubmissionNonReviewByContest(contest.id, currentPage, "", staffCurrent.id);
+    fetchSubmissionHasReviewByContest(contest.id, currentPage, "",staffCurrent.id);
   };
 
   const handleSubmissionClick = (submission) => {
@@ -160,11 +193,11 @@ const ListSubmission = () => {
     setShowReviewModal(true);
     formik.setValues(
       {
-          submissionId: submission.id,
-          staffId: 5,
-          reviewText: "",
-          ratingId: "",
-          reviewDate: new Date()
+        submissionId: submission.id,
+        staffId: staffCurrent.id,
+        reviewText: "",
+        ratingId: "",
+        reviewDate: new Date()
       });
 
   };
@@ -173,24 +206,6 @@ const ListSubmission = () => {
     setShowReviewModal(false);
     setReviewText('');
     setRating(0);
-  };
-
-  const handleSubmitReview = async () => {
-    if (!reviewText || !rating) {
-      alert('Please provide a review and a rating.');
-      return;
-    }
-    try {
-      await axios.post(`/api/submissions/${submissionDetails.id}/reviews`, {
-        reviewText,
-        rating,
-      });
-      alert('Review submitted successfully!');
-      handleCloseReviewModal();
-    } catch (error) {
-      console.error('Error submitting review:', error);
-      alert('Failed to submit review.');
-    }
   };
 
   return (
@@ -254,49 +269,100 @@ const ListSubmission = () => {
             activeClassName={"active"}
           />
           {selectedContest && (
-            <Box>
-              <Heading size="md">Submissions</Heading>
-              {loading ? (
-                <Spinner size="xl" />
-              ) : submissions.length > 0 ? (
-                <Table striped bordered hover>
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Name</th>
-                      <th>Description</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {submissions.map((submission) => (
-                      <tr key={submission.id}>
-                        <td>{submission.id}</td>
-                        <td>{submission.name}</td>
-                        <td>{submission.description}</td>
-                        <td>
-                          <Button
-                            variant="secondary"
-                            onClick={() => handleSubmissionClick(submission)}
-                          >
-                            View Details
-                          </Button>
-                          <Button
-                            variant="success"
-                            className="ms-2"
-                            onClick={() => handleReviewClick(submission)}
-                          >
-                            Review
-                          </Button>
-                        </td>
+            <>
+              <Box>
+                <Heading size="md">Submissions haven't been reviewed</Heading>
+                {loading ? (
+                  <Spinner size="xl" />
+                ) : submissionsNotReview.length > 0 ? (
+                  <Table striped bordered hover>
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Actions</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </Table>
-              ) : (
-                <Text>No submissions available for this contest.</Text>
-              )}
-            </Box>
+                    </thead>
+                    <tbody>
+                      {submissionsNotReview.map((submission) => (
+                        <tr key={submission.id}>
+                          <td>{submission.submissionId}</td>
+                          <td>{submission.submissionName}</td>
+                          <td>{submission.submissionDescription}</td>
+                          <td>
+                            <Button
+                              variant="secondary"
+                              onClick={() => handleSubmissionClick(submission)}
+                            >
+                              View Details
+                            </Button>
+                            <Button
+                              variant="success"
+                              className="ms-2"
+                              onClick={() => handleReviewClick(submission)}
+                            >
+                              Review
+                            </Button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                ) : (
+                  <Text>No submissions available for this contest.</Text>
+                )}
+              </Box>
+
+              <Box>
+                <Heading size="md">Submissions have been reviewed</Heading>
+                {loading ? (
+                  <Spinner size="xl" />
+                ) : submissionsHasReview.length > 0 ? (
+                  <Table striped bordered hover>
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {submissionsHasReview.map((submission) => (
+                        <tr key={submission.submissionId}>
+                          <td>{submission.submissionId}</td>
+                          <td>{submission.submissionName}</td>
+                          <td>{submission.submissionDescription}</td>
+                          <td>
+                            <Button
+                              variant="secondary"
+                              onClick={() => handleSubmissionClick(submission)}
+                            >
+                              View Details
+                            </Button>
+                            <Button
+                              variant="success"
+                              className="ms-2"
+                              onClick={() => handleReviewClick(submission)}
+                            >
+                              Review
+                            </Button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                ) : (
+                  <Text>No submissions had been review by you for this contest.</Text>
+                )}
+              </Box>
+            </>
+
+
+
+
+
           )}
         </VStack>
 
@@ -308,9 +374,9 @@ const ListSubmission = () => {
               <Modal.Title>Submission Details</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <Text><strong>ID:</strong> {submissionDetails.id}</Text>
-              <Text><strong>Name:</strong> {submissionDetails.name}</Text>
-              <Text><strong>Description:</strong> {submissionDetails.description}</Text>
+              <Text><strong>ID:</strong> {submissionDetails.submissionId}</Text>
+              <Text><strong>Name:</strong> {submissionDetails.submissionName}</Text>
+              <Text><strong>Description:</strong> {submissionDetails.submissionDescription}</Text>
               <Text><strong>Submission Date:</strong> {submissionDetails.submissionDate}</Text>
               <Text><strong>Status:</strong> {submissionDetails.status || 'N/A'}</Text>
               <Divider my={2} />
