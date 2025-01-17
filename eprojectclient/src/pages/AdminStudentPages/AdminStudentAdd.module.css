@@ -1,6 +1,6 @@
 .container {
-  width: 100%;
-  max-width: 1200px;
+  /* width: 100%; */
+  /* max-width: 1200px; */
   margin: 0 auto;
   padding: 20px;
 }
@@ -11,7 +11,11 @@
   margin-bottom: 1rem;
 }
 
-
+form {
+  /*display: grid; */
+  grid-template-columns: repeat(3, 1fr); /* Chia thành 3 cột */
+  gap: 20px; /* Khoảng cách giữa các cột */
+}
 
 form .formGroup {
   display: flex;
