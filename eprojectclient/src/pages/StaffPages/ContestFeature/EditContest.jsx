@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Image, Input } from "@chakra-ui/react";
+import { jwtDecode } from "jwt-decode";
 const EditContest = () => {
     // const navigate = useNavigate();
     const { id } = useParams();
@@ -124,7 +125,21 @@ const EditContest = () => {
 
             });
     }, [contestEdit]);
-
+    const navigate = useNavigate();
+    const token = localStorage.getItem('token');
+    const userId = jwtDecode(token).Id;
+    useEffect(() => {
+        const fetchInfoOfStaff = async (userId) => {
+            var result = await axios.get(`http://localhost:5190/api/Staff/GetInfoStaff/${userId}`);
+            console.log(result);
+            formik.setValues(...values, {
+               
+                organizedBy: Number(result.data.id),
+              
+            })
+        }
+        fetchInfoOfStaff(userId);
+    }, [token])
 
     return (
         <div className="container mt-5">
@@ -191,7 +206,7 @@ const EditContest = () => {
                 </div>
                 <div className="mb-1">
                     <label className="form-label">End Date</label>
-                    <Input 
+                    <Input
                         focusBorderColor='pink.400'
                         placeholder='Select Date and Time' size='md'
                         name="endDate"

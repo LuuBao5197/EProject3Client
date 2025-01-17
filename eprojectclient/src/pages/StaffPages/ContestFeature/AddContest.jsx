@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 //import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { useFormik } from "formik";
@@ -9,8 +9,29 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { jwtDecode } from "jwt-decode";
 const AddContest = () => {
-
+    const token = localStorage.getItem('token');
+    console.log("token", token);
+    const userId = jwtDecode(token).Id;
+    useEffect(() => {
+        const fetchInfoOfStaff = async (userId)=> {
+            var result = await axios.get(`http://localhost:5190/api/Staff/GetInfoStaff/${userId}`);
+            console.log(result);
+            formik.setValues({
+                name: "",
+                description: "",
+                startDate: "",
+                endDate: "",
+                submissionDeadline: "",
+                organizedBy: Number(result.data.id),
+                file: null,
+            })
+        }
+        fetchInfoOfStaff(userId);
+    }, [token])
+    
+    console.log("userId", userId);
     const formik = useFormik({
         initialValues: {
             name: "",
@@ -18,7 +39,7 @@ const AddContest = () => {
             startDate: "",
             endDate: "",
             submissionDeadline: "",
-            organizedBy: 5,
+            organizedBy: "",
             file: null,
         },
         validationSchema: Yup.object({
@@ -106,7 +127,17 @@ const AddContest = () => {
         },
     });
     const navigate = useNavigate();
-
+    const modules = {
+        toolbar: [
+          [{ header: [1, 2, 3, false] }], // Tiêu đề
+          ["bold", "italic", "underline", "strike"], // In đậm, nghiêng, gạch chân, gạch ngang
+          [{ list: "ordered" }, { list: "bullet" }], // Danh sách có thứ tự/không thứ tự
+          [{ indent: "-1" }, { indent: "+1" }], // Thụt lề
+          [{ align: [] }], // Căn chỉnh
+          ["link", "image"], // Thêm liên kết, hình ảnh
+          ["clean"], // Xóa định dạng
+        ],
+      };
     return (
         <div className="container pt-3">
             <form onSubmit={formik.handleSubmit} className="needs-validation" noValidate>
@@ -127,7 +158,10 @@ const AddContest = () => {
                 </div>
                 <div className="mb-1">
                     <label className="form-label">Description</label>
-                    <ReactQuill theme="snow" value={formik.values.description}
+                    <ReactQuill theme="snow" value={formik.values.description} 
+                        className="bg-light text-black"
+                        
+                        modules={modules}
                         onChange={(value) => formik.setFieldValue("description", value)} // Cập nhật giá trị cho Formik
                         onBlur={() => {
                             if (formik.values.description === "<p><br></p>") {

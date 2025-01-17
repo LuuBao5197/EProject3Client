@@ -72,11 +72,19 @@ function SignIn() {
       const res = await axios.post("http://localhost:5190/api/Auth/login", {
         email,
         password,
-      });
+      }, );
       console.log("res: ", res);
       localStorage.setItem("inforToken", JSON.stringify(res.data));
+      localStorage.setItem("token", JSON.stringify(res.data.token));
       const decodedToken = jwtDecode(res.data.token);
-      navigate("/", { state: { user: decodedToken } });
+      console.log(decodedToken);
+      
+      if(decodedToken.role === "Student") {
+        navigate("/", { state: { user: decodedToken } });
+      } else if(decodedToken.role === "Staff"){
+        
+        navigate("/staff/");
+      }
 
       alert("Login successful");
     } catch (err) {

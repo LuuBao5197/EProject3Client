@@ -1,6 +1,12 @@
 // import config from '../config/routes';
 
+
+import {AdminStaffConfig, AdminStudentConfig } from "../config/routes";
+
 import { ManagerConfig, TeacherConfig } from "../config/routes";
+
+
+
 // import Contest from "../pages/Contest";
 import EditProfile from "../pages/PublicPages/EditProfile";
 import Contest from "../pages/StudentPages/Contest";
@@ -137,6 +143,39 @@ export const ManagerRoutes =[
     {
         path: ManagerConfig.exhibitiondetail.path,
         element: ManagerConfig.exhibitiondetail.component
+    }
+];
+export const AdminStaffRoute = [
+    {
+        path: AdminStaffConfig.adminstafflayout.path,
+        element: AdminStaffConfig.adminstafflayout.component
+    },
+    {
+        path: AdminStaffConfig.adminstaffadd.path,
+        element: AdminStaffConfig.adminstaffadd.component
+    },
+    {
+        path: AdminStaffConfig.adminstaffdetail.path,
+        element: AdminStaffConfig.adminstaffdetail.component
+    }
+];
+export const AdminStudentRoute = [
+    {
+        path: AdminStudentConfig.adminstudentlist.path,
+        element: AdminStudentConfig.adminstudentlist.component
+    },
+    {
+        path: AdminStudentConfig.adminstudentadd.path,
+        element: AdminStudentConfig.adminstudentadd.component
+    },
+    {
+        path: AdminStudentConfig.adminstudentimport.path,
+        element: AdminStudentConfig.adminstudentimport.component
+    },
+    {
+        path: AdminStudentConfig.adminstudentdetail.path,
+        element: AdminStudentConfig.adminstudentdetail.component
+
     }
 ];
 export const privateRoutes = [

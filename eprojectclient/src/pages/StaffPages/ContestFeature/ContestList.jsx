@@ -6,22 +6,25 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import DataTable from 'react-data-table-component';
 
-import { Icon } from '@chakra-ui/react';
+import { Button, Icon } from '@chakra-ui/react';
 import {
 
     MdInfoOutline,
 } from 'react-icons/md';
 
 import { Box, Select, Flex } from "@chakra-ui/react";
+import { jwtDecode } from "jwt-decode";
 
 const ContestList = () => {
     const navigate = useNavigate();
+    const [staffId, setStaffId] = useState(-1);
     const [contests, setContests] = useState([]);
     const [loading, setLoading] = useState(false);
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState(""); // Trạng thái tìm kiếm
-    const pageSize = 10;
+    const pageSize = 50;
+
 
     // Filter 
     const [status, setStatus] = useState(""); // Lưu trạng thái đã chọn
@@ -85,7 +88,7 @@ const ContestList = () => {
         },
     ];
 
-    const fetchContests = async (page, search = "") => {
+    const fetchContests = async (page, search = "", staffId = -1, status = "", phase = "",) => {
         setLoading(true);
         try {
             const response = await axios.get(`http://localhost:5190/api/Staff/GetAllContest`, {
@@ -93,6 +96,9 @@ const ContestList = () => {
                     page,
                     pageSize,
                     search,
+                    staffId,
+                    status,
+                    phase
                 },
             });
             setContests(response.data.contests);
@@ -106,8 +112,9 @@ const ContestList = () => {
     };
 
     useEffect(() => {
-        fetchContests(currentPage, searchQuery);
-    }, [currentPage, searchQuery]);
+        fetchContests(currentPage, searchQuery, staffId, status, phase);
+
+    }, [currentPage, searchQuery, staffId, status, phase]);
 
     const handlePageClick = (event) => {
         const selectedPage = event.selected + 1;
@@ -143,6 +150,17 @@ const ContestList = () => {
             console.error("Lỗi khi xóa dữ liệu:", error);
         }
     }
+
+    const handleSearchMyContest = async () => {
+        const fetchInfoOfStaff = async () => {
+            const token = localStorage.getItem('token');
+            const userId = jwtDecode(token).Id;        
+            var result = await axios.get(`http://localhost:5190/api/Staff/GetInfoStaff/${userId}`);
+            console.log(result);
+            setStaffId(result.data.id);
+        }
+        fetchInfoOfStaff();
+    }
     return (
         <div className="container mx-auto my-1">
             <div className="text-start mb-3">
@@ -176,10 +194,10 @@ const ContestList = () => {
                         _hover={{ borderColor: "gray.400" }}
                         _focus={{ borderColor: "blue.500", boxShadow: "0 0 0 1px blue.500" }}
                     >
-                        <option value="active">Pending</option>
-                        <option value="inactive"> Approved by Manager</option>
-                        <option value="pending">Approved by Director</option>
-                        <option value="completed">Rejected</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Approved by Manager"> Approved by Manager</option>
+                        <option value="Approved by Director">Approved by Director</option>
+                        <option value="Reject">Rejected</option>
                     </Select>
                 </Box>
 
@@ -195,11 +213,25 @@ const ContestList = () => {
                         _hover={{ borderColor: "gray.400" }}
                         _focus={{ borderColor: "green.500", boxShadow: "0 0 0 1px green.500" }}
                     >
-                        <option value="planning">Upcoming</option>
-                        <option value="development">Ongoing</option>
-                        <option value="testing">Completed</option>
+                        <option value="Upcoming">Upcoming</option>
+                        <option value="Ongoing">Ongoing</option>
+                        <option value="Completed">Completed</option>
                     </Select>
                 </Box>
+
+                <Box>
+                    <Button
+                        onClick={handleSearchMyContest}
+                        bg="white"
+                        border="1px solid"
+                        borderColor="blue.300"
+                        _hover={{ borderColor: "gray.400" }}
+                        _focus={{ borderColor: "green.500", boxShadow: "0 0 0 1px green.500" }}
+
+                    > My created contest
+                    </Button>
+                </Box>
+
             </Flex>
 
 
