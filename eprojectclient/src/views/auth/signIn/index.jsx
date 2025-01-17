@@ -149,7 +149,7 @@ const handleOtpSubmit = async (event) => {
 
 // Password validation function
 const validatePassword = (password) => {
-  const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+  const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
   return regex.test(password);
 };
 
@@ -168,7 +168,7 @@ const handlePasswordSubmit = async (event) => {
 
   // Validate the password
   if (!validatePassword(newPassword)) {
-    setMessage('Password must be at least 6 characters, include 1 capital letter, 1 digit, and 1 special symbol.');
+    setMessage('Password must be at least 8 characters, include 1 capital letter, 1 digit, and 1 special symbol.');
     setIsLoading(false);
     return;
   }
@@ -440,7 +440,7 @@ const handlePasswordSubmit = async (event) => {
             </Text>
           )}
           <Text fontSize="sm" color="gray.500">
-            - At least 6 characters<br />
+            - At least 8 characters<br />
             - At least 1 capital letter<br />
             - At least 1 digit<br />
             - At least 1 special symbol (@, $, !, %, *, ?, &)
