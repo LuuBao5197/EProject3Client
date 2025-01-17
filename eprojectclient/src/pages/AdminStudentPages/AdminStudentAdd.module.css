@@ -11,11 +11,13 @@
   margin-bottom: 1rem;
 }
 
+
 form {
-  /* display: grid; */
+  /*display: grid; */
   grid-template-columns: repeat(3, 1fr); /* Chia thành 3 cột */
   gap: 20px; /* Khoảng cách giữa các cột */
 }
+
 
 form .formGroup {
   display: flex;
