@@ -53,8 +53,8 @@ import {
           {/* Cột bên phải - Hình ảnh */}
           <Box w="250px" h="300px">
             <img
-              src={contest.image || "/images/placeholder.png"}
-              alt={contest.name || "Contest Image"}
+              src={contest.thumbnail || "/images/placeholder.png"}
+              alt={contest.thumbnail || "Contest Image"}
               style={{
                 width: "100%",
                 height: "100%",
