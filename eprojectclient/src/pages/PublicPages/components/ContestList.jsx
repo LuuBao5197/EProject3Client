@@ -67,21 +67,26 @@ const ContestList = () => {
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
       {/* Search and Sort */}
       <h2>Contest List</h2>
-      <VStack align="start" spacing={4} mb={6}>
+      <HStack spacing={4} mb={6}>
         <Input
+          width={650}
           placeholder="Search by name..."
           value={searchTerm}
           onChange={(e) => {
             setSearchTerm(e.target.value);
-            setCurrentPage(1); // Reset page on search change
+            setCurrentPage(1); // Reset page khi tìm kiếm thay đổi
           }}
         />
-        <Select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
+        <Select
+          width={300}
+          value={sortOption}
+          onChange={(e) => setSortOption(e.target.value)}
+        >
           <option value="all">All</option>
           <option value="ongoing">Ongoing</option>
           <option value="upcoming">Upcoming</option>
         </Select>
-      </VStack>
+      </HStack>
 
       {isLoading ? (
         <p>Loading...</p>

@@ -29,7 +29,9 @@ function NavbarHome(props) {
                         <a href="/auth/sign-in" style={styles.link}>Login</a>
                     ) : (
                         <>
+                            <a href="/" style={styles.link}>Home</a>
                             <a href="/edit" style={styles.link}>Profile</a>
+                            <a href="/aboutus" style={styles.link}>About Us</a>
                             <a href="#" onClick={handleLogout} style={styles.link}>Logout</a>
                         </>
                     )}
