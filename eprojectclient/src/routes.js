@@ -52,6 +52,7 @@ import ARMangement from './pages/ManagerPages/ARMangement';
 import ExhibitionDetail from './pages/ManagerPages/ExhibitionDetail';
 import StudentDetail from './pages/ManagerPages/StudentDetail';
 import ListSubmission from './pages/StaffPages/SummisionFeature/ListSubmission';
+import TeacherDetail from './pages/ManagerPages/TeacherDetail';
 
 
 
@@ -359,7 +360,9 @@ export const managerRoutes = [
     name: 'Teacher Detail',
     layout: '/manager',
     icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-    path: '/'
+    path: '/teacherdetail/:id',
+    component: <TeacherDetail/>,
+    index: false
   }
   
   

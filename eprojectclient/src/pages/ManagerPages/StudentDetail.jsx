@@ -5,13 +5,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from '../../layout/AdminLayout.module.css';
 
 function StudentDetail() {
-    const { id } = useParams();  // Lấy ID từ URL
+    const { id } = useParams();  
     const [student, setStudent] = useState(null);
 
     useEffect(() => {
         axios.get(`http://localhost:5190/api/Manager/GetStudentDetail/${id}`)
             .then((response) => {
-                setStudent(response.data);  // Lưu thông tin học sinh vào state
+                setStudent(response.data);  
             })
             .catch((error) => {
                 console.error("There was an error fetching the student details!", error);

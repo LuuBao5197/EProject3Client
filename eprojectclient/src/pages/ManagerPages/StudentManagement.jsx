@@ -45,7 +45,11 @@ function StudentManagement() {
                 <tbody>
                     <tr>
                         <td><strong>Teacher Name:</strong></td>
-                        <td className={styles.teacherName}>{classDetails.teacherName}</td>
+                        <td className={styles.teacherName}>
+                            <Link to={`/manager/teacherdetail/${classDetails.teacherId}`}>
+                                {classDetails.teacherName || "No teacher assigned"}
+                            </Link>
+                        </td>
                     </tr>
                     <tr>
                         <td><strong>School Year:</strong></td>
