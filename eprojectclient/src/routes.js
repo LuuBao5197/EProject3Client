@@ -298,7 +298,7 @@ export const managerRoutes = [
     layout: '/manager',
     path: '/default',
     icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-    component: <ManagerLayout/>,
+    component: <MainDashboard/>,
     index: true
   },
   {
@@ -369,7 +369,7 @@ export const managerRoutes = [
     name: 'Submissions Review Detail',
     layout: '/manager',
     icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-    path: '/submissionsreviewdetail/:submissionId/:staffId',
+    path: '/submissionsreviewdetail/:id',
     component: <SubmissionReviewDetail/>,
     index: false
   }

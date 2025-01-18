@@ -58,7 +58,7 @@ function StudentDetail() {
 
             <h3 className={styles.submissionsTitle}>Submissions</h3>
             {student.submissions && student.submissions.length > 0 ? (
-                <table className="table table-bordered">
+                <table className="table table-bordered table-hover">
                     <thead>
                         <tr>
                             <th>Submission ID</th>
@@ -76,10 +76,9 @@ function StudentDetail() {
                                 <td>{submission.description}</td>
                                 <td>{submission.status || "Not Reviewed"}</td>
                                 <td>
-                                    {/* Only show the "View Review Details" button if there are reviews */}
                                     {submission.submissionReviews && submission.submissionReviews.length > 0 ? (
                                         <Link
-                                            to={`/manager/submissionsreviewdetail/${submission.id}/${submission.submissionReviews[0].staffId}`}  // Assuming you want to use the first review's staffId
+                                            to={`/manager/submissionsreviewdetail/${submission.id}`}
                                         >
                                             <button className="btn btn-info">
                                                 Review Detail      <i className="fa fa-info-circle"></i>
