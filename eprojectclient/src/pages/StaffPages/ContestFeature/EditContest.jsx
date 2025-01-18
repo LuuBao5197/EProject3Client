@@ -133,9 +133,9 @@ const EditContest = () => {
             var result = await axios.get(`http://localhost:5190/api/Staff/GetInfoStaff/${userId}`);
             console.log(result);
             formik.setValues(...values, {
-               
+
                 organizedBy: Number(result.data.id),
-              
+
             })
         }
         fetchInfoOfStaff(userId);
@@ -175,7 +175,13 @@ const EditContest = () => {
                 </div>
                 <div className="mb-1">
                     <label className="form-label">Description</label>
-                    <ReactQuill theme="snow" value={formik.values.description || ""}
+                    <ReactQuill
+                        theme="snow"
+                        style={{
+                            height: "200px", // Set height
+                            width: "100%", // Set width
+                        }}
+                        value={formik.values.description || ""}
                         onChange={(value) => formik.setFieldValue("description", value)}
                         onBlur={() => {
                             formik.setFieldTouched("description", true); // Đánh dấu là đã blur
