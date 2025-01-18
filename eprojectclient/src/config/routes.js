@@ -42,6 +42,7 @@ import AddExhibition from "../pages/StaffPages/ExhibitionFeature/AddExhibition";
 import EditExhibition from "../pages/StaffPages/ExhibitionFeature/EditExhibition";
 import ClassesManagement from "../pages/ManagerPages/CLassesManagement";
 import ManagerLayout from "../pages/ManagerPages/ManagerLayout";
+import TeacherDetail from "../pages/ManagerPages/TeacherDetail";
 
 export const TeacherConfig = {
     listcontest: {
@@ -127,6 +128,10 @@ export const ManagerConfig = {
     exhibitiondetail: {
         component: ExhibitionDetail,
         path: '/manager/exhibitiondetail/:id'
+    },
+    teacherdetail: {
+        component: TeacherDetail,
+        path: '/manager/teacherdetail/:id'
     }
 
 }

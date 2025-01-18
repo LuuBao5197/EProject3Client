@@ -149,6 +149,10 @@ export const ManagerRoutes =[
     {
         path: ManagerConfig.exhibitiondetail.path,
         element: ManagerConfig.exhibitiondetail.component
+    },
+    {
+        path: ManagerConfig.teacherdetail.path,
+        element: ManagerConfig.teacherdetail.component
     }
 ];
 export const AdminStaffRoute = [

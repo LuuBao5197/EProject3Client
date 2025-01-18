@@ -4,6 +4,7 @@ import 'datatables.net';
 import './AdminStudentList.css';
 import { getAllStudents } from '../../API/getAdminStudent';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate để điều hướng
+import { styled } from '@chakra-ui/system';
 
 const AdminStudentList = () => {
   const [students, setStudents] = useState([]);

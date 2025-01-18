@@ -45,17 +45,21 @@ function StudentManagement() {
                 <tbody>
                     <tr>
                         <td><strong>Teacher Name:</strong></td>
-                        <td>{classDetails.teacherName}</td>
+                        <td className={styles.teacherName}>
+                            <Link to={`/manager/teacherdetail/${classDetails.teacherId}`}>
+                                {classDetails.teacherName || "No teacher assigned"}
+                            </Link>
+                        </td>
                     </tr>
                     <tr>
                         <td><strong>School Year:</strong></td>
-                        <td>{classDetails.schoolYear}</td>
+                        <td className={styles.teacherName}>{classDetails.schoolYear}</td>
                     </tr>
                 </tbody>
             </table>
 
             <h3 className={styles.titleStudentList}>Student List</h3>
-            <table className="table table-bordered">
+            <table className="table table-bordered table-hover">
                 <thead>
                     <tr>
                         <th>Student ID</th>
