@@ -53,6 +53,7 @@ import ExhibitionDetail from './pages/ManagerPages/ExhibitionDetail';
 import StudentDetail from './pages/ManagerPages/StudentDetail';
 import ListSubmission from './pages/StaffPages/SummisionFeature/ListSubmission';
 import TeacherDetail from './pages/ManagerPages/TeacherDetail';
+import SubmissionReviewDetail from './pages/ManagerPages/SubmissionsReviewDetail';
 
 
 
@@ -362,6 +363,14 @@ export const managerRoutes = [
     icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
     path: '/teacherdetail/:id',
     component: <TeacherDetail/>,
+    index: false
+  },
+  {
+    name: 'Submissions Review Detail',
+    layout: '/manager',
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    path: '/submissionsreviewdetail/:submissionId/:staffId',
+    component: <SubmissionReviewDetail/>,
     index: false
   }
   

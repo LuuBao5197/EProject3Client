@@ -1,4 +1,3 @@
-
 import { AdminStaffRoute, AdminStudentRoute, publicRoutes, StaffRoutes } from './routes/routes';
 import AdminStaffLayout from './layout/AdminStaffLayout';
 import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from 'react-router-dom'
@@ -77,7 +76,7 @@ function App() {
                 );
                 })}
                 {AdminStudentRoute.map((item, index) => {
-                    const Comp = item.element;
+const Comp = item.element;
                     return (
                         <Route
                             path={item.path}

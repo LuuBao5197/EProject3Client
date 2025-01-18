@@ -161,6 +161,7 @@ function ChangePasswordModal() {
           <ModalHeader>Change Your Password</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
+            <label>Current Password</label>
             <Input
               type="password"
               name="currentPassword"
@@ -170,7 +171,7 @@ function ChangePasswordModal() {
               mb={3}
             />
             {errors.currentPassword && <Text color="red.500" fontSize="sm">{errors.currentPassword}</Text>}
-            
+            <label>New Password</label>
             <Input
               type="password"
               name="newPassword"
@@ -180,7 +181,7 @@ function ChangePasswordModal() {
               mb={3}
             />
             {errors.newPassword && <Text color="red.500" fontSize="sm">{errors.newPassword}</Text>}
-            
+            <label>Confirm Password</label>
             <Input
               type="password"
               name="confirmPassword"

@@ -36,11 +36,11 @@ function TeacherDetail() {
                 <tbody>
                     <tr>
                         <td><strong>Teacher ID:</strong></td>
-                        <td>{teacher.teacherId}</td>
+                        <td>{teacher.id}</td>
                     </tr>
                     <tr>
                         <td><strong>Name:</strong></td>
-                        <td>{teacher.teacherName}</td>
+                        <td>{teacher.UserId}</td>
                     </tr>
                     <tr>
                         <td><strong>Email:</strong></td>

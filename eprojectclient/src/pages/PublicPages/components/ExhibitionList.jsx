@@ -67,8 +67,9 @@ const ExhibitionList = () => {
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
       {/* Tìm kiếm và sắp xếp */}
       <h2>Exhibition List</h2>
-      <VStack align="start" spacing={4} mb={6}>
+      <HStack spacing={4} mb={6}>
         <Input
+          width={650}
           placeholder="Search by name..."
           value={searchTerm}
           onChange={(e) => {
@@ -77,6 +78,7 @@ const ExhibitionList = () => {
           }}
         />
         <Select
+          width={300}
           value={sortOption}
           onChange={(e) => setSortOption(e.target.value)}
         >
@@ -84,7 +86,8 @@ const ExhibitionList = () => {
           <option value="ongoing">Ongoing</option>
           <option value="upcoming">Upcoming</option>
         </Select>
-      </VStack>
+      </HStack>
+
 
       {isLoading ? (
         <p>Loading...</p>

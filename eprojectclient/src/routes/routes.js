@@ -15,6 +15,7 @@ import AwardReceived from "../pages/StudentPages/AwardReceived";
 import CreateNewSubmission from "../pages/StudentPages/CreateNewSubmission";
 import ForgotPassword from "../pages/PublicPages/ForgotPassword";
 import HomePage from "../pages/PublicPages/HomePage";
+import AboutUs from "../pages/PublicPages/components/AboutUs";
 
 
 
@@ -33,6 +34,11 @@ export const publicRoutes = [
 
         path: "/edit",
         element: <EditProfile/>,
+    },
+    {
+
+        path: "/aboutus",
+        element: <AboutUs/>,
     },
     {
 
