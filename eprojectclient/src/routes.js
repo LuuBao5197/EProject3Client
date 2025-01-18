@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Icon } from '@chakra-ui/react';
+import { Icon, layout } from '@chakra-ui/react';
 import {
   MdBarChart,
   MdPerson,
@@ -52,6 +52,8 @@ import ARMangement from './pages/ManagerPages/ARMangement';
 import ExhibitionDetail from './pages/ManagerPages/ExhibitionDetail';
 import StudentDetail from './pages/ManagerPages/StudentDetail';
 import ListSubmission from './pages/StaffPages/SummisionFeature/ListSubmission';
+import TeacherDetail from './pages/ManagerPages/TeacherDetail';
+import SubmissionReviewDetail from './pages/ManagerPages/SubmissionsReviewDetail';
 
 
 
@@ -296,7 +298,7 @@ export const managerRoutes = [
     layout: '/manager',
     path: '/default',
     icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-    component: <ManagerLayout/>,
+    component: <MainDashboard/>,
     index: true
   },
   {
@@ -355,7 +357,22 @@ export const managerRoutes = [
     component: <StudentDetail/>,
     index: false
   },
-  
+  {
+    name: 'Teacher Detail',
+    layout: '/manager',
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    path: '/teacherdetail/:id',
+    component: <TeacherDetail/>,
+    index: false
+  },
+  {
+    name: 'Submissions Review Detail',
+    layout: '/manager',
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    path: '/submissionsreviewdetail/:id',
+    component: <SubmissionReviewDetail/>,
+    index: false
+  }
   
   
 ];

@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from '../../layout/AdminLayout.module.css';
 
 function StudentDetail() {
-    const { id } = useParams();  // Lấy ID từ URL
+    const { id } = useParams();
     const [student, setStudent] = useState(null);
 
     useEffect(() => {
         axios.get(`http://localhost:5190/api/Manager/GetStudentDetail/${id}`)
             .then((response) => {
-                setStudent(response.data);  // Lưu thông tin học sinh vào state
+                setStudent(response.data);
             })
             .catch((error) => {
                 console.error("There was an error fetching the student details!", error);
@@ -25,7 +25,7 @@ function StudentDetail() {
     return (
         <div className={styles.studentDetailContainer}>
             <h1>Student Detail</h1>
-            
+
             <table className="table table-bordered">
                 <thead>
                     <tr>
@@ -58,14 +58,14 @@ function StudentDetail() {
 
             <h3 className={styles.submissionsTitle}>Submissions</h3>
             {student.submissions && student.submissions.length > 0 ? (
-                <table className="table table-bordered">
+                <table className="table table-bordered table-hover">
                     <thead>
                         <tr>
                             <th>Submission ID</th>
                             <th>Contest</th>
                             <th>Description</th>
                             <th>Status</th>
-                            <th>Submission Reviews</th>
+                            <th>Submission Review</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -77,20 +77,15 @@ function StudentDetail() {
                                 <td>{submission.status || "Not Reviewed"}</td>
                                 <td>
                                     {submission.submissionReviews && submission.submissionReviews.length > 0 ? (
-                                        <ul>
-                                            {submission.submissionReviews.map((review) => (
-                                                <li key={review.id}>
-                                                    <strong>{review.staff?.name || "Unknown staff"}:</strong> 
-                                                    {review.reviewText} 
-                                                    <br />
-                                                    <strong>Rating Level:</strong> {review.ratingLevel?.level || "No rating"}
-                                                    <br />
-                                                    <strong>Review Date:</strong> {new Date(review.reviewDate).toLocaleDateString()}
-                                                </li>
-                                            ))}
-                                        </ul>
+                                        <Link
+                                            to={`/manager/submissionsreviewdetail/${submission.id}`}
+                                        >
+                                            <button className="btn btn-info">
+                                                Review Detail      <i className="fa fa-info-circle"></i>
+                                            </button>
+                                        </Link>
                                     ) : (
-                                        <span>No reviews</span>
+                                        <span>No reviews available</span>
                                     )}
                                 </td>
                             </tr>
