@@ -6,23 +6,25 @@ import {
   useColorModeValue,
   Button,
   useToast,
+  IconButton,
 } from "@chakra-ui/react";
+import { EditIcon } from "@chakra-ui/icons";
 import axios from "axios";
 import { Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import ChangeName from "./ChangeName";
+import ChangeName from "./ChangeName";  // Giữ nguyên component ChangeName
 import ChangePassword from './ChangePassword';
+
 export default function Profile(props) {
   const { banner, avatar, name, job, id, phone, email, password } = props;
-  const [avatarSrc, setAvatarSrc] = useState(avatar); // Store avatar image path
-  const [isUploading, setIsUploading] = useState(false); // Track upload state
+  const [avatarSrc, setAvatarSrc] = useState(avatar);
+  const [isUploading, setIsUploading] = useState(false);
   const toast = useToast();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const textColorPrimary = useColorModeValue("secondaryGray.900", "white");
   const textColorSecondary = "gray.400";
   const borderColor = useColorModeValue("white", "#111C44");
 
-  // Sync avatar prop with avatarSrc state
   useEffect(() => {
     setAvatarSrc(avatar);
   }, [avatar]);
@@ -55,7 +57,7 @@ export default function Profile(props) {
 
       if (response.status === 200) {
         const updatedAvatarPath = response.data.data.imagepath;
-        setAvatarSrc(updatedAvatarPath); // Update avatarSrc with the new image path
+        setAvatarSrc(updatedAvatarPath);
         toast({
           title: "Profile updated",
           description: "Your avatar has been updated successfully.",
@@ -85,9 +87,9 @@ export default function Profile(props) {
     }
   };
 
-    const handleSave = () => {
-      navigate("/");
-    };
+  const handleSave = () => {
+    navigate("/");
+  };
 
   return (
     <Card mb={{ base: "0px", lg: "20px"}} align="center">
@@ -100,7 +102,7 @@ export default function Profile(props) {
       />
       <Avatar
         mx="auto"
-        src={avatarSrc} // Use avatarSrc as the source
+        src={avatarSrc}
         h="200px"
         w="200px"
         mt="-43px"
@@ -118,9 +120,25 @@ export default function Profile(props) {
         onChange={handleFileChange}
       />
 
-      <Text color={textColorPrimary} fontWeight="bold" fontSize="50px" mt="10px">
-        {name}
-      </Text>
+      <Box 
+        display="flex" 
+        justifyContent="center" 
+        alignItems="center" 
+      >
+        <Text 
+          color={textColorPrimary} 
+          fontWeight="bold" 
+          fontSize="50px" 
+          mt="10px" 
+          display="flex" 
+          alignItems="center"
+        >
+          {name}
+          <ChangeName />
+        </Text>
+      </Box>
+
+
       <Text color={textColorSecondary} fontSize="30px">
         {job}
       </Text>
@@ -130,8 +148,7 @@ export default function Profile(props) {
       <Text color={textColorPrimary} fontSize="30px">
         Email: {email}
       </Text>
-      <ChangeName/>
-      <ChangePassword/>
+      <ChangePassword />
       <Button
         mt="10px"
         fontSize="30px"
