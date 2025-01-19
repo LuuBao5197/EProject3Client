@@ -8,10 +8,13 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Image, Input } from "@chakra-ui/react";
 import { jwtDecode } from "jwt-decode";
+import { toast } from "react-toastify";
 const EditContest = () => {
     // const navigate = useNavigate();
     const { id } = useParams();
-    const [contestEdit, setContestEdit] = useState({});
+    const navigate = useNavigate();
+    const token = localStorage.getItem('token');
+    const userId = jwtDecode(token).Id;
     const formik = useFormik({
         initialValues: {
             id: id,
@@ -85,7 +88,7 @@ const EditContest = () => {
                 var response = await axios.put(`http://localhost:5190/api/Staff/EditContest/${id}`, formData);
 
                 alert("Contest edit successfully!");
-                // navigate('/staff/contests');
+                navigate('/staff/contests');
             } catch (error) {
 
                 console.error("Error adding contest:", error);
@@ -97,49 +100,46 @@ const EditContest = () => {
         const fetchContest = async () => {
             try {
                 const result = await axios.get(`http://localhost:5190/api/Staff/GetDetailContest/${id}`);
-                setContestEdit(result.data);
+                formik.setValues(
+                    {
+                        id: id,
+                        name: result.data.name || "",
+                        description: result.data.description || "",
+                        startDate: result.data.startDate || "",
+                        endDate: result.data.endDate || "",
+                        submissionDeadline: result.data.submissionDeadline || "",
+                        organizedBy: result.data.organizedBy || 5,
+                        thumbnail: result.data.thumbnail || "",
+                        createdAt: result.data.createdAt || "",
+                        updateAt: result.data.UpdateAt || "",
+                        status: result.data.status || "",
+                        phase: result.data.phase || "",
+                        file: null,
+
+                    });
+
             } catch (error) {
                 console.error("Error fetching contest details:", error);
             }
         };
         fetchContest();
-    }, [id]);
-
-
-    useEffect(() => {
-        formik.setValues(
-            {
-                id: id,
-                name: contestEdit.name || "",
-                description: contestEdit.description || "",
-                startDate: contestEdit.startDate || "",
-                endDate: contestEdit.endDate || "",
-                submissionDeadline: contestEdit.submissionDeadline || "",
-                organizedBy: contestEdit.organizedBy || 5,
-                thumbnail: contestEdit.thumbnail || "",
-                createdAt: contestEdit.createdAt || "",
-                updateAt: contestEdit.UpdateAt || "",
-                status: contestEdit.status || "",
-                phase: contestEdit.phase || "",
-                file: null,
-
-            });
-    }, [contestEdit]);
-    const navigate = useNavigate();
-    const token = localStorage.getItem('token');
-    const userId = jwtDecode(token).Id;
-    useEffect(() => {
         const fetchInfoOfStaff = async (userId) => {
             var result = await axios.get(`http://localhost:5190/api/Staff/GetInfoStaff/${userId}`);
             console.log(result);
-            formik.setValues(...values, {
+            if (result.data.isReviewer) {
+                toast.dark("Ban ko co quyen han vao trang nay");
+                navigate('/staff');
+            }
+            formik.setValues({
 
                 organizedBy: Number(result.data.id),
 
             })
+
         }
         fetchInfoOfStaff(userId);
-    }, [token])
+    }, [id, token]);
+
 
     return (
         <div className="container mt-5">

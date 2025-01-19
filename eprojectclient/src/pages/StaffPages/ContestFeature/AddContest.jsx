@@ -14,7 +14,6 @@ const AddContest = () => {
     const token = localStorage.getItem('token');
     console.log("token", token);
     const userId = jwtDecode(token).Id;
-    const [currentStaff, setCurrentStaff] = useState({});
     useEffect(() => {
         const fetchInfoOfStaff = async (userId) => {
             var result = await axios.get(`http://localhost:5190/api/Staff/GetInfoStaff/${userId}`);
@@ -28,7 +27,7 @@ const AddContest = () => {
                 organizedBy: Number(result.data.id),
                 file: null,
             })
-            if(!result.data.isReviewer) {
+            if(result.data.isReviewer) {
                 toast.dark("Ban ko co quyen han vao trang nay");
                 navigate('/staff');
             }
