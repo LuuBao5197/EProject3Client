@@ -6,8 +6,9 @@ import 'font-awesome/css/font-awesome.min.css';
 import styles from '../../layout/AdminLayout.module.css';
 
 function StudentManagement() {
+    const [studentDetails, setStudentDetails] = useState(null);
     const [classDetails, setClassDetails] = useState(null);
-    const { classId } = useParams();
+    const { studentId, classId } = useParams();
 
     useEffect(() => {
         axios.get(`http://localhost:5190/api/Manager/GetStudentByClass/${classId}`)
@@ -19,14 +20,16 @@ function StudentManagement() {
             })
             .catch(err => {
                 console.error('Error fetching class details', err);
-            });
+            });      
     }, [classId]);
+
+    
 
     if (!classDetails) {
         return <p>Loading...</p>;
     }
 
-    const students = classDetails.students || [];
+    const students = classDetails.students || studentDetails.students || [];
 
     if (students.length === 0) {
         return <p>No students available for this class.</p>;
@@ -74,7 +77,7 @@ function StudentManagement() {
                     {students.map((student, index) => (
                         <tr key={index}>
                             <td>{student.id}</td>
-                            <td>{student.user?.name || "No name available"}</td>
+                            <td>{student.name || "No name available"}</td>
                             <td>{new Date(student.enrollmentDate).toLocaleDateString()}</td>
                             <td>{student.parentName}</td>
                             <td>{student.parentPhoneNumber}</td>

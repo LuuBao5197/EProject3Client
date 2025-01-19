@@ -53,6 +53,7 @@ import StudentDetail from './pages/ManagerPages/StudentDetail';
 import ListSubmission from './pages/StaffPages/SummisionFeature/ListSubmission';
 import TeacherDetail from './pages/ManagerPages/TeacherDetail';
 import SubmissionReviewDetail from './pages/ManagerPages/SubmissionsReviewDetail';
+import Total from './pages/ManagerPages/Total';
 
 
 
@@ -363,6 +364,14 @@ export const managerRoutes = [
     icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
     path: '/submissionsreviewdetail/:id',
     component: <SubmissionReviewDetail/>,
+    index: false
+  },
+  {
+    name: 'Total',
+    layout: '/manager',
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    path: '/total',
+    component: <Total/>,
     index: false
   }
   
