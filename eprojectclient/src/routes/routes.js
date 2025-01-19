@@ -10,12 +10,10 @@ import { ManagerConfig, TeacherConfig } from "../config/routes";
 // import Contest from "../pages/Contest";
 import EditProfile from "../pages/PublicPages/EditProfile";
 import Contest from "../pages/StudentPages/Contest";
-import Login from "../pages/PublicPages/Login";
 import AwardReceived from "../pages/StudentPages/AwardReceived";
 import CreateNewSubmission from "../pages/StudentPages/CreateNewSubmission";
-import ForgotPassword from "../pages/PublicPages/ForgotPassword";
 import HomePage from "../pages/PublicPages/HomePage";
-import AboutUs from "../pages/PublicPages/components/AboutUs";
+import AboutUs from "../pages/PublicPages/AboutUs";
 
 
 
@@ -27,11 +25,6 @@ export const publicRoutes = [
     },
     {
 
-        path: "/login",
-        element: <Login/>,
-    },
-    {
-
         path: "/edit",
         element: <EditProfile/>,
     },
@@ -39,11 +32,6 @@ export const publicRoutes = [
 
         path: "/aboutus",
         element: <AboutUs/>,
-    },
-    {
-
-        path: "/forgotpassword",
-        element: <ForgotPassword/>,
     },
     {
 

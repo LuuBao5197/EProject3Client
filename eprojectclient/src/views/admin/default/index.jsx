@@ -34,8 +34,46 @@ import {
 } from "@/views/admin/default/variables/columnsData";
 import tableDataCheck from "@/views/admin/default/variables/tableDataCheck.json";
 import tableDataComplex from "@/views/admin/default/variables/tableDataComplex.json";
+import { useState, useEffect } from 'react';
+import Total from '../../../pages/ManagerPages/Total';
 
 export default function UserReports() {
+  const [totalValue, setTotalValue] = useState(0);  
+  const [loading, setLoading] = useState(true);      
+  const [error, setError] = useState(null);          
+
+  useEffect(() => {
+    const fetchTotalValue = async () => {
+      try {
+        const response = await fetch("http://localhost:5190/api/Manager/GetAllValue");
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        
+        const sum = data.reduce((acc, curr) => acc + curr.value, 0);
+        
+        setTotalValue(sum);
+        setLoading(false);  
+      } catch (error) {
+        setError(error.message);
+        setLoading(false);  
+      }
+    };
+
+    fetchTotalValue();  
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  const validTotalValue = isNaN(totalValue) ? 0 : totalValue;
+
   // Chakra Color Mode
   const brandColor = useColorModeValue("brand.500", "white");
   const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
@@ -45,7 +83,7 @@ export default function UserReports() {
         columns={{ base: 1, md: 2, lg: 3, "2xl": 6 }}
         gap='20px'
         mb='20px'>
-        <MiniStatistics
+        {/* <MiniStatistics
           startContent={
             <IconBox
               w='56px'
@@ -58,7 +96,7 @@ export default function UserReports() {
           }
           name='Earnings'
           value='$350.4'
-        />
+        /> */}
         <MiniStatistics
           startContent={
             <IconBox
@@ -70,11 +108,11 @@ export default function UserReports() {
               }
             />
           }
-          name='Spend this month'
-          value='$642.39'
+          name='Spend this year'
+          value={validTotalValue}
         />
-        <MiniStatistics growth='+23%' name='Sales' value='$574.34' />
-        <MiniStatistics
+        {/* <MiniStatistics growth='+23%' name='Sales' value='$574.34' /> */}
+        {/* <MiniStatistics
           endContent={
             <Flex me='-16px' mt='10px'>
               <FormLabel htmlFor='balance'>
@@ -94,7 +132,7 @@ export default function UserReports() {
           }
           name='Your balance'
           value='$1,000'
-        />
+        /> */}
         <MiniStatistics
           startContent={
             <IconBox
@@ -107,7 +145,7 @@ export default function UserReports() {
           name='New Tasks'
           value='154'
         />
-        <MiniStatistics
+        {/* <MiniStatistics
           startContent={
             <IconBox
               w='56px'
@@ -120,7 +158,7 @@ export default function UserReports() {
           }
           name='Total Projects'
           value='2935'
-        />
+        /> */}
       </SimpleGrid>
 
       <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px' mb='20px'>

@@ -62,7 +62,7 @@ function ClassesManagement() {
                                     )}
                                 </div>
                                 <h4>{item.name}</h4>
-                                <h5>Teacher: {item.staffId}</h5>
+                                <h5>Teacher: {item.teacherName}</h5>
                                 <h5>Student: {item.totalStudent}</h5>    
                                 <h5>School Year: {item.year}</h5>
                             </Link>
