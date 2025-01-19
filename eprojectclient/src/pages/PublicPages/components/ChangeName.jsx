@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Input, Button, Text } from '@chakra-ui/react';
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Input, Button, Text, IconButton } from '@chakra-ui/react';
+import { EditIcon } from '@chakra-ui/icons';  // Import Edit icon
 import { jwtDecode } from 'jwt-decode';
 import axios from "axios";
 
@@ -9,7 +10,6 @@ function ChangeName() {
     const [error, setError] = useState(null);  // To handle any errors during the API call
     const [user, setUser] = useState({ name: '' }); // Define user state to hold the name
     const [userId, setUserId] = useState(null);  // Define state to hold user id
-
 
     // Function to handle input changes
     const handleInputChange = (e) => {
@@ -67,18 +67,20 @@ function ChangeName() {
             alert('Failed to update name');
         }
     };
-    
-    
 
     return (
         <div>
-            <Button colorScheme="blue" onClick={() => setIsOpen(true)}>
-                Change Name
-            </Button>
+            {/* Replace Button with IconButton for the Edit Icon */}
+            <IconButton
+                icon={<EditIcon />}
+                ml={2}
+                variant="ghost"
+                onClick={() => setIsOpen(true)}  // Open modal on click
+                aria-label="Edit Name"
+            />
 
             {/* Name Change Modal */}
             <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-                
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>Change Name</ModalHeader>
