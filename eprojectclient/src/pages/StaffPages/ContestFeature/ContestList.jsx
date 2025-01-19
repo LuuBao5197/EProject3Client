@@ -10,6 +10,7 @@ import { Button, Icon } from '@chakra-ui/react';
 import {
 
     MdInfoOutline,
+    MdSend,
 } from 'react-icons/md';
 
 import { Box, Select, Flex } from "@chakra-ui/react";
@@ -23,7 +24,7 @@ const ContestList = () => {
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState(""); // Trạng thái tìm kiếm
-    const pageSize = 50;
+    const pageSize = 20;
 
 
     // Filter 
@@ -39,6 +40,17 @@ const ContestList = () => {
         setPhase(e.target.value);
         console.log("Selected Phase:", e.target.value);
     };
+
+    const sendContestDraftForReview = async (id) => {
+        try {
+            const result = await axios.patch(`http://localhost:5190/api/Staff/SendContestDraftForReview/${id}`);
+            //    console.log(result);
+            toast.info("Send draft contest succesffully");
+
+        } catch (error) {
+            alert("Something error occurs");
+        }
+    }
 
 
     const columns = [
@@ -81,7 +93,17 @@ const ContestList = () => {
         {
             name: 'Action',
             selector: row => (<div className="d-flex">
-                <button className="btn btn-primary" onClick={() => navigate(`/staff/contests/${row.id}`)}>  <Icon as={MdInfoOutline} width="20px" height="20px" color="inherit" /></button>
+                <button className="btn btn-primary" onClick={() => navigate(`/staff/contests/${row.id}`)}>
+                    <Icon as={MdInfoOutline} width="20px" height="20px" color="inherit" />
+                </button>
+
+                {/* Chi nhung contest co trang thai la draft moi co the gui di de cap tren duyet */}
+                {(row.status == "Draft" || row.status == "Rejected") && (
+                    <button className="btn btn-primary" onClick={() => sendContestDraftForReview(row.id)}>
+                        <Icon as={MdSend} width="20px" height="20px" color="inherit" />
+                    </button>
+                )}
+
 
             </div>),
             sortable: false,
@@ -154,7 +176,7 @@ const ContestList = () => {
     const handleSearchMyContest = async () => {
         const fetchInfoOfStaff = async () => {
             const token = localStorage.getItem('token');
-            const userId = jwtDecode(token).Id;        
+            const userId = jwtDecode(token).Id;
             var result = await axios.get(`http://localhost:5190/api/Staff/GetInfoStaff/${userId}`);
             console.log(result);
             setStaffId(result.data.id);
@@ -194,10 +216,13 @@ const ContestList = () => {
                         _hover={{ borderColor: "gray.400" }}
                         _focus={{ borderColor: "blue.500", boxShadow: "0 0 0 1px blue.500" }}
                     >
-                        <option value="Pending">Pending</option>
-                        <option value="Approved by Manager"> Approved by Manager</option>
-                        <option value="Approved by Director">Approved by Director</option>
-                        <option value="Reject">Rejected</option>
+                        <option value="Draft">Draft</option>
+                        <option value="Pending"> Pending</option>
+                        <option value="Reject">Reject</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Published">Published</option>
+                        <option value="Canceled">Canceled</option>
+
                     </Select>
                 </Box>
 
