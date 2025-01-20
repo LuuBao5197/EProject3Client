@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Icon } from '@chakra-ui/react';
+import { Icon, layout } from '@chakra-ui/react';
 import {
   MdBarChart,
   MdPerson,
@@ -30,7 +30,6 @@ import RTL from '@/views/admin/rtl';
 import SignInCentered from '@/views/auth/signIn';
 import ContestList from './pages/StaffPages/ContestFeature/ContestList';
 import { all } from 'axios';
-import ForgotPassword from './pages/PublicPages/ForgotPassword';
 import AddContest from './pages/StaffPages/ContestFeature/AddContest';
 import EditContest from './pages/StaffPages/ContestFeature/EditContest';
 import ContestDetail from './pages/StaffPages/ContestFeature/ContestDetail';
@@ -52,6 +51,9 @@ import ARMangement from './pages/ManagerPages/ARMangement';
 import ExhibitionDetail from './pages/ManagerPages/ExhibitionDetail';
 import StudentDetail from './pages/ManagerPages/StudentDetail';
 import ListSubmission from './pages/StaffPages/SummisionFeature/ListSubmission';
+import TeacherDetail from './pages/ManagerPages/TeacherDetail';
+import SubmissionReviewDetail from './pages/ManagerPages/SubmissionsReviewDetail';
+import Total from './pages/ManagerPages/Total';
 
 
 
@@ -159,13 +161,6 @@ export const routes = [
     component: <SignInCentered />,
   },
   {
-    name: 'Forgot Password',
-    layout: '/auth',
-    path: '/forgot-password',
-    icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
-    component: <ForgotPassword/>,
-  },
-  {
     name: 'RTL Admin',
     layout: '/rtl',
     path: '/rtl-default',
@@ -175,14 +170,14 @@ export const routes = [
 
 ];
 export const staffRoutes = [
-  {
-    name: 'Main Dashboard',
-    layout: '/staff',
-    path: '/default',
-    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
-    component: <MainDashboard />,
-    index: true
-  },
+  // {
+  //   name: 'Main Dashboard',
+  //   layout: '/staff',
+  //   path: '/default',
+  //   icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+  //   component: <MainDashboard />,
+  //   index: true
+  // },
   {
     name: 'Contest List',
     layout: '/staff',
@@ -296,7 +291,7 @@ export const managerRoutes = [
     layout: '/manager',
     path: '/default',
     icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-    component: <ManagerLayout/>,
+    component: <MainDashboard/>,
     index: true
   },
   {
@@ -355,7 +350,30 @@ export const managerRoutes = [
     component: <StudentDetail/>,
     index: false
   },
-  
+  {
+    name: 'Teacher Detail',
+    layout: '/manager',
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    path: '/teacherdetail/:id',
+    component: <TeacherDetail/>,
+    index: false
+  },
+  {
+    name: 'Submissions Review Detail',
+    layout: '/manager',
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    path: '/submissionsreviewdetail/:id',
+    component: <SubmissionReviewDetail/>,
+    index: false
+  },
+  {
+    name: 'Total',
+    layout: '/manager',
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    path: '/total',
+    component: <Total/>,
+    index: false
+  }
   
   
 ];

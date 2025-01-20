@@ -10,6 +10,15 @@ function FooterHome(props) {
                     <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" style={styles.icon}>Twitter</a>
                     <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" style={styles.icon}>Instagram</a>
                 </div>
+                <div style={styles.policy}>
+                    <a
+                        href="/Policy.pdf" // Thay đổi đường dẫn này theo tệp thực tế của bạn
+                        download="Policy.pdf" // Tên tệp khi tải xuống
+                        style={styles.policyLink}
+                    >
+                        Chính sách của chúng tôi
+                    </a>
+                </div>
             </div>
         </div>
     );
@@ -36,6 +45,14 @@ const styles = {
         textDecoration: 'none',
         margin: '0 10px',
         fontSize: '16px',
+    },
+    policy: {
+        marginTop: '15px',
+    },
+    policyLink: {
+        textDecoration: 'none',
+        color: '#007BFF',
+        fontSize: '14px',
     },
 };
 

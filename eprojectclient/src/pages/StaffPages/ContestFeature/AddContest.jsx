@@ -15,7 +15,7 @@ const AddContest = () => {
     console.log("token", token);
     const userId = jwtDecode(token).Id;
     useEffect(() => {
-        const fetchInfoOfStaff = async (userId)=> {
+        const fetchInfoOfStaff = async (userId) => {
             var result = await axios.get(`http://localhost:5190/api/Staff/GetInfoStaff/${userId}`);
             console.log(result);
             formik.setValues({
@@ -27,10 +27,15 @@ const AddContest = () => {
                 organizedBy: Number(result.data.id),
                 file: null,
             })
+            if (!result.data.isReviewer) {
+                toast.dark("Ban ko co quyen han vao trang nay");
+                setTimeout(() => navigate('/staff'), 2000);
+
+            }
         }
         fetchInfoOfStaff(userId);
     }, [token])
-    
+
     console.log("userId", userId);
     const formik = useFormik({
         initialValues: {
@@ -129,15 +134,17 @@ const AddContest = () => {
     const navigate = useNavigate();
     const modules = {
         toolbar: [
-          [{ header: [1, 2, 3, false] }], // Tiêu đề
-          ["bold", "italic", "underline", "strike"], // In đậm, nghiêng, gạch chân, gạch ngang
-          [{ list: "ordered" }, { list: "bullet" }], // Danh sách có thứ tự/không thứ tự
-          [{ indent: "-1" }, { indent: "+1" }], // Thụt lề
-          [{ align: [] }], // Căn chỉnh
-          ["link", "image"], // Thêm liên kết, hình ảnh
-          ["clean"], // Xóa định dạng
+            [{ header: [1, 2, 3, false] }], // Tiêu đề
+            ["bold", "italic", "underline", "strike"], // In đậm, nghiêng, gạch chân, gạch ngang
+            [{ list: "ordered" }, { list: "bullet" }], // Danh sách có thứ tự/không thứ tự
+            [{ indent: "-1" }, { indent: "+1" }], // Thụt lề
+            [{ align: [] }], // Căn chỉnh
+            ["link", "image"], // Thêm liên kết, hình ảnh
+            ["clean"], // Xóa định dạng
         ],
-      };
+    };
+
+
     return (
         <div className="container pt-3">
             <form onSubmit={formik.handleSubmit} className="needs-validation" noValidate>
@@ -158,9 +165,12 @@ const AddContest = () => {
                 </div>
                 <div className="mb-1">
                     <label className="form-label">Description</label>
-                    <ReactQuill theme="snow" value={formik.values.description} 
+                    <ReactQuill theme="snow" value={formik.values.description}
                         className="bg-light text-black"
-                        
+                        style={{
+                            height: "200px", // Set height
+                            width: "100%", // Set width
+                        }}
                         modules={modules}
                         onChange={(value) => formik.setFieldValue("description", value)} // Cập nhật giá trị cho Formik
                         onBlur={() => {

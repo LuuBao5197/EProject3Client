@@ -6,8 +6,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import { Icon } from "@chakra-ui/react";
-import { MdDeleteOutline, MdEdit, MdInfoOutline } from "react-icons/md";
+import { MdDeleteOutline, MdEdit, MdInfoOutline, MdSend } from "react-icons/md";
 import Modal from "../components/ModalDetailExhibition";
+import { jwtDecode } from "jwt-decode";
 
 
 const ExhibitionIndex = () => {
@@ -19,25 +20,37 @@ const ExhibitionIndex = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const pageSize = 5;
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
+  const userId = jwtDecode(token).Id;
+  const [currentStaff, setCurrentStaff] = useState({});
 
+  const fetchExhibition = async (page, search = "") => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`http://localhost:5190/api/Staff/GetAllExhibition`, {
+        params: { page, pageSize, search },
+      });
+      setExhibitions(response.data.exhibitions);
+      setPageCount(response.data.totalPages);
+    } catch (error) {
+      console.error("Error fetching exhibitions:", error);
+      alert("Failed to fetch exhibitions. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchExhibition = async (page, search = "") => {
-      setLoading(true);
-      try {
-        const response = await axios.get(`http://localhost:5190/api/Staff/GetAllExhibition`, {
-          params: { page, pageSize, search },
-        });
-        setExhibitions(response.data.exhibitions);
-        setPageCount(response.data.totalPages);
-      } catch (error) {
-        console.error("Error fetching exhibitions:", error);
-        alert("Failed to fetch exhibitions. Please try again.");
-      } finally {
-        setLoading(false);
-      }
-    };
+    
     fetchExhibition(currentPage, searchQuery);
-  }, [currentPage, searchQuery]);
+    const fetchInfoOfStaff = async () => {
+
+      var result = await axios.get(`http://localhost:5190/api/Staff/GetInfoStaff/${userId}`);
+      // console.log(result);
+      // setStaffId(result.data.id);
+      setCurrentStaff(result.data);
+    }
+    fetchInfoOfStaff();
+  }, [currentPage, searchQuery, token]);
 
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm("Bạn có chắc chắn muốn xóa triển lãm này?");
@@ -69,14 +82,28 @@ const ExhibitionIndex = () => {
     setSelectedExhibition(null);
   }, []);
 
+  const sendExhibitionForReview = async (id) => {
+    try {
+      const result = await axios.patch(`http://localhost:5190/api/Staff/SendExhibitionForReview/${id}`);
+      //    console.log(result);
+      toast.info("Send exhibition to approve succesffully");
+      await fetchExhibition(currentPage, searchQuery);
+
+    } catch (error) {
+      alert("Something error occurs");
+    }
+  }
+
   return (
     <div className="container mt-4">
       <ToastContainer />
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h2>Exhibitions</h2>
-        <button className="btn btn-primary" onClick={() => navigate(`/staff/exhibition/add`)}>
-          Add Exhibition
-        </button>
+        {currentStaff.isReviewer &&
+          <button className="btn btn-primary" onClick={() => navigate(`/staff/exhibition/add`)}>
+            Add Exhibition
+          </button>
+        }
       </div>
       {/* Ô tìm kiếm */}
       <div className="input-group mb-3">
@@ -100,6 +127,10 @@ const ExhibitionIndex = () => {
                 <th className="text-center">Start Date</th>
                 <th className="text-center">End Date</th>
                 <th className="text-center">Location</th>
+                <th className="text-center">Status</th>
+                <th className="text-center">Phase</th>
+
+
                 <th className="text-center">Actions</th>
               </tr>
             </thead>
@@ -111,22 +142,34 @@ const ExhibitionIndex = () => {
                   <td className="text-center">{ex.startDate}</td>
                   <td className="text-center">{ex.endDate}</td>
                   <td className="text-center">{ex.location}</td>
+                  <td className="text-center">{ex.status}</td>
+
+                  <td className="text-center">{ex.phase}</td>
                   <td className="text-center">
                     <button className="btn btn-info btn-sm me-2" onClick={() => handleDetail(ex)}>
                       <Icon as={MdInfoOutline} width="20px" height="20px" />
                     </button>
-                    <button
-                      className="btn btn-warning btn-sm me-2"
-                      onClick={() => navigate(`/staff/exhibition/edit/${ex.id}`)}
-                    >
-                      <Icon as={MdEdit} width="20px" height="20px" />
-                    </button>
-                    <button
-                      className="btn btn-danger btn-sm"
-                      onClick={() => handleDelete(ex.id)}
-                    >
-                      <Icon as={MdDeleteOutline} width="20px" height="20px" />
-                    </button>
+                    {currentStaff.isReviewer && <>
+                      <button
+                        className="btn btn-warning btn-sm me-2"
+                        onClick={() => navigate(`/staff/exhibition/edit/${ex.id}`)}
+                      >
+                        <Icon as={MdEdit} width="20px" height="20px" />
+                      </button>
+                      <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() => handleDelete(ex.id)}
+                      >
+                        <Icon as={MdDeleteOutline} width="20px" height="20px" />
+                      </button>
+                      <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() => sendExhibitionForReview(ex.id)}
+                      >
+                        <Icon as={MdSend} width="20px" height="20px" />
+                      </button>
+
+                    </>}
                   </td>
                 </tr>
               ))}

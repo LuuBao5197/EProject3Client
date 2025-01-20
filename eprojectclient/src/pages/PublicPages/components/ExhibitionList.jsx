@@ -7,9 +7,9 @@ const ExhibitionList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortOption, setSortOption] = useState("all"); // 'ongoing', 'upcoming', 'all'
+  const [sortOption, setSortOption] = useState("all"); // 'ongoing', 'upcoming', 'completed', 'all'
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 4; // Số exhibitions trên mỗi trang
+  const itemsPerPage = 4;
 
   // Fetch data from API
   useEffect(() => {
@@ -20,7 +20,7 @@ const ExhibitionList = () => {
           throw new Error("Failed to fetch exhibitions");
         }
         const data = await response.json();
-        setExhibitions(data); // Assuming `data` is an array of exhibitions
+        setExhibitions(data); // Ensure `data` contains `phase` field
       } catch (err) {
         setError(err.message);
       } finally {
@@ -31,22 +31,20 @@ const ExhibitionList = () => {
     fetchExhibitions();
   }, []);
 
-  // Lọc và sắp xếp danh sách exhibitions
+  // Lọc exhibitions
   const filteredExhibitions = exhibitions
     .filter((exhibition) =>
       exhibition.name.toLowerCase().includes(searchTerm.toLowerCase())
     )
     .filter((exhibition) => {
-      if (sortOption === "ongoing") {
-        const now = new Date();
-        const startDate = new Date(exhibition.startDate);
-        const endDate = new Date(exhibition.endDate);
-        return now >= startDate && now <= endDate; // Đang tổ chức
+      if (sortOption === "OnComing") {
+        return exhibition.phase === "OnComing"; // Đang tổ chức
       }
-      if (sortOption === "upcoming") {
-        const now = new Date();
-        const startDate = new Date(exhibition.startDate);
-        return startDate > now; // Sắp tổ chức
+      if (sortOption === "UpComing") {
+        return exhibition.phase === "UpComing"; // Sắp tổ chức
+      }
+      if (sortOption === "Completed") {
+        return exhibition.phase === "Completed"; // Đã hoàn thành
       }
       return true; // Mặc định: tất cả
     });
@@ -74,7 +72,7 @@ const ExhibitionList = () => {
           value={searchTerm}
           onChange={(e) => {
             setSearchTerm(e.target.value);
-            setCurrentPage(1); // Reset page khi tìm kiếm thay đổi
+            setCurrentPage(1);
           }}
         />
         <Select
@@ -83,11 +81,11 @@ const ExhibitionList = () => {
           onChange={(e) => setSortOption(e.target.value)}
         >
           <option value="all">All</option>
-          <option value="ongoing">Ongoing</option>
-          <option value="upcoming">Upcoming</option>
+          <option value="OnComing">Ongoing</option>
+          <option value="UpComing">UpComing</option>
+          <option value="Completed">Completed</option>
         </Select>
       </HStack>
-
 
       {isLoading ? (
         <p>Loading...</p>

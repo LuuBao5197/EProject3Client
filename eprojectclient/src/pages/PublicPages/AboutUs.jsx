@@ -1,5 +1,6 @@
 import React from 'react';
-import NavbarHome from './navbar/NavbarHome';
+import NavbarHome from './components/navbar/NavbarHome';
+import FooterHome from './components/footer/FooterHome';
 
 const AboutUs = () => {
     return (
@@ -62,6 +63,9 @@ const AboutUs = () => {
                     The University of Fine Arts is one of the leading institutions for art education, dedicated to nurturing and developing creative talent in the field of fine arts. With a team of experienced and highly skilled faculty, the university provides a dynamic learning environment that encourages students to explore and enhance their artistic abilities. The university offers a diverse range of programs, from painting, sculpture, graphic design, to applied arts, equipping students with both theoretical knowledge and practical experience. Students are prepared with the skills, knowledge, and creative thinking required to succeed in both the local and international art markets.
                     </p>
                 </div>
+            </div>
+            <div className="container">
+            <FooterHome />
             </div>
         </div>
     );

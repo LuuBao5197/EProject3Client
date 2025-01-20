@@ -6,8 +6,9 @@ import 'font-awesome/css/font-awesome.min.css';
 import styles from '../../layout/AdminLayout.module.css';
 
 function StudentManagement() {
+    const [studentDetails, setStudentDetails] = useState(null);
     const [classDetails, setClassDetails] = useState(null);
-    const { classId } = useParams();
+    const { studentId, classId } = useParams();
 
     useEffect(() => {
         axios.get(`http://localhost:5190/api/Manager/GetStudentByClass/${classId}`)
@@ -19,14 +20,16 @@ function StudentManagement() {
             })
             .catch(err => {
                 console.error('Error fetching class details', err);
-            });
+            });      
     }, [classId]);
+
+    
 
     if (!classDetails) {
         return <p>Loading...</p>;
     }
 
-    const students = classDetails.students || [];
+    const students = classDetails.students || studentDetails.students || [];
 
     if (students.length === 0) {
         return <p>No students available for this class.</p>;
@@ -45,17 +48,21 @@ function StudentManagement() {
                 <tbody>
                     <tr>
                         <td><strong>Teacher Name:</strong></td>
-                        <td>{classDetails.teacherName}</td>
+                        <td className={styles.teacherName}>
+                            <Link to={`/manager/teacherdetail/${classDetails.teacherId}`}>
+                                {classDetails.teacherName || "No teacher assigned"}
+                            </Link>
+                        </td>
                     </tr>
                     <tr>
                         <td><strong>School Year:</strong></td>
-                        <td>{classDetails.schoolYear}</td>
+                        <td className={styles.teacherName}>{classDetails.schoolYear}</td>
                     </tr>
                 </tbody>
             </table>
 
             <h3 className={styles.titleStudentList}>Student List</h3>
-            <table className="table table-bordered">
+            <table className="table table-bordered table-hover">
                 <thead>
                     <tr>
                         <th>Student ID</th>
@@ -70,7 +77,7 @@ function StudentManagement() {
                     {students.map((student, index) => (
                         <tr key={index}>
                             <td>{student.id}</td>
-                            <td>{student.user?.name || "No name available"}</td>
+                            <td>{student.name || "No name available"}</td>
                             <td>{new Date(student.enrollmentDate).toLocaleDateString()}</td>
                             <td>{student.parentName}</td>
                             <td>{student.parentPhoneNumber}</td>

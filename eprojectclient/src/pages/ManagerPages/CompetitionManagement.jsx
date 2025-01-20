@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link } from 'react-router-dom';
 import styles from '../../layout/AdminLayout.module.css';
 
 function CompetitionManagement() {
@@ -72,7 +71,7 @@ function CompetitionManagement() {
                     id="startDate"
                     value={startDate}
                     onChange={e => setStartDate(e.target.value)}
-                    className={styles.dateInput}
+                    className={styles.dateInput}    
                 />
 
                 <label htmlFor="endDate">End Date: </label>

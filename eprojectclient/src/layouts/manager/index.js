@@ -5,8 +5,8 @@ import Footer from '@/components/footer/FooterAdmin.js';
 import Navbar from '@/components/navbar/NavbarAdmin.js';
 import Sidebar from '@/components/sidebar/Sidebar.js';
 import { SidebarContext } from '@/contexts/SidebarContext';
-import React, { useState } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 // import routes from '@/routes.js';
 import {managerRoutes} from '../../routes';
 // Custom Chakra theme
@@ -16,11 +16,15 @@ export default function Dashboard(props) {
   const [fixed] = useState(false);
   const [toggleSidebar, setToggleSidebar] = useState(false);
   // functions for changing the states from components
+  const location = useLocation();
+  useEffect(() => {
+    
+  },[location])
   const getRoute = () => {
     return window.location.pathname !== '/admin/full-screen-maps';
   };
   const getActiveRoute = (routes) => {
-    let activeRoute = 'Default Brand Text';
+    let activeRoute = '';
     for (let i = 0; i < routes.length; i++) {
       if (routes[i].collapse) {
         let collapseActiveRoute = getActiveRoute(routes[i].items);

@@ -7,7 +7,7 @@ const ContestList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortOption, setSortOption] = useState("all"); // 'ongoing', 'upcoming', 'all'
+  const [sortOption, setSortOption] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
 
@@ -37,18 +37,16 @@ const ContestList = () => {
       contest.name.toLowerCase().includes(searchTerm.toLowerCase())
     )
     .filter((contest) => {
-      if (sortOption === "ongoing") {
-        const now = new Date();
-        const startDate = new Date(contest.startDate);
-        const endDate = new Date(contest.endDate);
-        return now >= startDate && now <= endDate; // Ongoing contests
+      if (sortOption === "OnComing") {
+        return contest.phase === "OnComing"; // Lọc theo phase "OnComing"
       }
-      if (sortOption === "upcoming") {
-        const now = new Date();
-        const startDate = new Date(contest.startDate);
-        return startDate > now; // Upcoming contests
+      if (sortOption === "UpComing") {
+        return contest.phase === "UpComing"; // Lọc theo phase "UpComing"
       }
-      return true; // All contests
+      if (sortOption === "Completed") {
+        return contest.phase === "Completed"; // Lọc theo phase "Completed"
+      }
+      return true; // Hiển thị tất cả contests
     });
 
   // Pagination logic
@@ -74,7 +72,7 @@ const ContestList = () => {
           value={searchTerm}
           onChange={(e) => {
             setSearchTerm(e.target.value);
-            setCurrentPage(1); // Reset page khi tìm kiếm thay đổi
+            setCurrentPage(1); 
           }}
         />
         <Select
@@ -83,8 +81,9 @@ const ContestList = () => {
           onChange={(e) => setSortOption(e.target.value)}
         >
           <option value="all">All</option>
-          <option value="ongoing">Ongoing</option>
-          <option value="upcoming">Upcoming</option>
+          <option value="OnComing">OnComing</option>
+          <option value="UpComing">UpComing</option>
+          <option value="Completed">Completed</option>
         </Select>
       </HStack>
 

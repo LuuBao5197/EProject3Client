@@ -42,10 +42,14 @@ import AddExhibition from "../pages/StaffPages/ExhibitionFeature/AddExhibition";
 import EditExhibition from "../pages/StaffPages/ExhibitionFeature/EditExhibition";
 import ClassesManagement from "../pages/ManagerPages/CLassesManagement";
 import ManagerLayout from "../pages/ManagerPages/ManagerLayout";
+<<<<<<< HEAD
 import Adminlayout from "../pages/AdminPages/Adminlayout";
 import AdminClassDetail from "../pages/AdminPages/AdminClassDetail";
 import StudentDetail from "../pages/ManagerPages/StudentDetail";
 import AdminClassAdd from "../pages/AdminPages/AdminClassAdd";
+=======
+import TeacherDetail from "../pages/ManagerPages/TeacherDetail";
+>>>>>>> 27bc3441bcb0ee7fffa1435f42fdfaf427b95c37
 
 export const TeacherConfig = {
     listcontest: {
@@ -131,6 +135,10 @@ export const ManagerConfig = {
     exhibitiondetail: {
         component: ExhibitionDetail,
         path: '/manager/exhibitiondetail/:id'
+    },
+    teacherdetail: {
+        component: TeacherDetail,
+        path: '/manager/teacherdetail/:id'
     }
 
 }
