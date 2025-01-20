@@ -1,7 +1,7 @@
 // import config from '../config/routes';
 
 
-import {AdminStaffConfig, AdminStudentConfig } from "../config/routes";
+import {AdminConfig } from "../config/routes";
 
 import { ManagerConfig, TeacherConfig } from "../config/routes";
 
@@ -143,37 +143,48 @@ export const ManagerRoutes =[
         element: ManagerConfig.teacherdetail.component
     }
 ];
-export const AdminStaffRoute = [
+export const AdminRoute = [
     {
-        path: AdminStaffConfig.adminstafflayout.path,
-        element: AdminStaffConfig.adminstafflayout.component
+        path: AdminConfig.adminlayout.path,
+        element: AdminConfig.adminlayout.component
     },
     {
-        path: AdminStaffConfig.adminstaffadd.path,
-        element: AdminStaffConfig.adminstaffadd.component
+        path: AdminConfig.stafflayout.path,
+        element: AdminConfig.stafflayout.component
     },
     {
-        path: AdminStaffConfig.adminstaffdetail.path,
-        element: AdminStaffConfig.adminstaffdetail.component
-    }
-];
-export const AdminStudentRoute = [
-    {
-        path: AdminStudentConfig.adminstudentlist.path,
-        element: AdminStudentConfig.adminstudentlist.component
+        path: AdminConfig.staffadd.path,
+        element: AdminConfig.staffadd.component
     },
     {
-        path: AdminStudentConfig.adminstudentadd.path,
-        element: AdminStudentConfig.adminstudentadd.component
+        path: AdminConfig.staffdetail.path,
+        element: AdminConfig.staffdetail.component
     },
-    {
-        path: AdminStudentConfig.adminstudentimport.path,
-        element: AdminStudentConfig.adminstudentimport.component
-    },
-    {
-        path: AdminStudentConfig.adminstudentdetail.path,
-        element: AdminStudentConfig.adminstudentdetail.component
 
+    {
+        path: AdminConfig.studentlist.path,
+        element: AdminConfig.studentlist.component
+    },
+    {
+        path: AdminConfig.studentadd.path,
+        element: AdminConfig.studentadd.component
+    },
+    {
+        path: AdminConfig.studentimport.path,
+        element: AdminConfig.studentimport.component
+    },
+    {
+        path: AdminConfig.studentdetail.path,
+        element: AdminConfig.studentdetail.component
+
+    },
+    {
+        path: AdminConfig.classdetail.path,
+        element: AdminConfig.classdetail.component
+    },
+    {
+        path: AdminConfig.adminclassadd.path,
+        element: AdminConfig.adminclassadd.component
     }
 ];
 export const privateRoutes = [
