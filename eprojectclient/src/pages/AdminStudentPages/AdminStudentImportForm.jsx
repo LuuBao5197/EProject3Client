@@ -42,7 +42,7 @@ const AdminStudentImportForm = () => {
                 setStudents(data.students || []);
                 setEmailErrors(data.emailErrors || []);
                 setMessage('Students imported successfully!');
-                navigate('/adminstudent/adminstudentlist');
+                navigate('/admin/adminstudentlist');
             } else {
                 if (data.duplicateEmails) {
                     setMessage(`Error: Duplicate emails found: ${data.duplicateEmails.join(', ')}`);
