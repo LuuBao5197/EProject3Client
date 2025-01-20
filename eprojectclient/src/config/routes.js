@@ -42,15 +42,10 @@ import AddExhibition from "../pages/StaffPages/ExhibitionFeature/AddExhibition";
 import EditExhibition from "../pages/StaffPages/ExhibitionFeature/EditExhibition";
 import ClassesManagement from "../pages/ManagerPages/CLassesManagement";
 import ManagerLayout from "../pages/ManagerPages/ManagerLayout";
-<<<<<<< HEAD
-import Adminlayout from "../pages/AdminPages/Adminlayout";
-import AdminClassDetail from "../pages/AdminPages/AdminClassDetail";
-import StudentDetail from "../pages/ManagerPages/StudentDetail";
-import AdminClassAdd from "../pages/AdminPages/AdminClassAdd";
-=======
 import TeacherDetail from "../pages/ManagerPages/TeacherDetail";
->>>>>>> 27bc3441bcb0ee7fffa1435f42fdfaf427b95c37
-
+import Adminlayout from "../pages/AdminPages/Adminlayout";
+import CreateClassForm from "../pages/AdminPages/AdminClassAdd";
+import AdminClassDetail from "../pages/AdminPages/AdminClassDetail";
 export const TeacherConfig = {
     listcontest: {
         component: ContestList,
@@ -144,11 +139,11 @@ export const ManagerConfig = {
 }
 export const AdminConfig = {
     adminlayout: {
-        component:Adminlayout,
+        component: Adminlayout,
         path: '/admin/adminlayout'
     },
     adminclassadd: {
-        component:AdminClassAdd,
+        component: CreateClassForm,
         path: '/admin/adminclassadd'
     },
     classdetail: {
