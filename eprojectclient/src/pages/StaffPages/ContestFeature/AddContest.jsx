@@ -27,9 +27,10 @@ const AddContest = () => {
                 organizedBy: Number(result.data.id),
                 file: null,
             })
-            if(result.data.isReviewer) {
+            if (!result.data.isReviewer) {
                 toast.dark("Ban ko co quyen han vao trang nay");
-                navigate('/staff');
+                setTimeout(() => navigate('/staff'), 2000);
+
             }
         }
         fetchInfoOfStaff(userId);
@@ -142,8 +143,8 @@ const AddContest = () => {
             ["clean"], // Xóa định dạng
         ],
     };
-    
-   
+
+
     return (
         <div className="container pt-3">
             <form onSubmit={formik.handleSubmit} className="needs-validation" noValidate>

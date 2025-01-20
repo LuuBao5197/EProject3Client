@@ -170,14 +170,14 @@ export const routes = [
 
 ];
 export const staffRoutes = [
-  {
-    name: 'Main Dashboard',
-    layout: '/staff',
-    path: '/default',
-    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
-    component: <MainDashboard />,
-    index: true
-  },
+  // {
+  //   name: 'Main Dashboard',
+  //   layout: '/staff',
+  //   path: '/default',
+  //   icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+  //   component: <MainDashboard />,
+  //   index: true
+  // },
   {
     name: 'Contest List',
     layout: '/staff',
