@@ -125,10 +125,11 @@ const handleEmailSubmit = async (event) => {
     } catch (error) {
       setMessage(error.message);
     } finally {
-      setIsLoading(false);
+      setIsLoading(False);
     }
 };
   
+// Handle the OTP submission to verify the OTP
 const handleOtpSubmit = async (event) => {
   event.preventDefault();
   setIsLoading(true);
@@ -151,22 +152,15 @@ const handleOtpSubmit = async (event) => {
       throw new Error(errorText || 'Failed to verify OTP');
     }
 
-    const responseData = await response.json();  // Assuming the response contains expiry status
-    if (responseData.otpExpired) {
-      setMessage('Your OTP has expired. Please request a new OTP.');
-      setStep(1); // Revert to step 1 for new OTP request
-      alert('Your OTP has expired.');
-    } else {
-      setMessage(responseData.message || 'OTP verified successfully.');
-      setStep(3); // Proceed to password reset form
-    }
+    const textData = await response.text();
+    setMessage(textData || 'OTP verified successfully.');
+    setStep(3); // Proceed to password reset form
   } catch (error) {
     setMessage(error.message);
   } finally {
     setIsLoading(false);
   }
 };
-
 
 // Password validation function
 const validatePassword = (password) => {
@@ -211,8 +205,15 @@ const handlePasswordSubmit = async (event) => {
       throw new Error(errorText || 'Failed to reset password');
     }
 
-    const textData = await response.text();
-    setMessage(textData || 'Password has been reset successfully.');
+    // Check if OTP has expired (assumed response includes `otpExpired` flag)
+    const jsonResponse = await response.json();
+    if (jsonResponse.otpExpired) {
+      setMessage('OTP has expired. Please request a new one.');
+      setIsLoading(false);
+      return;
+    }
+
+    setMessage('Password has been reset successfully.');
 
     // Close the modal after successful password reset
     setIsModalOpen(false);
@@ -438,6 +439,9 @@ const handlePasswordSubmit = async (event) => {
         </FormControl>
 
           <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={() => setStep(1)}>
+              Back
+            </Button>
             <Button colorScheme="blue" mr={3} onClick={() => setIsModalOpen(false)}>
               Close
             </Button>
