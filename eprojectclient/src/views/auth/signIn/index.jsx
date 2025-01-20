@@ -83,7 +83,7 @@ function SignIn() {
         console.log(decodedToken);
 
         // Kiểm tra isFirstLogin
-        if (res.data.isFirstLogin) {
+        if (!res.data.isFirstLogin) {
             alert("This is your first time login. Please change your password.");
             navigate("/ChangePasswordFirstTimeLogin");
         } else {
