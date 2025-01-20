@@ -69,29 +69,37 @@ function SignIn() {
   async function handleLogin(e) {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5190/api/Auth/login", {
-        email,
-        password,
-      }, );
-      console.log("res: ", res);
-      localStorage.setItem("inforToken", JSON.stringify(res.data));
-      localStorage.setItem("token", JSON.stringify(res.data.token));
-      const decodedToken = jwtDecode(res.data.token);
-      console.log(decodedToken);
-      
-      if(decodedToken.role === "Student") {
-        navigate("/", { state: { user: decodedToken } });
-      } else if(decodedToken.role === "Staff"){
-        
-        navigate("/staff/");
-      }
+        const res = await axios.post("http://localhost:5190/api/Auth/login", {
+            email,
+            password,
+        });
 
-      alert("Login successful");
+        console.log("res: ", res);
+
+        // Lưu token vào localStorage
+        localStorage.setItem("inforToken", JSON.stringify(res.data));
+        localStorage.setItem("token", JSON.stringify(res.data.token));
+        const decodedToken = jwtDecode(res.data.token);
+        console.log(decodedToken);
+
+        // Kiểm tra isFirstLogin
+        if (res.data.isFirstLogin) {
+            alert("This is your first time login. Please change your password.");
+            navigate("/ChangePasswordFirstTimeLogin");
+        } else {
+            if (decodedToken.role === "Student") {
+                navigate("/", { state: { user: decodedToken } });
+            } else if (decodedToken.role === "Staff") {
+                navigate("/staff/");
+            }
+            alert("Login successful");
+        }
     } catch (err) {
-      console.error(err);
-      alert("Login failed. Please check your credentials.");
+        console.error(err);
+        alert("Login failed. Please check your credentials.");
     }
-  }
+}
+
 
   // Handle the email submission to send OTP
   const handleEmailSubmit = async (event) => {
@@ -118,7 +126,7 @@ function SignIn() {
     } catch (error) {
       setMessage(error.message);
     } finally {
-      setIsLoading(false);
+      setIsLoading(False);
     }
   };
   
