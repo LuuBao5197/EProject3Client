@@ -14,6 +14,7 @@ import AwardReceived from "../pages/StudentPages/AwardReceived";
 import CreateNewSubmission from "../pages/StudentPages/CreateNewSubmission";
 import HomePage from "../pages/PublicPages/HomePage";
 import AboutUs from "../pages/PublicPages/AboutUs";
+import ChangePasswordFirstTimeLogin from "../pages/PublicPages/ChangePasswordFirstTimeLogin";
 
 
 
@@ -22,6 +23,11 @@ export const publicRoutes = [
         path: "/",
         element: <HomePage/>,
         
+    },
+    {
+
+        path: "/ChangePasswordFirstTimeLogin",
+        element: <ChangePasswordFirstTimeLogin/>,
     },
     {
 
