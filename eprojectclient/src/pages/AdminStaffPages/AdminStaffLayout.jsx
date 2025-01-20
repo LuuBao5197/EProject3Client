@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import $ from 'jquery';
+import 'datatables.net';  // Thêm DataTables
 import { Link, useNavigate } from 'react-router-dom'; // Import Link và useNavigate
 import { getAllStaff, deleteStaff } from '../../API/getAdminStaff';
 
@@ -19,27 +21,26 @@ const AdminStaffLayout = ({ onEdit }) => {
     }
   };
 
-  const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this staff?')) {
-      try {
-        await deleteStaff(id);
-        fetchStaff(); // Refresh the list
-      } catch (error) {
-        console.error('Failed to delete staff:', error.response?.data?.message || error.message);
-      }
-    }
+  const handleDetail = (id) => {
+    navigate(`/admin/staffdetail/${id}`); // Điều hướng đến đường dẫn mới
   };
 
-  const handleDetail = (id) => {
-    navigate(`/adminstaff/adminstaffdetail/${id}`); // Điều hướng đến đường dẫn mới
-  };
-  
+  useEffect(() => {
+    if (staffList.length > 0) {
+      $('#staffTable').DataTable(); // Khởi tạo DataTable sau khi danh sách nhân viên được tải
+    }
+    return () => {
+      if ($.fn.DataTable.isDataTable('#staffTable')) {
+        $('#staffTable').DataTable().destroy(); // Hủy DataTable khi component bị unmount
+      }
+    };
+  }, [staffList]);
 
   return (
-    <div>
-      <h2>Staff List</h2>
-      <table>
-        <thead>
+    <div className="container mt-5">
+      <h2 className="mb-4">Staff List</h2>
+      <table id="staffTable" className="table table-striped table-bordered">
+        <thead className="table-dark">
           <tr>
             <th>ID</th>
             <th>Name</th>
@@ -54,9 +55,8 @@ const AdminStaffLayout = ({ onEdit }) => {
               <td>{staff.user.name}</td>
               <td>{staff.user.email}</td>
               <td>
-                <button onClick={() => onEdit(staff)}>Edit</button>
-                <button onClick={() => handleDelete(staff.id)}>Delete</button>
-                <button onClick={() => handleDetail(staff.id)}>Detail</button> {/* Nút Detail */}
+                <button className="btn btn-warning mr-2" onClick={() => onEdit(staff)}>Edit</button>
+                <button className="btn btn-info" onClick={() => handleDetail(staff.id)}>Detail</button> {/* Nút Detail */}
               </td>
             </tr>
           ))}

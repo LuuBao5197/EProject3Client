@@ -2,12 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
+import { jwtDecode } from "jwt-decode";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 // import "bootstrap/dist/css/bootstrap.min.css";
 
 const AddAwardForm = () => {
   const [contestOptions, setContestOptions] = useState([]); // Lưu danh sách cuộc thi từ API
   const [loading, setLoading] = useState(true); // Trạng thái tải dữ liệu
-
+  const token = localStorage.getItem('token');
+  console.log("token", token);
+  const userId = jwtDecode(token).Id;
+  const navigate = useNavigate();
   // Lấy dữ liệu cuộc thi từ API
   useEffect(() => {
     const fetchContests = async () => {
@@ -23,7 +29,21 @@ const AddAwardForm = () => {
     };
 
     fetchContests();
-  }, []);
+
+    const fetchInfoOfStaff = async (userId) => {
+      var result = await axios.get(`http://localhost:5190/api/Staff/GetInfoStaff/${userId}`);
+      console.log(result);
+      if (!result.data.isReviewer) {
+        toast.dark("Ban ko co quyen han vao trang nay");
+        setTimeout(() => {
+          navigate("/staff/award");
+        }, 1000);
+       
+
+      }
+    }
+    fetchInfoOfStaff(userId);
+  }, [token]);
 
   // Sử dụng useFormik
   const formik = useFormik({
@@ -49,7 +69,7 @@ const AddAwardForm = () => {
         .min(1, "Số lượng phải lớn hơn hoặc bằng 1")
         .required("Số lượng là bắt buộc"),
     }),
-    onSubmit: async (values, {resetForm}) => {
+    onSubmit: async (values, { resetForm }) => {
       try {
         await axios.post("http://localhost:5190/api/Staff/AddAward", {
           ...values,

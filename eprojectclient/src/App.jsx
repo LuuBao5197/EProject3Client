@@ -1,4 +1,5 @@
-import { AdminStaffRoute, AdminStudentRoute, publicRoutes, StaffRoutes } from './routes/routes';
+import { AdminRoute } from './routes/routes';
+import { publicRoutes } from './routes/routes';
 import AdminStaffLayout from './layout/AdminStaffLayout';
 import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from 'react-router-dom'
 // import {publicRoutes, StaffRoutes } from './routes/routes';
@@ -59,7 +60,7 @@ function App() {
                         />
                     );
                 })} */}
-                {AdminStaffRoute.map((item, index) => {
+                {AdminRoute.map((item, index) => {
                     const Comp = item.element;
                 return (
                 <Route
@@ -75,22 +76,7 @@ function App() {
                 />
                 );
                 })}
-                {AdminStudentRoute.map((item, index) => {
-const Comp = item.element;
-                    return (
-                        <Route
-                            path={item.path}
-                            key={index}
-                            element={
-                                <div>
-                                    <AdminStaffLayout>
-                                        <Comp />
-                                    </AdminStaffLayout>
-                                </div>
-                            }
-                        />
-                    );
-                })}
+               
                 <Route path="auth/*" element={<AuthLayout />} />
                 {/* <Route
                     path="admin/*"

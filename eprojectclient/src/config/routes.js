@@ -43,7 +43,9 @@ import EditExhibition from "../pages/StaffPages/ExhibitionFeature/EditExhibition
 import ClassesManagement from "../pages/ManagerPages/CLassesManagement";
 import ManagerLayout from "../pages/ManagerPages/ManagerLayout";
 import TeacherDetail from "../pages/ManagerPages/TeacherDetail";
-
+import Adminlayout from "../pages/AdminPages/Adminlayout";
+import CreateClassForm from "../pages/AdminPages/AdminClassAdd";
+import AdminClassDetail from "../pages/AdminPages/AdminClassDetail";
 export const TeacherConfig = {
     listcontest: {
         component: ContestList,
@@ -135,36 +137,47 @@ export const ManagerConfig = {
     }
 
 }
-export const AdminStaffConfig = {
-    adminstafflayout: {
+export const AdminConfig = {
+    adminlayout: {
+        component: Adminlayout,
+        path: '/admin/adminlayout'
+    },
+    adminclassadd: {
+        component: CreateClassForm,
+        path: '/admin/adminclassadd'
+    },
+    classdetail: {
+        component:AdminClassDetail,
+        path: '/admin/classdetail/:id'
+    },
+
+    stafflayout: {
         component: AdminStaffLayout,
-        path: '/adminstaff/adminstafflayout'
+        path: '/admin/stafflayout'
      },
-     adminstaffadd: {
+     staffadd: {
         component: AdminStaffAdd,
-        path: '/adminstaff/adminstaffadd'
+        path: '/admin/staffadd'
      },
-     adminstaffdetail:{
+     staffdetail:{
         component: AdminStaffDetail,
-        path: '/adminstaff/adminstaffdetail/:id'
-     }
-}
-export const AdminStudentConfig = {
-    adminstudentlist: {
+        path: '/admin/staffdetail/:id'
+     },
+    studentlist: {
         component: AdminStudentList,
-        path: '/adminstudent/adminstudentlist'
+        path: '/admin/studentlist'
      },
-     adminstudentadd: {
+     studentadd: {
         component: AdminStudentAdd,
-        path: '/adminstudent/adminstudentadd'
+        path: '/admin/studentadd'
      },
-     adminstudentimport: {
+    studentimport: {
         component: AdminStudentImportForm,
-        path: '/adminstudent/adminstudentimport'
+        path: '/admin/studentimport'
      },
-     adminstudentdetail: {
+     studentdetail: {
         component: AdminStudentDetail,
-        path: '/adminstudent/adminstudentdetail/:id'
+        path: '/admin/student/:id'
      },
 }
 

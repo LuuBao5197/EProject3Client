@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import $ from 'jquery';
 import 'datatables.net';
-import './AdminStudentList.css';
 import { getAllStudents } from '../../API/getAdminStudent';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate để điều hướng
 import { styled } from '@chakra-ui/system';
@@ -36,13 +35,14 @@ const AdminStudentList = () => {
 
   const handleDetailClick = (id) => {
     // Điều hướng tới trang chi tiết của sinh viên với id
-    navigate(`/adminstudent/adminstudentdetail/${id}`);
+    navigate(`/admin/student/${id}`);
   };
 
   return (
-    <div>
-      <table id="studentsTable" className="display">
-        <thead>
+    <div className="container mt-5">
+      <h2 className="mb-4">Student List</h2>
+      <table id="studentsTable" className="table table-striped table-bordered">
+        <thead className="table-dark">
           <tr>
             <th>ID</th>
             <th>Username</th>
@@ -69,8 +69,12 @@ const AdminStudentList = () => {
                   : 'No classes'}
               </td>
               <td>
-                {/* Thay thế Delete bằng Detail */}
-                <button onClick={() => handleDetailClick(student.id)}>View Details</button>
+                <button
+                  onClick={() => handleDetailClick(student.id)}
+                  className="btn btn-info btn-sm"
+                >
+                  View Details
+                </button>
               </td>
             </tr>
           ))}
