@@ -46,11 +46,7 @@
     "bootstrap": "^5.3.3",
     "chunk": "^0.0.3",
     "datatables.net": "^2.2.1",
-<<<<<<< HEAD
-    "datatables.net-dt": "^2.2.1",
-=======
     "datepicker": "^0.0.0",
->>>>>>> 27bc3441bcb0ee7fffa1435f42fdfaf427b95c37
     "font-awesome": "^4.7.0",
     "formik": "^2.4.6",
     "framer-motion": "^11.3.7",
