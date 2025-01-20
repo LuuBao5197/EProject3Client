@@ -103,7 +103,7 @@ function ChangePasswordFirstTimeLogin() {
       }
 
       // Navigate to the home page after success
-      navigate('/');
+      navigate('/auth/sign-in');
     } catch (error) {
       setMessage('An error occurred while updating the password.');
       console.error('Error:', error);

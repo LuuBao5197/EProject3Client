@@ -100,9 +100,8 @@ function SignIn() {
     }
 }
 
-
-  // Handle the email submission to send OTP
-  const handleEmailSubmit = async (event) => {
+// Handle the email submission to send OTP
+const handleEmailSubmit = async (event) => {
     event.preventDefault();  // Ngừng hành động mặc định của form
     setIsLoading(true);
     setMessage('');
@@ -128,7 +127,7 @@ function SignIn() {
     } finally {
       setIsLoading(False);
     }
-  };
+};
   
 // Handle the OTP submission to verify the OTP
 const handleOtpSubmit = async (event) => {
