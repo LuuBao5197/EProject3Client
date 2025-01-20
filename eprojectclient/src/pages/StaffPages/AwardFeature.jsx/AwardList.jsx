@@ -4,7 +4,9 @@ import axios from "axios";
 import ReactPaginate from "react-paginate";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Icon } from "@chakra-ui/react";
-import { MdDeleteForever, MdEdit, MdInfoOutline, MdRemove } from "react-icons/md";
+import { MdDeleteForever, MdEdit, MdInfoOutline, MdRemove, MdSend } from "react-icons/md";
+import { jwtDecode } from "jwt-decode";
+import { toast } from "react-toastify";
 
 const AwardList = () => {
 
@@ -13,31 +15,41 @@ const AwardList = () => {
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState("");
-    const pageSize = 5;
+    const pageSize = 10;
     const navigate = useNavigate(); // Dùng để điều hướng
+    const token = localStorage.getItem('token');
+    const [currentStaff, setCurrentStaff] = useState({});
 
+    const userId = jwtDecode(token).Id;
     // Lấy danh sách giải thưởng từ API
-    useEffect(() => {
-        const fetchAwards = async (page, search = "") => {
-            try {
-                const response = await axios.get(`http://localhost:5190/api/Staff/GetAllAward`, {
-                    params: {
-                        page,
-                        pageSize,
-                        search,
-                    }
-                }); // Đổi URL phù hợp với API của bạn
-               
-                setAwards(response.data.awards);
-                setPageCount(response.data.totalPages);
-                setLoading(false);
-            } catch (error) {
-                console.error("Lỗi khi tải dữ liệu:", error);
-                setLoading(false);
-            }
-        };
+    const fetchAwards = async (page, search = "") => {
+        try {
+            const response = await axios.get(`http://localhost:5190/api/Staff/GetAllAward`, {
+                params: {
+                    page,
+                    pageSize,
+                    search,
+                }
+            }); // Đổi URL phù hợp với API của bạn
 
+            setAwards(response.data.awards);
+            setPageCount(response.data.totalPages);
+            setLoading(false);
+        } catch (error) {
+            console.error("Lỗi khi tải dữ liệu:", error);
+            setLoading(false);
+        }
+    };
+    useEffect(() => {
+        
         fetchAwards(currentPage, searchQuery);
+        const fetchInfoOfStaff = async (userId) => {
+            var result = await axios.get(`http://localhost:5190/api/Staff/GetInfoStaff/${userId}`);
+            console.log(result);
+            setCurrentStaff(result.data);
+        }
+        fetchInfoOfStaff(userId);
+
     }, [currentPage, searchQuery]);
     const handlePageClick = (event) => {
         const selectedPage = event.selected + 1;
@@ -64,20 +76,33 @@ const AwardList = () => {
         }
     };
 
+    const sendAwardForReview = async (id) => {
+        try {
+            const result = await axios.patch(`http://localhost:5190/api/Staff/SendAwardForReview/${id}`);
+            //    console.log(result);
+            toast.info("Send award to approve succesffully");
+            await fetchAwards(currentPage, searchQuery);
+
+        } catch (error) {
+            alert("Something error occurs");
+        }
+    }
+
     return (
         <div className="container mt-5">
             <h2 className="text-center">List Awards</h2>
 
-
             {/* Nút thêm mới */}
-            <div className="text-end mb-3">
-                <button
-                    className="btn btn-primary"
-                    onClick={() => navigate("/staff/award/add")}
-                >
-                    Create Award
-                </button>
-            </div>
+            {currentStaff.isReviewer &&
+                <div className="text-end mb-3">
+                    <button
+                        className="btn btn-primary"
+                        onClick={() => navigate("/staff/award/add")}
+                    >
+                        Create Award
+                    </button>
+                </div>
+            }
             {/* Ô tìm kiếm */}
 
             <div className="input-group">
@@ -106,6 +131,7 @@ const AwardList = () => {
                                 <th className="text-center">Name</th>
                                 <th className="text-center">Value($)</th>
                                 <th className="text-center">Quantity</th>
+                                <th className="text-center">Status</th>
                                 <th className="text-center">For Contest</th>
                                 <th className="text-center">Action</th>
                             </tr>
@@ -118,6 +144,7 @@ const AwardList = () => {
                                         <td className="text-center">{award.name}</td>
                                         <td className="text-center">{award.value}</td>
                                         <td className="text-center">{award.awardQuantity}</td>
+                                        <td className="text-center">{award.status}</td>
                                         <td className="text-center">{award.contestId}</td>
                                         <td className="text-center">
                                             <div className="d-flex justify-content-around">
@@ -126,24 +153,33 @@ const AwardList = () => {
                                                     className="btn btn-info btn-sm"
                                                     onClick={() => navigate(`/staff/award/${award.id}`)}
                                                 >
-                                                   <Icon as={MdInfoOutline} width="20px" height="20px" color="inherit"/>
+                                                    <Icon as={MdInfoOutline} width="20px" height="20px" color="inherit" />
                                                 </button>
 
                                                 {/* Nút sửa */}
-                                                <button
-                                                    className="btn btn-warning btn-sm"
-                                                    onClick={() => navigate(`/staff/award/edit/${award.id}`)}
-                                                >
-                                                   <Icon as={MdEdit} width="20px" height="20px" color="inherit"/>
-                                                </button>
+                                                {(award.status == "Draft" || award.status == "Rejected") && currentStaff.isReviewer &&
+                                                    <>
+                                                        <button
+                                                            className="btn btn-warning btn-sm"
+                                                            onClick={() => navigate(`/staff/award/edit/${award.id}`)}
+                                                        >
+                                                            <Icon as={MdEdit} width="20px" height="20px" color="inherit" />
+                                                        </button>
+                                                        <button
+                                                            className="btn btn-danger btn-sm"
+                                                            onClick={() => handleDelete(award.id)}
+                                                        >
+                                                            <Icon as={MdDeleteForever} width="20px" height="20px" color="inherit" />
+                                                        </button>
+                                                        <button
+                                                            className="btn btn-danger btn-sm"
+                                                            onClick={() => sendAwardForReview(award.id)}
+                                                        >
+                                                            <Icon as={MdSend} width="20px" height="20px" />
+                                                        </button>
 
-                                                {/* Nút xóa */}
-                                                <button
-                                                    className="btn btn-danger btn-sm"
-                                                    onClick={() => handleDelete(award.id)}
-                                                >
-                                                  <Icon as={MdDeleteForever} width="20px" height="20px" color="inherit"/>
-                                                </button>
+                                                    </>
+                                                }
                                             </div>
                                         </td>
                                     </tr>
