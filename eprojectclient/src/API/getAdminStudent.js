@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { data } from 'jquery';
 
 const API_URL = 'http://localhost:5190/api/AdminStudent';
 
@@ -48,10 +49,13 @@ export const deleteStudent = async (id) => {
       throw new Error(error.response?.data?.message || 'Failed to delete student');
     }
   };
-  export const getStudentDetails = async (id) => {
+  export const GetStudentDetails = async (id) => {
     try {
       const response = await axios.get(`${API_URL}/${id}`);
+      
       return response.data;
+     
+      
     } catch (error) {
       throw new Error(error.response?.data?.message || 'Failed to fetch student details');
     }

@@ -30,9 +30,9 @@ const AdminStaffLayout = ({ children }) => {
           <h2>Manager Panel</h2>
           <nav>
             <ul>
-              <li><Link to="/adminstudent/adminstudentlist">Student List</Link></li>
-              <li><Link to="/adminstaff/adminstafflayout">Staff List</Link></li>
-              <li><Link to="/classes">Class List</Link></li>
+              <li><Link to="/admin/studentlist">Student List</Link></li>
+              <li><Link to="/admin/stafflayout">Staff List</Link></li>
+              <li><Link to="/admin/adminlayout">Class List</Link></li>
               <li><Link to="/attendance">Attendance</Link></li>
               <li><Link to="/reports">Reports</Link></li>
               <li><Link to="/settings">Settings</Link></li>
