@@ -125,11 +125,10 @@ const handleEmailSubmit = async (event) => {
     } catch (error) {
       setMessage(error.message);
     } finally {
-      setIsLoading(False);
+      setIsLoading(false);
     }
 };
   
-// Handle the OTP submission to verify the OTP
 const handleOtpSubmit = async (event) => {
   event.preventDefault();
   setIsLoading(true);
@@ -152,15 +151,22 @@ const handleOtpSubmit = async (event) => {
       throw new Error(errorText || 'Failed to verify OTP');
     }
 
-    const textData = await response.text();
-    setMessage(textData || 'OTP verified successfully.');
-    setStep(3); // Proceed to password reset form
+    const responseData = await response.json();  // Assuming the response contains expiry status
+    if (responseData.otpExpired) {
+      setMessage('Your OTP has expired. Please request a new OTP.');
+      setStep(1); // Revert to step 1 for new OTP request
+      alert('Your OTP has expired.');
+    } else {
+      setMessage(responseData.message || 'OTP verified successfully.');
+      setStep(3); // Proceed to password reset form
+    }
   } catch (error) {
     setMessage(error.message);
   } finally {
     setIsLoading(false);
   }
 };
+
 
 // Password validation function
 const validatePassword = (password) => {
