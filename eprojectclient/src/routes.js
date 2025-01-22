@@ -54,65 +54,104 @@ import ListSubmission from './pages/StaffPages/SummisionFeature/ListSubmission';
 import TeacherDetail from './pages/ManagerPages/TeacherDetail';
 import SubmissionReviewDetail from './pages/ManagerPages/SubmissionsReviewDetail';
 import Total from './pages/ManagerPages/Total';
-
+import Adminlayout from './pages/AdminPages/AdminClassList';
+import AdminStudentList from './pages/AdminStudentPages/AdminStudentList';
+import AdminStaffLayout from './pages/AdminStaffPages/AdminStaffLayout.jsx'
+import AdminClassAdd from './pages/AdminPages/AdminClassAdd.jsx';
+import AdminStaffAdd from './pages/AdminStaffPages/AdminStaffAdd.jsx';
+import AdminStudentImportForm from './pages/AdminStudentPages/AdminStudentImportForm.jsx';
+import AdminClassDetail from './pages/AdminPages/AdminClassDetail.jsx';
+import AdminStudentDetail from './pages/AdminStudentPages/AdminStudentDetail.jsx';
+import AdminStaffDetail from './pages/AdminStaffPages/AdminStaffDetail.jsx';
 
 
 export const adminRoutes = [
   {
     name: 'Main Dashboard',
     layout: '/admin',
-    path: '/default',
+    path: '/',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
-    component: <MainDashboard />,
+    component: <Adminlayout/>,
     index: true
   },
   {
-    name: 'NFT Marketplace',
+    name: 'Student List',
     layout: '/admin',
-    path: '/nft-marketplace',
+    path: '/StudentList',
     icon: (
       <Icon
-        as={MdOutlineShoppingCart}
+        as={MdList}
         width="20px"
         height="20px"
         color="inherit"
       />
     ),
-    component: <NFTMarketplace />,
-    secondary: true,
+    component: <AdminStudentList />,
     index: true
   },
   {
-    name: 'Data Tables',
+    name: 'Staff List ',
     layout: '/admin',
     icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
-    path: '/data-tables',
-    component: <DataTables />,
+    path: '/StaffList',
+    component: <AdminStaffLayout />,
     index: true
   },
   {
-    name: 'Profile',
+    name: 'Create Class',
     layout: '/admin',
-    path: '/profile',
+    path: '/Create-Class',
     icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
-    component: <Profile />,
+    component: <AdminClassAdd />,
     index: true
   },
   {
-    name: 'Sign In',
-    layout: '/auth',
-    path: '/sign-in',
+    name: 'Create Staff',
+    layout: '/admin',
+    path: '/Create-Staff',
     icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
-    component: <SignInCentered />,
+    component: <AdminStaffAdd />,
     index: true
   },
   {
-    name: 'RTL Admin',
-    layout: '/rtl',
-    path: '/rtl-default',
+    name: 'Create Student',
+    layout: '/admin',
+    path: '/Create-Student',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     component: <RTL />,
     index: true
+  },
+  {
+    name: 'Import Student',
+    layout: '/admin',
+    path: '/Import-Student',
+    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+    component: <AdminStudentImportForm />,
+    index: true
+  },
+  {
+    name: 'Class Detail',
+    layout: '/admin',
+    path: '/Class-Detail/:id',
+    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+    component: <AdminClassDetail />,
+    
+  },
+  {
+    name: 'Student Detail',
+    layout: '/admin',
+    path: '/Student-Detail/:id',
+    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+    component: <AdminStudentDetail />,
+    
+  },
+  {
+    name: 'Staff Detail',
+    layout: '/admin',
+    path: '/Staff-Detail/:id',
+    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+    component: <AdminStaffDetail />,
+    
   },
 ];
 

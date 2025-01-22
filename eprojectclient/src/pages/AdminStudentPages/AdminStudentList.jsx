@@ -35,7 +35,7 @@ const AdminStudentList = () => {
 
   const handleDetailClick = (id) => {
     // Điều hướng tới trang chi tiết của sinh viên với id
-    navigate(`/admin/student/${id}`);
+    navigate(`/admin/Student-Detail/${id}`);
   };
 
   return (

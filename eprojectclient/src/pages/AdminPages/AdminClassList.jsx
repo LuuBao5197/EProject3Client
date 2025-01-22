@@ -36,7 +36,7 @@ const Adminlayout = () => {
                 <h5 className="card-title">{classItem.name}</h5>
                 <p className="card-text"><strong>Total Students:</strong> {classItem.totalStudent}</p>
                 <p className="card-text"><strong>Year:</strong> {classItem.year}</p>
-                <Link to={`/admin/classdetail/${classItem.id}`} className="btn btn-primary">
+                <Link to={`/admin/Class-Detail/${classItem.id}`} className="btn btn-primary">
                   Detail
                 </Link>
               </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { addClass, getAllStaff } from '../../API/GetClass'; // Import API addClass và getAllStaff
 
-const CreateClassForm = () => {
+const AdminClassAdd = () => {
   const [classData, setClassData] = useState({
     name: '',
     totalStudent: '',
@@ -140,4 +140,4 @@ const CreateClassForm = () => {
   );
 };
 
-export default CreateClassForm;
+export default AdminClassAdd;

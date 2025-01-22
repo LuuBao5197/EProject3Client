@@ -1,4 +1,3 @@
-
 import ContestList from "../pages/StaffPages/ContestFeature/ContestList";
 import AddContest from "../pages/StaffPages/ContestFeature/AddContest";
 import StudentManagement from "../pages/ManagerPages/StudentManagement";
@@ -18,6 +17,19 @@ import AdminStaffDetail from "../pages/AdminStaffPages/AdminStaffDetail";
 import AdminStudentAdd from "../pages/AdminStudentPages/AdminStudentAdd";
 import AdminStudentImportForm from "../pages/AdminStudentPages/AdminStudentImportForm";
 import AdminStudentDetail from "../pages/AdminStudentPages/AdminStudentDetail";
+import EditAwardForm from "../pages/StaffPages/AwardFeature.jsx/EditAwardForm";
+import AwardDetails from "../pages/StaffPages/AwardFeature.jsx/AwardDetails";
+import ExhibitionDetail from "../pages/ManagerPages/ExhibitionDetail";
+import ExhibitionIndex from "../pages/StaffPages/ExhibitionFeature/ExhibitionIndex";
+import AddExhibition from "../pages/StaffPages/ExhibitionFeature/AddExhibition";
+import EditExhibition from "../pages/StaffPages/ExhibitionFeature/EditExhibition";
+import ClassesManagement from "../pages/ManagerPages/CLassesManagement";
+import ManagerLayout from "../pages/ManagerPages/ManagerLayout";
+import TeacherDetail from "../pages/ManagerPages/TeacherDetail";
+import Adminlayout from "../pages/AdminPages/AdminClassList";
+import CreateClassForm from "../pages/AdminPages/AdminClassAdd";
+import AdminClassDetail from "../pages/AdminPages/AdminClassDetail";
+
 export const config = {
 
     // home: {
@@ -34,18 +46,7 @@ export const config = {
     // },
 
 };
-import EditAwardForm from "../pages/StaffPages/AwardFeature.jsx/EditAwardForm";
-import AwardDetails from "../pages/StaffPages/AwardFeature.jsx/AwardDetails";
-import ExhibitionDetail from "../pages/ManagerPages/ExhibitionDetail";
-import ExhibitionIndex from "../pages/StaffPages/ExhibitionFeature/ExhibitionIndex";
-import AddExhibition from "../pages/StaffPages/ExhibitionFeature/AddExhibition";
-import EditExhibition from "../pages/StaffPages/ExhibitionFeature/EditExhibition";
-import ClassesManagement from "../pages/ManagerPages/CLassesManagement";
-import ManagerLayout from "../pages/ManagerPages/ManagerLayout";
-import TeacherDetail from "../pages/ManagerPages/TeacherDetail";
-import Adminlayout from "../pages/AdminPages/Adminlayout";
-import CreateClassForm from "../pages/AdminPages/AdminClassAdd";
-import AdminClassDetail from "../pages/AdminPages/AdminClassDetail";
+
 export const TeacherConfig = {
     listcontest: {
         component: ContestList,

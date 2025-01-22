@@ -1,6 +1,6 @@
 import { AdminRoute } from './routes/routes';
 import { publicRoutes } from './routes/routes';
-import AdminStaffLayout from './layout/AdminStaffLayout';
+import AdminLayout from './layouts/Adminlayout/index';
 import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from 'react-router-dom'
 // import {publicRoutes, StaffRoutes } from './routes/routes';
 import React, { useState } from "react";
@@ -60,22 +60,7 @@ function App() {
                         />
                     );
                 })} */}
-                {AdminRoute.map((item, index) => {
-                    const Comp = item.element;
-                return (
-                <Route
-                    path={item.path}
-                    key={index}
-                    element={
-                        <div>
-                            <AdminStaffLayout>
-                                <Comp />
-                            </AdminStaffLayout>
-                        </div>
-                    }
-                />
-                );
-                })}
+              
                
                 <Route path="auth/*" element={<AuthLayout />} />
                 {/* <Route
@@ -114,6 +99,12 @@ function App() {
                     path="rtl/*"
                     element={
                         <RTLLayout theme={currentTheme} setTheme={setCurrentTheme} />
+                    }
+                />
+                 <Route
+                    path="admin/*"
+                    element={
+                        <AdminLayout theme={currentTheme} setTheme={setCurrentTheme} />
                     }
                 />
                 <Route path="/" element={<Navigate to="/admin" replace />} />
