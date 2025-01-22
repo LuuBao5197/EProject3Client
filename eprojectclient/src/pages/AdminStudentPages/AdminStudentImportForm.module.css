@@ -1,0 +1,63 @@
+.container {
+ /* max-width: 600px; */
+    margin: 0 auto;
+    /* padding: 20px; */
+    /* text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9; */
+}
+
+/* h2 {
+    margin-bottom: 20px;
+} */
+
+/* .form {
+    margin-bottom: 20px;
+} */
+
+.fileInput {
+    margin: 10px 0;
+    padding: 10px;
+    width: 100%;
+    max-width: 300px;
+}
+
+.submitButton {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.submitButton:disabled {
+    background-color: #cccccc;
+}
+
+.message {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #007bff;
+}
+
+.errors {
+    margin-top: 20px;
+    text-align: left;
+    color: red;
+}
+
+.studentsList {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.studentsList ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.studentsList li {
+    margin: 5px 0;
+}
