@@ -1,0 +1,55 @@
+.container {
+  /* width: 100%; */
+  /* max-width: 1200px; */
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+form {
+  /*display: grid; */
+  grid-template-columns: repeat(3, 1fr); /* Chia thành 3 cột */
+  gap: 20px; /* Khoảng cách giữa các cột */
+}
+
+form .formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup label {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.formGroup input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.buttonGroup {
+  grid-column: span 3; /* Đặt nút submit chiếm toàn bộ chiều rộng */
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+button {
+  /* padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px; */
+  cursor: pointer;
+  /* font-size: 16px; */
+}
+
+button:hover {
+  background-color: #45a049;
+}
