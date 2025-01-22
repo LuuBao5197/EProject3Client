@@ -1,0 +1,93 @@
+/* Định dạng tổng quan cho bảng */
+.dataTables_wrapper {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #333;
+    margin: 20px 0;
+}
+
+/* Kiểu bảng */
+table.dataTable {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+}
+
+/* Header của bảng */
+table.dataTable thead {
+    background-color: #007bff;
+    color: white;
+    text-align: left;
+}
+
+table.dataTable thead th {
+    padding: 12px;
+    font-weight: bold;
+    border-bottom: 2px solid #ddd;
+}
+
+/* Dòng dữ liệu */
+table.dataTable tbody tr {
+    transition: background-color 0.3s ease;
+}
+
+table.dataTable tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+table.dataTable tbody tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+table.dataTable tbody tr:hover {
+    background-color: #d6eaff;
+}
+
+/* Ô dữ liệu */
+table.dataTable tbody td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Phân trang */
+.dataTables_paginate {
+    margin-top: 10px;
+    text-align: right;
+}
+
+.dataTables_paginate a {
+    padding: 8px 12px;
+    margin: 0 2px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 3px;
+}
+
+.dataTables_paginate a:hover {
+    background-color: #0056b3;
+}
+
+/* Thanh tìm kiếm */
+.dataTables_filter {
+    margin-bottom: 10px;
+    text-align: right;
+}
+
+.dataTables_filter input {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+/* Số lượng hiển thị */
+.dataTables_length {
+    margin-bottom: 10px;
+}
+
+.dataTables_length select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
