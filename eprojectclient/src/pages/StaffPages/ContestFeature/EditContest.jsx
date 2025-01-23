@@ -126,7 +126,8 @@ const EditContest = () => {
         const fetchInfoOfStaff = async (userId) => {
             var result = await axios.get(`http://localhost:5190/api/Staff/GetInfoStaff/${userId}`);
             console.log(result);
-            if (result.data.isReviewer) {
+            if (!result.data.isReviewer) {
+                // setTimeout(()=>  navigate('/staff'), 2000) 
                 toast.dark("Ban ko co quyen han vao trang nay");
                 navigate('/staff');
             }

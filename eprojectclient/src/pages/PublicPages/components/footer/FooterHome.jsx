@@ -16,7 +16,7 @@ function FooterHome(props) {
                         download="Policy.pdf" // Tên tệp khi tải xuống
                         style={styles.policyLink}
                     >
-                        Chính sách của chúng tôi
+                        Our policy
                     </a>
                 </div>
             </div>

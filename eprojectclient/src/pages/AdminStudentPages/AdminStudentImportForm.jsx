@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import styles from './AdminStudentImportForm';
 
 const AdminStudentImportForm = () => {
@@ -8,7 +8,7 @@ const AdminStudentImportForm = () => {
     const [loading, setLoading] = useState(false);
     const [emailErrors, setEmailErrors] = useState([]);
     const [students, setStudents] = useState([]);
-    const navigate = useNavigate(); // Khởi tạo useNavigate
+    const navigate = useNavigate();
 
     const handleFileChange = (event) => {
         setFile(event.target.files[0]);
@@ -16,37 +16,40 @@ const AdminStudentImportForm = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+    
         if (!file) {
             setMessage('Please select a file.');
             return;
         }
-
+    
         const formData = new FormData();
         formData.append('file', file);
-
+    
         setLoading(true);
         setMessage('');
         setEmailErrors([]);
         setStudents([]);
-
+    
         try {
             const response = await fetch('http://localhost:5190/api/AdminStudent/import-students', {
                 method: 'POST',
                 body: formData,
             });
-
+    
             const data = await response.json();
-
+    
             if (response.ok) {
-                setStudents(data.students);
-                setEmailErrors(data.emailErrors);
+                setStudents(data.students || []);
+                setEmailErrors(data.emailErrors || []);
                 setMessage('Students imported successfully!');
-                setTimeout(() => {
-                    navigate('/adminstudent/adminstudentlist'); // Điều hướng về trang Student List sau 2 giây
-                }, 2000);  // Thời gian chờ 2 giây trước khi chuyển hướng
+                navigate('/admin/adminstudentlist');
             } else {
-                setMessage(data.message || 'An error occurred.');
+                if (data.duplicateEmails) {
+                    setMessage(`Error: Duplicate emails found: ${data.duplicateEmails.join(', ')}`);
+                } else {
+                    const errorMessage = data.message || 'An unexpected error occurred.';
+                    setMessage(`Error: ${errorMessage}`);
+                }
             }
         } catch (error) {
             setMessage('An error occurred during the import.');
@@ -62,16 +65,17 @@ const AdminStudentImportForm = () => {
                 <input
                     type="file"
                     onChange={handleFileChange}
-                    accept=".csv , .txt"
+                    accept=".xlsx, .xls"
                     className={styles.fileInput}
                 />
                 <button type="submit" className={styles.submitButton} disabled={loading}>
                     {loading ? 'Importing...' : 'Import Students'}
                 </button>
             </form>
+            {loading && <div className={styles.spinner}>Loading...</div>}
             {message && <p className={styles.message}>{message}</p>}
             {emailErrors.length > 0 && (
-                <div className={styles.errors}>
+                <div className={styles.errors} style={{ maxHeight: '200px', overflowY: 'scroll' }}>
                     <h4>Email Send Errors:</h4>
                     <ul>
                         {emailErrors.map((error, index) => (

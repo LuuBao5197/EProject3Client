@@ -1,18 +1,20 @@
 // import config from '../config/routes';
 
 
-import {AdminStaffConfig, AdminStudentConfig, StudentConfig } from "../config/routes";
+import {AdminConfig } from "../config/routes";
 
 import { ManagerConfig, TeacherConfig } from "../config/routes";
 
+
+
+// import Contest from "../pages/Contest";
 import EditProfile from "../pages/PublicPages/EditProfile";
+import Contest from "../pages/StudentPages/Contest";
 import AwardReceived from "../pages/StudentPages/AwardReceived";
 import CreateNewSubmission from "../pages/StudentPages/CreateNewSubmission";
 import HomePage from "../pages/PublicPages/HomePage";
 import AboutUs from "../pages/PublicPages/AboutUs";
-import MySubmission from "../pages/StudentPages/MySubmissions";
-import UpdateMySubmission from "../pages/StudentPages/UpdateMySubmission";
-import ExhibitionArtwork from "../pages/StudentPages/ExhibitionArtwork";
+import ChangePasswordFirstTimeLogin from "../pages/PublicPages/ChangePasswordFirstTimeLogin";
 
 
 
@@ -21,6 +23,11 @@ export const publicRoutes = [
         path: "/",
         element: <HomePage/>,
         
+    },
+    {
+
+        path: "/ChangePasswordFirstTimeLogin",
+        element: <ChangePasswordFirstTimeLogin/>,
     },
     {
 
@@ -34,29 +41,19 @@ export const publicRoutes = [
     },
     {
 
+        path: "/contest",
+        element: <Contest/>,
+        
+    },
+    {
+
         path: "/awardreceived",
         element: <AwardReceived/>,
         
     },{
 
-        path: "/createnewsubmission/:contestId",
+        path: "/createsubmission",
         element: <CreateNewSubmission/>,
-        
-    },,{
-
-        path: "/mysubmissions",
-        element: <MySubmission/>,
-        
-    },{
-
-        path: "/updatemysubmission/:id",
-        element: <UpdateMySubmission/>,
-        
-    },
-    {
-
-        path: "/exhibitionartwork",
-        element: <ExhibitionArtwork/>,
         
     },
 
@@ -152,58 +149,50 @@ export const ManagerRoutes =[
         element: ManagerConfig.teacherdetail.component
     }
 ];
-export const AdminStaffRoute = [
+export const AdminRoute = [
     {
-        path: AdminStaffConfig.adminstafflayout.path,
-        element: AdminStaffConfig.adminstafflayout.component
+        path: AdminConfig.adminlayout.path,
+        element: AdminConfig.adminlayout.component
     },
     {
-        path: AdminStaffConfig.adminstaffadd.path,
-        element: AdminStaffConfig.adminstaffadd.component
+        path: AdminConfig.stafflayout.path,
+        element: AdminConfig.stafflayout.component
     },
     {
-        path: AdminStaffConfig.adminstaffdetail.path,
-        element: AdminStaffConfig.adminstaffdetail.component
+        path: AdminConfig.staffadd.path,
+        element: AdminConfig.staffadd.component
+    },
+    {
+        path: AdminConfig.staffdetail.path,
+        element: AdminConfig.staffdetail.component
+    },
+
+    {
+        path: AdminConfig.studentlist.path,
+        element: AdminConfig.studentlist.component
+    },
+    {
+        path: AdminConfig.studentadd.path,
+        element: AdminConfig.studentadd.component
+    },
+    {
+        path: AdminConfig.studentimport.path,
+        element: AdminConfig.studentimport.component
+    },
+    {
+        path: AdminConfig.studentdetail.path,
+        element: AdminConfig.studentdetail.component
+
+    },
+    {
+        path: AdminConfig.classdetail.path,
+        element: AdminConfig.classdetail.component
+    },
+    {
+        path: AdminConfig.adminclassadd.path,
+        element: AdminConfig.adminclassadd.component
     }
 ];
-export const AdminStudentRoute = [
-    {
-        path: AdminStudentConfig.adminstudentlist.path,
-        element: AdminStudentConfig.adminstudentlist.component
-    },
-    {
-        path: AdminStudentConfig.adminstudentadd.path,
-        element: AdminStudentConfig.adminstudentadd.component
-    },
-    {
-        path: AdminStudentConfig.adminstudentimport.path,
-        element: AdminStudentConfig.adminstudentimport.component
-    },
-    {
-        path: AdminStudentConfig.adminstudentdetail.path,
-        element: AdminStudentConfig.adminstudentdetail.component
-
-    }
-];
-
-export const StudentRoutes=[
-    {
-        path: StudentConfig.awardreceived.path,
-        element: StudentConfig.awardreceived.component,
-    },  {
-        path: StudentConfig.createnewsubmission.path,
-        element: StudentConfig.createnewsubmission.component,
-    },  {
-        path: StudentConfig.exhibitionartwork.path,
-        element: StudentConfig.exhibitionartwork.component,
-    },  {
-        path: StudentConfig.mysubmissions.path,
-        element: StudentConfig.mysubmissions.component,
-    },  {
-        path: StudentConfig.updatemysubmission.path,
-        element: StudentConfig.updatemysubmission.component,
-    }, 
-]
 export const privateRoutes = [
   // {
   //     path: config.home.path,

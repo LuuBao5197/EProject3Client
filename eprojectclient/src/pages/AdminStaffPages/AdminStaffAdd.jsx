@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import styles from './AdminStaffAdd.module.css';
 import { useNavigate } from 'react-router-dom';
 import { getSubjects, getQualifications, addStaff } from '../../API/getAdminStaff';
 
@@ -11,16 +10,19 @@ const AdminStaffAdd = () => {
         email: '',
         phone: '',
         dob: '',
-        joinDate: '',
-        subjectIds: [],
-        qualificationIds: [],
-        role: 'Staff' // Gán mặc định là Staff
+        joinDate: new Date().toISOString().split('T')[0], // Set current date as default
+        staffSubjectIds: [],
+        staffQualificationIds: [],
+        role: 'Staff'
     });
 
     const [subjects, setSubjects] = useState([]);
     const [qualifications, setQualifications] = useState([]);
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [dobError, setDobError] = useState('');
+    const [phoneError, setPhoneError] = useState(''); // State for phone error
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -39,150 +41,321 @@ const AdminStaffAdd = () => {
         fetchData();
     }, []);
 
+    const validateAge = (birthDate) => {
+        const today = new Date();
+        const birth = new Date(birthDate);
+        let age = today.getFullYear() - birth.getFullYear();
+        const monthDiff = today.getMonth() - birth.getMonth();
+
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+            age--;
+        }
+
+        return age >= 20;
+    };
+
+    const validatePhoneNumber = (phone) => {
+        const phoneRegex = /^0\d{9}$/;
+        return phoneRegex.test(phone);
+    };
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+
+        if (name === 'dob') {
+            if (!validateAge(value)) {
+                setDobError('Staff must be at least 20 years old');
+            } else {
+                setDobError('');
+            }
+        }
+
+        if (name === 'phone') {
+            // Kiểm tra số điện thoại
+            if (!validatePhoneNumber(value)) {
+                setPhoneError('Phone number must start with 0 and have 10 digits');
+            } else {
+                setPhoneError(''); // Xóa lỗi nếu hợp lệ
+            }
+        }
+
         setFormData({ ...formData, [name]: value });
     };
 
     const handleSubjectChange = (e) => {
-        const value = parseInt(e.target.value);
+        const values = Array.from(e.target.selectedOptions, option => parseInt(option.value));
         setFormData({
             ...formData,
-            subjectIds: value ? [value] : []
+            staffSubjectIds: values
         });
     };
 
     const handleQualificationChange = (e) => {
-        const value = parseInt(e.target.value);
+        const values = Array.from(e.target.selectedOptions, option => parseInt(option.value));
         setFormData({
             ...formData,
-            qualificationIds: value ? [value] : []
+            staffQualificationIds: values
         });
+    };
+
+    const validateEmail = async (email) => {
+        try {
+            // Assume we have an API endpoint to check email existence
+            const response = await fetch(`http://localhost:5190/api/AdminStaff/check-email?email=${email}`);
+            const data = await response.json();
+            return !data.exists;
+        } catch (err) {
+            console.error('Error checking email:', err);
+            return false;
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setMessage('');
         setError('');
+        setEmailError('');
+        setDobError('');
+        setPhoneError('');
+        // Kiểm tra định dạng email
+        if (!formData.username || !formData.password || !formData.name || !formData.email || !formData.phone || !formData.dob) {
+            setError('Please fill in all fields');
+            return;
+        }
+        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        if (!emailPattern.test(formData.email)) {
+            setEmailError('Please enter a valid email address');
+            return;
+        }
         
-        console.log(formData); // Kiểm tra dữ liệu formData
-    
+        // Validate age
+        if (!validateAge(formData.dob)) {
+            setDobError('Staff must be at least 20 years old');
+            return;
+        }
+
+        // Validate email
+        const isEmailValid = await validateEmail(formData.email);
+        if (!isEmailValid) {
+            setEmailError('This email is already in use');
+            return;
+        }
+        // Validate that at least one subject is selected
+        if (formData.staffSubjectIds.length === 0) {
+            setError('Please select at least one subject');
+            return;
+        }
+
+        // Validate that at least one qualification is selected
+        if (formData.staffQualificationIds.length === 0) {
+            setError('Please select at least one qualification');
+            return;
+        }
+
+        // Validate phone
+        if (!validatePhoneNumber(formData.phone)) {
+            setPhoneError('Phone number must start with 0 and have 10 digits');
+            return;
+        }
+
         try {
             const response = await addStaff(formData);
-            console.log(response); // Kiểm tra phản hồi từ API
             setMessage('Staff added successfully');
-            setFormData({
-                username: '',
-                password: '',
-                name: '',
-                email: '',
-                phone: '',
-                dob: '',
-                joinDate: '',
-                subjectIds: [],
-                qualificationIds: [],
-                role: 'Staff'
-            });
-            navigate('/adminstaff/adminstafflayout');
+            navigate('/admin/stafflayout');
         } catch (err) {
-            console.error(err); // In lỗi ra console để kiểm tra
+            console.error(err);
             setError(err.message);
         }
     };
 
     return (
-        <div className={styles.container}>
-            <h2>Create Staff</h2>
-            {message && <p style={{ color: 'green' }}>{message}</p>}
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <form onSubmit={handleSubmit}>
-                <div className={styles.formGroup}>
-                    <label>Username</label>
-                    <input type="text" name="username" value={formData.username} onChange={handleInputChange} required />
-                </div>
-                <div className={styles.formGroup}>
-                    <label>Password</label>
-                    <input type="password" name="password" value={formData.password} onChange={handleInputChange} required />
-                </div>
-                <div className={styles.formGroup}>
-                    <label>Name</label>
-                    <input type="text" name="name" value={formData.name} onChange={handleInputChange} required />
-                </div>
-                <div className={styles.formGroup}>
-                    <label>Email</label>
-                    <input type="email" name="email" value={formData.email} onChange={handleInputChange} required />
-                </div>
-                <div className={styles.formGroup}>
-                    <label>Phone</label>
-                    <input type="tel" name="phone" value={formData.phone} onChange={handleInputChange} required />
-                </div>
-                <div className={styles.formGroup}>
-                    <label>Date of Birth</label>
-                    <input type="date" name="dob" value={formData.dob} onChange={handleInputChange} required />
-                </div>
-                <div className={styles.formGroup}>
-                    <label>Join Date</label>
-                    <input type="date" name="joinDate" value={formData.joinDate} onChange={handleInputChange} required />
+        <div className="container mt-4">
+            <h2 className="mb-4">Create Staff</h2>
+            {message && <div className="alert alert-success">{message}</div>}
+            {error && <div className="alert alert-danger">{error}</div>}
+
+            <form onSubmit={handleSubmit} className="needs-validation" noValidate>
+                <div className="row g-3">
+                    <div className="col-md-6">
+                        <div className="form-floating mb-3">
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="username"
+                                name="username"
+                                placeholder="Username"
+                                value={formData.username}
+                                onChange={handleInputChange}
+                                required
+                            />
+                            <label htmlFor="username">Username</label>
+                        </div>
+                    </div>
+
+                    <div className="col-md-6">
+                        <div className="form-floating mb-3">
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="password"
+                                name="password"
+                                placeholder="Password"
+                                value={formData.password}
+                                onChange={handleInputChange}
+                                required
+                            />
+                            <label htmlFor="password">Password</label>
+                        </div>
+                    </div>
+
+                    <div className="col-md-6">
+                        <div className="form-floating mb-3">
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="name"
+                                name="name"
+                                placeholder="Name"
+                                value={formData.name}
+                                onChange={handleInputChange}
+                                required
+                            />
+                            <label htmlFor="name">Name</label>
+                        </div>
+                    </div>
+
+                    <div className="col-md-6">
+                        <div className="form-floating mb-3">
+                            <input
+                                type="email"
+                                className={`form-control ${emailError ? 'is-invalid' : ''}`}
+                                id="email"
+                                name="email"
+                                placeholder="Email"
+                                value={formData.email}
+                                onChange={handleInputChange}
+                                required
+                            />
+                            <label htmlFor="email">Email</label>
+                            {emailError && <div className="invalid-feedback">{emailError}</div>}
+                        </div>
+                    </div>
+
+                    <div className="col-md-6">
+                        <div className="form-floating mb-3">
+                            <input
+                                type="tel"
+                                className={`form-control ${phoneError ? 'is-invalid' : ''}`}
+                                id="phone"
+                                name="phone"
+                                placeholder="Phone"
+                                value={formData.phone}
+                                onChange={handleInputChange}
+                                required
+                            />
+                            <label htmlFor="phone">Phone</label>
+                            {phoneError && <div className="invalid-feedback">{phoneError}</div>}
+                        </div>
+                    </div>
+
+                    <div className="col-md-6">
+                        <div className="form-floating mb-3">
+                            <input
+                                type="date"
+                                className={`form-control ${dobError ? 'is-invalid' : ''}`}
+                                id="dob"
+                                name="dob"
+                                value={formData.dob}
+                                onChange={handleInputChange}
+                                required
+                            />
+                            <label htmlFor="dob">Date of Birth</label>
+                            {dobError && <div className="invalid-feedback">{dobError}</div>}
+                        </div>
+                    </div>
+
+                    <div className="col-md-6">
+                        <div className="form-floating mb-3">
+                            <input
+                                type="date"
+                                className="form-control"
+                                id="joinDate"
+                                name="joinDate"
+                                value={formData.joinDate}
+                                readOnly
+                            />
+                            <label htmlFor="joinDate">Join Date</label>
+                        </div>
+                    </div>
+
+                    <div className="col-md-6">
+                        <div className="form-floating mb-3">
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="role"
+                                name="role"
+                                value={formData.role}
+                                disabled
+                            />
+                            <label htmlFor="role">Role</label>
+                        </div>
+                    </div>
+
+                    <div className="col-md-6">
+                        <div className="form-floating mb-3">
+                            <select
+                                className={`form-select ${formData.staffSubjectIds.length === 0 ? 'is-invalid' : ''}`}
+                                id="staffSubjectIds"
+                                name="staffSubjectIds"
+                                multiple
+                                onChange={handleSubjectChange}
+                                value={formData.staffSubjectIds}
+                                style={{ height: '100px' }}
+                            >
+                                {subjects.map((subject) => (
+                                    <option key={subject.id} value={subject.id}>
+                                        {subject.name}
+                                    </option>
+                                ))}
+                            </select>
+                            <label htmlFor="staffSubjectIds">Subjects</label>
+                            {formData.staffSubjectIds.length === 0 && (
+                                <div className="invalid-feedback">Please select at least one subject</div>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="col-md-6">
+                        <div className="form-floating mb-3">
+                            <select
+                                className={`form-select ${formData.staffQualificationIds.length === 0 ? 'is-invalid' : ''}`}
+                                id="staffQualificationIds"
+                                name="staffQualificationIds"
+                                multiple
+                                onChange={handleQualificationChange}
+                                value={formData.staffQualificationIds}
+                                style={{ height: '100px' }}
+                            >
+                                {qualifications.map((qualification) => (
+                                    <option key={qualification.id} value={qualification.id}>
+                                        {qualification.name}
+                                    </option>
+                                ))}
+                            </select>
+                            <label htmlFor="staffQualificationIds">Qualifications</label>
+                            {formData.staffQualificationIds.length === 0 && (
+                                <div className="invalid-feedback">Please select at least one qualification</div>
+                            )}
+                        </div>
+                    </div>
+
                 </div>
 
-                <div className={styles.formGroup}>
-                    <label htmlFor="role">Role</label>
-                    <input
-                        type="text"
-                        id="role"
-                        name="role"
-                        className="form-control"
-                        value={formData.role}
-                        disabled // Không cho phép thay đổi
-                    />
-                </div>
-
-                <div className={styles.formGroup}>
-                    <label htmlFor="subjectIds" className="form-label">Subjects</label>
-                    <select
-                        id="subjectIds"
-                        name="subjectIds"
-                        className="form-select"
-                        aria-label="Subject selection"
-                        onChange={handleSubjectChange}
-                        value={formData.subjectIds.length === 0 ? "" : formData.subjectIds[0]}
-                    >
-                        <option value="">Open this select menu</option>
-                        {subjects.map((subject) => (
-                            <option key={subject.id} value={subject.id}>
-                                {subject.name}
-                            </option>
-                        ))}
-                    </select>
-                    {formData.subjectIds.length === 0 && (
-                        <div className="invalid-feedback">Please select a subject.</div>
-                    )}
-                </div>
-
-                <div className={styles.formGroup}>
-                    <label htmlFor="qualificationIds" className="form-label">Qualifications</label>
-                    <select
-                        id="qualificationIds"
-                        name="qualificationIds"
-                        className="form-select"
-                        aria-label="Qualification selection"
-                        onChange={handleQualificationChange}
-                        value={formData.qualificationIds.length === 0 ? "" : formData.qualificationIds[0]}
-                    >
-                        <option value="">Open this select menu</option>
-                        {qualifications.map((qualification) => (
-                            <option key={qualification.id} value={qualification.id}>
-                                {qualification.name}
-                            </option>
-                        ))}
-                    </select>
-                    {formData.qualificationIds.length === 0 && (
-                        <div className="invalid-feedback">Please select a qualification.</div>
-                    )}
-                </div>
-
-                <div className={styles.buttonGroup}>
-                    <button type="submit">Create Staff</button>
+                <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                    <button type="submit" className="btn btn-primary btn-lg">
+                        Create Staff
+                    </button>
                 </div>
             </form>
         </div>

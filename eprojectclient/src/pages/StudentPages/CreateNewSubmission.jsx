@@ -1,156 +1,171 @@
 import React, { useEffect, useState } from "react";
+import { getContest } from "../../API/getContest";
 import { postSubmission } from "../../API/postSubmission";
-import { MDBInput, MDBInputGroup, MDBTextArea } from "mdb-react-ui-kit";
-import { getStudentIdDemo } from "../../API/getStudentIdDemo";
-import { useNavigate, useParams } from "react-router-dom";
-import { getOneContestById } from "../../API/getOneContestById";
-import { SweetAlert } from "./Notifications/SweetAlert";
-import FooterHome from "../PublicPages/components/footer/FooterHome";
-import NavbarStudentHome from "./components/navbar/NavbarStudentHome";
+import { getStudent } from "../../API/getStudent";
 
-
-function CreateNewSubmission() {
-    const [contest, setContest] = useState("");
+const SubmissionForm = ({ onSubmit }) => {
+    const [selectedContest, setSelectedContest] = useState("");
+    const [selectedStd, setSelectedStd] = useState("");
     const [description, setDescription] = useState("");
-    const submissionDate = new Date().toLocaleString();
     const [file, setFile] = useState(null);
     const [name, setName] = useState(null);
     const [checked, setChecked] = useState(false);
-
-    const { contestId } = useParams();
-    const nav = useNavigate();
+    const [contests, setContests] = useState([]);
+    const [students, setStudents] = useState([]);
 
     useEffect(() => {
-        const getContest = async () => {
+        const fetchContests = async () => {
             try {
-                const data = await getOneContestById(contestId);
-                setContest(data);
-                console.log(data);
-                console.log(contestId);
+                const data = await getContest();
+                setContests(data);
+                //console.log(data);
 
             } catch (error) {
                 console.error('Failed to fetch contests:', error);
+
+            }
+        };
+        const fetchStudents = async () => {
+            try {
+                const data = await getStudent();
+                setStudents(data);
+                //console.log(data);
+
+            } catch (error) {
+                console.error('Failed to fetch STDs:', error);
+
             }
         };
 
-        getContest();
-        console.log(contestId);
+        fetchContests();
+        fetchStudents();
+    }, []);
 
-    }, [])
 
-
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (!file) {
-            SweetAlert("Please select a file !", "warning");
-            return;
-        }
-        if (file.type != "image/jpeg") {
-            SweetAlert("File must be JPEG format! Try again!", 'warning');
-            return;
-        }
-        if (!name || name.trim() == "") {
-            SweetAlert("Please enter name submission!", "warning");
-            return;
-        }
-        if (!description || description.trim() == "") {
-            SweetAlert("Please enter description submission!", "warning");
+        if (!selectedContest || !file || !selectedStd) {
+            alert("Vui lòng chọn contest,Student và upload file!");
             return;
         }
 
-        const formData = new FormData(
-        );
+
+        const formData = new FormData();
+        formData.append("studentId", selectedStd);
+        formData.append("ContestId", selectedContest.value);  // Nếu selectedContest là thẻ <select> 
         formData.append("name", name);
         formData.append("description", description);
-        formData.append("fileImage", file);
-        formData.append("filePath", file.name);
-
-        console.log(file);
-
+        formData.append("filePath", file);
+        
         try {
-            const response = await postSubmission(getStudentIdDemo(), contestId, formData);
-            // Điều hướng kèm dữ liệu phản hồi
-            nav("/mysubmissions", { state: { newSubmission: response } });
-        } catch (error) {
-            SweetAlert("Failed to create submission:", "error");
+            postSubmission(formData);
+        }
+        catch (e) {
+            console.log(e);
         }
     };
 
     return (
-        <div className="container">
+        <form onSubmit={handleSubmit}>
+            <div className="form-group">
+                <label>Chọn sinh viên</label>
+                <select
+                    id="studentSelect"
+                    className="form-control"
+                    value={selectedStd}
+                    onChange={(e) => setSelectedStd(e.target.value)}
+                >
+                    <option value="">-- Chọn Student --</option>
+                    {students.map((s) => (
+                        <option key={s.id} value={s.id}>
+                            {s.id}
+                        </option>
+                    ))}
+                </select>
+            </div>
+            {/* Contest Select */}
+            <div className="form-group">
+                <label htmlFor="contestSelect">Contest</label>
+                <select
+                    id="contestSelect"
+                    className="form-control"
+                    value={selectedContest}
+                    onChange={(e) => setSelectedContest(e.target.value)}
+                >
+                    <option value="">-- Chọn Contest --</option>
+                    {contests.map((contest) => (
+                        <option key={contest.id} value={contest.id}>
+                            {contest.name}
+                        </option>
+                    ))}
+                </select>
+            </div>
 
-            <NavbarStudentHome />
-
-            <form onSubmit={handleSubmit}>
-                <h1 className="text-center mt-3">Create new submission</h1>
-                <MDBInput
-                    label="Student ID"
-                    id="formTextExample1"
-                    type="datetime"
-                    value={getStudentIdDemo()}
-                    aria-describedby="textExample1"
-                    className="mt-3"
-                />
-                <MDBInput
-                    label="Time"
-                    id="formTextExample1"
-                    type="datetime"
-                    value={submissionDate}
-                    aria-describedby="textExample1"
-                    className="mt-3"
-                />
-
-                <MDBInput
-                    label="Contest name"
-                    id="formTextExample1"
+            {/* Date Display */}
+            <div className="form-group">
+                <label htmlFor="submissionDate">Date</label>
+                <input
                     type="text"
-                    readOnly
-                    className="mt-3"
-                    value={contest.name}
+                    id="submissionDate"
+                    className="form-control"
+                    value={new Date().toLocaleString()} // Hiển thị thời gian hiện tại
+                    disabled
                 />
-                <MDBInput
-                    label="Name of submission"
-                    id="formTextExample1"
+            </div>
+
+            <div className="form-group">
+                <label htmlFor="description">Name</label>
+                <input
                     type="text"
+                    className="form-control"
                     onChange={(e) => setName(e.target.value)}
-                    className="mt-3"
+                ></input>
+            </div>
+
+
+            {/* Description */}
+            <div className="form-group">
+                <label htmlFor="description">Description</label>
+                <textarea
+                    id="description"
+                    className="form-control"
+                    rows="3"
+                    onChange={(e) => setDescription(e.target.value)}
+                ></textarea>
+            </div>
+
+            {/* File Upload */}
+            <div className="form-group">
+                <label htmlFor="fileUpload">Upload File</label>
+                <input
+                    type="text"
+                    id="fileUpload"
+                    className="form-control-file"
+                    onChange={(e) => setFile(e.target.value)}
                 />
+            </div>
 
+            {/* Checkbox */}
+            <div className="form-check">
+                <input
+                    type="checkbox"
+                    className="form-check-input"
+                    id="agreementCheck"
+                    checked={checked}
+                    onChange={(e) => setChecked(e.target.checked)}
+                />
+                <label className="form-check-label" htmlFor="agreementCheck">
+                    I agree to the terms and conditions
+                </label>
+            </div>
 
-                <MDBTextArea className="mt-3"
-                    label="Description for submission..." id="textAreaExample" rows="{4}" onChange={(e) => setDescription(e.target.value)} />
-
-
-                <MDBInputGroup className='mt-3'>
-                    <input className='form-control' type='file'
-                        name="file"
-                        onChange={(e) => setFile(e.target.files[0])}
-                        accept="image/jpeg" />
-                </MDBInputGroup>
-
-
-                {/* Checkbox */}
-                <div className="form-check mt-3">
-                    <input
-                        type="checkbox"
-                        className="form-check-input"
-                        id="agreementCheck"
-                        checked={checked}
-                        onChange={(e) => setChecked(e.target.checked)}
-                    />
-                    <label className="form-check-label" htmlFor="agreementCheck">
-                        I agree to the terms and conditions
-                    </label>
-                </div>
-
-                <button type="submit" className="btn btn-primary mt-3" disabled={!checked}>
-                    Submit
-                </button>
-            </form>
-            <FooterHome />
-        </div>
+            {/* Submit Button */}
+            <button type="submit" className="btn btn-primary" disabled={!checked}>
+                Submit
+            </button>
+        </form>
     );
 };
 
-export default CreateNewSubmission;
+export default SubmissionForm;
