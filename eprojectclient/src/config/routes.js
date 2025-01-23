@@ -32,7 +32,9 @@ import CreateNewSubmission from "../pages/StudentPages/CreateNewSubmission";
 import ExhibitionArtwork from "../pages/StudentPages/ExhibitionArtwork";
 import MySubmission from "../pages/StudentPages/MySubmissions";
 import UpdateMySubmission from "../pages/StudentPages/UpdateMySubmission";
-
+import Adminlayout from "../pages/AdminPages/Adminlayout";
+import AdminClassDetail from "../pages/AdminPages/AdminClassDetail";
+import CreateClassForm from "../pages/AdminPages/AdminClassAdd";
 
 export const config = {
 
