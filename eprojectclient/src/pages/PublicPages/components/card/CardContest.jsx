@@ -5,11 +5,15 @@ import {
     useColorModeValue,
   } from "@chakra-ui/react";
   import Card from "@/components/card/Card.js";
+import { useNavigate } from "react-router-dom";
+
+
   
   export default function CardContest({ contest, ...props }) {
     // Chakra Color Mode
     const textColor = useColorModeValue("secondaryGray.900", "white");
-  
+    const nav =useNavigate();
+
     // Helper function to format dates
     const formatDate = (dateString) => {
       const options = { year: "numeric", month: "2-digit", day: "2-digit" };
@@ -44,6 +48,9 @@ import {
             </Text>
             <Text color={textColor} fontSize="130%" textAlign="left" mt="12px">
               Deadline: {formatDate(contest.submissionDeadline)}
+            </Text>
+            <Text color={textColor} fontSize="130%" textAlign="left" mt="12px">
+              <button className="btn btn-outline-dark" onClick={()=>nav(`createsubmission/${contest.id}`)}>Join</button>
             </Text>
             <Text color={textColor} fontSize="120%" textAlign="left" mt="80px">
               Organized By: {contest.organizerName}

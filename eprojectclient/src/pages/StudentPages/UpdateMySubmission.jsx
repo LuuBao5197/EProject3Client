@@ -96,7 +96,7 @@ function UpdateMySubmission() {
         <div className="container mt-5">
             <NavbarHome />
             <form onSubmit={handleUpdate} style={{ textAlign: "center" }}>
-                <h1 className="text-center text-primary mb-4">Update Submission</h1>
+                <h1 className="text-center text-primary mb-4 mt-3">Update Submission</h1>
 
                 <div className="row">
                     <div className="col-6">
