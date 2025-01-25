@@ -15,10 +15,13 @@ const AdminStudentAdd = () => {
         enrollmentDate: '',
         parentName: '',
         parentPhoneNumber: '',
+        address: '',
         classIds: []
     });
 
-    const [classes, setClasses] = useState([]); // Danh sách lớp học
+    const [profileImage, setProfileImage] = useState(null);
+    const [imagePreview, setImagePreview] = useState(null);
+    const [classes, setClasses] = useState([]);
     const [errors, setErrors] = useState({});
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
@@ -66,7 +69,9 @@ const AdminStudentAdd = () => {
         if (!formData.parentPhoneNumber.trim() || !/^0\d{9}$/.test(formData.parentPhoneNumber)) {
             newErrors.parentPhoneNumber = 'Parent phone number must start with 0 and contain exactly 10 digits.';
         }
+        if (!formData.address.trim()) newErrors.address = 'Address is required.';
         if (formData.classIds.length === 0) newErrors.classIds = 'At least one class must be selected.';
+        
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -77,6 +82,38 @@ const AdminStudentAdd = () => {
             ...formData,
             [name]: value
         });
+    };
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            // Validate image file
+            const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            const maxSize = 5 * 1024 * 1024; // 5MB
+
+            if (!validTypes.includes(file.type)) {
+                setErrors(prev => ({
+                    ...prev, 
+                    profileImage: 'Invalid file type. Please upload JPEG, PNG, or GIF.'
+                }));
+                return;
+            }
+
+            if (file.size > maxSize) {
+                setErrors(prev => ({
+                    ...prev, 
+                    profileImage: 'File size exceeds 5MB limit.'
+                }));
+                return;
+            }
+
+            setProfileImage(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
     };
 
     const handleClassChange = (e) => {
@@ -90,30 +127,42 @@ const AdminStudentAdd = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setMessage('');
+        
+        // Clear previous image-related errors
+        if (errors.profileImage) {
+            const { profileImage, ...restErrors } = errors;
+            setErrors(restErrors);
+        }
+
         if (!validateForm()) return;
 
+        const formDataToSubmit = new FormData();
+        
+        // Append all form fields
+        Object.keys(formData).forEach(key => {
+            if (key === 'classIds') {
+                formData.classIds.forEach(classId => 
+                    formDataToSubmit.append('classIds', classId)
+                );
+            } else {
+                formDataToSubmit.append(key, formData[key]);
+            }
+        });
+
+        // Append profile image if exists
+        if (profileImage) {
+            formDataToSubmit.append('profileImage', profileImage);
+        }
+
         try {
-            await addStudent(formData);
+            const response = await addStudent(formDataToSubmit);
             setMessage('Student added successfully');
-            setFormData({
-                username: '',
-                password: '',
-                name: '',
-                email: '',
-                phone: '',
-                dob: '',
-                joinDate: today,
-                enrollmentDate: '',
-                parentName: '',
-                parentPhoneNumber: '',
-                classIds: []
-            });
             navigate('/admin/studentlist');
         } catch (err) {
             if (err.response && err.response.status === 400) {
                 setErrors({ email: err.response.data.message });
             } else {
-                setErrors({ email: 'Email already exists.' });
+                setErrors({ email: 'An error occurred while creating the student.' });
             }
         }
     };
@@ -188,6 +237,7 @@ const AdminStudentAdd = () => {
                         </div>
                     </div>
 
+
                     {/* Cột 2 */}
                     <div className="col-md-6">
                         <div className="mb-3">
@@ -239,24 +289,56 @@ const AdminStudentAdd = () => {
                             {errors.parentPhoneNumber && <div className="invalid-feedback">{errors.parentPhoneNumber}</div>}
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="classIds" className="form-label">Classes</label>
-                            <select
-                                id="classIds"
-                                name="classIds"
-                                className={`form-select ${errors.classIds ? 'is-invalid' : ''}`}
-                                onChange={handleClassChange}
-                                value={formData.classIds.length === 0 ? "" : formData.classIds[0]}
-                            >
-                                <option value="">Select a class</option>
-                                {classes.map((cls) => (
-                                    <option key={cls.id} value={cls.id}>
-                                        {cls.name}
-                                    </option>
-                                ))}
-                            </select>
-                            {errors.classIds && <div className="invalid-feedback">{errors.classIds}</div>}
+                            <label htmlFor="address" className="form-label">Address</label>
+                            <input
+                                type="text"
+                                className={`form-control ${errors.address ? 'is-invalid' : ''}`}
+                                id="address"
+                                name="address"
+                                value={formData.address}
+                                onChange={handleInputChange}
+                            />
+                            {errors.address && <div className="invalid-feedback">{errors.address}</div>}
                         </div>
+                        <div className="col-md-12 mb-3">
+                        <label htmlFor="profileImage" className="form-label">Profile Image</label>
+                        <input
+                            type="file"
+                            className="form-control"
+                            id="profileImage"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                        />
+                        {imagePreview && (
+                            <div className="mt-2">
+                                <img 
+                                    src={imagePreview} 
+                                    alt="Profile Preview" 
+                                    className="img-thumbnail" 
+                                    style={{ maxWidth: '200px', maxHeight: '200px' }}
+                                />
+                            </div>
+                        )}
+                    </div>
 
+                    </div>
+                    <div>
+                        <label htmlFor="classIds" className="form-label">Classes</label>
+                        <select
+                            id="classIds"
+                            name="classIds"
+                            className={`form-select ${errors.classIds ? 'is-invalid' : ''}`}
+                            onChange={handleClassChange}
+                            value={formData.classIds.length === 0 ? "" : formData.classIds[0]}
+                        >
+                            <option value="">Select a class</option>
+                            {classes.map((cls) => (
+                                <option key={cls.id} value={cls.id}>
+                                    {cls.name}
+                                </option>
+                            ))}
+                        </select>
+                        {errors.classIds && <div className="invalid-feedback">{errors.classIds}</div>}
                     </div>
                 </div>
                 <div className="text-center">

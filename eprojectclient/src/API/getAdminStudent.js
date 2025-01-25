@@ -22,7 +22,11 @@ export const getAllClasses = async () => {
 
 export const addStudent = async (studentData) => {
   try {
-    const response = await axios.post(`${API_URL}/student`, studentData);
+    const response = await axios.post(`${API_URL}/student`, studentData, {
+      headers: {
+          'Content-Type': 'multipart/form-data'
+      }
+  });
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Failed to add student');

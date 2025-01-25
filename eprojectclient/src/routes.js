@@ -63,6 +63,7 @@ import AdminStudentImportForm from './pages/AdminStudentPages/AdminStudentImport
 import AdminClassDetail from './pages/AdminPages/AdminClassDetail.jsx';
 import AdminStudentDetail from './pages/AdminStudentPages/AdminStudentDetail.jsx';
 import AdminStaffDetail from './pages/AdminStaffPages/AdminStaffDetail.jsx';
+import AdminStudentAdd from './pages/AdminStudentPages/AdminStudentAdd.jsx';
 
 
 export const adminRoutes = [
@@ -118,7 +119,7 @@ export const adminRoutes = [
     layout: '/admin',
     path: '/Create-Student',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
-    component: <RTL />,
+    component: <AdminStudentAdd />,
     index: true
   },
   {

@@ -1,0 +1,71 @@
+.container {
+  /* width: 80%; Chiều rộng container */
+  /* max-width: 800px; */
+  /* margin: 40px auto; */
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  display: flex;
+  /* flex-direction: column; */
+  gap: 20px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #4caf50;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.details {
+  display: flex;
+  flex-direction: column; /* Chia theo 2 hàng dọc */
+  gap: 20px;
+}
+
+.row {
+  flex: 1; /* Chia đều chiều cao */
+  display: flex;
+  flex-direction: column; /* Nội dung từng hàng là dọc */
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  gap: 10px;
+}
+
+.row p {
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.row strong {
+  color: #4caf50;
+}
+
+.loading {
+  text-align: center;
+  font-size: 16px;
+  color: #ff9800;
+}
+
+.error {
+  text-align: center;
+  font-size: 16px;
+  color: #f44336;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul li {
+  margin: 5px 0;
+}
