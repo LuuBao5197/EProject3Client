@@ -9,6 +9,100 @@
   width: 100vw;
 }
 
+
+.confirmButton {
+  border: none;
+  padding: 8px 16px; 
+  font-size: 14px;    
+  border-radius: 6px;  
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, transform 0.3s ease; 
+  margin: 0 8px;  
+}
+
+.acceptButton {
+  background-color: #28a745;  
+  color: white;
+}
+
+.acceptButton:hover {
+  background-color: #218838;
+  transform: scale(1.05); 
+}
+
+.rejectButton {
+  background-color: #dc3545;  
+  color: white;
+}
+
+.rejectButton:hover {
+  background-color: #c82333;
+  transform: scale(1.05); 
+}
+
+.confirmButton svg {
+  margin-right: 6px; 
+}
+
+.confirmButton:focus {
+  outline: none; 
+}
+
+.acceptButton:focus,
+.rejectButton:focus {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); 
+}
+
+
+.requestsContainer {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.requestsTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.requestsTable th, .requestsTable td {
+  padding: 12px 20px;
+  text-align: left;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.requestsTable th {
+  background-color: black;
+  color: #fff;
+  font-weight: bold;
+}
+
+.requestsTable tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.requestsTable tr:hover {
+  background-color: #f1f1f1;
+}
+
+.requestsTable td {
+  color: #333;
+}
+
+.requestsTable td:nth-child(3) {
+  font-weight: bold;
+}
+
+.requestsTable td:last-child {
+  text-align: center;
+}
+
 .sidebar {
   width: 250px;
   background: linear-gradient(135deg, #2c3e50, #4a69bd);
