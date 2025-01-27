@@ -13,10 +13,10 @@ function Requests() {
         const fetchRequests = async () => {
             try {
                 const response = await axios.get('http://localhost:5190/api/Manager/GetAllRequest');
-                setRequests(response.data);
+                setRequests(response.data);  
                 setLoading(false);
             } catch (err) {
-                setError('Không thể tải dữ liệu');
+                setError('Can not loading data!');
                 setLoading(false);
             }
         };
@@ -24,44 +24,33 @@ function Requests() {
         fetchRequests();  
     }, []);  
 
-    const handleAccept = async (id) => {
+    const handleUpdateRequestStatus = async (id, status) => {
         try {
             const response = await axios.put(`http://localhost:5190/api/Manager/UpdateRequest/${id}`, {
-                status: 'Accepted', 
+                status,  
             });
     
             if (response.status === 200) {
-                setRequests(requests.map(request => 
-                    request.id === id ? { ...request, status: 'Accepted' } : request
-                ));
+                setRequests(prevRequests =>
+                    prevRequests.map(request =>
+                        request.id === id ? { ...request, status: response.data.data.status } : request
+                    )
+                );
                 alert('Cập nhật trạng thái thành công!');
             }
         } catch (err) {
-            console.error('Cập nhật thất bại:', err);
+            console.error("Error occurred while updating request:", err);
             alert('Cập nhật thất bại. Vui lòng thử lại!');
         }
+    };    
+
+    const handleAccept = (id) => {
+        handleUpdateRequestStatus(id, 'Accepted');
     };
     
-    
-    const handleReject = async (id) => {
-        try {
-            const response = await axios.put(`http://localhost:5190/api/Manager/UpdateRequest/${id}`, {
-                status: 'Rejected', 
-            });
-    
-            if (response.status === 200) {
-                setRequests(requests.map(request => 
-                    request.id === id ? { ...request, status: 'Rejected' } : request
-                ));
-                alert('Cập nhật trạng thái thành công!');
-            }
-        } catch (err) {
-            console.error('Cập nhật thất bại:', err);
-            alert('Cập nhật thất bại. Vui lòng thử lại!');
-        }
+    const handleReject = (id) => {
+        handleUpdateRequestStatus(id, 'Rejected');
     };
-    
-    
 
     if (loading) {
         return <div>Loading...</div>;
@@ -73,7 +62,7 @@ function Requests() {
 
     return (
         <div className={styles.requestsContainer}>
-            <h2 className='text-center'>REQUEST LIST</h2>
+            <h2 className='text-center'>REQUEST</h2>
             <table className={styles.requestsTable}>
                 <thead>
                     <tr>
