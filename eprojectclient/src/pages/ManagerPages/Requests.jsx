@@ -1,56 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-import styles from '../../layout/AdminLayout.module.css'; 
+import styles from '../../layout/AdminLayout.module.css';
 
 function Requests() {
-    const [requests, setRequests] = useState([]); 
-    const [loading, setLoading] = useState(true);  
-    const [error, setError] = useState(null);       
+    const [requests, setRequests] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchRequests = async () => {
             try {
                 const response = await axios.get('http://localhost:5190/api/Manager/GetAllRequest');
-                setRequests(response.data);  
+                const updatedRequests = response.data.map(request => {
+                    const currentTime = Date.now(); 
+                    const meetingTime = new Date(request.meetingTime).getTime(); 
+
+                    if (meetingTime < currentTime) {
+                        if (request.status !== 'DONE') {
+                            request.status = 'DONE';
+                        }
+                    } else if (meetingTime - currentTime <= 60 * 60 * 1000) {
+                        if (request.status !== 'PREPARING') {
+                            request.status = 'PREPARING';
+                        }
+                    }
+                    return request;
+                });
+                setRequests(updatedRequests);
                 setLoading(false);
             } catch (err) {
-                setError('Can not loading data!');
+                setError('Cannot load data!');
                 setLoading(false);
             }
         };
 
-        fetchRequests();  
-    }, []);  
-
-    const handleUpdateRequestStatus = async (id, status) => {
-        try {
-            const response = await axios.put(`http://localhost:5190/api/Manager/UpdateRequest/${id}`, {
-                status,  
-            });
-    
-            if (response.status === 200) {
-                setRequests(prevRequests =>
-                    prevRequests.map(request =>
-                        request.id === id ? { ...request, status: response.data.data.status } : request
-                    )
-                );
-                alert('Cập nhật trạng thái thành công!');
-            }
-        } catch (err) {
-            console.error("Error occurred while updating request:", err);
-            alert('Cập nhật thất bại. Vui lòng thử lại!');
-        }
-    };    
-
-    const handleAccept = (id) => {
-        handleUpdateRequestStatus(id, 'Accepted');
-    };
-    
-    const handleReject = (id) => {
-        handleUpdateRequestStatus(id, 'Rejected');
-    };
+        fetchRequests();
+    }, []);
 
     if (loading) {
         return <div>Loading...</div>;
@@ -69,8 +54,8 @@ function Requests() {
                         <th>ID</th>
                         <th>MEETING TIME</th>
                         <th>STATUS</th>
+                        <th>DESCRIPTION</th>
                         <th>By</th>
-                        <th>CONFIRM</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -79,25 +64,8 @@ function Requests() {
                             <td>{request.id}</td>
                             <td>{new Date(request.meetingTime).toLocaleString()}</td>
                             <td>{request.status}</td>
+                            <td>{request.description}</td>
                             <td>{request.organized || 'Test'}</td>
-                            <td className="text-center">
-                                {request.status === 'Approving' && (
-                                    <>
-                                        <button
-                                            className={`${styles.confirmButton} ${styles.acceptButton}`}
-                                            onClick={() => handleAccept(request.id)}
-                                        >
-                                            <FontAwesomeIcon icon={faCheckCircle} /> 
-                                        </button>
-                                        <button
-                                            className={`${styles.confirmButton} ${styles.rejectButton}`}
-                                            onClick={() => handleReject(request.id)}
-                                        >
-                                            <FontAwesomeIcon icon={faTimesCircle} /> 
-                                        </button>
-                                    </>
-                                )}
-                            </td>
                         </tr>
                     ))}
                 </tbody>

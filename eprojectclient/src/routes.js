@@ -54,8 +54,9 @@ import ListSubmission from './pages/StaffPages/SummisionFeature/ListSubmission';
 import TeacherDetail from './pages/ManagerPages/TeacherDetail';
 import SubmissionReviewDetail from './pages/ManagerPages/SubmissionsReviewDetail';
 import Total from './pages/ManagerPages/Total';
-import MeetingScheduler from './pages/ManagerPages/MeetingScheduler';
+import MeetingScheduler from './pages/ManagerPages/CreateMeeting';
 import Requests from './pages/ManagerPages/Requests';
+import CreateMeeting from './pages/ManagerPages/CreateMeeting';
 
 
 
@@ -377,11 +378,11 @@ export const managerRoutes = [
     index: false
   },
   {
-    name: 'Meeting',
+    name: 'Create Meeting',
     layout: '/manager',
     icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
     path: '/meeting',
-    component: <MeetingScheduler/>,
+    component: <CreateMeeting/>,
     index: false
   },
   {
