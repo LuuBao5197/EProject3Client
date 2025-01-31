@@ -55,23 +55,42 @@ import { useNavigate } from "react-router-dom";
             <Text color={textColor} fontSize="120%" textAlign="left" mt="80px">
               Organized By: {contest.organizerName}
             </Text>
-          </Box>
-  
-          {/* Cột bên phải - Hình ảnh */}
-          <Box w="250px" h="300px">
-            <img
-              src={contest.thumbnail || "/images/placeholder.png"}
-              alt={contest.thumbnail || "Contest Image"}
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                borderRadius: "8px", // Tùy chỉnh bo góc
-              }}
-            />
+            {hovered && (
+              <Box
+                style={{
+                  position: "absolute",
+                  top: "50px", // Position it above the box
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  padding: "10px",
+                  backgroundColor: "#f1f1f1",
+                  borderRadius: "8px",
+                  border: "1px solid #ddd",
+                  width: "200px",
+                  textAlign: "center",
+                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                }}
+              >
+                <Text color="#000">Total Reviewed: {contest.reviewedSubmissions}</Text>
+                <Text color="#000">Total Pending: {contest.pendingSubmissions}</Text>
+              </Box>
+            )}
           </Box>
         </Flex>
+
+        {/* Right column - Image */}
+        <Box w="250px" h="300px">
+          <img
+            src={contest.thumbnail || "/images/placeholder.png"}
+            alt={contest.thumbnail || "Contest Image"}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              borderRadius: "8px", // Customize corner radius
+            }}
+          />
+        </Box>
       </Card>
-    );
-  }
-  
+  );
+}
