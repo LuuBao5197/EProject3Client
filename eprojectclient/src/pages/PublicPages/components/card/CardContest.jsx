@@ -6,11 +6,14 @@ import {
   } from "@chakra-ui/react";
   import Card from "@/components/card/Card.js";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 
   
   export default function CardContest({ contest, ...props }) {
     // Chakra Color Mode
+    const [hovered, setHovered] = useState(false); // State to manage hover effect
+
     const textColor = useColorModeValue("secondaryGray.900", "white");
     const nav =useNavigate();
 
