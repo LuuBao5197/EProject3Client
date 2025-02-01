@@ -39,12 +39,12 @@ const AwardDetails = () => {
                 <>
                     {award ? (
                         <div>
-                            <h2 className="text-center mb-4">Chi Tiết Giải Thưởng</h2>
+                            <h2 className="text-center mb-4">Award Detail</h2>
 
                             {/* Thông tin giải thưởng */}
                             <div className="card mb-4">
                                 <div className="card-body">
-                                    <h5 className="card-title">Thông Tin Giải Thưởng</h5>
+                                    <h5 className="card-title">Info of Award</h5>
                                     <p><strong>Tên:</strong> {award.name}</p>
                                     <p><strong>Giá Trị:</strong> {award.value}</p>
                                     <p><strong>Số Lượng:</strong> {award.awardQuantity}</p>
@@ -55,13 +55,13 @@ const AwardDetails = () => {
                             {/* Danh sách sinh viên nhận giải */}
                             <div className="card">
                                 <div className="card-body">
-                                    <h5 className="card-title">Danh Sách Sinh Viên Nhận Giải</h5>
+                                    <h5 className="card-title">List Student received this award</h5>
                                     {award.studentAwards && award.studentAwards.length > 0 ? (
                                         <table className="table table-bordered">
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Tên Sinh Viên</th>
+                                                    <th>Student Name</th>
                                                     <th>Email</th>
                                                 </tr>
                                             </thead>
@@ -78,7 +78,7 @@ const AwardDetails = () => {
                                             </tbody>
                                         </table>
                                     ) : (
-                                        <p>Không có sinh viên nào nhận giải thưởng này.</p>
+                                        <p>Nobody have received this Award.</p>
                                     )}
                                 </div>
                             </div>
@@ -89,12 +89,12 @@ const AwardDetails = () => {
                                     className="btn btn-secondary"
                                     onClick={() => navigate(-1)} // Quay lại trang trước
                                 >
-                                    Quay Lại
+                                    Back
                                 </button>
                             </div>
                         </div>
                     ) : (
-                        <p className="text-center">Không tìm thấy giải thưởng.</p>
+                        <p className="text-center">No find to any awards.</p>
                     )}
                 </>
             )}

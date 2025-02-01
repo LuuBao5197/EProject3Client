@@ -67,9 +67,9 @@ const AwardList = () => {
 
             if (response.ok) {
                 setAwards(awards.filter((award) => award.id !== id));
-                alert("Xóa thành công!");
+                alert("Delete award successfully!");
             } else {
-                alert("Có lỗi xảy ra khi xóa.");
+                alert("Some errors occurs.");
             }
         } catch (error) {
             console.error("Lỗi khi xóa dữ liệu:", error);

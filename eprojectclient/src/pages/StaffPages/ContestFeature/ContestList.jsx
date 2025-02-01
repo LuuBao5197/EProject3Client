@@ -164,9 +164,9 @@ const ContestList = () => {
 
             if (response.ok) {
                 setContests(contests.filter((contest) => contest.id !== id));
-                alert("Xóa thành công!");
+                alert("Delete contest successfully!");
             } else {
-                toast.error("Xoa that bai", {
+                toast.error("Something error occurs, delete failed", {
                     position: "top-left",
                     autoClose: 2000,
                     hideProgressBar: true,
