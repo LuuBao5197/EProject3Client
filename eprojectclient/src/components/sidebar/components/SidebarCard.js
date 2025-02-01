@@ -2,12 +2,13 @@ import {
   Button,
   Flex,
   Image,
-  Link,
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import logoWhite from "@/assets/img/layout/logoWhite.png";
+import  logoWhite from "@/assets/img/layout/logoWhite.png";
+import  Everyone from "@/assets/img/layout/Everyone.jpg";
 import React from "react";
+import { Link } from 'react-router-dom';
 
 export default function SidebarDocs() {
   const bgColor = "linear-gradient(135deg, #868CFF 0%, #4318FF 100%)";
@@ -35,7 +36,7 @@ export default function SidebarDocs() {
         left='50%'
         top='-47px'
         transform='translate(-50%, 0%)'>
-        <Image src={logoWhite} w='40px' h='40px' />
+        <Image src={Everyone} w='40px' h='40px' />
       </Flex>
       <Flex
         direction='column'
@@ -53,7 +54,7 @@ export default function SidebarDocs() {
           px='10px'
           mt="10px"
           mb='6px'>
-          Upgrade to PRO
+          GATHER EVERYONE
         </Text>
         <Text
           fontSize='14px'
@@ -62,11 +63,10 @@ export default function SidebarDocs() {
           px='10px'
           mb='6px'
           textAlign='center'>
-          Improve your development process and start doing more with Horizon UI
-          PRO!
+          Send the meeting to everyone
         </Text>
       </Flex>
-      <Link href='https://horizon-ui.com/pro?ref=horizon-chakra-free'>
+      <Link to={`/manager/meeting`}>
         <Button
           bg='whiteAlpha.300'
           _hover={{ bg: "whiteAlpha.200" }}
@@ -77,7 +77,7 @@ export default function SidebarDocs() {
           fontSize='sm'
           minW='185px'
           mx='auto'>
-          Upgrade to PRO
+          Send
         </Button>
       </Link>
     </Flex>
