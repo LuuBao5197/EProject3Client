@@ -18,6 +18,24 @@ import AdminStaffDetail from "../pages/AdminStaffPages/AdminStaffDetail";
 import AdminStudentAdd from "../pages/AdminStudentPages/AdminStudentAdd";
 import AdminStudentImportForm from "../pages/AdminStudentPages/AdminStudentImportForm";
 import AdminStudentDetail from "../pages/AdminStudentPages/AdminStudentDetail";
+import EditAwardForm from "../pages/StaffPages/AwardFeature.jsx/EditAwardForm";
+import AwardDetails from "../pages/StaffPages/AwardFeature.jsx/AwardDetails";
+import ExhibitionDetail from "../pages/ManagerPages/ExhibitionDetail";
+import ExhibitionIndex from "../pages/StaffPages/ExhibitionFeature/ExhibitionIndex";
+import AddExhibition from "../pages/StaffPages/ExhibitionFeature/AddExhibition";
+import EditExhibition from "../pages/StaffPages/ExhibitionFeature/EditExhibition";
+import ClassesManagement from "../pages/ManagerPages/CLassesManagement";
+import ManagerLayout from "../pages/ManagerPages/ManagerLayout";
+import TeacherDetail from "../pages/ManagerPages/TeacherDetail";
+import AwardReceived from "../pages/StudentPages/AwardReceived";
+import CreateNewSubmission from "../pages/StudentPages/CreateNewSubmission";
+import ExhibitionArtwork from "../pages/StudentPages/ExhibitionArtwork";
+import MySubmission from "../pages/StudentPages/MySubmissions";
+import UpdateMySubmission from "../pages/StudentPages/UpdateMySubmission";
+import Adminlayout from "../pages/AdminPages/Adminlayout";
+import AdminClassDetail from "../pages/AdminPages/AdminClassDetail";
+import CreateClassForm from "../pages/AdminPages/AdminClassAdd";
+
 export const config = {
 
     // home: {
@@ -34,18 +52,8 @@ export const config = {
     // },
 
 };
-import EditAwardForm from "../pages/StaffPages/AwardFeature.jsx/EditAwardForm";
-import AwardDetails from "../pages/StaffPages/AwardFeature.jsx/AwardDetails";
-import ExhibitionDetail from "../pages/ManagerPages/ExhibitionDetail";
-import ExhibitionIndex from "../pages/StaffPages/ExhibitionFeature/ExhibitionIndex";
-import AddExhibition from "../pages/StaffPages/ExhibitionFeature/AddExhibition";
-import EditExhibition from "../pages/StaffPages/ExhibitionFeature/EditExhibition";
-import ClassesManagement from "../pages/ManagerPages/CLassesManagement";
-import ManagerLayout from "../pages/ManagerPages/ManagerLayout";
-import TeacherDetail from "../pages/ManagerPages/TeacherDetail";
-import Adminlayout from "../pages/AdminPages/Adminlayout";
-import CreateClassForm from "../pages/AdminPages/AdminClassAdd";
-import AdminClassDetail from "../pages/AdminPages/AdminClassDetail";
+
+
 export const TeacherConfig = {
     listcontest: {
         component: ContestList,
@@ -179,5 +187,29 @@ export const AdminConfig = {
         component: AdminStudentDetail,
         path: '/admin/student/:id'
      },
+}
+
+export const StudentConfig = {
+    awardreceived: {
+        component: AwardReceived,
+        path: '/student/awardreceived'
+    },
+    createnewsubmission: {
+        component: CreateNewSubmission,
+        path: '/student/createnewsubmission'
+    },
+    exhibitionartwork: {
+        component: ExhibitionArtwork,
+        path: '/student/exhibitionartwork'
+    },
+    mysubmissions: {
+        component: MySubmission,
+        path: '/student/mysubmission'
+    },
+    updatemysubmission: {
+        component: UpdateMySubmission,
+        path: '/student/updatemysubmission'
+    }
+
 }
 

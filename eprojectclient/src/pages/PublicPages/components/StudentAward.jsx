@@ -13,12 +13,7 @@ function TopStudentAwards() {
         const response = await axios.get('http://localhost:5190/api/Award/GetStudentsWithAwards');
         const allData = response.data || []; // Lấy toàn bộ dữ liệu từ API
 
-        // Lọc ra các giải thưởng Top 1, Top 2, Top 3
-        const filteredData = allData.filter(item =>
-          ['Top 1', 'Top 2', 'Top 3'].includes(item.awardName)
-        );
-
-        setData(filteredData); // Gán dữ liệu đã lọc vào state
+        setData(allData); // Gán toàn bộ dữ liệu vào state
         setLoading(false);
       } catch (err) {
         console.error(err);
@@ -31,14 +26,14 @@ function TopStudentAwards() {
   }, []);
 
   // Hiển thị trạng thái đang tải
-  if (loading) return <div>Đang tải dữ liệu...</div>;
+  if (loading) return;
 
   // Hiển thị thông báo lỗi nếu xảy ra lỗi
   if (error) return <div>{error}</div>;
 
   // Hiển thị thông báo nếu không có dữ liệu
   if (!Array.isArray(data) || data.length === 0) {
-    return <div>Không có dữ liệu Top 1, Top 2, hoặc Top 3.</div>;
+    return;
   }
 
   return (

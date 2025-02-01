@@ -40,10 +40,10 @@ function UpdateMySubmission() {
         e.preventDefault();
         const formUpdate = new FormData();
         const file = fileInputRef.current?.files[0];
-
+    
         formUpdate.append("name", nameUpdate || mySub.name);
         formUpdate.append("description", descriptionUpdate || mySub.description);
-
+    
         if (editedFile) {
             formUpdate.append("filePath", editedFile.name);
             formUpdate.append("fileImage", editedFile);
@@ -51,13 +51,18 @@ function UpdateMySubmission() {
             formUpdate.append("filePath", file.name);
             formUpdate.append("fileImage", file);
         } else {
-            formUpdate.append("filePath", filePathUpdate);
+            // Trong trường hợp không có thay đổi, vẫn thêm tập tin hiện tại vào form
+            const response = await fetch(filePathUpdate);
+            const blob = await response.blob();
+            const currentFile = new File([blob], filePathUpdate.split('/').pop());
+            formUpdate.append("filePath", currentFile.name);
+            formUpdate.append("fileImage", currentFile);
         }
-
+    
         formUpdate.append("studentId", getStudentIdDemo());
-
+    
         console.log([...formUpdate.entries()]); // Kiểm tra nội dung của FormData
-
+    
         try {
             await updateMySubmission(id, formUpdate);
             nav("/mySubmissions");
@@ -65,6 +70,7 @@ function UpdateMySubmission() {
             console.error(e);
         }
     };
+    
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -96,7 +102,7 @@ function UpdateMySubmission() {
         <div className="container mt-5">
             <NavbarHome />
             <form onSubmit={handleUpdate} style={{ textAlign: "center" }}>
-                <h1 className="text-center text-primary mb-4">Update Submission</h1>
+                <h1 className="text-center text-primary mb-4 mt-3">Update Submission</h1>
 
                 <div className="row">
                     <div className="col-6">
