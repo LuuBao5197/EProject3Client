@@ -11,6 +11,7 @@ import {
   Spinner,
   Divider,
   Select,
+  Image,
 } from '@chakra-ui/react';
 
 import ReactPaginate from 'react-paginate';
@@ -99,13 +100,15 @@ const ListSubmission = () => {
     }
 
     // Fetch contests data
-    const fetchContests = async (page, search = "") => {
+    const fetchContests = async (page, search = "", status = "Published") => {
       try {
         const response = await axios.get(`http://localhost:5190/api/Staff/GetAllContest`, {
           params: {
             page,
             pageSize,
             search,
+            status
+
           },
         });
         console.log(response);
@@ -175,7 +178,7 @@ const ListSubmission = () => {
     setSelectedContest(contest);
     console.log("contest", contest);
     fetchSubmissionNonReviewByContest(contest.id, currentPage, "", staffCurrent.id);
-    fetchSubmissionHasReviewByContest(contest.id, currentPage, "",staffCurrent.id);
+    fetchSubmissionHasReviewByContest(contest.id, currentPage, "", staffCurrent.id);
   };
 
   const handleSubmissionClick = (submission) => {
@@ -369,7 +372,7 @@ const ListSubmission = () => {
 
         {/* Modal for submission details */}
         {submissionDetails && (
-          <Modal show={showModal} onHide={handleCloseModal} centered>
+          <Modal show={showModal} onHide={handleCloseModal} centered >
             <Modal.Header closeButton>
               <Modal.Title>Submission Details</Modal.Title>
             </Modal.Header>
@@ -377,10 +380,23 @@ const ListSubmission = () => {
               <Text><strong>ID:</strong> {submissionDetails.submissionId}</Text>
               <Text><strong>Name:</strong> {submissionDetails.submissionName}</Text>
               <Text><strong>Description:</strong> {submissionDetails.submissionDescription}</Text>
-              <Text><strong>Submission Date:</strong> {submissionDetails.submissionDate}</Text>
-              <Text><strong>Status:</strong> {submissionDetails.status || 'N/A'}</Text>
+              {console.log(submissionDetails)}
               <Divider my={2} />
-              <Text><strong>File Path:</strong> {submissionDetails.filePath}</Text>
+              <Image src={submissionDetails.thumbnail} alt={submissionDetails.thumbnail} width={300} maxWidth={500} />
+              <h3 className='text-center mx-auto'>List Review </h3>
+              {submissionDetails.reviews.length > 0 && submissionDetails.reviews.map((sub, index) => (
+                <div className='row'>
+                  <div className="col-md-3">
+                    Teacher {index + 1}
+                  </div>
+                  <div className='col-md-6'>
+                    {sub.reviewText}
+                  </div>
+                  <div className="col-md-3">
+                    {sub.ratingLevel.name}
+                  </div>
+                </div>
+              ))}
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleCloseModal}>

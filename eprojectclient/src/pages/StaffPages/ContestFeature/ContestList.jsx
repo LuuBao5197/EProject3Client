@@ -43,18 +43,6 @@ const ContestList = () => {
         console.log("Selected Phase:", e.target.value);
     };
 
-    const sendContestDraftForReview = async (id) => {
-        try {
-            const result = await axios.patch(`http://localhost:5190/api/Staff/SendContestDraftForReview/${id}`);
-            //    console.log(result);
-            toast.info("Send draft contest succesffully");
-
-        } catch (error) {
-            alert("Something error occurs");
-        }
-    }
-
-
     const columns = [
         {
             name: 'ID',
@@ -99,12 +87,6 @@ const ContestList = () => {
                     <Icon as={MdInfoOutline} width="20px" height="20px" color="inherit" />
                 </button>
 
-                {/* Chi nhung contest co trang thai la draft moi co the gui di de cap tren duyet */}
-                {(row.status == "Draft" || row.status == "Rejected") && currentStaff.isReviewer && (
-                    <button className="btn btn-primary" onClick={() => sendContestDraftForReview(row.id)}>
-                        <Icon as={MdSend} width="20px" height="20px" color="inherit" />
-                    </button>
-                )}
 
 
             </div>),
