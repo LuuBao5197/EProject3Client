@@ -58,7 +58,7 @@ const ListSubmission = () => {
   const formik = useFormik({
     initialValues: {
       submissionId: submissionDetails?.id || '', // Set from submission details
-      staffId: 6,
+      staffId: 1,
       reviewText: '',
       ratingId: "",
       reviewDate: '',
@@ -126,7 +126,7 @@ const ListSubmission = () => {
     const fetchInfoOfStaff = async () => {
 
       var result = await axios.get(`http://localhost:5190/api/Staff/GetInfoStaff/${userId}`);
-      // console.log(result);
+      console.log(result);
       setStaffCurrent(result.data);
     }
     fetchInfoOfStaff();
@@ -194,9 +194,10 @@ const ListSubmission = () => {
   const handleReviewClick = (submission) => {
     setSubmissionDetails(submission);
     setShowReviewModal(true);
+    // console.log(submission);
     formik.setValues(
       {
-        submissionId: submission.id,
+        submissionId: submission.submissionId,
         staffId: staffCurrent.id,
         reviewText: "",
         ratingId: "",
