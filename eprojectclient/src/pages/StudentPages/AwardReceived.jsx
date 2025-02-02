@@ -25,17 +25,23 @@ function AwardReceived() {
 
     useEffect(() => {
         const fetchAwardReceived = async () => {
-            try {
-                const data = await getAwardReceived(getStudentIdDemo());
-                setAwardReceived(data);
-                setFilteredAr(data);
-            } catch (error) {
-                console.error('Failed to fetch awards:', error);
+          try {
+            const studentId = await getStudentIdDemo(); // Chờ lấy studentId
+            if (studentId) {
+              const data = await getAwardReceived(studentId); // Chỉ gọi nếu có studentId
+              setAwardReceived(data);
+              setFilteredAr(data);
+            } else {
+              console.warn("No student ID available.");
             }
+          } catch (error) {
+            console.error('Failed to fetch awards:', error);
+          }
         };
-
+      
         fetchAwardReceived();
-    }, []);
+      }, []);
+      
 
     function handleSearch(txt) {
         const filtered = AwardReceived.filter(a => a.award.contest.name.toLowerCase().includes(txt.toLowerCase()));
@@ -51,7 +57,8 @@ function AwardReceived() {
         setCurrentPage(pageNumber);
     };
 
-    if (!AwardReceived || AwardReceived.length === 0) {
+    // If there are no awards, show a loading state.
+    if (!AwardReceived) {
         return <div className='d-flex align-items-center'>
             <strong>Loading...</strong>
             <br />

@@ -12,18 +12,23 @@ function ExhibitionArtwork() {
 
     useEffect(() => {
         const getEas = async () => {
-            try {
-                const data = await getExhibitionArtwork(getStudentIdDemo());
-                setEas(data);
-                console.log(data);
-            } catch (error) {
-                console.error('Failed to fetch:', error);
+          try {
+            const studentId = await getStudentIdDemo(); // Chờ lấy studentId
+            if (studentId) {
+              const data = await getExhibitionArtwork(studentId); // Chỉ gọi nếu có studentId
+              setEas(data);
+              console.log(data);
+            } else {
+              console.warn("No student ID available.");
             }
+          } catch (error) {
+            console.error('Failed to fetch:', error);
+          }
         };
-
+      
         getEas();
-    }, []);
-
+      }, []);
+      
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = eas.slice(indexOfFirstItem, indexOfLastItem);
@@ -32,11 +37,26 @@ function ExhibitionArtwork() {
         setCurrentPage(pageNumber);
     };
 
-    if (!eas || eas.length === 0) {
+    // If there are no artworks, show loading or "No result found"
+    if (!eas) {
         return <div className='container'>
             <strong>Loading...</strong>
             <MDBSpinner className='ms-auto' role='status' />
         </div>;
+    }
+
+    // If no results are found
+    if (eas.length === 0) {
+        return (
+            <div className="container">
+                <NavbarStudentHome />
+                <div className="text-center">
+                    <h2 className="mt-3">Exhibition Artwork</h2>
+                    <p>No result found</p>
+                </div>
+                <FooterHome />
+            </div>
+        );
     }
 
     const totalPages = Math.ceil(eas.length / itemsPerPage);
@@ -45,7 +65,6 @@ function ExhibitionArtwork() {
         <div className="container">
             <NavbarStudentHome />
             <div className="text-center">
-
                 <h2 className="mt-3">Exhibition Artwork</h2>
                 <table className="table table-hover table-bordered">
                     <thead>
@@ -88,9 +107,8 @@ function ExhibitionArtwork() {
                         </button>
                     ))}
                 </div>
-
-
-            </div><FooterHome />
+            </div>
+            <FooterHome />
         </div>
     );
 }
