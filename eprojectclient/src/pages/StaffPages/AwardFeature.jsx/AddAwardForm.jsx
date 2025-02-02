@@ -16,9 +16,11 @@ const AddAwardForm = () => {
   const navigate = useNavigate();
   // Lấy dữ liệu cuộc thi từ API
   useEffect(() => {
-    const fetchContests = async () => {
+    const fetchContests = async (status = "Draft") => {
       try {
-        const response = await axios.get("http://localhost:5190/api/Staff/GetAllContest"); // Đổi URL phù hợp với API của bạn
+        const response = await axios.get("http://localhost:5190/api/Staff/GetAllContest", {
+          params: {status}
+        }); // Đổi URL phù hợp với API của bạn
 
         setContestOptions(response.data.contests); // Giả sử API trả về mảng các cuộc thi
         setLoading(false);
