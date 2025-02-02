@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { SweetAlert } from '../../../StudentPages/Notifications/SweetAlert';
 
 function NavbarHome(props) {
     // State to manage login status
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+    const nav = useNavigate();
     useEffect(() => {
         // Check for inforToken in localStorage or any other storage
         const inforToken = localStorage.getItem('inforToken');
@@ -15,7 +17,10 @@ function NavbarHome(props) {
     const handleLogout = () => {
         // Remove inforToken from storage during logout
         localStorage.removeItem('inforToken');
+        localStorage.removeItem('token');
         setIsLoggedIn(false);
+        SweetAlert('Logout sucessfully','success')
+        nav('/student/');
     };
 
     return (
@@ -31,7 +36,8 @@ function NavbarHome(props) {
                         <>
                             <a href="/" style={styles.link}>Home</a>
                             <a href="/edit" style={styles.link}>Profile</a>
-                            <a href="/aboutus" style={styles.link}>About Us</a>
+                            <a href="/aboutus" style={styles.link}>About Us</a>                            
+                            <a href="/mysubmissions" style={styles.link}>My Exams</a>
                             <a href="#" onClick={handleLogout} style={styles.link}>Logout</a>
                         </>
                     )}

@@ -9,7 +9,7 @@ import {
   MDBModalBody,
   MDBModalFooter,
 } from 'mdb-react-ui-kit';
-import { getStudentIdDemo } from '../../../API//getStudentIdDemo';
+import { getStudentIdDemo } from '../../../API/getStudentIdDemo';
 import { getAwardReceived } from '../../../API/getAwardReceived';
 
 export default function ModalAward({ showModal, toggleModal, awardId }) {
@@ -20,9 +20,15 @@ export default function ModalAward({ showModal, toggleModal, awardId }) {
   useEffect(() => {
     const fetchAwardReceived = async () => {
       try {
-        const data = await getAwardReceived(getStudentIdDemo());
-        setAwards(data); // Cập nhật danh sách giải thưởng
-        console.log('Fetched Awards:', data);
+        // Đảm bảo getStudentIdDemo hoàn tất trước khi gọi getAwardReceived
+        const studentId = await getStudentIdDemo();
+        if (studentId) {
+          const data = await getAwardReceived(studentId); // Gọi API với studentId
+          setAwards(data); // Cập nhật danh sách giải thưởng
+          console.log('Fetched Awards:', data);
+        } else {
+          console.error('Student ID not found');
+        }
       } catch (error) {
         console.error('Failed to fetch awards:', error);
       }

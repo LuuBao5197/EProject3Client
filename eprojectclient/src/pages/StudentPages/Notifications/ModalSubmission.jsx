@@ -16,11 +16,12 @@ import { convertTime } from "./ConvertFormatTime";
 
 export default function ModalSubmission({ showModal, toggleModal, idSub }) {
   const [mySubmission, setMySubmission] = useState(null);
+  const [studentId, setStudentId] = useState(null);
 
-  const getSub = async () => {
-    if (idSub) {
+  const getSub = async (studentId) => {
+    if (idSub && studentId) {
       try {
-        const data = await getOneSubmissionById(getStudentIdDemo(), idSub);
+        const data = await getOneSubmissionById(studentId, idSub);
         setMySubmission(data);
         // console.log(data);
       } catch (error) {
@@ -29,11 +30,27 @@ export default function ModalSubmission({ showModal, toggleModal, idSub }) {
     }
   };
 
-  useEffect(() => {
-    if (showModal && idSub) {
-      getSub();
+  const fetchStudentId = async () => {
+    try {
+      const student = await getStudentIdDemo();
+      setStudentId(student);
+    } catch (error) {
+      console.error("Failed to fetch studentId:", error);
     }
-  }, [showModal, idSub]);
+  };
+
+  // Fetch studentId when the component mounts and fetch submission after that
+  useEffect(() => {
+    if (showModal) {
+      fetchStudentId();
+    }
+  }, [showModal]);
+
+  useEffect(() => {
+    if (showModal && idSub && studentId) {
+      getSub(studentId);
+    }
+  }, [showModal, idSub, studentId]);
 
   return (
     <MDBModal open={showModal} onClose={toggleModal} tabIndex="-1">
@@ -80,7 +97,6 @@ export default function ModalSubmission({ showModal, toggleModal, idSub }) {
                     src={mySubmission.filePath}
                     className="img-thumbnail d-block mx-auto"
                     alt="Submission file"
-
                   />
                 </p>
                 <p>
