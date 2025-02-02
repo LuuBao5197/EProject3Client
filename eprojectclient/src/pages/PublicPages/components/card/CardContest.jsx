@@ -1,74 +1,62 @@
 import {
-  Box,
-  Flex,
-  Text,
-  useColorModeValue,
-} from "@chakra-ui/react";
-import Card from "@/components/card/Card.js";
+    Box,
+    Flex,
+    Text,
+    useColorModeValue,
+  } from "@chakra-ui/react";
+  import Card from "@/components/card/Card.js";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-export default function CardContest({ contest, ...props }) {
-  const [hovered, setHovered] = useState(false); // State to manage hover effect
 
-  // Chakra Color Mode
-  const textColor = useColorModeValue("secondaryGray.900", "white");
+  
+  export default function CardContest({ contest, ...props }) {
+    // Chakra Color Mode
+    const [hovered, setHovered] = useState(false); // State to manage hover effect
 
-  // Helper function to format dates
-  const formatDate = (dateString) => {
-    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-GB", options); // Format: DD/MM/YYYY
-  };
+    const textColor = useColorModeValue("secondaryGray.900", "white");
+    const nav =useNavigate();
 
-  return (
-    <Card align="center" direction="column" w="100%" {...props}>
-      <Flex
-        align="flex-start"
-        w="100%"
-        px="15px"
-        py="10px"
-        justifyContent="space-between"
-      >
-        {/* Left column - Text content */}
-        <Box>
-          <Text
-            color={textColor}
-            fontSize="200%"
-            fontWeight="700"
-            lineHeight="100%"
-          >
-            {contest.name}
-          </Text>
-          <Text color={textColor} fontSize="130%" textAlign="left" mt="4px">
-            Start Date: {formatDate(contest.startDate)}
-          </Text>
-          <Text color={textColor} fontSize="130%" textAlign="left" mt="4px">
-            End Date: {formatDate(contest.endDate)}
-          </Text>
-          <Text color={textColor} fontSize="130%" textAlign="left" mt="12px">
-            Deadline: {formatDate(contest.submissionDeadline)}
-          </Text>
-          <Text color={textColor} fontSize="120%" textAlign="left" mt="80px">
-            Organized By: {contest.organizerName}
-          </Text>
-
-          {/* Total Submissions Box */}
-          <Box
-            onMouseEnter={() => setHovered(true)} // Trigger hover effect
-            onMouseLeave={() => setHovered(false)} // Reset hover effect
-            style={{
-              position: "relative",
-              padding: "10px",
-              backgroundColor: "#007bff",
-              color: "#000", // Set text color to black
-              borderRadius: "8px",
-              cursor: "pointer",
-              textAlign: "center",
-              marginTop: "12px",
-            }}
-          >
-            <Text fontSize="120%" fontWeight="600" color="white">
-              Total Submissions: {contest.totalSubmissions}
+    // Helper function to format dates
+    const formatDate = (dateString) => {
+      const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+      const date = new Date(dateString);
+      return date.toLocaleDateString("en-GB", options); // Format: DD/MM/YYYY
+    };
+  
+    return (
+      <Card align="center" direction="column" w="100%" {...props}>
+        <Flex
+          align="flex-start"
+          w="100%"
+          px="15px"
+          py="10px"
+          justifyContent="space-between"
+        >
+          {/* Cột bên trái - Phần nội dung chữ */}
+          <Box>
+            <Text
+              color={textColor}
+              fontSize="200%"
+              fontWeight="700"
+              lineHeight="100%"
+            >
+              {contest.name}
+            </Text>
+            <Text color={textColor} fontSize="130%" textAlign="left" mt="4px">
+              Start Date: {formatDate(contest.startDate)}
+            </Text>
+            <Text color={textColor} fontSize="130%" textAlign="left" mt="4px">
+              End Date: {formatDate(contest.endDate)}
+            </Text>
+            <Text color={textColor} fontSize="130%" textAlign="left" mt="12px">
+              Deadline: {formatDate(contest.submissionDeadline)}
+            </Text>
+            <Text color={textColor} fontSize="130%" textAlign="left" mt="12px">
+              <button className="btn btn-outline-dark" onClick={()=>nav(`createsubmission/${contest.id}`)}>Join</button>
+            </Text>
+            <Text color={textColor} fontSize="120%" textAlign="left" mt="80px">
+              Organized By: {contest.organizerName}
             </Text>
             {hovered && (
               <Box
@@ -91,7 +79,7 @@ export default function CardContest({ contest, ...props }) {
               </Box>
             )}
           </Box>
-        </Box>
+        </Flex>
 
         {/* Right column - Image */}
         <Box w="250px" h="300px">
@@ -106,7 +94,6 @@ export default function CardContest({ contest, ...props }) {
             }}
           />
         </Box>
-      </Flex>
-    </Card>
+      </Card>
   );
 }

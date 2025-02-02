@@ -34,7 +34,7 @@ const AddAwardForm = () => {
       var result = await axios.get(`http://localhost:5190/api/Staff/GetInfoStaff/${userId}`);
       console.log(result);
       if (!result.data.isReviewer) {
-        toast.dark("Ban ko co quyen han vao trang nay");
+        toast.dark("You do not have permission to access this page. Please contact the administrator if you believe this is a mistake");
         setTimeout(() => {
           navigate("/staff/award");
         }, 1000);
@@ -55,19 +55,19 @@ const AddAwardForm = () => {
     },
     validationSchema: Yup.object({
       name: Yup.string()
-        .max(50, "Tên không được vượt quá 50 ký tự")
-        .required("Tên là bắt buộc"),
+        .max(50, "Name must be not greater than 50 character")
+        .required("Name must be not blank"),
       value: Yup.number()
-        .typeError("Giá trị phải là số")
-        .positive("Giá trị phải lớn hơn 0")
-        .required("Giá trị là bắt buộc"),
+        .typeError("Value must be a number")
+        .positive("Value must be a positive number")
+        .required("Value must be not blank"),
       contestId: Yup.string()
-        .required("Bạn phải chọn một cuộc thi"),
+        .required("You must be choice contest"),
       awardQuantity: Yup.number()
-        .typeError("Số lượng phải là số")
-        .integer("Số lượng phải là số nguyên")
-        .min(1, "Số lượng phải lớn hơn hoặc bằng 1")
-        .required("Số lượng là bắt buộc"),
+        .typeError("Quantity must be a number")
+        .integer("Quantity must be a integer number")
+        .min(1, "Quantity must be greater than 1")
+        .required("Quantity must be not blank"),
     }),
     onSubmit: async (values, { resetForm }) => {
       try {
@@ -86,10 +86,10 @@ const AddAwardForm = () => {
 
   return (
     <div className="container mt-5">
-      <h2 className="text-center">Thêm Giải Thưởng</h2>
+      <h2 className="text-center">Add award</h2>
       <form onSubmit={formik.handleSubmit} className="mt-4">
         <div className="mb-3">
-          <label htmlFor="name" className="form-label">Tên Giải Thưởng</label>
+          <label htmlFor="name" className="form-label">Name</label>
           <input
             id="name"
             name="name"
@@ -121,10 +121,10 @@ const AddAwardForm = () => {
         </div>
 
         <div className="mb-3">
-          <label htmlFor="contestId" className="form-label">Cuộc Thi</label>
+          <label htmlFor="contestId" className="form-label">Contest</label>
           {loading ? (
             <select className="form-select" disabled>
-              <option>Đang tải...</option>
+              <option>Loading...</option>
             </select>
           ) : (
             <select
@@ -135,7 +135,7 @@ const AddAwardForm = () => {
               onBlur={formik.handleBlur}
               value={formik.values.contestId}
             >
-              <option value="">-- Chọn cuộc thi --</option>
+              <option value="">-- Choice contest --</option>
               {contestOptions.map((contest) => (
                 <option key={contest.id} value={contest.id}>
                   {contest.name}
@@ -149,7 +149,7 @@ const AddAwardForm = () => {
         </div>
 
         <div className="mb-3">
-          <label htmlFor="awardQuantity" className="form-label">Số Lượng Giải Thưởng</label>
+          <label htmlFor="awardQuantity" className="form-label">Quantity Award</label>
           <input
             id="awardQuantity"
             name="awardQuantity"
@@ -165,7 +165,7 @@ const AddAwardForm = () => {
         </div>
 
         <button type="submit" className="btn btn-primary w-100">
-          Thêm Giải Thưởng
+          Create
         </button>
       </form>
     </div>
