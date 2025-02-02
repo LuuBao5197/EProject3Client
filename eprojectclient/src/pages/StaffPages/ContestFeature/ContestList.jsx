@@ -66,21 +66,21 @@ const ContestList = () => {
             selector: row => row.name,
             sortable: true,
         },
-        {
-            name: 'Description',
-            selector: row => row.description,
-            sortable: true,
-        },
-        {
-            name: 'StartDate',
-            selector: row => row.startDate,
-            sortable: true,
-        },
-        {
-            name: 'EndDate',
-            selector: row => row.endDate,
-            sortable: true,
-        },
+        // {
+        //     name: 'Description',
+        //     selector: row => row.description,
+        //     sortable: true,
+        // },
+        // {
+        //     name: 'StartDate',
+        //     selector: row => row.startDate,
+        //     sortable: true,
+        // },
+        // {
+        //     name: 'EndDate',
+        //     selector: row => row.endDate,
+        //     sortable: true,
+        // },
         {
             name: 'Status',
             selector: row => row.status,
@@ -263,36 +263,6 @@ const ContestList = () => {
             {loading ? (
                 <div className="text-center">Loading...</div>
             ) : (
-                <>
-                    {/* <table className="table table-bordered">
-                        <thead className="thead-light">
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Start Date</th>
-                                <th>End Date</th>
-                                <th>Active</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {contests.map((contest) => (
-                                <tr key={contest.id}>
-                                    <td>{contest.id}</td>
-                                    <td>{contest.name}</td>
-                                    <td>{contest.description}</td>
-                                    <td>{new Date(contest.startDate).toLocaleString()}</td>
-                                    <td>{new Date(contest.endDate).toLocaleString()}</td>
-                                    <td>{contest.isActive ? "Yes" : "No"}</td>
-                                    <td>
-                                        <button className="btn btn-primary" onClick={() => navigate(`/staff/contest/edit/${contest.id}`)}>Edit</button>
-                                        <button className="btn btn-warning" onClick={() => handleDelete(contest.id)}>Delete</button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table> */}
                     <DataTable
                         title="CONTEST LIST"
                         columns={columns}
@@ -300,27 +270,8 @@ const ContestList = () => {
                         pagination
                         highlightOnHover
                     />
-                    {/* <ReactPaginate
-                        previousLabel={"Previous"}
-                        nextLabel={"Next"}
-                        breakLabel={"..."}
-                        pageCount={pageCount}
-                        forcePage={currentPage - 1}
-                        marginPagesDisplayed={2}
-                        pageRangeDisplayed={3}
-                        onPageChange={handlePageClick}
-                        containerClassName={"pagination justify-content-center"}
-                        pageClassName={"page-item"}
-                        pageLinkClassName={"page-link"}
-                        previousClassName={"page-item"}
-                        previousLinkClassName={"page-link"}
-                        nextClassName={"page-item"}
-                        nextLinkClassName={"page-link"}
-                        breakClassName={"page-item"}
-                        breakLinkClassName={"page-link"}
-                        activeClassName={"active"}
-                    /> */}
-                </>
+                    
+               
             )}
         </div>
     );
