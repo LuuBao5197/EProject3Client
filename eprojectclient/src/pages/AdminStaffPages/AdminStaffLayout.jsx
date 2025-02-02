@@ -22,7 +22,7 @@ const AdminStaffLayout = ({ onEdit }) => {
   };
 
   const handleDetail = (id) => {
-    navigate(`/admin/staffdetail/${id}`); // Điều hướng đến đường dẫn mới
+    navigate(`/admin/Staff-Detail/${id}`); // Điều hướng đến đường dẫn mới
   };
 
   useEffect(() => {

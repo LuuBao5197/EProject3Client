@@ -154,7 +154,7 @@ export const adminRoutes = [
     component: <AdminStaffDetail />,
     
   },
-];
+]; 
 
 export const routes = [
   {
