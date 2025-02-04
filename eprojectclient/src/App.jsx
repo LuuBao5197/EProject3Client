@@ -63,21 +63,21 @@ function App() {
                 })} */}
                 {AdminRoute.map((item, index) => {
                     const Comp = item.element;
-                return (
-                <Route
-                    path={item.path}
-                    key={index}
-                    element={
-                        <div>
-                            <AdminStaffLayout>
-                                <Comp />
-                            </AdminStaffLayout>
-                        </div>
-                    }
-                />
-                );
+                    return (
+                        <Route
+                            path={item.path}
+                            key={index}
+                            element={
+                                <div>
+                                    <AdminStaffLayout>
+                                        <Comp />
+                                    </AdminStaffLayout>
+                                </div>
+                            }
+                        />
+                    );
                 })}
-               
+
                 <Route path="auth/*" element={<AuthLayout />} />
                 {/* <Route
                     path="admin/*"
@@ -118,8 +118,10 @@ function App() {
                         <RTLLayout theme={currentTheme} setTheme={setCurrentTheme} />
                     }
                 />
+
                 <Route path="/" element={<Navigate to="/admin" replace />} />
-                <Route path="student/*" element={<Navigate to="/" replace />} />
+                {/* <Route path="student/*" element={<Navigate to="/student/" replace />} /> */}
+                <Route path="/student/*" element={<HomePage />} />
 
             </Routes>
 

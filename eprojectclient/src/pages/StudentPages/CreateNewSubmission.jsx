@@ -70,8 +70,8 @@ function CreateNewSubmission() {
         formData.append("filePath", file.name);
 
         try {
-            const response = await postSubmission(studentId, contestId, formData);  // Sử dụng studentId từ state
-            // Điều hướng kèm dữ liệu phản hồi
+            const response = await postSubmission(studentId, contestId, formData)
+
             nav("/mysubmissions", { state: { newSubmission: response } });
         } catch (error) {
             SweetAlert("Failed to create submission:", "error");
