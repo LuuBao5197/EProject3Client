@@ -17,6 +17,7 @@ import {
   MdUpdate,
   MdLogin,
   MdViewCarousel,
+  MdSelectAll,
 } from 'react-icons/md';
 
 // Admin Imports
@@ -57,6 +58,9 @@ import Total from './pages/ManagerPages/Total';
 import MeetingScheduler from './pages/ManagerPages/CreateMeeting';
 import Requests from './pages/ManagerPages/Requests';
 import CreateMeeting from './pages/ManagerPages/CreateMeeting';
+import ContestJudgeSelector from './pages/StaffPages/ContestJudge/ContestJudgeSelector';
+import ContestJudgesList from './pages/StaffPages/ContestJudge/ContestJudgeList';
+import EditContestJudges from './pages/StaffPages/ContestJudge/EditContestJudges';
 
 
 
@@ -282,9 +286,30 @@ export const staffRoutes = [
     icon: <Icon as={MdViewCarousel} width="20px" height="20px" color="inherit" />,
     component: <ListSubmission/>,
     index: true
-    
   },
-  
+  {
+    name: 'Select Judge for Contest',
+    layout: '/staff',
+    path: '/contestjudge/:contestID',
+    icon: <Icon as={MdSelectAll} width="20px" height="20px" color="inherit" />,
+    component: <ContestJudgeSelector/>,
+    index: false
+  }, 
+   {
+    name: 'List Judge Contest',
+    layout: '/staff',
+    path: '/contestjudge',
+    icon: <Icon as={MdSelectAll} width="20px" height="20px" color="inherit" />,
+    component: <ContestJudgesList/>,
+    index: true
+  },
+  {
+    name: 'Edit JudgeJudge',
+    layout: '/staff',
+    path: '/contestjudge/edit/:contestID',
+    icon: <Icon as={MdSelectAll} width="20px" height="20px" color="inherit" />,
+    component: <EditContestJudges/>,
+  },
   
   
 ];
