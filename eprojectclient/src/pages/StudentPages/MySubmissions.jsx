@@ -9,7 +9,7 @@ import FooterHome from "../PublicPages/components/footer/FooterHome";
 import NavbarHome from "../PublicPages/components/navbar/NavbarHome";
 import Rating from "react-rating";
 import { useLocation } from "react-router-dom";
-
+import NavbarStudentHome from "./components/navbar/NavbarStudentHome";
 
 function MySubmission() {
     const [subs, setSubs] = useState([]);
@@ -25,7 +25,6 @@ function MySubmission() {
     const newSubmission = location.state?.newSubmission;
 
     // Gộp dữ liệu mới vào danh sách submissions hiện tại
-
     const toggleModal = (id) => {
         setIdSub(id);
         setShowModal(!showModal);
@@ -33,27 +32,32 @@ function MySubmission() {
 
     useEffect(() => {
         const getSubs = async () => {
-            try {
-                const data = await getMySubmissions(getStudentIdDemo());
-                setSubs(data);
-                console.log(data);
-
-
-                // Extract unique contest names
-                const contestNames = [...new Set(data.map(sub => sub.contest.name))];
-                setUniqueContests(contestNames);
-                setFilteredSubmissions(data); // Display all submissions initially
-            } catch (error) {
-                console.error('Failed to fetch:', error);
+          try {
+            const studentId = await getStudentIdDemo(); // Chờ lấy studentId
+            if (studentId) {
+              const data = await getMySubmissions(studentId); // Chỉ gọi nếu có studentId
+              setSubs(data);
+              console.log(data);
+      
+              // Extract unique contest names
+              const contestNames = [...new Set(data.map(sub => sub.contest.name))];
+              setUniqueContests(contestNames);
+              setFilteredSubmissions(data); // Display all submissions initially
+            } else {
+              console.warn("No student ID available.");
             }
+          } catch (error) {
+            console.error('Failed to fetch:', error);
+          }
         };
-
+      
+        // Thêm newSubmission vào subs nếu có
         if (newSubmission) {
-            setSubs((prev) => [...prev, newSubmission]);
+          setSubs((prev) => [...prev, newSubmission]);
         }
-
+      
         getSubs();
-    }, [newSubmission]);
+      }, [newSubmission]);
 
     useEffect(() => {
         if (selectedContest) {
@@ -76,7 +80,7 @@ function MySubmission() {
         setCurrentPage(pageNumber);
     };
 
-    if (!subs || subs.length === 0) {
+    if (!subs) {
         return (
             <div className='container mx-auto'>
                 <strong>Loading...</strong>
@@ -85,11 +89,24 @@ function MySubmission() {
         );
     }
 
+    if (filteredSubmissions.length === 0) {
+        return (
+            <div className="container">
+                <NavbarStudentHome />
+                <div className="text-center">
+                    <h1 className="mt-3">My submissions</h1>
+                    <p>No result found</p>
+                </div>
+                <FooterHome />
+            </div>
+        );
+    }
+
     const totalPages = Math.ceil(filteredSubmissions.length / itemsPerPage);
 
     return (
         <div className="container">
-            <NavbarHome />
+            <NavbarStudentHome />
             <div className="row mt-3" style={{ margin: 'auto' }}>
                 <div className="col-6">
                     <h1>My submissions</h1>
@@ -138,7 +155,6 @@ function MySubmission() {
                                     </a>
                                 </td>
                                 <td>
-
                                     Vote:
                                     <Rating
                                         initialRating={c.submissionReviews?.ratingLevel ?? 0}
@@ -146,7 +162,6 @@ function MySubmission() {
                                         fullSymbol="fa fa-star fa-1x"
                                         readonly
                                     />
-
                                 </td>
                                 <td>{c.submissionReviews.reviewText ?? "No comment"}</td>
                                 <td>

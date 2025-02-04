@@ -35,6 +35,7 @@ import UpdateMySubmission from "../pages/StudentPages/UpdateMySubmission";
 import Adminlayout from "../pages/AdminPages/Adminlayout";
 import AdminClassDetail from "../pages/AdminPages/AdminClassDetail";
 import CreateClassForm from "../pages/AdminPages/AdminClassAdd";
+import HomePage from "../pages/PublicPages/HomePage";
 
 export const config = {
 
@@ -190,6 +191,10 @@ export const AdminConfig = {
 }
 
 export const StudentConfig = {
+    home :{
+        component :HomePage,
+        path:'/student/'
+    },
     awardreceived: {
         component: AwardReceived,
         path: '/student/awardreceived'

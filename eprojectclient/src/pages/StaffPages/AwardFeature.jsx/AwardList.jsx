@@ -26,11 +26,12 @@ const AwardList = () => {
             const response = await axios.get(`http://localhost:5190/api/Staff/GetAllAward`, {
                 params: { page, pageSize, search, status, phase },
             });
+            // console.log(response.data.awards);
             setAwards(response.data.awards);
             setPageCount(response.data.totalPages);
             setLoading(false);
         } catch (error) {
-            console.error("Lỗi khi tải dữ liệu:", error);
+            console.error("Something occurs error when loading data:", error);
             setLoading(false);
         }
     };
@@ -61,17 +62,17 @@ const AwardList = () => {
             }
 
             <div className="row mb-3">
-                <div className="col-md-4">
+                <div className="col-md-6">
                     <input
                         type="text"
                         className="form-control"
-                        placeholder="Search by award name"
+                        placeholder="Search by award name or contest name"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
                 </div>
 
-                <div className="col-md-4">
+                <div className="col-md-6">
                     <select
                         className="form-control"
                         value={filterStatus}
@@ -81,22 +82,24 @@ const AwardList = () => {
                         <option value="Draft">Draft</option>
                         <option value="Pending">Pending</option>
                         <option value="Approved">Approved</option>
-                        <option value="Rejected">Rejected</option>
+                        <option value="Published">Published</option>
+                        <option value="Canceled">Canceled</option>d 
+
                     </select>
                 </div>
 
-                <div className="col-md-4">
+                {/* <div className="col-md-4">
                     <select
                         className="form-control"
                         value={filterPhase}
                         onChange={(e) => setFilterPhase(e.target.value)}
                     >
                         <option value="">Filter by Phase</option>
-                        <option value="Phase 1">Phase 1</option>
-                        <option value="Phase 2">Phase 2</option>
-                        <option value="Phase 3">Phase 3</option>
+                        <option value="True">Has Awarded</option>
+                        <option value="False">No Awarded</option>
+
                     </select>
-                </div>
+                </div> */}
             </div>
 
             {loading ? (
@@ -112,10 +115,9 @@ const AwardList = () => {
                             <tr>
                                 <th className="text-center">ID</th>
                                 <th className="text-center">Name</th>
-                                <th className="text-center">Value($)</th>
-                                <th className="text-center">Quantity</th>
+                                {/* <th className="text-center">Value($)</th>
+                                <th className="text-center">Quantity</th> */}
                                 <th className="text-center">Status</th>
-                                <th className="text-center">Phase</th>
                                 <th className="text-center">For Contest</th>
                                 <th className="text-center">Action</th>
                             </tr>
@@ -126,11 +128,10 @@ const AwardList = () => {
                                     <tr key={index}>
                                         <td className="text-center">{award.id}</td>
                                         <td className="text-center">{award.name}</td>
-                                        <td className="text-center">{award.value}</td>
-                                        <td className="text-center">{award.awardQuantity}</td>
+                                        {/* <td className="text-center">{award.value}</td>
+                                        <td className="text-center">{award.awardQuantity}</td> */}
                                         <td className="text-center">{award.status}</td>
-                                        <td className="text-center">{award.phase}</td>
-                                        <td className="text-center">{award.contestId}</td>
+                                        <td className="text-center">{award.contest.name}</td>
                                         <td className="text-center">
                                             <button className="btn btn-info btn-sm"
                                                 onClick={() => navigate(`/staff/award/${award.id}`)}>
@@ -154,6 +155,18 @@ const AwardList = () => {
                         onPageChange={handlePageClick}
                         containerClassName={"pagination justify-content-center"}
                         activeClassName={"active"}
+                        breakLabel={"..."}
+                        forcePage={currentPage - 1}
+                        marginPagesDisplayed={2}
+                        pageRangeDisplayed={3}
+                        pageClassName={"page-item"}
+                        pageLinkClassName={"page-link"}
+                        previousClassName={"page-item"}
+                        previousLinkClassName={"page-link"}
+                        nextClassName={"page-item"}
+                        nextLinkClassName={"page-link"}
+                        breakClassName={"page-item"}
+                        breakLinkClassName={"page-link"}
                     />
                 </>
             )}

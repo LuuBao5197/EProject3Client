@@ -1,7 +1,7 @@
 // import config from '../config/routes';
 
 
-import {AdminConfig } from "../config/routes";
+import {AdminConfig, StudentConfig } from "../config/routes";
 
 import { ManagerConfig, TeacherConfig } from "../config/routes";
 
@@ -206,6 +206,28 @@ export const AdminRoute = [
         element: AdminConfig.adminclassadd.component
     }
 ];
+
+export const StudentRoutes=[
+    {
+        path: StudentConfig.awardreceived.path,
+        element: StudentConfig.awardreceived.component,
+    },  {
+        path: StudentConfig.createnewsubmission.path,
+        element: StudentConfig.createnewsubmission.component,
+    },  {
+        path: StudentConfig.exhibitionartwork.path,
+        element: StudentConfig.exhibitionartwork.component,
+    },  {
+        path: StudentConfig.mysubmissions.path,
+        element: StudentConfig.mysubmissions.component,
+    },  {
+        path: StudentConfig.updatemysubmission.path,
+        element: StudentConfig.updatemysubmission.component,
+    },  {
+        path: StudentConfig.home.path,
+        element: StudentConfig.home.component,
+    },
+]
 export const privateRoutes = [
   // {
   //     path: config.home.path,

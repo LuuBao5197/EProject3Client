@@ -19,6 +19,7 @@ import {
     // extendTheme
 } from '@chakra-ui/react';
 import initialTheme from './theme/theme'; //  { themeGreen };
+import HomePage from './pages/PublicPages/HomePage';
 
 function App() {
     const [currentTheme, setCurrentTheme] = useState(initialTheme);
@@ -91,6 +92,7 @@ function App() {
                         <StaffLayout theme={currentTheme} setTheme={setCurrentTheme} />
                     }
                 />
+
                 <Route
                     path="manager/*"
                     element={
@@ -117,6 +119,7 @@ function App() {
                     }
                 />
                 <Route path="/" element={<Navigate to="/admin" replace />} />
+                <Route path="student/*" element={<Navigate to="/" replace />} />
 
             </Routes>
 
