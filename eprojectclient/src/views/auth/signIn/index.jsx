@@ -34,7 +34,6 @@ import illustration from "@/assets/img/auth/auth.png";
 import { FcGoogle } from "react-icons/fc";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
-import { getStudentIdDemo } from "../../../API/getStudentIdDemo";
 
 function SignIn() {
   // Chakra color mode
@@ -89,11 +88,7 @@ function SignIn() {
             navigate("/ChangePasswordFirstTimeLogin");
         } else {
             if (decodedToken.role === "Student") {
-              const studentId = await getStudentIdDemo();
-              if (studentId) {
-                  console.log("Student ID:", studentId);
-              }
-              navigate("/student/", { state: { user: decodedToken, studentId: studentId } });
+                navigate("/", { state: { user: decodedToken } });
             } else if (decodedToken.role === "Staff") {
                 navigate("/staff/");
             }
