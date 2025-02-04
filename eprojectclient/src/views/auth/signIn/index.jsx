@@ -88,7 +88,11 @@ function SignIn() {
             navigate("/ChangePasswordFirstTimeLogin");
         } else {
             if (decodedToken.role === "Student") {
-                navigate("/", { state: { user: decodedToken } });
+              const studentId = await getStudentIdDemo();
+              if (studentId) {
+                  console.log("Student ID:", studentId);
+              }
+              navigate("/student/", { state: { user: decodedToken, studentId: studentId } });
             } else if (decodedToken.role === "Staff") {
                 navigate("/staff/");
             }
