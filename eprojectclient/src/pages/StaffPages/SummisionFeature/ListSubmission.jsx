@@ -33,6 +33,7 @@ const ListSubmission = () => {
   const [showModal, setShowModal] = useState(false);
   const [submissionDetails, setSubmissionDetails] = useState(null);
   const [showReviewModal, setShowReviewModal] = useState(false);
+  const [showEditReviewModal, setShowEditReviewModal] = useState(false);
   const [reviewText, setReviewText] = useState('');
   const [pageCount, setPageCount] = useState(0);
   const [rating, setRating] = useState(0);
@@ -81,6 +82,30 @@ const ListSubmission = () => {
     },
   });
 
+  const formikEdit = useFormik({
+    initialValues: {
+      submissionId: '',
+      staffId: 1,
+      reviewText: '',
+      ratingId: '',
+      reviewDate: ''
+    },
+    validationSchema: Yup.object({
+      reviewText: Yup.string().required('Review text is required'),
+      ratingId: Yup.number().required('Rating is required'),
+    }),
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        await axios.put(`http://localhost:5190/api/Staff/EditSubmissionReview`, values);
+        alert('Review updated successfully!');
+        resetForm();
+        handleCloseEditReviewModal();
+      } catch (error) {
+        console.error('Error updating review:', error);
+        alert('Failed to update review.');
+      }
+    },
+  });
   const token = localStorage.getItem('token');
   const userId = jwtDecode(token).Id;
   useEffect(() => {
@@ -186,6 +211,30 @@ const ListSubmission = () => {
     setShowModal(true);
   };
 
+  const handleEditReviewClick = (submission) => {
+    setShowEditReviewModal(true);
+    const fetchReviewForSubmission = async (submissionID, staffID) => {
+      console.log(submissionID);
+      const respone = await axios.get(`http://localhost:5190/api/Staff/GetReviewForSubmissionOfStaff`, {
+        params: {
+          submissionID,
+          staffID
+        }
+      });
+      console.log(respone.data);
+      formikEdit.setValues(
+        {
+          submissionId: respone.data.submissionId,
+          staffId: staffCurrent.id,
+          reviewText: respone.data.reviewText,
+          ratingId: respone.data.ratingId,
+          reviewDate: new Date()
+        }
+      )
+    }
+    fetchReviewForSubmission(submission.submissionId, staffCurrent.id);
+
+  };
   const handleCloseModal = () => {
     setShowModal(false);
     setSubmissionDetails(null);
@@ -212,6 +261,9 @@ const ListSubmission = () => {
     setRating(0);
   };
 
+  const handleCloseEditReviewModal = () => {
+    setShowEditReviewModal(false);
+  }
   return (
     <ChakraProvider>
       <Container>
@@ -301,13 +353,16 @@ const ListSubmission = () => {
                             >
                               View Details
                             </Button>
-                            <Button
+                            {/* {console.log(selectedContest)} */}
+                            {selectedContest.contestJudge.length > 0 &&
+                             selectedContest.contestJudge.some(c => c.staffId == staffCurrent.id && <Button
                               variant="success"
                               className="ms-2"
                               onClick={() => handleReviewClick(submission)}
                             >
                               Review
-                            </Button>
+                            </Button>)}
+
                           </td>
                         </tr>
                       ))}
@@ -348,9 +403,9 @@ const ListSubmission = () => {
                             <Button
                               variant="success"
                               className="ms-2"
-                              onClick={() => handleReviewClick(submission)}
+                              onClick={() => handleEditReviewClick(submission)}
                             >
-                              Review
+                              Edit Review
                             </Button>
                           </td>
                         </tr>
@@ -460,6 +515,52 @@ const ListSubmission = () => {
             </Button>
           </Modal.Footer>
         </Modal>
+
+        {/* // Modal for editing reviews */}
+        <Modal show={showEditReviewModal} onHide={handleCloseEditReviewModal} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Edit Review</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form onSubmit={formikEdit.handleSubmit}>
+              <Form.Group className="mb-3" controlId="reviewText">
+                <Form.Label>Review Text</Form.Label>
+                <ReactQuill
+                  theme="snow"
+                  value={formikEdit.values.reviewText}
+                  modules={modules}
+                  onChange={(value) => formikEdit.setFieldValue('reviewText', value)}
+                  onBlur={formikEdit.handleBlur}
+                />
+                {formikEdit.touched.reviewText && formikEdit.errors.reviewText && (
+                  <div className="text-danger">{formikEdit.errors.reviewText}</div>
+                )}
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="rating">
+                <Form.Label>Rating</Form.Label>
+                <Select
+                  id="rating"
+                  placeholder="Select rating level"
+                  value={formikEdit.values.ratingId}
+                  onChange={(e) => formikEdit.setFieldValue('ratingId', Number(e.target.value))}
+                  onBlur={formikEdit.handleBlur}
+                >
+                  {ratingLevel.map((level) => (
+                    <option key={level.id} value={level.id}>{level.name}</option>
+                  ))}
+                </Select>
+                {formikEdit.touched.ratingId && formikEdit.errors.ratingId && (
+                  <div className="text-danger">{formikEdit.errors.ratingId}</div>
+                )}
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseEditReviewModal}>Cancel</Button>
+            <Button variant="primary" type="submit" onClick={formikEdit.handleSubmit}>Save Changes</Button>
+          </Modal.Footer>
+        </Modal>
+
 
       </Container>
     </ChakraProvider>
