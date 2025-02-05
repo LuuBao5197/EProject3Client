@@ -26,10 +26,14 @@ const AwardList = () => {
             const response = await axios.get(`http://localhost:5190/api/Staff/GetAllAward`, {
                 params: { page, pageSize, search, status, phase },
             });
+<<<<<<< HEAD
 // <<<<<<< HEAD
 // =======
 //             // console.log(response.data.awards);
 // >>>>>>> 5c143185e4d46f2109797ef2df334d975828827a
+=======
+            // console.log(response.data.awards);
+>>>>>>> 5c143185e4d46f2109797ef2df334d975828827a
             setAwards(response.data.awards);
             setPageCount(response.data.totalPages);
             setLoading(false);
@@ -66,17 +70,23 @@ const AwardList = () => {
 
             <div className="row mb-3">
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <div className="col-md-4">
                     <input
                         type="text"
                         className="form-control"
                         placeholder="Search by award name"
 =======
+=======
+>>>>>>> 5c143185e4d46f2109797ef2df334d975828827a
                 <div className="col-md-6">
                     <input
                         type="text"
                         className="form-control"
                         placeholder="Search by award name or contest name"
+<<<<<<< HEAD
+>>>>>>> 5c143185e4d46f2109797ef2df334d975828827a
+=======
 >>>>>>> 5c143185e4d46f2109797ef2df334d975828827a
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
@@ -84,7 +94,11 @@ const AwardList = () => {
                 </div>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <div className="col-md-4">
+=======
+                <div className="col-md-6">
+>>>>>>> 5c143185e4d46f2109797ef2df334d975828827a
 =======
                 <div className="col-md-6">
 >>>>>>> 5c143185e4d46f2109797ef2df334d975828827a
@@ -98,12 +112,15 @@ const AwardList = () => {
                         <option value="Pending">Pending</option>
                         <option value="Approved">Approved</option>
 <<<<<<< HEAD
+<<<<<<< HEAD
                         <option value="Rejected">Rejected</option>
                     </select>
                 </div>
 
                 <div className="col-md-4">
 =======
+=======
+>>>>>>> 5c143185e4d46f2109797ef2df334d975828827a
                         <option value="Published">Published</option>
                         <option value="Canceled">Canceled</option>d 
 
@@ -111,6 +128,9 @@ const AwardList = () => {
                 </div>
 
                 {/* <div className="col-md-4">
+<<<<<<< HEAD
+>>>>>>> 5c143185e4d46f2109797ef2df334d975828827a
+=======
 >>>>>>> 5c143185e4d46f2109797ef2df334d975828827a
                     <select
                         className="form-control"
@@ -119,17 +139,23 @@ const AwardList = () => {
                     >
                         <option value="">Filter by Phase</option>
 <<<<<<< HEAD
+<<<<<<< HEAD
                         <option value="Phase 1">Phase 1</option>
                         <option value="Phase 2">Phase 2</option>
                         <option value="Phase 3">Phase 3</option>
                     </select>
                 </div>
 =======
+=======
+>>>>>>> 5c143185e4d46f2109797ef2df334d975828827a
                         <option value="True">Has Awarded</option>
                         <option value="False">No Awarded</option>
 
                     </select>
                 </div> */}
+<<<<<<< HEAD
+>>>>>>> 5c143185e4d46f2109797ef2df334d975828827a
+=======
 >>>>>>> 5c143185e4d46f2109797ef2df334d975828827a
             </div>
 
@@ -164,8 +190,12 @@ const AwardList = () => {
                                         <td className="text-center">{award.awardQuantity}</td> */}
                                         <td className="text-center">{award.status}</td>
 <<<<<<< HEAD
+<<<<<<< HEAD
                                         <td className="text-center">{award.phase}</td>
                                         <td className="text-center">{award.contestId}</td>
+=======
+                                        <td className="text-center">{award.contest.name}</td>
+>>>>>>> 5c143185e4d46f2109797ef2df334d975828827a
 =======
                                         <td className="text-center">{award.contest.name}</td>
 >>>>>>> 5c143185e4d46f2109797ef2df334d975828827a
@@ -193,7 +223,10 @@ const AwardList = () => {
                         containerClassName={"pagination justify-content-center"}
                         activeClassName={"active"}
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 5c143185e4d46f2109797ef2df334d975828827a
                         breakLabel={"..."}
                         forcePage={currentPage - 1}
                         marginPagesDisplayed={2}
@@ -206,6 +239,9 @@ const AwardList = () => {
                         nextLinkClassName={"page-link"}
                         breakClassName={"page-item"}
                         breakLinkClassName={"page-link"}
+<<<<<<< HEAD
+>>>>>>> 5c143185e4d46f2109797ef2df334d975828827a
+=======
 >>>>>>> 5c143185e4d46f2109797ef2df334d975828827a
                     />
                 </>

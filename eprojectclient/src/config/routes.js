@@ -17,8 +17,13 @@ import AdminStaffDetail from "../pages/AdminStaffPages/AdminStaffDetail";
 import AdminStudentAdd from "../pages/AdminStudentPages/AdminStudentAdd";
 import AdminStudentImportForm from "../pages/AdminStudentPages/AdminStudentImportForm";
 import AdminStudentDetail from "../pages/AdminStudentPages/AdminStudentDetail";
+<<<<<<< HEAD
 import EditAwardForm from "../pages/StaffPages/AwardFeature/EditAwardForm";
 import AwardDetails from "../pages/StaffPages/AwardFeature/AwardDetails";
+=======
+import EditAwardForm from "../pages/StaffPages/AwardFeature.jsx/EditAwardForm";
+import AwardDetails from "../pages/StaffPages/AwardFeature.jsx/AwardDetails";
+>>>>>>> 5c143185e4d46f2109797ef2df334d975828827a
 import ExhibitionDetail from "../pages/ManagerPages/ExhibitionDetail";
 import ExhibitionIndex from "../pages/StaffPages/ExhibitionFeature/ExhibitionIndex";
 import AddExhibition from "../pages/StaffPages/ExhibitionFeature/AddExhibition";
@@ -35,6 +40,73 @@ import Adminlayout from "../pages/AdminPages/Adminlayout";
 import AdminClassDetail from "../pages/AdminPages/AdminClassDetail";
 import CreateClassForm from "../pages/AdminPages/AdminClassAdd";
 import HomePage from "../pages/PublicPages/HomePage";
+<<<<<<< HEAD
+=======
+
+export const config = {
+
+    // home: {
+    //     component: Home,
+    //     path: '/',
+    // },
+    // home: {
+    //     component: Home,
+    //     path: '/',
+    // },
+    // home: {
+    //     component: Home,
+    //     path: '/',
+    // },
+
+};
+
+
+export const TeacherConfig = {
+    listcontest: {
+        component: ContestList,
+        path: '/staff/contest'
+    },
+    addcontest: {
+        component: AddContest,
+        path: '/staff/contest/add'
+    },
+    editcontest: {
+        component: EditContest,
+        path: '/staff/contest/edit/:id'
+    },
+    detailcontest: {
+        component: ContestDetail,
+        path: '/staff/contest/:id'
+    },
+    listAward: {
+        component: AwardList,
+        path: '/staff/award'
+    },
+    addAward: {
+        component: AddAwardForm,
+        path: '/staff/award/add'
+    },
+    editAward: {
+        component: EditAwardForm,
+        path: '/staff/award/edit/:id'
+    },
+    detailAward: {
+        component: AwardDetails,
+        path: '/staff/award/:id'
+    },
+    listExhibition: {
+        component: ExhibitionIndex,
+        path: '/staff/exhibition'
+    },
+    addExhibition: {
+        component: AddExhibition,
+        path: '/staff/exhibition/add'
+    },
+    editExhibition: {
+        component: EditExhibition,
+        path: '/staff/exhibition/edit/:id'
+    }
+>>>>>>> 5c143185e4d46f2109797ef2df334d975828827a
 
 export const config = {};
 
@@ -79,6 +151,7 @@ export const AdminConfig = {
 };
 
 export const StudentConfig = {
+<<<<<<< HEAD
     home: { component: HomePage, path: "/student/" },
     awardreceived: { component: AwardReceived, path: "/student/awardreceived" },
     createnewsubmission: { component: CreateNewSubmission, path: "/student/createnewsubmission" },
@@ -86,3 +159,32 @@ export const StudentConfig = {
     mysubmissions: { component: MySubmission, path: "/student/mysubmission" },
     updatemysubmission: { component: UpdateMySubmission, path: "/student/updatemysubmission" },
 };
+=======
+    home :{
+        component :HomePage,
+        path:'/student/'
+    },
+    awardreceived: {
+        component: AwardReceived,
+        path: '/student/awardreceived'
+    },
+    createnewsubmission: {
+        component: CreateNewSubmission,
+        path: '/student/createnewsubmission'
+    },
+    exhibitionartwork: {
+        component: ExhibitionArtwork,
+        path: '/student/exhibitionartwork'
+    },
+    mysubmissions: {
+        component: MySubmission,
+        path: '/student/mysubmission'
+    },
+    updatemysubmission: {
+        component: UpdateMySubmission,
+        path: '/student/updatemysubmission'
+    }
+
+}
+
+>>>>>>> 5c143185e4d46f2109797ef2df334d975828827a

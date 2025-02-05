@@ -1,10 +1,15 @@
-import { Box, Flex, Text, useColorModeValue } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Text,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import Card from "@/components/card/Card.js";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 export default function CardContest({ contest, ...props }) {
-  const [hovered, setHovered] = useState(false);
+  const [hovered, setHovered] = useState(false); // State để quản lý hover
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const nav = useNavigate();
 
@@ -12,20 +17,31 @@ export default function CardContest({ contest, ...props }) {
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
     const date = new Date(dateString);
-    return date.toLocaleDateString("en-GB", options);
+    return date.toLocaleDateString("en-GB", options); // Format: DD/MM/YYYY
   };
 
   return (
     <Card align="center" direction="column" w="100%" {...props}>
-      <Flex align="flex-start" w="100%" px="15px" py="10px" justifyContent="space-between">
+      <Flex
+        align="flex-start"
+        w="100%"
+        px="15px"
+        py="10px"
+        justifyContent="space-between"
+      >
         {/* Cột bên trái - Nội dung */}
         <Box
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
-          position="relative"
+          position="relative" // Để tooltip xuất hiện đúng vị trí
           width="60%"
         >
-          <Text color={textColor} fontSize="200%" fontWeight="700" lineHeight="100%">
+          <Text
+            color={textColor}
+            fontSize="200%"
+            fontWeight="700"
+            lineHeight="100%"
+          >
             {contest.name}
           </Text>
           <Text color={textColor} fontSize="130%" textAlign="left" mt="4px">
@@ -38,7 +54,10 @@ export default function CardContest({ contest, ...props }) {
             Deadline: {formatDate(contest.submissionDeadline)}
           </Text>
           <Text color={textColor} fontSize="130%" textAlign="left" mt="12px">
-            <button className="btn btn-outline-dark" onClick={() => nav(`createsubmission/${contest.id}`)}>
+            <button
+              className="btn btn-outline-dark"
+              onClick={() => nav(`createsubmission/${contest.id}`)}
+            >
               Join
             </button>
           </Text>
@@ -46,6 +65,7 @@ export default function CardContest({ contest, ...props }) {
             Organized By: {contest.organizerName}
           </Text>
 
+          {/* Hiển thị thông tin khi hover */}
           {hovered && (
             <Box
               position="absolute"

@@ -1,6 +1,6 @@
 import { AdminRoute } from './routes/routes';
 import { publicRoutes } from './routes/routes';
-import AdminLayout from './layouts/Adminlayout/index';
+import AdminStaffLayout from './layout/AdminStaffLayout';
 import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from 'react-router-dom'
 // import {publicRoutes, StaffRoutes } from './routes/routes';
 import React, { useState } from "react";
@@ -61,10 +61,6 @@ function App() {
                         />
                     );
                 })} */}
-{/* <<<<<<< HEAD
-              
-               
-=======
                 {AdminRoute.map((item, index) => {
                     const Comp = item.element;
                     return (
@@ -82,7 +78,6 @@ function App() {
                     );
                 })}
 
->>>>>>> 5c143185e4d46f2109797ef2df334d975828827a */}
                 <Route path="auth/*" element={<AuthLayout />} />
                 {/* <Route
                     path="admin/*"
@@ -123,16 +118,7 @@ function App() {
                         <RTLLayout theme={currentTheme} setTheme={setCurrentTheme} />
                     }
                 />
-{/* <<<<<<< HEAD
-                 <Route
-                    path="admin/*"
-                    element={
-                        <AdminLayout theme={currentTheme} setTheme={setCurrentTheme} />
-                    }
-                />
-=======
 
->>>>>>> 5c143185e4d46f2109797ef2df334d975828827a */}
                 <Route path="/" element={<Navigate to="/admin" replace />} />
                 {/* <Route path="student/*" element={<Navigate to="/student/" replace />} /> */}
                 <Route path="/student/*" element={<HomePage />} />
