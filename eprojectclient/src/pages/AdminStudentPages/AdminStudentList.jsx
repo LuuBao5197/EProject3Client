@@ -32,15 +32,19 @@ const AdminStudentList = () => {
       }
     };
   }, [students]);
+  const handleUpdateClick = (id) => {
+    // Điều hướng tới trang chỉnh sửa sinh viên với id
+    navigate(`/admin/Update-Student/${id}`);
+  };
 
   const handleDetailClick = (id) => {
     // Điều hướng tới trang chi tiết của sinh viên với id
-    navigate(`/admin/student/${id}`);
+    navigate(`/admin/Student-Detail/${id}`);
   };
 
   return (
     <div className="container mt-5">
-      <h2 className="mb-4">Student List</h2>
+      <h2  className="mb-4 text-center mt-auto" style={{ paddingTop: "50px" , paddingBottom: "1px"}}>Student List</h2>
       <table id="studentsTable" className="table table-striped table-bordered">
         <thead className="table-dark">
           <tr>
@@ -74,6 +78,12 @@ const AdminStudentList = () => {
                   className="btn btn-info btn-sm"
                 >
                   View Details
+                </button>
+                <button
+                  onClick={() => handleUpdateClick(student.id)}
+                  className="btn btn-warning btn-sm ml-2"
+                >
+                  Update
                 </button>
               </td>
             </tr>

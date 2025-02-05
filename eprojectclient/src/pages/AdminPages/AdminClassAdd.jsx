@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { addClass, getAllStaff } from '../../API/GetClass'; // Import API addClass và getAllStaff
 
-const CreateClassForm = () => {
+const AdminClassAdd = () => {
   const [classData, setClassData] = useState({
     name: '',
     totalStudent: '',
@@ -80,7 +80,7 @@ const CreateClassForm = () => {
 
   return (
     <div className="container mt-5">
-      <h2>Create New Class</h2>
+      <h2 className="mb-4 text-center mt-auto" style={{ paddingTop: "50px", paddingBottom: "1px" }}>Create New Class</h2>
       {error && <p className="text-danger">{error}</p>}
       {success && <p className="text-success">Class created successfully!</p>}
       <form onSubmit={handleSubmit}>
@@ -140,4 +140,4 @@ const CreateClassForm = () => {
   );
 };
 
-export default CreateClassForm;
+export default AdminClassAdd;

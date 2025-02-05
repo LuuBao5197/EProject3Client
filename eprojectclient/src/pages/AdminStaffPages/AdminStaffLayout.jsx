@@ -22,7 +22,10 @@ const AdminStaffLayout = ({ onEdit }) => {
   };
 
   const handleDetail = (id) => {
-    navigate(`/admin/staffdetail/${id}`); // Điều hướng đến đường dẫn mới
+    navigate(`/admin/Staff-Detail/${id}`); // Điều hướng đến đường dẫn mới
+  };
+  const handleEdit = (id) => {
+    navigate(`/admin/Update-Staff/${id}`); // Điều hướng đến đường dẫn mới
   };
 
   useEffect(() => {
@@ -38,7 +41,7 @@ const AdminStaffLayout = ({ onEdit }) => {
 
   return (
     <div className="container mt-5">
-      <h2 className="mb-4">Staff List</h2>
+      <h2 className="mb-4 text-center mt-auto" style={{ paddingTop: "60px" , paddingBottom: "1px"}}>Staff List</h2>
       <table id="staffTable" className="table table-striped table-bordered">
         <thead className="table-dark">
           <tr>
@@ -55,7 +58,7 @@ const AdminStaffLayout = ({ onEdit }) => {
               <td>{staff.user.name}</td>
               <td>{staff.user.email}</td>
               <td>
-                <button className="btn btn-warning mr-2" onClick={() => onEdit(staff)}>Edit</button>
+                <button className="btn btn-warning mr-2" onClick={() => handleEdit(staff.id)}>Edit</button>
                 <button className="btn btn-info" onClick={() => handleDetail(staff.id)}>Detail</button> {/* Nút Detail */}
               </td>
             </tr>

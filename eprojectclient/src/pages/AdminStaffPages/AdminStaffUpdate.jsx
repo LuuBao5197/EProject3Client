@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { getSubjects, getQualifications, CreateStaff } from '../../API/getAdminStaff';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getSubjects, getQualifications, getStaffDetails, updateStaff } from '../../API/getAdminStaff';
 
-const AdminStaffAdd = () => {
+const AdminStaffUpdate = () => {
+    const { id } = useParams();  // Lấy ID từ URL để tải dữ liệu của nhân viên cần cập nhật
     const [formData, setFormData] = useState({
         username: '',
         password: '',
@@ -10,15 +11,13 @@ const AdminStaffAdd = () => {
         email: '',
         phone: '',
         dob: '',
-        joinDate: new Date().toISOString().split('T')[0], // Set current date as default
+        joinDate: new Date().toISOString().split('T')[0],
         staffSubjectIds: [],
         staffQualificationIds: [],
         role: 'Staff',
         address: '',
-        profileImage: null, // Thêm ảnh vào formData
+        profileImage: null,
     });
-
-
     const [subjects, setSubjects] = useState([]);
     const [qualifications, setQualifications] = useState([]);
     const [message, setMessage] = useState('');
@@ -39,59 +38,42 @@ const AdminStaffAdd = () => {
 
                 const fetchedQualifications = await getQualifications();
                 setQualifications(fetchedQualifications);
+
+                const staffData = await getStaffDetails(id);  // Lấy dữ liệu nhân viên theo ID
+                setFormData(staffData);
             } catch (err) {
                 setError(err.message);
             }
         };
 
         fetchData();
-    }, []);
+    }, [id]);
 
     const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-        // Validate image file
-        const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
-        const maxSize = 5 * 1024 * 1024; // 5MB
+        const file = e.target.files[0];
+        if (file) {
+            const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            const maxSize = 5 * 1024 * 1024; // 5MB
 
-        if (!validTypes.includes(file.type)) {
-            setImageError('Invalid file type. Please upload JPEG, PNG, or GIF.');
-            return;
+            if (!validTypes.includes(file.type)) {
+                setImageError('Invalid file type. Please upload JPEG, PNG, or GIF.');
+                return;
+            }
+
+            if (file.size > maxSize) {
+                setImageError('File size exceeds 5MB limit.');
+                return;
+            }
+
+            setProfileImage(file);
+            setFormData({ ...formData, profileImage: file });
+
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result);
+            };
+            reader.readAsDataURL(file);
         }
-
-        if (file.size > maxSize) {
-            setImageError('File size exceeds 5MB limit.');
-            return;
-        }
-
-        setProfileImage(file);
-        setFormData({ ...formData, profileImage: file });
-
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            setImagePreview(reader.result);
-        };
-        reader.readAsDataURL(file);
-    }
-};
-
-
-    const validateAge = (birthDate) => {
-        const today = new Date();
-        const birth = new Date(birthDate);
-        let age = today.getFullYear() - birth.getFullYear();
-        const monthDiff = today.getMonth() - birth.getMonth();
-
-        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
-            age--;
-        }
-
-        return age >= 20;
-    };
-
-    const validatePhoneNumber = (phone) => {
-        const phoneRegex = /^0\d{9}$/;
-        return phoneRegex.test(phone);
     };
 
     const handleInputChange = (e) => {
@@ -106,11 +88,10 @@ const AdminStaffAdd = () => {
         }
 
         if (name === 'phone') {
-            // Kiểm tra số điện thoại
             if (!validatePhoneNumber(value)) {
                 setPhoneError('Phone number must start with 0 and have 10 digits');
             } else {
-                setPhoneError(''); // Xóa lỗi nếu hợp lệ
+                setPhoneError('');
             }
         }
 
@@ -133,17 +114,6 @@ const AdminStaffAdd = () => {
         });
     };
 
-    const validateEmail = async (email) => {
-        try {
-            const response = await fetch(`http://localhost:5190/api/AdminStaff/check-email?email=${email}`);
-            const data = await response.json();
-            return !data.exists;
-        } catch (err) {
-            console.error('Error checking email:', err);
-            return false;
-        }
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setMessage('');
@@ -152,52 +122,44 @@ const AdminStaffAdd = () => {
         setDobError('');
         setPhoneError('');
         setImageError('');
-    
-        // Kiểm tra dữ liệu đầu vào
+
         if (!formData.username || !formData.password || !formData.name || !formData.email || !formData.phone || !formData.dob || !formData.address) {
             setError('Please fill in all fields');
             return;
         }
-    
-        // Kiểm tra định dạng email
+
         const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
         if (!emailPattern.test(formData.email)) {
             setEmailError('Please enter a valid email address');
             return;
         }
-    
-        // Kiểm tra tuổi
+
         if (!validateAge(formData.dob)) {
             setDobError('Staff must be at least 20 years old');
             return;
         }
-    
-        // Kiểm tra email đã tồn tại chưa
+
         const isEmailValid = await validateEmail(formData.email);
         if (!isEmailValid) {
             setEmailError('This email is already in use');
             return;
         }
-    
-        // Kiểm tra lựa chọn môn học
+
         if (formData.staffSubjectIds.length === 0) {
             setError('Please select at least one subject');
             return;
         }
-    
-        // Kiểm tra lựa chọn bằng cấp
+
         if (formData.staffQualificationIds.length === 0) {
             setError('Please select at least one qualification');
             return;
         }
-    
-        // Kiểm tra số điện thoại
+
         if (!validatePhoneNumber(formData.phone)) {
             setPhoneError('Phone number must start with 0 and have 10 digits');
             return;
         }
-    
-        // **Tạo `formDataToSend`**
+
         const formDataToSend = new FormData();
         Object.entries(formData).forEach(([key, value]) => {
             if (Array.isArray(value)) {
@@ -206,31 +168,29 @@ const AdminStaffAdd = () => {
                 formDataToSend.append(key, value);
             }
         });
-    
-        // **Thêm hình ảnh nếu có**
+
         if (profileImage) {
             formDataToSend.append('profileImage', profileImage);
         }
-    
+
         try {
-            await CreateStaff(formDataToSend);
-            setMessage('Staff added successfully');
+            await updateStaff(id, formDataToSend);  // Gọi API để cập nhật nhân viên
+            setMessage('Staff updated successfully');
             navigate('/admin/StaffList');
         } catch (err) {
             console.error(err);
             setError(err.message);
         }
     };
-    
 
     return (
         <div className="container mt-4">
-            <h2 className="mb-4 text-center mt-auto" style={{ paddingTop: "60px", paddingBottom: "1px" }}>Create Staff</h2>
+            <h2 className="mb-4">Update Staff</h2>
             {message && <div className="alert alert-success">{message}</div>}
             {error && <div className="alert alert-danger">{error}</div>}
 
             <form onSubmit={handleSubmit} className="needs-validation" noValidate>
-                {/* Username */}
+                {/* Các trường nhập liệu như Username, Password, Name, Email, Phone, DOB, Profile Image */}
                 <div className="row g-3">
                     <div className="col-md-6">
                         <label htmlFor="username" className="form-label">Username</label>
@@ -244,8 +204,6 @@ const AdminStaffAdd = () => {
                             required
                         />
                     </div>
-
-                    {/* Password */}
                     <div className="col-md-6">
                         <label htmlFor="password" className="form-label">Password</label>
                         <input
@@ -258,8 +216,6 @@ const AdminStaffAdd = () => {
                             required
                         />
                     </div>
-
-                    {/* Name */}
                     <div className="col-md-6">
                         <label htmlFor="name" className="form-label">Name</label>
                         <input
@@ -272,8 +228,6 @@ const AdminStaffAdd = () => {
                             required
                         />
                     </div>
-
-                    {/* Email */}
                     <div className="col-md-6">
                         <label htmlFor="email" className="form-label">Email</label>
                         <input
@@ -287,8 +241,6 @@ const AdminStaffAdd = () => {
                         />
                         {emailError && <div className="text-danger">{emailError}</div>}
                     </div>
-
-                    {/* Phone */}
                     <div className="col-md-6">
                         <label htmlFor="phone" className="form-label">Phone</label>
                         <input
@@ -302,8 +254,6 @@ const AdminStaffAdd = () => {
                         />
                         {phoneError && <div className="text-danger">{phoneError}</div>}
                     </div>
-
-                    {/* Date of Birth */}
                     <div className="col-md-6">
                         <label htmlFor="dob" className="form-label">Date of Birth</label>
                         <input
@@ -317,34 +267,9 @@ const AdminStaffAdd = () => {
                         />
                         {dobError && <div className="text-danger">{dobError}</div>}
                     </div>
-
-                    {/* Profile Image */}
-                    <div className="col-md-12 mb-3">
-                        <label htmlFor="profileImage" className="form-label">Profile Image</label>
-                        <input
-                            type="file"
-                            className="form-control"
-                            id="profileImage"
-                            accept="image/*"
-                            onChange={handleImageChange}
-                        />
-                        {imageError && <div className="text-danger">{imageError}</div>}
-                        {imagePreview && (
-                            <div className="mt-2">
-                                <img
-                                    src={imagePreview}
-                                    alt="Profile Preview"
-                                    className="img-thumbnail"
-                                    style={{ maxWidth: '200px', maxHeight: '200px' }}
-                                />
-                            </div>
-                        )}
-                    </div>
-                    {/* Address */}
                     <div className="col-md-12">
                         <label htmlFor="address" className="form-label">Address</label>
-                        <input
-                            type="text"
+                        <textarea
                             className="form-control"
                             id="address"
                             name="address"
@@ -353,48 +278,23 @@ const AdminStaffAdd = () => {
                             required
                         />
                     </div>
-
-
-                    {/* Subjects */}
-                    <div className="col-md-12 mb-3">
-                        <label htmlFor="subjects" className="form-label">Subjects</label>
-                        <select
-                            multiple
+                    <div className="col-md-6">
+                        <label htmlFor="profileImage" className="form-label">Profile Image</label>
+                        <input
+                            type="file"
                             className="form-control"
-                            id="subjects"
-                            onChange={handleSubjectChange}
-                            required
-                        >
-                            {subjects.map((subject) => (
-                                <option key={subject.id} value={subject.id}>
-                                    {subject.name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-
-                    {/* Qualifications */}
-                    <div className="col-md-12 mb-3">
-                        <label htmlFor="qualifications" className="form-label">Qualifications</label>
-                        <select
-                            multiple
-                            className="form-control"
-                            id="qualifications"
-                            onChange={handleQualificationChange}
-                            required
-                        >
-                            {qualifications.map((qualification) => (
-                                <option key={qualification.id} value={qualification.id}>
-                                    {qualification.name}
-                                </option>
-                            ))}
-                        </select>
+                            id="profileImage"
+                            name="profileImage"
+                            onChange={handleImageChange}
+                        />
+                        {imageError && <div className="text-danger">{imageError}</div>}
+                        {imagePreview && <img src={imagePreview} alt="Profile Preview" width="100" />}
                     </div>
                 </div>
 
                 <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
                     <button type="submit" className="btn btn-primary btn-lg">
-                        Create Staff
+                        Update Staff
                     </button>
                 </div>
             </form>
@@ -402,4 +302,4 @@ const AdminStaffAdd = () => {
     );
 };
 
-export default AdminStaffAdd;
+export default AdminStaffUpdate;
