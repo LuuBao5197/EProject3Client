@@ -48,14 +48,10 @@ function UpdateMySubmission() {
         e.preventDefault();
         const formUpdate = new FormData();
         const file = fileInputRef.current?.files[0];
-<<<<<<< HEAD
-    
-=======
         
->>>>>>> 5c143185e4d46f2109797ef2df334d975828827a
         formUpdate.append("name", nameUpdate || mySub.name);
         formUpdate.append("description", descriptionUpdate || mySub.description);
-    
+
         if (editedFile) {
             formUpdate.append("filePath", editedFile.name);
             formUpdate.append("fileImage", editedFile);
@@ -70,18 +66,6 @@ function UpdateMySubmission() {
             formUpdate.append("filePath", currentFile.name);
             formUpdate.append("fileImage", currentFile);
         }
-<<<<<<< HEAD
-    
-        formUpdate.append("studentId", getStudentIdDemo());
-    
-        console.log([...formUpdate.entries()]); // Kiểm tra nội dung của FormData
-    
-        try {
-            await updateMySubmission(id, formUpdate);
-            nav("/mySubmissions");
-        } catch (e) {
-            console.error(e);
-=======
 
         const studentId = await getStudentIdDemo(); // Lấy studentId
         if (studentId) {
@@ -94,10 +78,8 @@ function UpdateMySubmission() {
             } catch (e) {
                 console.error(e);
             }
->>>>>>> 5c143185e4d46f2109797ef2df334d975828827a
         }
     };
-    
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
