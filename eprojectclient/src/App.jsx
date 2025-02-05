@@ -19,6 +19,7 @@ import {
     // extendTheme
 } from '@chakra-ui/react';
 import initialTheme from './theme/theme'; //  { themeGreen };
+import HomePage from './pages/PublicPages/HomePage';
 
 function App() {
     const [currentTheme, setCurrentTheme] = useState(initialTheme);
@@ -60,8 +61,28 @@ function App() {
                         />
                     );
                 })} */}
+{/* <<<<<<< HEAD
               
                
+=======
+                {AdminRoute.map((item, index) => {
+                    const Comp = item.element;
+                    return (
+                        <Route
+                            path={item.path}
+                            key={index}
+                            element={
+                                <div>
+                                    <AdminStaffLayout>
+                                        <Comp />
+                                    </AdminStaffLayout>
+                                </div>
+                            }
+                        />
+                    );
+                })}
+
+>>>>>>> 5c143185e4d46f2109797ef2df334d975828827a */}
                 <Route path="auth/*" element={<AuthLayout />} />
                 {/* <Route
                     path="admin/*"
@@ -76,6 +97,7 @@ function App() {
                         <StaffLayout theme={currentTheme} setTheme={setCurrentTheme} />
                     }
                 />
+
                 <Route
                     path="manager/*"
                     element={
@@ -101,13 +123,19 @@ function App() {
                         <RTLLayout theme={currentTheme} setTheme={setCurrentTheme} />
                     }
                 />
+{/* <<<<<<< HEAD
                  <Route
                     path="admin/*"
                     element={
                         <AdminLayout theme={currentTheme} setTheme={setCurrentTheme} />
                     }
                 />
+=======
+
+>>>>>>> 5c143185e4d46f2109797ef2df334d975828827a */}
                 <Route path="/" element={<Navigate to="/admin" replace />} />
+                {/* <Route path="student/*" element={<Navigate to="/student/" replace />} /> */}
+                <Route path="/student/*" element={<HomePage />} />
 
             </Routes>
 

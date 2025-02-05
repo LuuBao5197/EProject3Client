@@ -9,8 +9,7 @@ import FooterHome from "../PublicPages/components/footer/FooterHome";
 import { PinturaEditor } from '@pqina/react-pintura';
 import { getEditorDefaults } from '@pqina/pintura';
 import '@pqina/pintura/pintura.css';
-
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import NavbarStudentHome from "./components/navbar/NavbarStudentHome";
 
 function UpdateMySubmission() {
     const [nameUpdate, setNameUpdate] = useState("");
@@ -23,24 +22,37 @@ function UpdateMySubmission() {
     const fileInputRef = useRef(null);
 
     useEffect(() => {
-        const getOneSubmission = async () => {
-            try {
-                const data = await getOneSubmissionById(getStudentIdDemo(), id);
-                setMySub(data);
-                setFilePathUpdate(data.filePath);
-            } catch (error) {
-                console.error("Failed to fetch submission:", error);
+        const getStudentId = async () => {
+            const studentId = await getStudentIdDemo();
+            if (studentId) {
+                const getOneSubmission = async () => {
+                    try {
+                        const data = await getOneSubmissionById(studentId, id);
+                        setMySub(data);
+                        setFilePathUpdate(data.filePath);
+                    } catch (error) {
+                        console.error("Failed to fetch submission:", error);
+                    }
+                };
+
+                getOneSubmission();
+            } else {
+                console.warn("No student ID available.");
             }
         };
 
-        getOneSubmission();
+        getStudentId();
     }, [id]);
 
     const handleUpdate = async (e) => {
         e.preventDefault();
         const formUpdate = new FormData();
         const file = fileInputRef.current?.files[0];
+<<<<<<< HEAD
     
+=======
+        
+>>>>>>> 5c143185e4d46f2109797ef2df334d975828827a
         formUpdate.append("name", nameUpdate || mySub.name);
         formUpdate.append("description", descriptionUpdate || mySub.description);
     
@@ -58,6 +70,7 @@ function UpdateMySubmission() {
             formUpdate.append("filePath", currentFile.name);
             formUpdate.append("fileImage", currentFile);
         }
+<<<<<<< HEAD
     
         formUpdate.append("studentId", getStudentIdDemo());
     
@@ -68,6 +81,20 @@ function UpdateMySubmission() {
             nav("/mySubmissions");
         } catch (e) {
             console.error(e);
+=======
+
+        const studentId = await getStudentIdDemo(); // Lấy studentId
+        if (studentId) {
+            formUpdate.append("studentId", studentId);
+            console.log([...formUpdate.entries()]); // Kiểm tra nội dung của FormData
+
+            try {
+                await updateMySubmission(id, formUpdate);
+                nav("/mySubmissions");
+            } catch (e) {
+                console.error(e);
+            }
+>>>>>>> 5c143185e4d46f2109797ef2df334d975828827a
         }
     };
     
@@ -100,7 +127,7 @@ function UpdateMySubmission() {
 
     return (
         <div className="container mt-5">
-            <NavbarHome />
+            <NavbarStudentHome />
             <form onSubmit={handleUpdate} style={{ textAlign: "center" }}>
                 <h1 className="text-center text-primary mb-4 mt-3">Update Submission</h1>
 
@@ -146,7 +173,6 @@ function UpdateMySubmission() {
                                     onProcess={handleSaveChanges}
                                 />
                             </div>
-
                         )}
                     </div>
 

@@ -11,6 +11,7 @@ import {
   Spinner,
   Divider,
   Select,
+  Image,
 } from '@chakra-ui/react';
 
 import ReactPaginate from 'react-paginate';
@@ -32,6 +33,7 @@ const ListSubmission = () => {
   const [showModal, setShowModal] = useState(false);
   const [submissionDetails, setSubmissionDetails] = useState(null);
   const [showReviewModal, setShowReviewModal] = useState(false);
+  const [showEditReviewModal, setShowEditReviewModal] = useState(false);
   const [reviewText, setReviewText] = useState('');
   const [pageCount, setPageCount] = useState(0);
   const [rating, setRating] = useState(0);
@@ -57,7 +59,7 @@ const ListSubmission = () => {
   const formik = useFormik({
     initialValues: {
       submissionId: submissionDetails?.id || '', // Set from submission details
-      staffId: 6,
+      staffId: 1,
       reviewText: '',
       ratingId: "",
       reviewDate: '',
@@ -80,6 +82,30 @@ const ListSubmission = () => {
     },
   });
 
+  const formikEdit = useFormik({
+    initialValues: {
+      submissionId: '',
+      staffId: 1,
+      reviewText: '',
+      ratingId: '',
+      reviewDate: ''
+    },
+    validationSchema: Yup.object({
+      reviewText: Yup.string().required('Review text is required'),
+      ratingId: Yup.number().required('Rating is required'),
+    }),
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        await axios.put(`http://localhost:5190/api/Staff/EditSubmissionReview`, values);
+        alert('Review updated successfully!');
+        resetForm();
+        handleCloseEditReviewModal();
+      } catch (error) {
+        console.error('Error updating review:', error);
+        alert('Failed to update review.');
+      }
+    },
+  });
   const token = localStorage.getItem('token');
   const userId = jwtDecode(token).Id;
   useEffect(() => {
@@ -99,13 +125,15 @@ const ListSubmission = () => {
     }
 
     // Fetch contests data
-    const fetchContests = async (page, search = "") => {
+    const fetchContests = async (page, search = "", status = "Published") => {
       try {
         const response = await axios.get(`http://localhost:5190/api/Staff/GetAllContest`, {
           params: {
             page,
             pageSize,
             search,
+            status
+
           },
         });
         console.log(response);
@@ -123,7 +151,7 @@ const ListSubmission = () => {
     const fetchInfoOfStaff = async () => {
 
       var result = await axios.get(`http://localhost:5190/api/Staff/GetInfoStaff/${userId}`);
-      // console.log(result);
+      console.log(result);
       setStaffCurrent(result.data);
     }
     fetchInfoOfStaff();
@@ -175,7 +203,7 @@ const ListSubmission = () => {
     setSelectedContest(contest);
     console.log("contest", contest);
     fetchSubmissionNonReviewByContest(contest.id, currentPage, "", staffCurrent.id);
-    fetchSubmissionHasReviewByContest(contest.id, currentPage, "",staffCurrent.id);
+    fetchSubmissionHasReviewByContest(contest.id, currentPage, "", staffCurrent.id);
   };
 
   const handleSubmissionClick = (submission) => {
@@ -183,6 +211,30 @@ const ListSubmission = () => {
     setShowModal(true);
   };
 
+  const handleEditReviewClick = (submission) => {
+    setShowEditReviewModal(true);
+    const fetchReviewForSubmission = async (submissionID, staffID) => {
+      console.log(submissionID);
+      const respone = await axios.get(`http://localhost:5190/api/Staff/GetReviewForSubmissionOfStaff`, {
+        params: {
+          submissionID,
+          staffID
+        }
+      });
+      console.log(respone.data);
+      formikEdit.setValues(
+        {
+          submissionId: respone.data.submissionId,
+          staffId: staffCurrent.id,
+          reviewText: respone.data.reviewText,
+          ratingId: respone.data.ratingId,
+          reviewDate: new Date()
+        }
+      )
+    }
+    fetchReviewForSubmission(submission.submissionId, staffCurrent.id);
+
+  };
   const handleCloseModal = () => {
     setShowModal(false);
     setSubmissionDetails(null);
@@ -191,9 +243,10 @@ const ListSubmission = () => {
   const handleReviewClick = (submission) => {
     setSubmissionDetails(submission);
     setShowReviewModal(true);
+    // console.log(submission);
     formik.setValues(
       {
-        submissionId: submission.id,
+        submissionId: submission.submissionId,
         staffId: staffCurrent.id,
         reviewText: "",
         ratingId: "",
@@ -208,6 +261,9 @@ const ListSubmission = () => {
     setRating(0);
   };
 
+  const handleCloseEditReviewModal = () => {
+    setShowEditReviewModal(false);
+  }
   return (
     <ChakraProvider>
       <Container>
@@ -297,13 +353,16 @@ const ListSubmission = () => {
                             >
                               View Details
                             </Button>
-                            <Button
+                            {/* {console.log(selectedContest)} */}
+                            {selectedContest.contestJudge.length > 0 &&
+                             selectedContest.contestJudge.some(c => c.staffId == staffCurrent.id && <Button
                               variant="success"
                               className="ms-2"
                               onClick={() => handleReviewClick(submission)}
                             >
                               Review
-                            </Button>
+                            </Button>)}
+
                           </td>
                         </tr>
                       ))}
@@ -344,9 +403,9 @@ const ListSubmission = () => {
                             <Button
                               variant="success"
                               className="ms-2"
-                              onClick={() => handleReviewClick(submission)}
+                              onClick={() => handleEditReviewClick(submission)}
                             >
-                              Review
+                              Edit Review
                             </Button>
                           </td>
                         </tr>
@@ -369,7 +428,7 @@ const ListSubmission = () => {
 
         {/* Modal for submission details */}
         {submissionDetails && (
-          <Modal show={showModal} onHide={handleCloseModal} centered>
+          <Modal show={showModal} onHide={handleCloseModal} centered >
             <Modal.Header closeButton>
               <Modal.Title>Submission Details</Modal.Title>
             </Modal.Header>
@@ -377,10 +436,23 @@ const ListSubmission = () => {
               <Text><strong>ID:</strong> {submissionDetails.submissionId}</Text>
               <Text><strong>Name:</strong> {submissionDetails.submissionName}</Text>
               <Text><strong>Description:</strong> {submissionDetails.submissionDescription}</Text>
-              <Text><strong>Submission Date:</strong> {submissionDetails.submissionDate}</Text>
-              <Text><strong>Status:</strong> {submissionDetails.status || 'N/A'}</Text>
+              {console.log(submissionDetails)}
               <Divider my={2} />
-              <Text><strong>File Path:</strong> {submissionDetails.filePath}</Text>
+              <Image src={submissionDetails.thumbnail} alt={submissionDetails.thumbnail} width={300} maxWidth={500} />
+              <h3 className='text-center mx-auto'>List Review </h3>
+              {submissionDetails.reviews.length > 0 && submissionDetails.reviews.map((sub, index) => (
+                <div className='row'>
+                  <div className="col-md-3">
+                    Teacher {index + 1}
+                  </div>
+                  <div className='col-md-6'>
+                    {sub.reviewText}
+                  </div>
+                  <div className="col-md-3">
+                    {sub.ratingLevel.name}
+                  </div>
+                </div>
+              ))}
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleCloseModal}>
@@ -443,6 +515,52 @@ const ListSubmission = () => {
             </Button>
           </Modal.Footer>
         </Modal>
+
+        {/* // Modal for editing reviews */}
+        <Modal show={showEditReviewModal} onHide={handleCloseEditReviewModal} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Edit Review</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form onSubmit={formikEdit.handleSubmit}>
+              <Form.Group className="mb-3" controlId="reviewText">
+                <Form.Label>Review Text</Form.Label>
+                <ReactQuill
+                  theme="snow"
+                  value={formikEdit.values.reviewText}
+                  modules={modules}
+                  onChange={(value) => formikEdit.setFieldValue('reviewText', value)}
+                  onBlur={formikEdit.handleBlur}
+                />
+                {formikEdit.touched.reviewText && formikEdit.errors.reviewText && (
+                  <div className="text-danger">{formikEdit.errors.reviewText}</div>
+                )}
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="rating">
+                <Form.Label>Rating</Form.Label>
+                <Select
+                  id="rating"
+                  placeholder="Select rating level"
+                  value={formikEdit.values.ratingId}
+                  onChange={(e) => formikEdit.setFieldValue('ratingId', Number(e.target.value))}
+                  onBlur={formikEdit.handleBlur}
+                >
+                  {ratingLevel.map((level) => (
+                    <option key={level.id} value={level.id}>{level.name}</option>
+                  ))}
+                </Select>
+                {formikEdit.touched.ratingId && formikEdit.errors.ratingId && (
+                  <div className="text-danger">{formikEdit.errors.ratingId}</div>
+                )}
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseEditReviewModal}>Cancel</Button>
+            <Button variant="primary" type="submit" onClick={formikEdit.handleSubmit}>Save Changes</Button>
+          </Modal.Footer>
+        </Modal>
+
 
       </Container>
     </ChakraProvider>

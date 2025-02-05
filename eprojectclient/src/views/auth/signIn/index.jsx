@@ -34,6 +34,7 @@ import illustration from "@/assets/img/auth/auth.png";
 import { FcGoogle } from "react-icons/fc";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
+import { getStudentIdDemo } from "../../../API/getStudentIdDemo";
 
 function SignIn() {
   // Chakra color mode
@@ -88,7 +89,14 @@ function SignIn() {
             navigate("/ChangePasswordFirstTimeLogin");
         } else {
             if (decodedToken.role === "Student") {
-                navigate("/", { state: { user: decodedToken } });
+                // If it's a Student, attempt to get the student ID
+                const studentId = await getStudentIdDemo();
+                if (studentId) {
+                    console.log("Student ID:", studentId);
+                    navigate("/student/", { state: { user: decodedToken, studentId: studentId } });
+                } else {
+                    alert("Student ID could not be retrieved.");
+                }
             } else if (decodedToken.role === "Staff") {
                 navigate("/staff/");
             }
@@ -99,6 +107,7 @@ function SignIn() {
         alert("Login failed. Please check your credentials.");
     }
 }
+
 
 // Handle the email submission to send OTP
 const handleEmailSubmit = async (event) => {
