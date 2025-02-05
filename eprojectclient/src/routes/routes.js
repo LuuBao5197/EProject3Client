@@ -9,12 +9,14 @@ import { ManagerConfig, TeacherConfig } from "../config/routes";
 
 // import Contest from "../pages/Contest";
 import EditProfile from "../pages/PublicPages/EditProfile";
-import Contest from "../pages/StudentPages/Contest";
 import AwardReceived from "../pages/StudentPages/AwardReceived";
 import CreateNewSubmission from "../pages/StudentPages/CreateNewSubmission";
 import HomePage from "../pages/PublicPages/HomePage";
 import AboutUs from "../pages/PublicPages/AboutUs";
 import ChangePasswordFirstTimeLogin from "../pages/PublicPages/ChangePasswordFirstTimeLogin";
+import ExhibitionArtwork from "../pages/StudentPages/ExhibitionArtwork";
+import MySubmission from "../pages/StudentPages/MySubmissions";
+import UpdateMySubmission from "../pages/StudentPages/UpdateMySubmission";
 
 
 
@@ -41,19 +43,30 @@ export const publicRoutes = [
     },
     {
 
-        path: "/contest",
-        element: <Contest/>,
-        
-    },
-    {
-
         path: "/awardreceived",
         element: <AwardReceived/>,
         
     },{
 
-        path: "/createsubmission",
+        path: "/createsubmission/:contestId",
         element: <CreateNewSubmission/>,
+        
+    },{
+
+        path: "/exhibitionartwork",
+        element: <ExhibitionArtwork/>,
+        
+    },{
+
+        path: "/mysubmissions",
+        element: <MySubmission/>,
+        
+    },
+    {
+
+        path: "/updatemysubmission/:id",
+        element: <UpdateMySubmission/>,
+
         
     },
 

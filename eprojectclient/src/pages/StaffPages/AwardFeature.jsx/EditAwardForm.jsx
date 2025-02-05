@@ -48,7 +48,7 @@ const EditAwardForm = () => {
       var result = await axios.get(`http://localhost:5190/api/Staff/GetInfoStaff/${userId}`);
       console.log(result);
       if (!result.data.isReviewer) {
-        toast.dark("Ban ko co quyen han vao trang nay");
+        toast.dark("You do not have permission to access this page. Please contact the administrator if you believe this is a mistake");
         navigate('/staff');
       }
     }
@@ -68,22 +68,22 @@ const EditAwardForm = () => {
     },
     validationSchema: Yup.object({
       name: Yup.string()
-        .max(50, "Tên không được vượt quá 50 ký tự")
-        .required("Tên là bắt buộc"),
+        .max(50, "Name must be less than 50 character")
+        .required("Name must be not blank"),
       value: Yup.number()
-        .typeError("Giá trị phải là số")
-        .positive("Giá trị phải lớn hơn 0")
-        .required("Giá trị là bắt buộc"),
-      contestId: Yup.string().required("Bạn phải chọn một cuộc thi"),
+        .typeError("Value must be a number")
+        .positive("Value must be greater than 0")
+        .required("Value must be not blank"),
+      contestId: Yup.string().required("You must be choice one of contest"),
       awardQuantity: Yup.number()
-        .typeError("Số lượng phải là số")
-        .integer("Số lượng phải là số nguyên")
-        .min(1, "Số lượng phải lớn hơn hoặc bằng 1")
-        .required("Số lượng là bắt buộc"),
+        .typeError("Quantity must be a number")
+        .integer("Quantity must be a integer number")
+        .min(1, "Quantity must be greater than 1")
+        .required("Quantity must be not blank"),
     }),
     onSubmit: async (values) => {
       try {
-        console.log("Dữ liệu cập nhật:", values);
+        // console.log("Dữ liệu cập nhật:", values);
         const response = await fetch(`http://localhost:5190/api/Staff/EditAward/${id}`, {
           method: "PUT", // Hoặc PATCH nếu API của bạn hỗ trợ
           headers: {
@@ -93,7 +93,7 @@ const EditAwardForm = () => {
         });
 
         if (response.ok) {
-          toast.success("Cập nhật giải thưởng thành công", {
+          toast.success("Update award successfully", {
             position: "top-left",
             autoClose: 5000,
             hideProgressBar: true,
@@ -106,7 +106,7 @@ const EditAwardForm = () => {
 
           // alert("Cập nhật giải thưởng thành công!");
         } else {
-          alert("Có lỗi xảy ra khi cập nhật.");
+          alert("Something errors occurs.");
         }
       } catch (error) {
         console.error("Lỗi khi gửi dữ liệu:", error);
@@ -116,7 +116,7 @@ const EditAwardForm = () => {
 
   return (
     <div className="container mt-5">
-      <h2 className="text-center">Chỉnh Sửa Giải Thưởng</h2>
+      <h2 className="text-center">Edit Award</h2>
       {loading ? (
         <div className="text-center">
           <div className="spinner-border text-primary" role="status">
@@ -127,7 +127,7 @@ const EditAwardForm = () => {
         <form onSubmit={formik.handleSubmit} className="mt-4">
           <div className="mb-3">
             <label htmlFor="name" className="form-label">
-              Tên Giải Thưởng
+              Name
             </label>
             <input
               id="name"
@@ -146,7 +146,7 @@ const EditAwardForm = () => {
 
           <div className="mb-3">
             <label htmlFor="value" className="form-label">
-              Giá Trị
+              Value
             </label>
             <input
               id="value"
@@ -165,7 +165,7 @@ const EditAwardForm = () => {
 
           <div className="mb-3">
             <label htmlFor="contestId" className="form-label">
-              Cuộc Thi
+              Contest 
             </label>
             <select
               id="contestId"
@@ -178,7 +178,7 @@ const EditAwardForm = () => {
               onBlur={formik.handleBlur}
               value={formik.values.contestId || ""}
             >
-              <option value="">-- Chọn cuộc thi --</option>
+              <option value="">-- Choice contest --</option>
               {contestOptions.map((contest) => (
                 <option key={contest.id} value={contest.id}>
                   {contest.name}
@@ -192,7 +192,7 @@ const EditAwardForm = () => {
 
           <div className="mb-3">
             <label htmlFor="awardQuantity" className="form-label">
-              Số Lượng Giải Thưởng
+              Quantity award
             </label>
             <input
               id="awardQuantity"
@@ -212,7 +212,7 @@ const EditAwardForm = () => {
           </div>
 
           <button type="submit" className="btn btn-primary w-100">
-            Cập Nhật Giải Thưởng
+            Update
           </button>
         </form>
       )}

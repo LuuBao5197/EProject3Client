@@ -28,7 +28,7 @@ const AddContest = () => {
                 file: null,
             })
             if (!result.data.isReviewer) {
-                toast.dark("Ban ko co quyen han vao trang nay");
+                toast.dark("You don't have permission to access this page");
                 setTimeout(() => navigate('/staff'), 2000);
 
             }

@@ -54,16 +54,7 @@ import ListSubmission from './pages/StaffPages/SummisionFeature/ListSubmission';
 import TeacherDetail from './pages/ManagerPages/TeacherDetail';
 import SubmissionReviewDetail from './pages/ManagerPages/SubmissionsReviewDetail';
 import Total from './pages/ManagerPages/Total';
-import Adminlayout from './pages/AdminPages/AdminClassList';
-import AdminStudentList from './pages/AdminStudentPages/AdminStudentList';
-import AdminStaffLayout from './pages/AdminStaffPages/AdminStaffLayout.jsx'
-import AdminClassAdd from './pages/AdminPages/AdminClassAdd.jsx';
-import AdminStaffAdd from './pages/AdminStaffPages/AdminStaffAdd.jsx';
-import AdminStudentImportForm from './pages/AdminStudentPages/AdminStudentImportForm.jsx';
-import AdminClassDetail from './pages/AdminPages/AdminClassDetail.jsx';
-import AdminStudentDetail from './pages/AdminStudentPages/AdminStudentDetail.jsx';
-import AdminStaffDetail from './pages/AdminStaffPages/AdminStaffDetail.jsx';
-import AdminStudentAdd from './pages/AdminStudentPages/AdminStudentAdd.jsx';
+
 
 
 export const adminRoutes = [
@@ -413,6 +404,22 @@ export const managerRoutes = [
     path: '/total',
     component: <Total/>,
     index: false
+  },
+  {
+    name: 'Create Meeting',
+    layout: '/manager',
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    path: '/meeting',
+    component: <CreateMeeting/>,
+    index: false
+  },
+  {
+    name: 'Requests',
+    layout: '/manager',
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    path: '/requests',
+    component: <Requests/>,
+    index: true
   }
   
   

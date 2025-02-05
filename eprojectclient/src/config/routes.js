@@ -26,9 +26,20 @@ import EditExhibition from "../pages/StaffPages/ExhibitionFeature/EditExhibition
 import ClassesManagement from "../pages/ManagerPages/CLassesManagement";
 import ManagerLayout from "../pages/ManagerPages/ManagerLayout";
 import TeacherDetail from "../pages/ManagerPages/TeacherDetail";
+<<<<<<< HEAD
 import Adminlayout from "../pages/AdminPages/AdminClassList";
 import CreateClassForm from "../pages/AdminPages/AdminClassAdd";
 import AdminClassDetail from "../pages/AdminPages/AdminClassDetail";
+=======
+import AwardReceived from "../pages/StudentPages/AwardReceived";
+import CreateNewSubmission from "../pages/StudentPages/CreateNewSubmission";
+import ExhibitionArtwork from "../pages/StudentPages/ExhibitionArtwork";
+import MySubmission from "../pages/StudentPages/MySubmissions";
+import UpdateMySubmission from "../pages/StudentPages/UpdateMySubmission";
+import Adminlayout from "../pages/AdminPages/Adminlayout";
+import AdminClassDetail from "../pages/AdminPages/AdminClassDetail";
+import CreateClassForm from "../pages/AdminPages/AdminClassAdd";
+>>>>>>> 8d948c2c4ae42b132659e43c8a28ec7c72970cfe
 
 export const config = {
 
@@ -47,6 +58,10 @@ export const config = {
 
 };
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8d948c2c4ae42b132659e43c8a28ec7c72970cfe
 export const TeacherConfig = {
     listcontest: {
         component: ContestList,
@@ -180,5 +195,29 @@ export const AdminConfig = {
         component: AdminStudentDetail,
         path: '/admin/student/:id'
      },
+}
+
+export const StudentConfig = {
+    awardreceived: {
+        component: AwardReceived,
+        path: '/student/awardreceived'
+    },
+    createnewsubmission: {
+        component: CreateNewSubmission,
+        path: '/student/createnewsubmission'
+    },
+    exhibitionartwork: {
+        component: ExhibitionArtwork,
+        path: '/student/exhibitionartwork'
+    },
+    mysubmissions: {
+        component: MySubmission,
+        path: '/student/mysubmission'
+    },
+    updatemysubmission: {
+        component: UpdateMySubmission,
+        path: '/student/updatemysubmission'
+    }
+
 }
 
