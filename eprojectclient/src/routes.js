@@ -17,6 +17,9 @@ import {
   MdUpdate,
   MdLogin,
   MdViewCarousel,
+  MdSelectAll,
+  MdOutput,
+  MdViewList,
 } from 'react-icons/md';
 
 // Admin Imports
@@ -57,6 +60,12 @@ import Total from './pages/ManagerPages/Total';
 import MeetingScheduler from './pages/ManagerPages/CreateMeeting';
 import Requests from './pages/ManagerPages/Requests';
 import CreateMeeting from './pages/ManagerPages/CreateMeeting';
+import ContestJudgeSelector from './pages/StaffPages/ContestJudge/ContestJudgeSelector';
+import ContestJudgesList from './pages/StaffPages/ContestJudge/ContestJudgeList';
+import EditContestJudges from './pages/StaffPages/ContestJudge/EditContestJudges';
+import ContestResults from './pages/StaffPages/ContestFeature/ContestResults';
+import StudentAwards from './pages/StaffPages/StudentAward/StudentAward';
+import ArtworkIndex from './pages/StaffPages/ArtWork/ArtWorkIndex';
 
 
 
@@ -282,11 +291,62 @@ export const staffRoutes = [
     icon: <Icon as={MdViewCarousel} width="20px" height="20px" color="inherit" />,
     component: <ListSubmission/>,
     index: true
-    
   },
-  
-  
-  
+  {
+    name: 'Select Judge for Contest',
+    layout: '/staff',
+    path: '/contestjudge/:contestID',
+    icon: <Icon as={MdSelectAll} width="20px" height="20px" color="inherit" />,
+    component: <ContestJudgeSelector/>,
+    index: false
+  }, 
+   {
+    name: 'List Judge Contest',
+    layout: '/staff',
+    path: '/contestjudge',
+    icon: <Icon as={MdSelectAll} width="20px" height="20px" color="inherit" />,
+    component: <ContestJudgesList/>,
+    index: true
+  },
+  {
+    name: 'Edit JudgeJudge',
+    layout: '/staff',
+    path: '/contestjudge/edit/:contestID',
+    icon: <Icon as={MdSelectAll} width="20px" height="20px" color="inherit" />,
+    component: <EditContestJudges/>,
+  },
+  {
+    name: 'Contest Results',
+    layout: '/staff',
+    path: '/ContestResult',
+    icon: <Icon as={MdOutput} width="20px" height="20px" color="inherit" />,
+    component: <ContestResults/>,
+    index: true
+  },
+  {
+    name: 'List Student Receive Award',
+    layout: '/staff',
+    path: '/StudentAward',
+    icon: <Icon as={MdViewList} width="20px" height="20px" color="inherit" />,
+    component: <StudentAwards/>,
+    index: true
+  },
+  {
+    name: 'List Student Receive Award',
+    layout: '/staff',
+    path: '/StudentAward',
+    icon: <Icon as={MdViewList} width="20px" height="20px" color="inherit" />,
+    component: <StudentAwards/>,
+    index: true
+  },
+  {
+    name: 'List ArtWork',
+    layout: '/staff',
+    path: '/ArtWork',
+    icon: <Icon as={MdViewList} width="20px" height="20px" color="inherit" />,
+    component: <ArtworkIndex/>,
+    index: true
+  },
 ];
 export const managerRoutes = [
   {
