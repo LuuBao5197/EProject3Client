@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import { checkIfSubmitted } from './../../../../API/getMySubmissions'; // API to check if the student has already submitted
 import { jwtDecode } from "jwt-decode"; // Correct import for jwt-decode
 import { getStudentIdDemo } from "../../../../API/getStudentIdDemo";
+import { SweetAlert } from "../../../StudentPages/Notifications/SweetAlert";
 
 export default function CardContest({ contest, ...props }) {
   // Chakra Color Mode
@@ -67,13 +68,21 @@ export default function CardContest({ contest, ...props }) {
 
     fetchStudentIdAndCheckSubmission();
   }, [contest.startDate, contest.endDate, contest.id]);
-  
+
   const handleJoinClick = () => {
     const token = localStorage.getItem("token");
+
     if (!token) {
       nav("/auth/sign-in");
-    } else {
+    }
+
+    const decodedToken = jwtDecode(res.data.token);
+
+    if (decodedToken.role === "Student") {
       nav(`createsubmission/${contest.id}`);
+    } else {
+      SweetAlert("Only students can enter the contest.", "error");
+      return;
     }
   };
 
