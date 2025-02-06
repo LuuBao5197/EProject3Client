@@ -198,7 +198,7 @@ const AdminStudentAdd = () => {
                         <div className="mb-3">
                             <label htmlFor="password" className="form-label">Password</label>
                             <input
-                                type="password"
+                                type="text"
                                 name="password"
                                 id="password"
                                 className={`form-control ${errors.password ? 'is-invalid' : ''}`}
@@ -332,7 +332,7 @@ const AdminStudentAdd = () => {
                         </div>
 
                     </div>
-                    <div>
+                    <div className="col-md-12 mb-3">
                         <label htmlFor="classIds" className="form-label">Classes</label>
                         <select
                             id="classIds"

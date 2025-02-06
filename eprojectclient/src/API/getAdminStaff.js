@@ -32,12 +32,25 @@ export const getStaffDetails = async (id) => {
     throw new Error(error.response?.data?.message || 'Failed to fetch staff details');
   }
 };
+
 export const getSubjects = async () => {
   try {
     const response = await axios.get(`${API_URL}/subjects`);
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Failed to fetch subjects');
+  }
+};
+
+export const sendEmailToManager = async (request) => {
+  try {
+    // Gửi yêu cầu POST đến API backend
+    const response = await axios.post(`${API_URL}/send-email-to-manager`, request);
+    // Trả về kết quả nhận được từ API backend
+    return response.data;
+  } catch (error) {
+    // Nếu có lỗi, ném ra một thông báo lỗi
+    throw new Error(error.response?.data?.message || 'Lỗi khi gửi email');
   }
 };
 

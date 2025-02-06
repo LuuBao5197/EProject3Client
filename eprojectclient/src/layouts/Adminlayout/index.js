@@ -5,11 +5,10 @@ import Footer from '@/components/footer/FooterAdmin.js';
 import Navbar from '@/components/navbar/NavbarAdmin.js';
 import Sidebar from '@/components/sidebar/Sidebar.js';
 import { SidebarContext } from '@/contexts/SidebarContext';
-
 import React, { useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 // import routes from '@/routes.js';
-import {adminRoutes} from '../../routes';
+import {adminRoutes, } from '../../routes';
 // Custom Chakra theme
 export default function Dashboard(props) {
   const { ...rest } = props;
@@ -17,13 +16,13 @@ export default function Dashboard(props) {
   const [fixed] = useState(false);
   const [toggleSidebar, setToggleSidebar] = useState(false);
   // functions for changing the states from components
+  const location = useLocation();
+  useEffect(() => {
+    
+  },[location])
   const getRoute = () => {
     return window.location.pathname !== '/admin/full-screen-maps';
   };
-  const location = useLocation();
-  useEffect(()=> {
-    
-  },[location])
   const getActiveRoute = (routes) => {
     let activeRoute = '';
     for (let i = 0; i < routes.length; i++) {
@@ -150,6 +149,7 @@ export default function Dashboard(props) {
 
             {getRoute() ? (
               <Box
+              mt="100"
                 mx="auto"
                 p={{ base: '20px', md: '30px' }}
                 pe="20px"
@@ -160,7 +160,7 @@ export default function Dashboard(props) {
                   {getRoutes(adminRoutes)}
                   <Route
                     path="/"
-                    element={<Navigate to="/admin/default" replace />}
+                    element={<Navigate to="/admin" replace />}
                   />
                 </Routes>
               </Box>

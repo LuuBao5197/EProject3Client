@@ -49,7 +49,7 @@ const AdminStudentList = () => {
         <thead className="table-dark">
           <tr>
             <th>ID</th>
-            <th>Username</th>
+            
             <th>Name</th>
             <th>Email</th>
             <th>Phone</th>
@@ -61,7 +61,7 @@ const AdminStudentList = () => {
           {students.map((student) => (
             <tr key={student.id}>
               <td>{student.id}</td>
-              <td>{student.user.username}</td>
+              
               <td>{student.user.name}</td>
               <td>{student.user.email}</td>
               <td>{student.user.phone}</td>

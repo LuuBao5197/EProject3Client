@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getSubjects, getQualifications, getStaffDetails, updateStaff } from '../../API/getAdminStaff';
+import { getStaffDetails, updateStaff } from '../../API/getAdminStaff';
 
 const AdminStaffUpdate = () => {
-    const { id } = useParams();  // Lấy ID từ URL để tải dữ liệu của nhân viên cần cập nhật
+    const { id } = useParams();
     const [formData, setFormData] = useState({
         username: '',
         password: '',
@@ -12,72 +12,48 @@ const AdminStaffUpdate = () => {
         phone: '',
         dob: '',
         joinDate: new Date().toISOString().split('T')[0],
-        staffSubjectIds: [],
-        staffQualificationIds: [],
         role: 'Staff',
         address: '',
-        profileImage: null,
+        isReviewer: false, // Add isReviewer field
     });
-    const [subjects, setSubjects] = useState([]);
-    const [qualifications, setQualifications] = useState([]);
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [dobError, setDobError] = useState('');
     const [phoneError, setPhoneError] = useState('');
-    const [profileImage, setProfileImage] = useState(null);
-    const [imagePreview, setImagePreview] = useState(null);
-    const [imageError, setImageError] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const fetchedSubjects = await getSubjects();
-                setSubjects(fetchedSubjects);
-
-                const fetchedQualifications = await getQualifications();
-                setQualifications(fetchedQualifications);
-
-                const staffData = await getStaffDetails(id);  // Lấy dữ liệu nhân viên theo ID
-                setFormData(staffData);
+                const staffData = await getStaffDetails(id);
+                setFormData({
+                    username: staffData.user.username,
+                    password: staffData.user.password,
+                    name: staffData.user.name,
+                    email: staffData.user.email,
+                    phone: staffData.user.phone,
+                    dob: staffData.user.dob,
+                    joinDate: staffData.user.joinDate,
+                    role: staffData.user.role,
+                    address: staffData.user.address,
+                    isReviewer: staffData.isReviewer || false, // Add isReviewer from staffData
+                });
             } catch (err) {
                 setError(err.message);
             }
         };
-
         fetchData();
     }, [id]);
 
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
-            const maxSize = 5 * 1024 * 1024; // 5MB
-
-            if (!validTypes.includes(file.type)) {
-                setImageError('Invalid file type. Please upload JPEG, PNG, or GIF.');
-                return;
-            }
-
-            if (file.size > maxSize) {
-                setImageError('File size exceeds 5MB limit.');
-                return;
-            }
-
-            setProfileImage(file);
-            setFormData({ ...formData, profileImage: file });
-
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImagePreview(reader.result);
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value, type, checked } = e.target;
+
+        // Handle checkbox input separately
+        if (type === 'checkbox') {
+            setFormData({ ...formData, [name]: checked });
+            return;
+        }
 
         if (name === 'dob') {
             if (!validateAge(value)) {
@@ -98,20 +74,20 @@ const AdminStaffUpdate = () => {
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubjectChange = (e) => {
-        const values = Array.from(e.target.selectedOptions, option => parseInt(option.value));
-        setFormData({
-            ...formData,
-            staffSubjectIds: values
-        });
+    const validateAge = (dob) => {
+        const birthDate = new Date(dob);
+        const currentDate = new Date();
+        const age = currentDate.getFullYear() - birthDate.getFullYear();
+        const month = currentDate.getMonth() - birthDate.getMonth();
+        if (month < 0 || (month === 0 && currentDate.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age >= 20;  // Kiểm tra nhân viên phải từ 20 tuổi trở lên
     };
 
-    const handleQualificationChange = (e) => {
-        const values = Array.from(e.target.selectedOptions, option => parseInt(option.value));
-        setFormData({
-            ...formData,
-            staffQualificationIds: values
-        });
+    const validatePhoneNumber = (phone) => {
+        const phonePattern = /^0\d{9}$/;
+        return phonePattern.test(phone);
     };
 
     const handleSubmit = async (e) => {
@@ -121,8 +97,8 @@ const AdminStaffUpdate = () => {
         setEmailError('');
         setDobError('');
         setPhoneError('');
-        setImageError('');
 
+        // Kiểm tra dữ liệu đầu vào
         if (!formData.username || !formData.password || !formData.name || !formData.email || !formData.phone || !formData.dob || !formData.address) {
             setError('Please fill in all fields');
             return;
@@ -136,22 +112,6 @@ const AdminStaffUpdate = () => {
 
         if (!validateAge(formData.dob)) {
             setDobError('Staff must be at least 20 years old');
-            return;
-        }
-
-        const isEmailValid = await validateEmail(formData.email);
-        if (!isEmailValid) {
-            setEmailError('This email is already in use');
-            return;
-        }
-
-        if (formData.staffSubjectIds.length === 0) {
-            setError('Please select at least one subject');
-            return;
-        }
-
-        if (formData.staffQualificationIds.length === 0) {
-            setError('Please select at least one qualification');
             return;
         }
 
@@ -169,12 +129,8 @@ const AdminStaffUpdate = () => {
             }
         });
 
-        if (profileImage) {
-            formDataToSend.append('profileImage', profileImage);
-        }
-
         try {
-            await updateStaff(id, formDataToSend);  // Gọi API để cập nhật nhân viên
+            await updateStaff(id, formDataToSend); // Sửa lại API để cập nhật theo ID
             setMessage('Staff updated successfully');
             navigate('/admin/StaffList');
         } catch (err) {
@@ -185,12 +141,11 @@ const AdminStaffUpdate = () => {
 
     return (
         <div className="container mt-4">
-            <h2 className="mb-4">Update Staff</h2>
+            <h2 className="mb-4 text-center mt-auto" style={{ paddingTop: "60px" , paddingBottom: "1px"}}>Update Staff</h2>
             {message && <div className="alert alert-success">{message}</div>}
             {error && <div className="alert alert-danger">{error}</div>}
 
             <form onSubmit={handleSubmit} className="needs-validation" noValidate>
-                {/* Các trường nhập liệu như Username, Password, Name, Email, Phone, DOB, Profile Image */}
                 <div className="row g-3">
                     <div className="col-md-6">
                         <label htmlFor="username" className="form-label">Username</label>
@@ -267,7 +222,7 @@ const AdminStaffUpdate = () => {
                         />
                         {dobError && <div className="text-danger">{dobError}</div>}
                     </div>
-                    <div className="col-md-12">
+                    <div className="col-md-6">
                         <label htmlFor="address" className="form-label">Address</label>
                         <textarea
                             className="form-control"
@@ -279,23 +234,23 @@ const AdminStaffUpdate = () => {
                         />
                     </div>
                     <div className="col-md-6">
-                        <label htmlFor="profileImage" className="form-label">Profile Image</label>
-                        <input
-                            type="file"
-                            className="form-control"
-                            id="profileImage"
-                            name="profileImage"
-                            onChange={handleImageChange}
-                        />
-                        {imageError && <div className="text-danger">{imageError}</div>}
-                        {imagePreview && <img src={imagePreview} alt="Profile Preview" width="100" />}
+                        <div className="form-check">
+                            <input
+                                type="checkbox"
+                                className="form-check-input"
+                                id="isReviewer"
+                                name="isReviewer"
+                                checked={formData.isReviewer}
+                                onChange={handleInputChange}
+                            />
+                            <label className="form-check-label" htmlFor="isReviewer">
+                                Is Reviewer
+                            </label>
+                        </div>
                     </div>
-                </div>
-
-                <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
-                    <button type="submit" className="btn btn-primary btn-lg">
-                        Update Staff
-                    </button>
+                    <div className="col-md-6">
+                        <button type="submit" className="btn btn-primary mt-4">Update</button>
+                    </div>
                 </div>
             </form>
         </div>

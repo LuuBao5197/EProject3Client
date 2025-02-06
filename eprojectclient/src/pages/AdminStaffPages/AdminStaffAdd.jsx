@@ -48,32 +48,32 @@ const AdminStaffAdd = () => {
     }, []);
 
     const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-        // Validate image file
-        const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
-        const maxSize = 5 * 1024 * 1024; // 5MB
+        const file = e.target.files[0];
+        if (file) {
+            // Validate image file
+            const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            const maxSize = 5 * 1024 * 1024; // 5MB
 
-        if (!validTypes.includes(file.type)) {
-            setImageError('Invalid file type. Please upload JPEG, PNG, or GIF.');
-            return;
+            if (!validTypes.includes(file.type)) {
+                setImageError('Invalid file type. Please upload JPEG, PNG, or GIF.');
+                return;
+            }
+
+            if (file.size > maxSize) {
+                setImageError('File size exceeds 5MB limit.');
+                return;
+            }
+
+            setProfileImage(file);
+            setFormData({ ...formData, profileImage: file });
+
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result);
+            };
+            reader.readAsDataURL(file);
         }
-
-        if (file.size > maxSize) {
-            setImageError('File size exceeds 5MB limit.');
-            return;
-        }
-
-        setProfileImage(file);
-        setFormData({ ...formData, profileImage: file });
-
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            setImagePreview(reader.result);
-        };
-        reader.readAsDataURL(file);
-    }
-};
+    };
 
 
     const validateAge = (birthDate) => {
@@ -152,51 +152,51 @@ const AdminStaffAdd = () => {
         setDobError('');
         setPhoneError('');
         setImageError('');
-    
+
         // Kiểm tra dữ liệu đầu vào
         if (!formData.username || !formData.password || !formData.name || !formData.email || !formData.phone || !formData.dob || !formData.address) {
             setError('Please fill in all fields');
             return;
         }
-    
+
         // Kiểm tra định dạng email
         const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
         if (!emailPattern.test(formData.email)) {
             setEmailError('Please enter a valid email address');
             return;
         }
-    
+
         // Kiểm tra tuổi
         if (!validateAge(formData.dob)) {
             setDobError('Staff must be at least 20 years old');
             return;
         }
-    
+
         // Kiểm tra email đã tồn tại chưa
         const isEmailValid = await validateEmail(formData.email);
         if (!isEmailValid) {
             setEmailError('This email is already in use');
             return;
         }
-    
+
         // Kiểm tra lựa chọn môn học
         if (formData.staffSubjectIds.length === 0) {
             setError('Please select at least one subject');
             return;
         }
-    
+
         // Kiểm tra lựa chọn bằng cấp
         if (formData.staffQualificationIds.length === 0) {
             setError('Please select at least one qualification');
             return;
         }
-    
+
         // Kiểm tra số điện thoại
         if (!validatePhoneNumber(formData.phone)) {
             setPhoneError('Phone number must start with 0 and have 10 digits');
             return;
         }
-    
+
         // **Tạo `formDataToSend`**
         const formDataToSend = new FormData();
         Object.entries(formData).forEach(([key, value]) => {
@@ -206,12 +206,12 @@ const AdminStaffAdd = () => {
                 formDataToSend.append(key, value);
             }
         });
-    
+
         // **Thêm hình ảnh nếu có**
         if (profileImage) {
             formDataToSend.append('profileImage', profileImage);
         }
-    
+
         try {
             await CreateStaff(formDataToSend);
             setMessage('Staff added successfully');
@@ -221,7 +221,7 @@ const AdminStaffAdd = () => {
             setError(err.message);
         }
     };
-    
+
 
     return (
         <div className="container mt-4">
@@ -318,8 +318,60 @@ const AdminStaffAdd = () => {
                         {dobError && <div className="text-danger">{dobError}</div>}
                     </div>
 
+
+
+
+
+                    {/* Subjects */}
+                    <div className="col-md-6 ">
+                        <label htmlFor="subjects" className="form-label">Subjects</label>
+                        <select
+                            multiple
+                            className="form-control"
+                            id="subjects"
+                            onChange={handleSubjectChange}
+                            required
+                        >
+                            {subjects.map((subject) => (
+                                <option key={subject.id} value={subject.id}>
+                                    {subject.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    {/* Qualifications */}
+                    <div className="col-md-6 ">
+                        <label htmlFor="qualifications" className="form-label">Qualifications</label>
+                        <select
+                            multiple
+                            className="form-control"
+                            id="qualifications"
+                            onChange={handleQualificationChange}
+                            required
+                        >
+                            {qualifications.map((qualification) => (
+                                <option key={qualification.id} value={qualification.id}>
+                                    {qualification.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    {/* Address */}
+                    <div className="col-md-6 mb-3">
+                        <label htmlFor="address" className="form-label">Address</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="address"
+                            name="address"
+                            value={formData.address}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </div>
                     {/* Profile Image */}
-                    <div className="col-md-12 mb-3">
+                    <div className="col-md-6">
                         <label htmlFor="profileImage" className="form-label">Profile Image</label>
                         <input
                             type="file"
@@ -339,56 +391,6 @@ const AdminStaffAdd = () => {
                                 />
                             </div>
                         )}
-                    </div>
-                    {/* Address */}
-                    <div className="col-md-12">
-                        <label htmlFor="address" className="form-label">Address</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="address"
-                            name="address"
-                            value={formData.address}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </div>
-
-
-                    {/* Subjects */}
-                    <div className="col-md-12 mb-3">
-                        <label htmlFor="subjects" className="form-label">Subjects</label>
-                        <select
-                            multiple
-                            className="form-control"
-                            id="subjects"
-                            onChange={handleSubjectChange}
-                            required
-                        >
-                            {subjects.map((subject) => (
-                                <option key={subject.id} value={subject.id}>
-                                    {subject.name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-
-                    {/* Qualifications */}
-                    <div className="col-md-12 mb-3">
-                        <label htmlFor="qualifications" className="form-label">Qualifications</label>
-                        <select
-                            multiple
-                            className="form-control"
-                            id="qualifications"
-                            onChange={handleQualificationChange}
-                            required
-                        >
-                            {qualifications.map((qualification) => (
-                                <option key={qualification.id} value={qualification.id}>
-                                    {qualification.name}
-                                </option>
-                            ))}
-                        </select>
                     </div>
                 </div>
 

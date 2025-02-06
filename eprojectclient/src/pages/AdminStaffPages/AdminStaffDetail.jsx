@@ -36,14 +36,14 @@ const AdminStaffDetail = () => {
             <div className="col-md-6">
               {/* Thông tin nhân viên */}
               <div className="card shadow-sm border-light rounded p-4">
-              {staff.user?.imagepath ? (
-                <img src={imageUrl} alt="Student" className="img-fluid rounded shadow-sm" style={{ width: '200px', height: '250px', objectFit: 'cover' }} />
-              ) : (
-                <div className="alert alert-warning">No image available</div>
-              )}
+                {staff.user?.imagepath ? (
+                  <img src={imageUrl} alt="Student" className="img-fluid rounded shadow-sm" style={{ width: '200px', height: '250px', objectFit: 'cover' }} />
+                ) : (
+                  <div className="alert alert-warning">No image available</div>
+                )}
                 <p><strong>ID:</strong> <span className="text-muted">{staff.id}</span></p>
                 <p><strong>Name:</strong> <span className="text-muted">{staff.user?.name || 'N/A'}</span></p>
-                
+
 
               </div>
             </div>
@@ -51,12 +51,14 @@ const AdminStaffDetail = () => {
             <div className="col-md-6">
               {/* Thông tin tham gia và trạng thái */}
               <div className="card shadow-sm border-light rounded p-4">
-              <p><strong>Email:</strong> <span className="text-muted">{staff.user?.email || 'N/A'}</span></p>
-              <p><strong>PassWord:</strong> <span className="text-muted">{staff.user?.password || 'N/A'}</span></p>
-                
-              <p><strong>Phone:</strong> <span className="text-muted">{staff.user?.phone || 'N/A'}</span></p>
+                <p><strong>Email:</strong> <span className="text-muted">{staff.user?.email || 'N/A'}</span></p>
+                <p><strong>PassWord:</strong> <span className="text-muted">{staff.user?.password || 'N/A'}</span></p>
+                <p><strong>Dob:</strong> <span className="text-muted">{staff.user?.dob ? new Date(staff.user.dob).toLocaleDateString() : 'N/A'}</span></p>
+                <p><strong>isReviewer:</strong> <span className={staff.isReviewer ? "text-success" : "text-danger"}>{staff.isReviewer ? 'True' : 'False'}</span></p>
+                <p><strong>Phone:</strong> <span className="text-muted">{staff.user?.phone || 'N/A'}</span></p>
                 <p><strong>Address:</strong> <span className="text-muted">{staff.user?.address || 'N/A'}</span></p>
                 <p><strong>Role:</strong> <span className="text-muted">{staff.user?.role || 'N/A'}</span></p>
+
                 <p><strong>Join Date:</strong> <span className="text-muted">{staff.joinDate ? new Date(staff.joinDate).toLocaleDateString() : 'N/A'}</span></p>
                 <p><strong>Status:</strong> <span className={staff.user?.status ? "text-danger" : "text-success"}>{staff.user?.status ? 'Inactive' : 'Active'}</span></p>
               </div>

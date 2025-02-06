@@ -39,7 +39,8 @@ const AdminStudentUpdate = () => {
                 if (studentData && studentData.user) {
                     setFormData({
                         username: studentData.user.username,
-                        password: '', // Leave password empty for update
+                       
+                        password: studentData.user.password, 
                         name: studentData.user.name,
                         email: studentData.user.email,
                         phone: studentData.user.phone,
@@ -55,7 +56,7 @@ const AdminStudentUpdate = () => {
                     if (studentData.user.imagepath) {
                         setCurrentImagePath(studentData.user.imagepath);
                         setImagePreview(studentData.user.imagepath);
-                    }
+                    console.log("Current Image Path:", studentData.user.imagepath);                  }
                 }
             } catch (err) {
                 console.error('Error fetching data:', err);
@@ -187,10 +188,9 @@ const AdminStudentUpdate = () => {
             }
         }
     };
-
     return (
         <div className="container mt-5">
-            <h2 className="text-center mb-4">Update Student</h2>
+            <h2 className="mb-4 text-center mt-auto" style={{ paddingTop: "50px" , paddingBottom: "1px"}}>Update Student</h2>
             {message && <p className="alert alert-success">{message}</p>}
             <form onSubmit={handleSubmit}>
                 <div className="row">
@@ -209,9 +209,9 @@ const AdminStudentUpdate = () => {
                             {errors.username && <div className="invalid-feedback">{errors.username}</div>}
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="password" className="form-label">Password (Leave empty to keep current)</label>
+                            <label htmlFor="password" className="form-label">Password </label>
                             <input
-                                type="password"
+                                type="text"
                                 name="password"
                                 id="password"
                                 className={`form-control ${errors.password ? 'is-invalid' : ''}`}
@@ -256,6 +256,24 @@ const AdminStudentUpdate = () => {
                             />
                             {errors.phone && <div className="invalid-feedback">{errors.phone}</div>}
                         </div>
+                        <div className=" mb-3">
+                        <label htmlFor="classIds" className="form-label">Classes</label>
+                        <select
+                            id="classIds"
+                            name="classIds"
+                            multiple
+                            className={`form-select ${errors.classIds ? 'is-invalid' : ''}`}
+                            onChange={handleClassChange}
+                            value={formData.classIds}
+                        >
+                            {classes.map((cls) => (
+                                <option key={cls.id} value={cls.id}>
+                                    {cls.name}
+                                </option>
+                            ))}
+                        </select>
+                        {errors.classIds && <div className="invalid-feedback">{errors.classIds}</div>}
+                    </div>
                     </div>
 
                     {/* Column 2 */}
@@ -320,6 +338,7 @@ const AdminStudentUpdate = () => {
                             />
                             {errors.address && <div className="invalid-feedback">{errors.address}</div>}
                         </div>
+                        
                         <div className="mb-3">
                             <label htmlFor="profileImage" className="form-label">Profile Image</label>
                             <input
@@ -343,24 +362,7 @@ const AdminStudentUpdate = () => {
                         </div>
                     </div>
 
-                    <div className="col-12 mb-3">
-                        <label htmlFor="classIds" className="form-label">Classes</label>
-                        <select
-                            id="classIds"
-                            name="classIds"
-                            multiple
-                            className={`form-select ${errors.classIds ? 'is-invalid' : ''}`}
-                            onChange={handleClassChange}
-                            value={formData.classIds}
-                        >
-                            {classes.map((cls) => (
-                                <option key={cls.id} value={cls.id}>
-                                    {cls.name}
-                                </option>
-                            ))}
-                        </select>
-                        {errors.classIds && <div className="invalid-feedback">{errors.classIds}</div>}
-                    </div>
+                    
                 </div>
 
                 <div className="text-center">
