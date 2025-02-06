@@ -11,7 +11,6 @@ import { checkIfSubmitted } from './../../../../API/getMySubmissions'; // API to
 import { jwtDecode } from "jwt-decode"; // Correct import for jwt-decode
 import { getStudentIdDemo } from "../../../../API/getStudentIdDemo";
 import { SweetAlert } from "../../../StudentPages/Notifications/SweetAlert";
-import { useState } from "react";
 
 export default function CardContest({ contest, ...props }) {
   const [hovered, setHovered] = useState(false); // State để quản lý hover
