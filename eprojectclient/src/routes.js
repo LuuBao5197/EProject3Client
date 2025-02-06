@@ -73,6 +73,7 @@ import AdminStudentDetail from './pages/AdminStudentPages/AdminStudentDetail';
 import AdminStaffDetail from './pages/AdminStaffPages/AdminStaffDetail';
 import AdminStudentUpdate from './pages/AdminStudentPages/AdminStudentUpdate';
 import AdminStaffUpdate from './pages/AdminStaffPages/AdminStaffUpdate';
+import AdminStaffStatus from './pages/AdminStaffPages/UpdateStatusStaff';
 
 
 
@@ -177,6 +178,15 @@ export const adminRoutes = [
     path: '/Update-Staff/:id',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     component: <AdminStaffUpdate />,
+    
+  },
+  ,
+  {
+    name: 'Update Staff Status',
+    layout: '/admin',
+    path: '/Update-Staff-Status/:id',
+    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+    component: <AdminStaffStatus />,
     
   },
   

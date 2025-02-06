@@ -14,6 +14,14 @@ export const CreateStaff = async (staffData) => {
     throw new Error(error.response?.data?.message || 'Failed to add staff');
   }
 };
+export const updateStaffStatus = async (id, newStatus) => {
+  try {
+    const response = await axios.put(`${API_URL}/staff/${id}/status`, { status: newStatus });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to update staff status');
+  }
+};
 
 export const updateStaff = async (id, staffData) => {
   const response = await axios.put(`${API_URL}/staff/${id}`, staffData);
