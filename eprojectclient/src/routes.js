@@ -63,25 +63,11 @@ import CreateMeeting from './pages/ManagerPages/CreateMeeting';
 import ContestJudgeSelector from './pages/StaffPages/ContestJudge/ContestJudgeSelector';
 import ContestJudgesList from './pages/StaffPages/ContestJudge/ContestJudgeList';
 import EditContestJudges from './pages/StaffPages/ContestJudge/EditContestJudges';
-<<<<<<< HEAD
-import Adminlayout from './pages/AdminPages/Adminlayout';
-import AdminStudentList from './pages/AdminStudentPages/AdminStudentList';
-import AdminStaffLayout from './pages/AdminStaffPages/AdminStaffLayout';
-import AdminClassAdd from './pages/AdminPages/AdminClassAdd';
-import AdminStaffAdd from './pages/AdminStaffPages/AdminStaffAdd';
-import AdminStudentAdd from './pages/AdminStudentPages/AdminStudentAdd';
-import AdminStudentImportForm from './pages/AdminStudentPages/AdminStudentImportForm';
-import AdminClassDetail from './pages/AdminPages/AdminClassDetail';
-import AdminStudentDetail from './pages/AdminStudentPages/AdminStudentDetail';
-import AdminStaffDetail from './pages/AdminStaffPages/AdminStaffDetail';
-import AdminStudentUpdate from './pages/AdminStudentPages/AdminStudentUpdate';
-import AdminStaffUpdate from './pages/AdminStaffPages/AdminStaffUpdate';
-import AdminStaffStatus from './pages/AdminStaffPages/UpdateStatusStaff';
-=======
+
 import ContestResults from './pages/StaffPages/ContestFeature/ContestResults';
 import StudentAwards from './pages/StaffPages/StudentAward/StudentAward';
 import ArtworkIndex from './pages/StaffPages/ArtWork/ArtWorkIndex';
->>>>>>> f152eb0fbe552f79cc367cb32c60a8f61fccc470
+
 
 
 
