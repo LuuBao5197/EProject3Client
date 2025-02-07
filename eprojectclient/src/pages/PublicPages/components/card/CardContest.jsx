@@ -16,6 +16,8 @@ export default function CardContest({ contest, ...props }) {
   const [hovered, setHovered] = useState(false); // State để quản lý hover
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const nav = useNavigate();
+  const [status, setStatus] = useState("");
+  const [showJoinButton,setShowJoinButton] = useState(false);
 
   // Hàm định dạng ngày
   const formatDate = (dateString) => {
