@@ -70,7 +70,7 @@ function SignIn() {
 
   async function handleLogin(e) {
     e.preventDefault();
-    try {
+   try {
         const res = await axios.post("http://localhost:5190/api/Auth/login", {
             email,
             password,
@@ -109,7 +109,7 @@ function SignIn() {
         }
         SweetAlert('Login successfully', 'success')
       }
-    } catch (err) {
+     catch (err) {
       console.error(err);
       SweetAlert("Login failed. Please check your credentials.",'error');
     }
