@@ -43,8 +43,8 @@ const AdminStudentList = () => {
   };
 
   return (
-    <div className="container mt-5">
-      <h2  className="mb-4 text-center mt-auto" style={{ paddingTop: "50px" , paddingBottom: "1px"}}>Student List</h2>
+    <div className="container mt-2">
+      <h2  className="mb-4 text-center mt-auto" >Student List</h2>
       <table id="studentsTable" className="table table-striped table-bordered">
         <thead className="table-dark">
           <tr>
