@@ -70,13 +70,19 @@ function SignIn() {
 
   async function handleLogin(e) {
     e.preventDefault();
-   try {
+    try {
         const res = await axios.post("http://localhost:5190/api/Auth/login", {
             email,
             password,
         });
 
         console.log("res: ", res);
+
+        // Kiểm tra status của user
+        if (!res.data.status) {
+            SweetAlert("Your account is locked. Please contact support.", "error");
+            return;
+        }
 
         // Lưu token vào localStorage
         localStorage.setItem("inforToken", JSON.stringify(res.data));
@@ -90,7 +96,7 @@ function SignIn() {
             navigate("/ChangePasswordFirstTimeLogin");
         } else {
             if (decodedToken.role === "Student") {
-                // If it's a Student, attempt to get the student ID
+                // Nếu là Student, lấy studentId
                 const studentId = await getStudentIdDemo();
                 if (studentId) {
                     console.log("Student ID:", studentId);
@@ -100,20 +106,21 @@ function SignIn() {
                 }
             } else if (decodedToken.role === "Staff") {
                 navigate("/staff/");
-            } else if(decodedToken.role === "Manager"){
-              navigate("/manager/")
-            } else if(decodedToken.role === "Admin"){
-              navigate("/admin/")
-            } 
+            } else if (decodedToken.role === "Manager") {
+                navigate("/manager/");
+            } else if (decodedToken.role === "Admin") {
+                navigate("/admin/");
+            }
+
             alert("Login successful");
         }
-        SweetAlert('Login successfully', 'success')
-      }
-     catch (err) {
-      console.error(err);
-      SweetAlert("Login failed. Please check your credentials.",'error');
+        SweetAlert("Login successfully", "success");
+    } catch (err) {
+        console.error(err);
+        SweetAlert("Login failed. Please check your credentials.", "error");
     }
-  }
+}
+
 
 
   // Handle the email submission to send OTP
@@ -141,7 +148,7 @@ function SignIn() {
     } catch (error) {
       setMessage(error.message);
     } finally {
-      setIsLoading(False);
+      setIsLoading(false);
     }
   };
 
@@ -378,9 +385,6 @@ function SignIn() {
                   />
                 </FormControl>
                 <ModalFooter>
-                  <Button colorScheme="blue" mr={3} onClick={() => setIsModalOpen(false)}>
-                    Close
-                  </Button>
                   <Button type="submit" colorScheme="blue">
                     Send OTP
                   </Button>
@@ -403,9 +407,6 @@ function SignIn() {
                 <ModalFooter>
                   <Button colorScheme="blue" mr={3} onClick={() => setStep(1)}>
                     Back
-                  </Button>
-                  <Button colorScheme="blue" mr={3} onClick={() => setIsModalOpen(false)}>
-                    Close
                   </Button>
                   <Button type="submit" colorScheme="blue">
                     Verify OTP
@@ -458,13 +459,9 @@ function SignIn() {
                   <Button colorScheme="blue" mr={3} onClick={() => setStep(1)}>
                     Back
                   </Button>
-                  <Button colorScheme="blue" mr={3} onClick={() => setIsModalOpen(false)}>
-                    Close
-                  </Button>
                   <Button
                     type="submit"
                     colorScheme="blue"
-                    isDisabled={newPassword !== confirmPassword}
                   >
                     Submit
                   </Button>
