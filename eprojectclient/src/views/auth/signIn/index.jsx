@@ -99,7 +99,11 @@ function SignIn() {
                 }
             } else if (decodedToken.role === "Staff") {
                 navigate("/staff/");
-            }
+            } else if(decodedToken.role === "Manager"){
+              navigate("/manager/")
+            } else if(decodedToken.role === "Admin"){
+              navigate("/admin/")
+            } 
             alert("Login successful");
         }
     } catch (err) {
