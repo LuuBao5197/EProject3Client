@@ -71,18 +71,18 @@ function SignIn() {
   async function handleLogin(e) {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5190/api/Auth/login", {
-        email,
-        password,
-      });
+        const res = await axios.post("http://localhost:5190/api/Auth/login", {
+            email,
+            password,
+        });
 
-      console.log("res: ", res);
+        console.log("res: ", res);
 
-      // Lưu token vào localStorage
-      localStorage.setItem("inforToken", JSON.stringify(res.data));
-      localStorage.setItem("token", JSON.stringify(res.data.token));
-      const decodedToken = jwtDecode(res.data.token);
-      console.log(decodedToken);
+        // Lưu token vào localStorage
+        localStorage.setItem("inforToken", JSON.stringify(res.data));
+        localStorage.setItem("token", JSON.stringify(res.data.token));
+        const decodedToken = jwtDecode(res.data.token);
+        console.log(decodedToken);
 
         // Kiểm tra isFirstLogin
         if (!res.data.isFirstLogin) {
