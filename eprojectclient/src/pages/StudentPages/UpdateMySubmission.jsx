@@ -74,7 +74,7 @@ function UpdateMySubmission() {
 
             try {
                 await updateMySubmission(id, formUpdate);
-                nav("/mySubmissions");
+                nav("/student/mysubmissions");
             } catch (e) {
                 console.error(e);
             }

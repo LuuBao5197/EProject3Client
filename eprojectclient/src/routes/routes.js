@@ -43,28 +43,28 @@ export const publicRoutes = [
     },
     {
 
-        path: "/awardreceived",
+        path: "/student/awardreceived",
         element: <AwardReceived/>,
         
     },{
 
-        path: "/createsubmission/:contestId",
+        path: "/student/createsubmission/:contestId",
         element: <CreateNewSubmission/>,
         
     },{
 
-        path: "/exhibitionartwork",
+        path: "/student/exhibitionartwork",
         element: <ExhibitionArtwork/>,
         
     },{
 
-        path: "/mysubmissions",
+        path: "/student/mysubmissions",
         element: <MySubmission/>,
         
     },
     {
 
-        path: "/updatemysubmission/:id",
+        path: "/student/updatemysubmission/:id",
         element: <UpdateMySubmission/>,
 
         

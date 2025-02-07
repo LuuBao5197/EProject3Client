@@ -5,7 +5,9 @@ import { SweetAlert } from '../../../StudentPages/Notifications/SweetAlert';
 function NavbarHome(props) {
     // State to manage login status
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [dropdownVisible, setDropdownVisible] = useState(false);
     const nav = useNavigate();
+
     useEffect(() => {
         // Check for inforToken in localStorage or any other storage
         const inforToken = localStorage.getItem('inforToken');
@@ -19,8 +21,8 @@ function NavbarHome(props) {
         localStorage.removeItem('inforToken');
         localStorage.removeItem('token');
         setIsLoggedIn(false);
-        SweetAlert('Logout sucessfully', 'success')
-        nav('/')
+        SweetAlert('Logout successfully', 'success');
+        nav('/');
     };
 
     return (
@@ -37,7 +39,20 @@ function NavbarHome(props) {
                             <a href="/" style={styles.link}>Home</a>
                             <a href="/edit" style={styles.link}>Profile</a>
                             <a href="/aboutus" style={styles.link}>About Us</a>
-                            <a href="/mysubmissions" style={styles.link}>My Exams</a>
+                            <div
+                                style={styles.link}
+                                onMouseEnter={() => setDropdownVisible(true)}
+                                onMouseLeave={() => setDropdownVisible(false)}
+                            >
+                                My Exams
+                                {dropdownVisible && (
+                                    <div style={styles.dropdown}>
+                                        <a href="/student/mysubmissions" style={styles.dropdownItem}>View Submissions</a>
+                                        <a href="/student/awardreceived" style={styles.dropdownItem}>View my award</a>
+                                        <a href="/student/exhibitionartwork" style={styles.dropdownItem}>View Exhibition Artwork</a>
+                                    </div>
+                                )}
+                            </div>
                             <a href="#" onClick={handleLogout} style={styles.link}>Logout</a>
                         </>
                     )}
@@ -69,6 +84,7 @@ const styles = {
     },
     links: {
         display: 'flex',
+        alignItems: 'center',
     },
     link: {
         textDecoration: 'none',
@@ -80,6 +96,23 @@ const styles = {
         border: '2px solid black',
         borderRadius: '5px',
         transition: 'background-color 0.3s, color 0.3s',
+        position: 'relative',
+    },
+    dropdown: {
+        position: 'absolute',
+        top: '100%',
+        left: '0',
+        backgroundColor: 'white',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        borderRadius: '8px',
+        zIndex: '10',
+    },
+    dropdownItem: {
+        display: 'block',
+        padding: '10px 20px',
+        textDecoration: 'none',
+        color: 'black',
+        borderBottom: '1px solid #ddd',
     },
 };
 

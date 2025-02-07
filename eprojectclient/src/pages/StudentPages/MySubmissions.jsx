@@ -172,7 +172,7 @@ function MySubmission() {
                                 <td>
                                     <a
                                         className={`btn ${isExpired ? 'btn-outline-secondary disabled' : 'btn-outline-warning'}`}
-                                        onClick={() => !isExpired && nav(`/updatemysubmission/${c.id}`)}
+                                        onClick={() => !isExpired && nav(`/student/updatemysubmission/${c.id}`)}
                                     >
                                         <MDBIcon fas icon="pen" />
                                     </a>
