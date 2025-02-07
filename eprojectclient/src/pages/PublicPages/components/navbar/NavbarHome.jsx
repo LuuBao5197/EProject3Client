@@ -56,7 +56,6 @@ const styles = {
         top: '0',
         zIndex: '1000',
         backgroundColor: 'white',
-        border: '2px solid black',
     },
     container: {
         display: 'flex',
