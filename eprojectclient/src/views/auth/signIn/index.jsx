@@ -35,6 +35,7 @@ import { FcGoogle } from "react-icons/fc";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
 import { getStudentIdDemo } from "../../../API/getStudentIdDemo";
+import { SweetAlert } from "../../../pages/StudentPages/Notifications/SweetAlert";
 
 function SignIn() {
   // Chakra color mode
@@ -70,51 +71,51 @@ function SignIn() {
   async function handleLogin(e) {
     e.preventDefault();
     try {
-        const res = await axios.post("http://localhost:5190/api/Auth/login", {
-            email,
-            password,
-        });
+      const res = await axios.post("http://localhost:5190/api/Auth/login", {
+        email,
+        password,
+      });
 
-        console.log("res: ", res);
+      console.log("res: ", res);
 
-        // Lưu token vào localStorage
-        localStorage.setItem("inforToken", JSON.stringify(res.data));
-        localStorage.setItem("token", JSON.stringify(res.data.token));
-        const decodedToken = jwtDecode(res.data.token);
-        console.log(decodedToken);
+      // Lưu token vào localStorage
+      localStorage.setItem("inforToken", JSON.stringify(res.data));
+      localStorage.setItem("token", JSON.stringify(res.data.token));
+      const decodedToken = jwtDecode(res.data.token);
+      console.log(decodedToken);
 
-        // Kiểm tra isFirstLogin
-        if (!res.data.isFirstLogin) {
-            alert("This is your first time login. Please change your password.");
-            navigate("/ChangePasswordFirstTimeLogin");
-        } else {
-            if (decodedToken.role === "Student") {
-                // If it's a Student, attempt to get the student ID
-                const studentId = await getStudentIdDemo();
-                if (studentId) {
-                    console.log("Student ID:", studentId);
-                    navigate("/student/", { state: { user: decodedToken, studentId: studentId } });
-                } else {
-                    alert("Student ID could not be retrieved.");
-                }
-            } else if (decodedToken.role === "Staff") {
-                navigate("/staff/");
-            }
-            alert("Login successful");
+      // Kiểm tra isFirstLogin
+      if (!res.data.isFirstLogin) {
+        alert("This is your first time login. Please change your password.");
+        navigate("/ChangePasswordFirstTimeLogin");
+      } else {
+        if (decodedToken.role === "Student") {
+          // If it's a Student, attempt to get the student ID
+          const studentId = await getStudentIdDemo();
+          if (studentId) {
+            console.log("Student ID:", studentId);
+            navigate("/student/", { state: { user: decodedToken, studentId: studentId } });
+          } else {
+            alert("Student ID could not be retrieved.");
+          }
+        } else if (decodedToken.role === "Staff") {
+          navigate("/staff/");
         }
+        SweetAlert('Login successfully', 'success')
+      }
     } catch (err) {
-        console.error(err);
-        alert("Login failed. Please check your credentials.");
+      console.error(err);
+      SweetAlert("Login failed. Please check your credentials.",'error');
     }
-}
+  }
 
 
-// Handle the email submission to send OTP
-const handleEmailSubmit = async (event) => {
+  // Handle the email submission to send OTP
+  const handleEmailSubmit = async (event) => {
     event.preventDefault();  // Ngừng hành động mặc định của form
     setIsLoading(true);
     setMessage('');
-  
+
     try {
       const response = await fetch(`http://localhost:5190/api/Auth/forgot-password?email=${encodeURIComponent(email)}`, {
         method: 'POST',
@@ -122,12 +123,12 @@ const handleEmailSubmit = async (event) => {
           accept: '*/*',
         },
       });
-  
+
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(errorText || 'Failed to send OTP');
       }
-  
+
       const textData = await response.text();
       setMessage(textData || 'OTP has been sent to your email.');
       setStep(2); // Proceed to OTP input
@@ -136,103 +137,103 @@ const handleEmailSubmit = async (event) => {
     } finally {
       setIsLoading(False);
     }
-};
-  
-// Handle the OTP submission to verify the OTP
-const handleOtpSubmit = async (event) => {
-  event.preventDefault();
-  setIsLoading(true);
-  setMessage('');
+  };
 
-  try {
-    const response = await fetch('http://localhost:5190/api/Auth/verify-otp', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email,
-        otp, // OTP entered by the user
-      }),
-    });
+  // Handle the OTP submission to verify the OTP
+  const handleOtpSubmit = async (event) => {
+    event.preventDefault();
+    setIsLoading(true);
+    setMessage('');
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(errorText || 'Failed to verify OTP');
+    try {
+      const response = await fetch('http://localhost:5190/api/Auth/verify-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          otp, // OTP entered by the user
+        }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || 'Failed to verify OTP');
+      }
+
+      const textData = await response.text();
+      setMessage(textData || 'OTP verified successfully.');
+      setStep(3); // Proceed to password reset form
+    } catch (error) {
+      setMessage(error.message);
+    } finally {
+      setIsLoading(false);
     }
+  };
 
-    const textData = await response.text();
-    setMessage(textData || 'OTP verified successfully.');
-    setStep(3); // Proceed to password reset form
-  } catch (error) {
-    setMessage(error.message);
-  } finally {
-    setIsLoading(false);
-  }
-};
+  // Password validation function
+  const validatePassword = (password) => {
+    const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return regex.test(password);
+  };
 
-// Password validation function
-const validatePassword = (password) => {
-  const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-  return regex.test(password);
-};
+  // Handle the password reset submission
+  const handlePasswordSubmit = async (event) => {
+    event.preventDefault();
+    setIsLoading(true);
+    setMessage('');
 
-// Handle the password reset submission
-const handlePasswordSubmit = async (event) => {
-  event.preventDefault();
-  setIsLoading(true);
-  setMessage('');
-
-  // Check if passwords match
-  if (newPassword !== confirmPassword) {
-    setMessage('Passwords do not match.');
-    setIsLoading(false);
-    return;
-  }
-
-  // Validate the password
-  if (!validatePassword(newPassword)) {
-    setMessage('Password must be at least 8 characters, include 1 capital letter, 1 digit, and 1 special symbol.');
-    setIsLoading(false);
-    return;
-  }
-
-  try {
-    const response = await fetch('http://localhost:5190/api/Auth/reset-password', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email,
-        newPassword, // Send the new password
-      }),
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(errorText || 'Failed to reset password');
-    }
-
-    // Check if OTP has expired (assumed response includes `otpExpired` flag)
-    const jsonResponse = await response.json();
-    if (jsonResponse.otpExpired) {
-      setMessage('OTP has expired. Please request a new one.');
+    // Check if passwords match
+    if (newPassword !== confirmPassword) {
+      setMessage('Passwords do not match.');
       setIsLoading(false);
       return;
     }
 
-    setMessage('Password has been reset successfully.');
+    // Validate the password
+    if (!validatePassword(newPassword)) {
+      setMessage('Password must be at least 8 characters, include 1 capital letter, 1 digit, and 1 special symbol.');
+      setIsLoading(false);
+      return;
+    }
 
-    // Close the modal after successful password reset
-    setIsModalOpen(false);
+    try {
+      const response = await fetch('http://localhost:5190/api/Auth/reset-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          newPassword, // Send the new password
+        }),
+      });
 
-  } catch (error) {
-    setMessage(error.message);
-  } finally {
-    setIsLoading(false);
-  }
-};
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || 'Failed to reset password');
+      }
+
+      // Check if OTP has expired (assumed response includes `otpExpired` flag)
+      const jsonResponse = await response.json();
+      if (jsonResponse.otpExpired) {
+        setMessage('OTP has expired. Please request a new one.');
+        setIsLoading(false);
+        return;
+      }
+
+      setMessage('Password has been reset successfully.');
+
+      // Close the modal after successful password reset
+      setIsModalOpen(false);
+
+    } catch (error) {
+      setMessage(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
 
 
@@ -323,7 +324,7 @@ const handlePasswordSubmit = async (event) => {
                 </InputRightElement>
               </InputGroup>
               <Flex justifyContent="space-between" align="center" mb="24px">
-                
+
                 <Button
                   variant="link"
                   color={textColorBrand}
@@ -351,122 +352,122 @@ const handlePasswordSubmit = async (event) => {
 
       {/* Forgot Password Modal */}
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-  <ModalOverlay />
-  <ModalContent>
-    <ModalHeader>Forgot Password</ModalHeader>
-    <ModalCloseButton />
-    <ModalBody>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Forgot Password</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
 
-    {step === 1 && (
+            {step === 1 && (
 
-    <form onSubmit={(e) => {handleEmailSubmit(e); }}>
-        <FormControl>
-          <FormLabel>Email</FormLabel>
-          <Input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </FormControl>
-        <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={() => setIsModalOpen(false)}>
-            Close
-          </Button>
-          <Button type="submit" colorScheme="blue">
-            Send OTP
-          </Button>
-        </ModalFooter>
-      </form>
-      )}
+              <form onSubmit={(e) => { handleEmailSubmit(e); }}>
+                <FormControl>
+                  <FormLabel>Email</FormLabel>
+                  <Input
+                    type="email"
+                    id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </FormControl>
+                <ModalFooter>
+                  <Button colorScheme="blue" mr={3} onClick={() => setIsModalOpen(false)}>
+                    Close
+                  </Button>
+                  <Button type="submit" colorScheme="blue">
+                    Send OTP
+                  </Button>
+                </ModalFooter>
+              </form>
+            )}
 
-      {step === 2 && (
-        <form onSubmit={(e) => {handleOtpSubmit(e); }}>
-          <FormControl>
-            <FormLabel>OTP</FormLabel>
-            <Input
-              type="text"
-              id="otp"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-              required
-            />
-          </FormControl>
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={() => setStep(1)}>
-              Back
-            </Button>
-            <Button colorScheme="blue" mr={3} onClick={() => setIsModalOpen(false)}>
-              Close
-            </Button>
-            <Button type="submit" colorScheme="blue">
-              Verify OTP
-            </Button>
-          </ModalFooter>
-        </form>
-      )}
+            {step === 2 && (
+              <form onSubmit={(e) => { handleOtpSubmit(e); }}>
+                <FormControl>
+                  <FormLabel>OTP</FormLabel>
+                  <Input
+                    type="text"
+                    id="otp"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    required
+                  />
+                </FormControl>
+                <ModalFooter>
+                  <Button colorScheme="blue" mr={3} onClick={() => setStep(1)}>
+                    Back
+                  </Button>
+                  <Button colorScheme="blue" mr={3} onClick={() => setIsModalOpen(false)}>
+                    Close
+                  </Button>
+                  <Button type="submit" colorScheme="blue">
+                    Verify OTP
+                  </Button>
+                </ModalFooter>
+              </form>
+            )}
 
 
-      {step === 3 && (
-        <form onSubmit={(e) => {handlePasswordSubmit(e); }}>
-          <FormControl>
-            <FormLabel>New Password:</FormLabel>
-            <Input
-              type="password"
-              id="newPassword"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              required
-            />
-          </FormControl>
-          
-          <FormControl>
-            <FormLabel>Confirm Password:</FormLabel>
-            <Input
-              type="password"
-              id="confirmPassword"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-            />
-          </FormControl>
+            {step === 3 && (
+              <form onSubmit={(e) => { handlePasswordSubmit(e); }}>
+                <FormControl>
+                  <FormLabel>New Password:</FormLabel>
+                  <Input
+                    type="password"
+                    id="newPassword"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    required
+                  />
+                </FormControl>
 
-          <FormControl>
-          <FormLabel>Password Requirements:</FormLabel>
-                    {message && (
-            <Text color="red.500" mb="4">
-              {message}
-            </Text>
-          )}
-          <Text fontSize="sm" color="gray.500">
-            - At least 8 characters<br />
-            - At least 1 capital letter<br />
-            - At least 1 digit<br />
-            - At least 1 special symbol (@, $, !, %, *, ?, &)
-          </Text>
-        </FormControl>
+                <FormControl>
+                  <FormLabel>Confirm Password:</FormLabel>
+                  <Input
+                    type="password"
+                    id="confirmPassword"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                  />
+                </FormControl>
 
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={() => setStep(1)}>
-              Back
-            </Button>
-            <Button colorScheme="blue" mr={3} onClick={() => setIsModalOpen(false)}>
-              Close
-            </Button>
-            <Button
-              type="submit"
-              colorScheme="blue"
-              isDisabled={newPassword !== confirmPassword}
-            >
-              Submit
-            </Button>
-          </ModalFooter>
-        </form>
-      )}
-    </ModalBody>
-  </ModalContent>
-</Modal>
+                <FormControl>
+                  <FormLabel>Password Requirements:</FormLabel>
+                  {message && (
+                    <Text color="red.500" mb="4">
+                      {message}
+                    </Text>
+                  )}
+                  <Text fontSize="sm" color="gray.500">
+                    - At least 8 characters<br />
+                    - At least 1 capital letter<br />
+                    - At least 1 digit<br />
+                    - At least 1 special symbol (@, $, !, %, *, ?, &)
+                  </Text>
+                </FormControl>
+
+                <ModalFooter>
+                  <Button colorScheme="blue" mr={3} onClick={() => setStep(1)}>
+                    Back
+                  </Button>
+                  <Button colorScheme="blue" mr={3} onClick={() => setIsModalOpen(false)}>
+                    Close
+                  </Button>
+                  <Button
+                    type="submit"
+                    colorScheme="blue"
+                    isDisabled={newPassword !== confirmPassword}
+                  >
+                    Submit
+                  </Button>
+                </ModalFooter>
+              </form>
+            )}
+          </ModalBody>
+        </ModalContent>
+      </Modal>
 
     </DefaultAuth>
   );
