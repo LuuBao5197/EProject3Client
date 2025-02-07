@@ -30,7 +30,7 @@ function AuthIllustration(props) {
         justifyContent='start'
         direction='column'>
         <NavLink
-          to='/admin'
+          to='/'
           style={() => ({
             width: "fit-content",
             marginTop: "40px",
@@ -48,7 +48,7 @@ function AuthIllustration(props) {
               color='secondaryGray.600'
             />
             <Text ms='0px' fontSize='sm' color='secondaryGray.600'>
-              Back to Simmmple
+              Back to Home
             </Text>
           </Flex>
         </NavLink>

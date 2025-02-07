@@ -238,7 +238,7 @@ const handlePasswordSubmit = async (event) => {
 
 
   return (
-    <DefaultAuth illustrationBackground={illustration} image={illustration}>
+    <DefaultAuth illustrationBackground={'/images/bg.png'} image={illustration}>
       <Flex
         maxW={{ base: "100%", md: "max-content" }}
         w="100%"
