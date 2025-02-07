@@ -72,7 +72,7 @@ function CreateNewSubmission() {
         try {
             const response = await postSubmission(studentId, contestId, formData)
 
-            nav("/mysubmissions", { state: { newSubmission: response } });
+            nav("/student/mysubmissions", { state: { newSubmission: response } });
         } catch (error) {
             SweetAlert("Failed to create submission:", "error");
         }
