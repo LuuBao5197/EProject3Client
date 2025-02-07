@@ -22,7 +22,7 @@ function NavbarHome(props) {
         localStorage.removeItem('token');
         setIsLoggedIn(false);
         SweetAlert('Logout successfully', 'success');
-        nav('/');
+        nav('/student/');
     };
 
     return (

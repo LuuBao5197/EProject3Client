@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { SweetAlert } from '../../../StudentPages/Notifications/SweetAlert'; // Ensure SweetAlert is correctly imported
 
 function NavbarStudentHome(props) {
     // State to manage login status
@@ -16,9 +17,11 @@ function NavbarStudentHome(props) {
     }, []);
 
     const handleLogout = () => {
-        // Remove inforToken from storage during logout
         localStorage.removeItem('inforToken');
+        localStorage.removeItem('token');
         setIsLoggedIn(false);
+        SweetAlert('Logout successfully', 'success'); // Correctly use SweetAlert
+        nav('/');
     };
 
     return (
@@ -49,7 +52,7 @@ function NavbarStudentHome(props) {
                                     </div>
                                 )}
                             </div>
-                            <a href="#" onClick={handleLogout} style={styles.link}>Logout</a>
+                            <a onClick={handleLogout} href='/' style={styles.link}>Logout</a>
                         </>
                     )}
                 </div>
@@ -113,3 +116,4 @@ const styles = {
 };
 
 export default NavbarStudentHome;
+        
