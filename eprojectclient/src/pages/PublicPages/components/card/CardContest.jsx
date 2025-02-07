@@ -8,7 +8,7 @@ import Card from "@/components/card/Card.js";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { checkIfSubmitted } from './../../../../API/getMySubmissions'; // API to check if the student has already submitted
-import { jwtDecode } from "jwt-decode"; // Correct import for jwt-decode
+import {jwtDecode} from "jwt-decode"; // Correct import for jwt-decode
 import { getStudentIdDemo } from "../../../../API/getStudentIdDemo";
 import { SweetAlert } from "../../../StudentPages/Notifications/SweetAlert";
 
@@ -17,7 +17,8 @@ export default function CardContest({ contest, ...props }) {
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const nav = useNavigate();
   const [status, setStatus] = useState("");
-  const [showJoinButton,setShowJoinButton] = useState(false);
+  const [showJoinButton, setShowJoinButton] = useState(false);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
 
   // Hàm định dạng ngày
   const formatDate = (dateString) => {
@@ -58,9 +59,11 @@ export default function CardContest({ contest, ...props }) {
           // Kiểm tra nếu thí sinh đã nộp bài
           if (studentId) {
             const response = await checkIfSubmitted(studentId, contest.id);
-            setHasSubmitted(!response); // Nếu đã nộp bài, setHasSubmitted sẽ là true
+            setHasSubmitted(response); // Nếu đã nộp bài, setHasSubmitted sẽ là true
           }
         }
+      } else {
+        setHasSubmitted(false); // Clear the submission status if no token is found
       }
     };
 
@@ -73,14 +76,15 @@ export default function CardContest({ contest, ...props }) {
     if (!token) {
       nav("/auth/sign-in");
     }
+    else {
+      const decodedToken = jwtDecode(token);
 
-    const decodedToken = jwtDecode(res.data.token);
-
-    if (decodedToken.role === "Student") {
-      nav(`createsubmission/${contest.id}`);
-    } else {
-      SweetAlert("Only students can enter the contest.", "error");
-      return;
+      if (decodedToken.role === "Student") {
+        nav(`createsubmission/${contest.id}`);
+      } else {
+        SweetAlert("Only students can enter the contest.", "error");
+        return;
+      }
     }
   };
 
@@ -118,12 +122,16 @@ export default function CardContest({ contest, ...props }) {
             Deadline: {formatDate(contest.submissionDeadline)}
           </Text>
           <Text color={textColor} fontSize="130%" textAlign="left" mt="12px">
-            <button
-              className="btn btn-outline-dark"
-              onClick={() => nav(`createsubmission/${contest.id}`)}
-            >
-              Join
-            </button>
+            {hasSubmitted ? (
+              <span className="text-success">Submitted</span>
+            ) : (
+              <button
+                className="btn btn-outline-dark"
+                onClick={() => handleJoinClick()}
+              >
+                Join
+              </button>
+            )}
           </Text>
           <Text color={textColor} fontSize="120%" textAlign="left" mt="80px">
             Organized By: {contest.organizerName}
