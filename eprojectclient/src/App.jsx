@@ -20,12 +20,13 @@ import {
 } from '@chakra-ui/react';
 import initialTheme from './theme/theme'; //  { themeGreen };
 import HomePage from './pages/PublicPages/HomePage';
-
 function App() {
     const [currentTheme, setCurrentTheme] = useState(initialTheme);
 
 
     return (
+
+
         <ChakraProvider theme={currentTheme}>
             <ToastContainer
                 position="top-right" // Vị trí hiển thị
@@ -126,6 +127,7 @@ function App() {
             </Routes>
 
         </ChakraProvider>
+
 
     )
 }
