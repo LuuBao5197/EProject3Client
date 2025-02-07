@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getSubjects, getQualifications, addStaff } from '../../API/getAdminStaff';
+import { getSubjects, getQualifications, CreateStaff } from '../../API/getAdminStaff';
 
 const AdminStaffAdd = () => {
     const [formData, setFormData] = useState({
@@ -13,8 +13,11 @@ const AdminStaffAdd = () => {
         joinDate: new Date().toISOString().split('T')[0], // Set current date as default
         staffSubjectIds: [],
         staffQualificationIds: [],
-        role: 'Staff'
+        role: 'Staff',
+        address: '',
+        profileImage: null, // Thêm ảnh vào formData
     });
+
 
     const [subjects, setSubjects] = useState([]);
     const [qualifications, setQualifications] = useState([]);
@@ -22,7 +25,10 @@ const AdminStaffAdd = () => {
     const [error, setError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [dobError, setDobError] = useState('');
-    const [phoneError, setPhoneError] = useState(''); // State for phone error
+    const [phoneError, setPhoneError] = useState('');
+    const [profileImage, setProfileImage] = useState(null);
+    const [imagePreview, setImagePreview] = useState(null);
+    const [imageError, setImageError] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -40,6 +46,35 @@ const AdminStaffAdd = () => {
 
         fetchData();
     }, []);
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            // Validate image file
+            const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            const maxSize = 5 * 1024 * 1024; // 5MB
+
+            if (!validTypes.includes(file.type)) {
+                setImageError('Invalid file type. Please upload JPEG, PNG, or GIF.');
+                return;
+            }
+
+            if (file.size > maxSize) {
+                setImageError('File size exceeds 5MB limit.');
+                return;
+            }
+
+            setProfileImage(file);
+            setFormData({ ...formData, profileImage: file });
+
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
 
     const validateAge = (birthDate) => {
         const today = new Date();
@@ -100,7 +135,6 @@ const AdminStaffAdd = () => {
 
     const validateEmail = async (email) => {
         try {
-            // Assume we have an API endpoint to check email existence
             const response = await fetch(`http://localhost:5190/api/AdminStaff/check-email?email=${email}`);
             const data = await response.json();
             return !data.exists;
@@ -117,239 +151,247 @@ const AdminStaffAdd = () => {
         setEmailError('');
         setDobError('');
         setPhoneError('');
-        // Kiểm tra định dạng email
-        if (!formData.username || !formData.password || !formData.name || !formData.email || !formData.phone || !formData.dob) {
+        setImageError('');
+
+        // Kiểm tra dữ liệu đầu vào
+        if (!formData.username || !formData.password || !formData.name || !formData.email || !formData.phone || !formData.dob || !formData.address) {
             setError('Please fill in all fields');
             return;
         }
+
+        // Kiểm tra định dạng email
         const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
         if (!emailPattern.test(formData.email)) {
             setEmailError('Please enter a valid email address');
             return;
         }
-        
-        // Validate age
+
+        // Kiểm tra tuổi
         if (!validateAge(formData.dob)) {
             setDobError('Staff must be at least 20 years old');
             return;
         }
 
-        // Validate email
+        // Kiểm tra email đã tồn tại chưa
         const isEmailValid = await validateEmail(formData.email);
         if (!isEmailValid) {
             setEmailError('This email is already in use');
             return;
         }
-        // Validate that at least one subject is selected
+
+        // Kiểm tra lựa chọn môn học
         if (formData.staffSubjectIds.length === 0) {
             setError('Please select at least one subject');
             return;
         }
 
-        // Validate that at least one qualification is selected
+        // Kiểm tra lựa chọn bằng cấp
         if (formData.staffQualificationIds.length === 0) {
             setError('Please select at least one qualification');
             return;
         }
 
-        // Validate phone
+        // Kiểm tra số điện thoại
         if (!validatePhoneNumber(formData.phone)) {
             setPhoneError('Phone number must start with 0 and have 10 digits');
             return;
         }
 
+        // **Tạo `formDataToSend`**
+        const formDataToSend = new FormData();
+        Object.entries(formData).forEach(([key, value]) => {
+            if (Array.isArray(value)) {
+                value.forEach(val => formDataToSend.append(key, val));
+            } else {
+                formDataToSend.append(key, value);
+            }
+        });
+
+        // **Thêm hình ảnh nếu có**
+        if (profileImage) {
+            formDataToSend.append('profileImage', profileImage);
+        }
+
         try {
-            const response = await addStaff(formData);
+            await CreateStaff(formDataToSend);
             setMessage('Staff added successfully');
-            navigate('/admin/stafflayout');
+            navigate('/admin/StaffList');
         } catch (err) {
             console.error(err);
             setError(err.message);
         }
     };
 
+
     return (
         <div className="container mt-4">
-            <h2 className="mb-4">Create Staff</h2>
+            <h2 className="mb-4 text-center mt-auto" style={{ paddingTop: "60px", paddingBottom: "1px" }}>Create Staff</h2>
             {message && <div className="alert alert-success">{message}</div>}
             {error && <div className="alert alert-danger">{error}</div>}
 
             <form onSubmit={handleSubmit} className="needs-validation" noValidate>
+                {/* Username */}
                 <div className="row g-3">
                     <div className="col-md-6">
-                        <div className="form-floating mb-3">
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="username"
-                                name="username"
-                                placeholder="Username"
-                                value={formData.username}
-                                onChange={handleInputChange}
-                                required
-                            />
-                            <label htmlFor="username">Username</label>
-                        </div>
+                        <label htmlFor="username" className="form-label">Username</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="username"
+                            name="username"
+                            value={formData.username}
+                            onChange={handleInputChange}
+                            required
+                        />
                     </div>
 
+                    {/* Password */}
                     <div className="col-md-6">
-                        <div className="form-floating mb-3">
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="password"
-                                name="password"
-                                placeholder="Password"
-                                value={formData.password}
-                                onChange={handleInputChange}
-                                required
-                            />
-                            <label htmlFor="password">Password</label>
-                        </div>
+                        <label htmlFor="password" className="form-label">Password</label>
+                        <input
+                            type="password"
+                            className="form-control"
+                            id="password"
+                            name="password"
+                            value={formData.password}
+                            onChange={handleInputChange}
+                            required
+                        />
                     </div>
 
+                    {/* Name */}
                     <div className="col-md-6">
-                        <div className="form-floating mb-3">
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="name"
-                                name="name"
-                                placeholder="Name"
-                                value={formData.name}
-                                onChange={handleInputChange}
-                                required
-                            />
-                            <label htmlFor="name">Name</label>
-                        </div>
+                        <label htmlFor="name" className="form-label">Name</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="name"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleInputChange}
+                            required
+                        />
                     </div>
 
+                    {/* Email */}
                     <div className="col-md-6">
-                        <div className="form-floating mb-3">
-                            <input
-                                type="email"
-                                className={`form-control ${emailError ? 'is-invalid' : ''}`}
-                                id="email"
-                                name="email"
-                                placeholder="Email"
-                                value={formData.email}
-                                onChange={handleInputChange}
-                                required
-                            />
-                            <label htmlFor="email">Email</label>
-                            {emailError && <div className="invalid-feedback">{emailError}</div>}
-                        </div>
+                        <label htmlFor="email" className="form-label">Email</label>
+                        <input
+                            type="email"
+                            className="form-control"
+                            id="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleInputChange}
+                            required
+                        />
+                        {emailError && <div className="text-danger">{emailError}</div>}
                     </div>
 
+                    {/* Phone */}
                     <div className="col-md-6">
-                        <div className="form-floating mb-3">
-                            <input
-                                type="tel"
-                                className={`form-control ${phoneError ? 'is-invalid' : ''}`}
-                                id="phone"
-                                name="phone"
-                                placeholder="Phone"
-                                value={formData.phone}
-                                onChange={handleInputChange}
-                                required
-                            />
-                            <label htmlFor="phone">Phone</label>
-                            {phoneError && <div className="invalid-feedback">{phoneError}</div>}
-                        </div>
+                        <label htmlFor="phone" className="form-label">Phone</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="phone"
+                            name="phone"
+                            value={formData.phone}
+                            onChange={handleInputChange}
+                            required
+                        />
+                        {phoneError && <div className="text-danger">{phoneError}</div>}
                     </div>
 
+                    {/* Date of Birth */}
                     <div className="col-md-6">
-                        <div className="form-floating mb-3">
-                            <input
-                                type="date"
-                                className={`form-control ${dobError ? 'is-invalid' : ''}`}
-                                id="dob"
-                                name="dob"
-                                value={formData.dob}
-                                onChange={handleInputChange}
-                                required
-                            />
-                            <label htmlFor="dob">Date of Birth</label>
-                            {dobError && <div className="invalid-feedback">{dobError}</div>}
-                        </div>
+                        <label htmlFor="dob" className="form-label">Date of Birth</label>
+                        <input
+                            type="date"
+                            className="form-control"
+                            id="dob"
+                            name="dob"
+                            value={formData.dob}
+                            onChange={handleInputChange}
+                            required
+                        />
+                        {dobError && <div className="text-danger">{dobError}</div>}
                     </div>
 
+
+
+
+
+                    {/* Subjects */}
+                    <div className="col-md-6 ">
+                        <label htmlFor="subjects" className="form-label">Subjects</label>
+                        <select
+                            multiple
+                            className="form-control"
+                            id="subjects"
+                            onChange={handleSubjectChange}
+                            required
+                        >
+                            {subjects.map((subject) => (
+                                <option key={subject.id} value={subject.id}>
+                                    {subject.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    {/* Qualifications */}
+                    <div className="col-md-6 ">
+                        <label htmlFor="qualifications" className="form-label">Qualifications</label>
+                        <select
+                            multiple
+                            className="form-control"
+                            id="qualifications"
+                            onChange={handleQualificationChange}
+                            required
+                        >
+                            {qualifications.map((qualification) => (
+                                <option key={qualification.id} value={qualification.id}>
+                                    {qualification.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    {/* Address */}
+                    <div className="col-md-6 mb-3">
+                        <label htmlFor="address" className="form-label">Address</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="address"
+                            name="address"
+                            value={formData.address}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </div>
+                    {/* Profile Image */}
                     <div className="col-md-6">
-                        <div className="form-floating mb-3">
-                            <input
-                                type="date"
-                                className="form-control"
-                                id="joinDate"
-                                name="joinDate"
-                                value={formData.joinDate}
-                                readOnly
-                            />
-                            <label htmlFor="joinDate">Join Date</label>
-                        </div>
+                        <label htmlFor="profileImage" className="form-label">Profile Image</label>
+                        <input
+                            type="file"
+                            className="form-control"
+                            id="profileImage"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                        />
+                        {imageError && <div className="text-danger">{imageError}</div>}
+                        {imagePreview && (
+                            <div className="mt-2">
+                                <img
+                                    src={imagePreview}
+                                    alt="Profile Preview"
+                                    className="img-thumbnail"
+                                    style={{ maxWidth: '200px', maxHeight: '200px' }}
+                                />
+                            </div>
+                        )}
                     </div>
-
-                    <div className="col-md-6">
-                        <div className="form-floating mb-3">
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="role"
-                                name="role"
-                                value={formData.role}
-                                disabled
-                            />
-                            <label htmlFor="role">Role</label>
-                        </div>
-                    </div>
-
-                    <div className="col-md-6">
-                        <div className="form-floating mb-3">
-                            <select
-                                className={`form-select ${formData.staffSubjectIds.length === 0 ? 'is-invalid' : ''}`}
-                                id="staffSubjectIds"
-                                name="staffSubjectIds"
-                                multiple
-                                onChange={handleSubjectChange}
-                                value={formData.staffSubjectIds}
-                                style={{ height: '100px' }}
-                            >
-                                {subjects.map((subject) => (
-                                    <option key={subject.id} value={subject.id}>
-                                        {subject.name}
-                                    </option>
-                                ))}
-                            </select>
-                            <label htmlFor="staffSubjectIds">Subjects</label>
-                            {formData.staffSubjectIds.length === 0 && (
-                                <div className="invalid-feedback">Please select at least one subject</div>
-                            )}
-                        </div>
-                    </div>
-
-                    <div className="col-md-6">
-                        <div className="form-floating mb-3">
-                            <select
-                                className={`form-select ${formData.staffQualificationIds.length === 0 ? 'is-invalid' : ''}`}
-                                id="staffQualificationIds"
-                                name="staffQualificationIds"
-                                multiple
-                                onChange={handleQualificationChange}
-                                value={formData.staffQualificationIds}
-                                style={{ height: '100px' }}
-                            >
-                                {qualifications.map((qualification) => (
-                                    <option key={qualification.id} value={qualification.id}>
-                                        {qualification.name}
-                                    </option>
-                                ))}
-                            </select>
-                            <label htmlFor="staffQualificationIds">Qualifications</label>
-                            {formData.staffQualificationIds.length === 0 && (
-                                <div className="invalid-feedback">Please select at least one qualification</div>
-                            )}
-                        </div>
-                    </div>
-
                 </div>
 
                 <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-4">

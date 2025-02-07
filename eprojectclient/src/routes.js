@@ -63,6 +63,7 @@ import CreateMeeting from './pages/ManagerPages/CreateMeeting';
 import ContestJudgeSelector from './pages/StaffPages/ContestJudge/ContestJudgeSelector';
 import ContestJudgesList from './pages/StaffPages/ContestJudge/ContestJudgeList';
 import EditContestJudges from './pages/StaffPages/ContestJudge/EditContestJudges';
+
 import ContestResults from './pages/StaffPages/ContestFeature/ContestResults';
 import StudentAwards from './pages/StaffPages/StudentAward/StudentAward';
 import ArtworkIndex from './pages/StaffPages/ArtWork/ArtWorkIndex';
@@ -72,64 +73,121 @@ import ExhibitionArtworks from './pages/StaffPages/ExhibitionArtWork/ExhibitionA
 
 
 
+
 export const adminRoutes = [
   {
-    name: 'Main Dashboard',
+    name: 'Admin',
     layout: '/admin',
-    path: '/default',
+    path: '/',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
-    component: <MainDashboard />,
+    component: <Adminlayout/>,
     index: true
   },
   {
-    name: 'NFT Marketplace',
+    name: 'Student List',
     layout: '/admin',
-    path: '/nft-marketplace',
+    path: '/StudentList',
     icon: (
       <Icon
-        as={MdOutlineShoppingCart}
+        as={MdList}
         width="20px"
         height="20px"
         color="inherit"
       />
     ),
-    component: <NFTMarketplace />,
-    secondary: true,
+    component: <AdminStudentList />,
     index: true
   },
   {
-    name: 'Data Tables',
+    name: 'Staff List ',
     layout: '/admin',
-    icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
-    path: '/data-tables',
-    component: <DataTables />,
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    path: '/StaffList',
+    component: <AdminStaffLayout />,
     index: true
   },
   {
-    name: 'Profile',
+    name: 'Create Class',
     layout: '/admin',
-    path: '/profile',
-    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
-    component: <Profile />,
+    path: '/Create-Class',
+    icon: <Icon as={MdCreate} width="20px" height="20px" color="inherit" />,
+    component: <AdminClassAdd />,
     index: true
   },
   {
-    name: 'Sign In',
-    layout: '/auth',
-    path: '/sign-in',
-    icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
-    component: <SignInCentered />,
+    name: 'Create Staff',
+    layout: '/admin',
+    path: '/Create-Staff',
+    icon: <Icon as={MdCreate} width="20px" height="20px" color="inherit" />,
+    component: <AdminStaffAdd />,
     index: true
   },
   {
-    name: 'RTL Admin',
-    layout: '/rtl',
-    path: '/rtl-default',
+    name: 'Create Student',
+    layout: '/admin',
+    path: '/Create-Student',
+    icon: <Icon as={MdCreate} width="20px" height="20px" color="inherit" />,
+    component: <AdminStudentAdd />,
+    index: true
+  },
+  {
+    name: 'Import Student',
+    layout: '/admin',
+    path: '/Import-Student',
+    icon: <Icon as={MdCreate} width="20px" height="20px" color="inherit" />,
+    component: <AdminStudentImportForm />,
+    index: true
+  },
+  {
+    name: 'Class Detail',
+    layout: '/admin',
+    path: '/Class-Detail/:id',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
-    component: <RTL />,
-    index: true
+    component: <AdminClassDetail />,
+    
   },
-];
+  {
+    name: 'Student Detail',
+    layout: '/admin',
+    path: '/Student-Detail/:id',
+    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+    component: <AdminStudentDetail />,
+    
+  },{
+    name: 'Update Student ',
+    layout: '/admin',
+    path: '/Update-Student/:id',
+    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+    component: <AdminStudentUpdate />,
+    
+  },
+  {
+    name: 'Staff Detail',
+    layout: '/admin',
+    path: '/Staff-Detail/:id',
+    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+    component: <AdminStaffDetail />,
+    
+  },
+  {
+    name: 'Update Staff',
+    layout: '/admin',
+    path: '/Update-Staff/:id',
+    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+    component: <AdminStaffUpdate />,
+    
+  },
+  ,
+  {
+    name: 'Update Staff Status',
+    layout: '/admin',
+    path: '/Update-Staff-Status/:id',
+    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+    component: <AdminStaffStatus />,
+    
+  },
+  
+]; 
 
 export const routes = [
   {
