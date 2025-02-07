@@ -92,12 +92,6 @@ import AdminStudentUpdate from './pages/AdminStudentPages/AdminStudentUpdate';
 import AdminStaffDetail from './pages/AdminStaffPages/AdminStaffDetail';
 import AdminStaffUpdate from './pages/AdminStaffPages/AdminStaffUpdate';
 
-import CreateExhibitionArtwork from './pages/StaffPages/ExhibitionArtWork/CreateExhibitionArtWork';
-import EditExhibitionArtwork from './pages/StaffPages/ExhibitionArtWork/EditExhibitionArtWork';
-import ExhibitionArtworks from './pages/StaffPages/ExhibitionArtWork/ExhibitionArtWorks';
-
-import AdminStaffStatus from './pages/AdminStaffPages/UpdateStatusStaff';
-
 
 
 
