@@ -201,7 +201,7 @@ export const StudentConfig = {
     },
     createnewsubmission: {
         component: CreateNewSubmission,
-        path: '/student/createnewsubmission'
+        path: '/student/createnewsubmission/:contestId'
     },
     exhibitionartwork: {
         component: ExhibitionArtwork,
@@ -209,11 +209,11 @@ export const StudentConfig = {
     },
     mysubmissions: {
         component: MySubmission,
-        path: '/student/mysubmission'
+        path: '/student/mysubmissions'
     },
     updatemysubmission: {
         component: UpdateMySubmission,
-        path: '/student/updatemysubmission'
+        path: '/student/updatemysubmission/:id'
     }
 
 }
