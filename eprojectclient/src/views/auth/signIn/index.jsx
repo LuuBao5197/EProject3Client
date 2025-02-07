@@ -385,9 +385,6 @@ function SignIn() {
                   />
                 </FormControl>
                 <ModalFooter>
-                  <Button colorScheme="blue" mr={3} onClick={() => setIsModalOpen(false)}>
-                    Close
-                  </Button>
                   <Button type="submit" colorScheme="blue">
                     Send OTP
                   </Button>
@@ -410,9 +407,6 @@ function SignIn() {
                 <ModalFooter>
                   <Button colorScheme="blue" mr={3} onClick={() => setStep(1)}>
                     Back
-                  </Button>
-                  <Button colorScheme="blue" mr={3} onClick={() => setIsModalOpen(false)}>
-                    Close
                   </Button>
                   <Button type="submit" colorScheme="blue">
                     Verify OTP
@@ -464,9 +458,6 @@ function SignIn() {
                 <ModalFooter>
                   <Button colorScheme="blue" mr={3} onClick={() => setStep(1)}>
                     Back
-                  </Button>
-                  <Button colorScheme="blue" mr={3} onClick={() => setIsModalOpen(false)}>
-                    Close
                   </Button>
                   <Button
                     type="submit"
