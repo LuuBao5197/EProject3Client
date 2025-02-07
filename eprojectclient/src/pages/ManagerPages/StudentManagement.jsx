@@ -70,14 +70,14 @@ function StudentManagement() {
                         <th>Admission Date</th>
                         <th>Parent Name</th>
                         <th>Parent Phone</th>
-                        <th>Action</th>
+                        <th>More</th>
                     </tr>
                 </thead>
                 <tbody>
                     {students.map((student, index) => (
                         <tr key={index}>
                             <td>{student.id}</td>
-                            <td>{student.name || "No name available"}</td>
+                            <td>{student.userName || "No name available"}</td>
                             <td>{new Date(student.enrollmentDate).toLocaleDateString()}</td>
                             <td>{student.parentName}</td>
                             <td>{student.parentPhoneNumber}</td>

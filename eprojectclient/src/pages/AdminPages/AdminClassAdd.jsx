@@ -79,8 +79,8 @@ const AdminClassAdd = () => {
   };
 
   return (
-    <div className="container mt-5">
-      <h2 className="mb-4 text-center mt-auto" style={{ paddingTop: "50px", paddingBottom: "1px" }}>Create New Class</h2>
+    <div className="container mt-2">
+      <h2 className="mb-4 text-center mt-auto" >Create New Class</h2>
       {error && <p className="text-danger">{error}</p>}
       {success && <p className="text-success">Class created successfully!</p>}
       <form onSubmit={handleSubmit}>
