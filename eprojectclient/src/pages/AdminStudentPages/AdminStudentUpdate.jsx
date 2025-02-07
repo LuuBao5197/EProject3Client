@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { addStudent, getAllClasses, checkEmailExists } from '../../API/getAdminStudent';
+import { useParams, useNavigate } from 'react-router-dom';
+import { getAllClasses, GetStudentDetails, updateStudent } from '../../API/getAdminStudent';
 
-const AdminStudentAdd = () => {
-    const today = new Date().toISOString().split('T')[0];
+const AdminStudentUpdate = () => {
+    const { id } = useParams();
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         username: '',
         password: '',
@@ -11,7 +12,7 @@ const AdminStudentAdd = () => {
         email: '',
         phone: '',
         dob: '',
-        joinDate: today,
+        joinDate: '',
         enrollmentDate: '',
         parentName: '',
         parentPhoneNumber: '',
@@ -24,25 +25,51 @@ const AdminStudentAdd = () => {
     const [classes, setClasses] = useState([]);
     const [errors, setErrors] = useState({});
     const [message, setMessage] = useState('');
-    const navigate = useNavigate();
+    const [currentImagePath, setCurrentImagePath] = useState('');
 
     useEffect(() => {
-        const fetchClasses = async () => {
+        const fetchData = async () => {
             try {
-                const data = await getAllClasses();
-                setClasses(data);
+                // Fetch classes
+                const classesData = await getAllClasses();
+                setClasses(classesData);
+
+                // Fetch student data
+                const studentData = await GetStudentDetails(id);
+                if (studentData && studentData.user) {
+                    setFormData({
+                        username: studentData.user.username,
+                       
+                        password: studentData.user.password, 
+                        name: studentData.user.name,
+                        email: studentData.user.email,
+                        phone: studentData.user.phone,
+                        dob: studentData.user.dob ? new Date(studentData.user.dob).toISOString().split('T')[0] : '',
+                        joinDate: studentData.user.joinDate ? new Date(studentData.user.joinDate).toISOString().split('T')[0] : '',
+                        enrollmentDate: studentData.enrollmentDate ? new Date(studentData.enrollmentDate).toISOString().split('T')[0] : '',
+                        parentName: studentData.parentName,
+                        parentPhoneNumber: studentData.parentPhoneNumber,
+                        address: studentData.user.address,
+                        classIds: studentData.studentClasses ? studentData.studentClasses.map(sc => sc.classId) : []
+                    });
+
+                    if (studentData.user.imagepath) {
+                        setCurrentImagePath(studentData.user.imagepath);
+                        setImagePreview(studentData.user.imagepath);
+                    console.log("Current Image Path:", studentData.user.imagepath);                  }
+                }
             } catch (err) {
-                console.error('Error fetching classes:', err.message);
+                console.error('Error fetching data:', err);
+                setMessage('Error loading student data');
             }
         };
 
-        fetchClasses();
-    }, []);
+        fetchData();
+    }, [id]);
 
     const validateForm = () => {
         const newErrors = {};
         if (!formData.username.trim()) newErrors.username = 'Username is required.';
-        if (!formData.password.trim()) newErrors.password = 'Password is required.';
         if (!formData.name.trim()) newErrors.name = 'Name is required.';
         if (!formData.email.trim() || !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.email)) {
             newErrors.email = 'Invalid email address.';
@@ -59,11 +86,6 @@ const AdminStudentAdd = () => {
         }
         if (!formData.enrollmentDate) {
             newErrors.enrollmentDate = 'Enrollment date is required.';
-        } else {
-            const enrollmentDate = new Date(formData.enrollmentDate);
-            if (enrollmentDate < new Date()) {
-                newErrors.enrollmentDate = 'Enrollment date cannot be in the past.';
-            }
         }
         if (!formData.parentName.trim()) newErrors.parentName = 'Parent name is required.';
         if (!formData.parentPhoneNumber.trim() || !/^0\d{9}$/.test(formData.parentPhoneNumber)) {
@@ -78,22 +100,21 @@ const AdminStudentAdd = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
+        setFormData(prev => ({
+            ...prev,
             [name]: value
-        });
+        }));
     };
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            // Validate image file
             const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
             const maxSize = 5 * 1024 * 1024; // 5MB
 
             if (!validTypes.includes(file.type)) {
                 setErrors(prev => ({
-                    ...prev, 
+                    ...prev,
                     profileImage: 'Invalid file type. Please upload JPEG, PNG, or GIF.'
                 }));
                 return;
@@ -101,7 +122,7 @@ const AdminStudentAdd = () => {
 
             if (file.size > maxSize) {
                 setErrors(prev => ({
-                    ...prev, 
+                    ...prev,
                     profileImage: 'File size exceeds 5MB limit.'
                 }));
                 return;
@@ -117,71 +138,63 @@ const AdminStudentAdd = () => {
     };
 
     const handleClassChange = (e) => {
-        const selectedOptions = Array.from(e.target.selectedOptions).map((option) => parseInt(option.value));
-        setFormData({
-            ...formData,
+        const selectedOptions = Array.from(e.target.selectedOptions).map(option => parseInt(option.value));
+        setFormData(prev => ({
+            ...prev,
             classIds: selectedOptions
-        });
+        }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setMessage('');
-        
-        // Clear previous image-related errors
+
         if (errors.profileImage) {
-            const { profileImage, ...restErrors } = errors;
+            const { profileImage: _, ...restErrors } = errors;
             setErrors(restErrors);
         }
 
-        // Validate form fields
         if (!validateForm()) return;
 
-        // Check if email exists before submitting
-        const emailExists = await checkEmailExists(formData.email);
-        if (emailExists) {
-            setErrors({ email: 'Email already exists.' });
-            return;
-        }
-
         const formDataToSubmit = new FormData();
-        
+
         // Append all form fields
         Object.keys(formData).forEach(key => {
             if (key === 'classIds') {
                 formData.classIds.forEach(classId => 
                     formDataToSubmit.append('classIds', classId)
                 );
+            } else if (key === 'password' && !formData[key]) {
+                // Skip empty password
             } else {
                 formDataToSubmit.append(key, formData[key]);
             }
         });
 
-        // Append profile image if exists
+        // Append profile image if a new one was selected
         if (profileImage) {
             formDataToSubmit.append('profileImage', profileImage);
         }
 
         try {
-            const response = await addStudent(formDataToSubmit);
-            setMessage('Student added successfully');
+            await updateStudent(id, formDataToSubmit);
+            setMessage('Student updated successfully');
             navigate('/admin/studentlist');
         } catch (err) {
             if (err.response && err.response.status === 400) {
                 setErrors({ email: err.response.data.message });
             } else {
-                setErrors({ email: 'email already exists.' });
+                setMessage('An error occurred while updating the student.');
             }
         }
     };
-
     return (
         <div className="container mt-5">
-            <h2 className="mb-4 text-center mt-auto" style={{ paddingTop: "50px", paddingBottom: "1px" }}>Create Student</h2>
+            <h2 className="mb-4 text-center mt-auto" style={{ paddingTop: "50px" , paddingBottom: "1px"}}>Update Student</h2>
             {message && <p className="alert alert-success">{message}</p>}
             <form onSubmit={handleSubmit}>
                 <div className="row">
-                    {/* Cột 1 */}
+                    {/* Column 1 */}
                     <div className="col-md-6">
                         <div className="mb-3">
                             <label htmlFor="username" className="form-label">Username</label>
@@ -196,7 +209,7 @@ const AdminStudentAdd = () => {
                             {errors.username && <div className="invalid-feedback">{errors.username}</div>}
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="password" className="form-label">Password</label>
+                            <label htmlFor="password" className="form-label">Password </label>
                             <input
                                 type="text"
                                 name="password"
@@ -229,9 +242,7 @@ const AdminStudentAdd = () => {
                                 value={formData.email}
                                 onChange={handleInputChange}
                             />
-                            {message && <p>{message}</p>}
-                            {errors.email && <p>{errors.email}</p>}
-                           
+                            {errors.email && <div className="invalid-feedback">{errors.email}</div>}
                         </div>
                         <div className="mb-3">
                             <label htmlFor="phone" className="form-label">Phone</label>
@@ -245,10 +256,27 @@ const AdminStudentAdd = () => {
                             />
                             {errors.phone && <div className="invalid-feedback">{errors.phone}</div>}
                         </div>
+                        <div className=" mb-3">
+                        <label htmlFor="classIds" className="form-label">Classes</label>
+                        <select
+                            id="classIds"
+                            name="classIds"
+                            multiple
+                            className={`form-select ${errors.classIds ? 'is-invalid' : ''}`}
+                            onChange={handleClassChange}
+                            value={formData.classIds}
+                        >
+                            {classes.map((cls) => (
+                                <option key={cls.id} value={cls.id}>
+                                    {cls.name}
+                                </option>
+                            ))}
+                        </select>
+                        {errors.classIds && <div className="invalid-feedback">{errors.classIds}</div>}
+                    </div>
                     </div>
 
-
-                    {/* Cột 2 */}
+                    {/* Column 2 */}
                     <div className="col-md-6">
                         <div className="mb-3">
                             <label htmlFor="dob" className="form-label">Date of Birth</label>
@@ -310,7 +338,8 @@ const AdminStudentAdd = () => {
                             />
                             {errors.address && <div className="invalid-feedback">{errors.address}</div>}
                         </div>
-                        <div className="col-md-12 mb-3">
+                        
+                        <div className="mb-3">
                             <label htmlFor="profileImage" className="form-label">Profile Image</label>
                             <input
                                 type="file"
@@ -321,43 +350,27 @@ const AdminStudentAdd = () => {
                             />
                             {imagePreview && (
                                 <div className="mt-2">
-                                    <img
+                                    <img 
                                         src={imagePreview}
-                                        alt="Profile Preview"
-                                        className="img-thumbnail"
+                                        alt="Profile Preview" 
+                                        className="img-thumbnail" 
                                         style={{ maxWidth: '200px', maxHeight: '200px' }}
                                     />
                                 </div>
                             )}
+                            {errors.profileImage && <div className="text-danger">{errors.profileImage}</div>}
                         </div>
+                    </div>
 
-                    </div>
-                    <div className="col-md-12 mb-3">
-                        <label htmlFor="classIds" className="form-label">Classes</label>
-                        <select
-                            id="classIds"
-                            name="classIds"
-                            className={`form-select ${errors.classIds ? 'is-invalid' : ''}`}
-                            onChange={handleClassChange}
-                            value={formData.classIds.length === 0 ? "" : formData.classIds[0]}
-                        >
-                            <option value="">Select a class</option>
-                            {classes.map((cls) => (
-                                <option key={cls.id} value={cls.id}>
-                                    {cls.name}
-                                </option>
-                            ))}
-                        </select>
-                        {errors.classIds && <div className="invalid-feedback">{errors.classIds}</div>}
-                    </div>
+                    
                 </div>
+
                 <div className="text-center">
-                    <button type="submit" className="btn btn-primary">Create Student</button>
+                    <button type="submit" className="btn btn-primary">Update Student</button>
                 </div>
             </form>
         </div>
-
     );
 };
 
-export default AdminStudentAdd;
+export default AdminStudentUpdate;

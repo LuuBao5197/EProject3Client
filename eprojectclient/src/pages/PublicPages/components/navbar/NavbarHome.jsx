@@ -20,9 +20,7 @@ function NavbarHome(props) {
         localStorage.removeItem('token');
         setIsLoggedIn(false);
         SweetAlert('Logout sucessfully', 'success')
-            .then(() => {
-                    nav('/student/');
-                })
+        nav('/')
     };
 
     return (
@@ -39,7 +37,7 @@ function NavbarHome(props) {
                             <a href="/" style={styles.link}>Home</a>
                             <a href="/edit" style={styles.link}>Profile</a>
                             <a href="/aboutus" style={styles.link}>About Us</a>
-                            <a href="/mysubmissions" style={styles.link}>My Exams</a>
+                            <a href="/student/mysubmissions" style={styles.link}>My Exams</a>
                             <a href="#" onClick={handleLogout} style={styles.link}>Logout</a>
                         </>
                     )}

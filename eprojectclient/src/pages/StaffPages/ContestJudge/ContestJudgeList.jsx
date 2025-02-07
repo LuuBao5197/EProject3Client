@@ -125,7 +125,7 @@ export default function ContestJudgeList() {
                                 {contest.contestJudge.length > 0 && contest.organizer.id == currentStaff.id
                                     ? (
                                         <>
-                                            {contest.contestJudge.every(cj => cj.status !== "Pending") && (
+                                            {contest.contestJudge.every(cj => cj.status == "Draft") && (
                                                 <div className="row">
 
                                                     <Button className="col-md-4" colorScheme="blue" size="sm" onClick={() => handleEdit(contest.id)}>

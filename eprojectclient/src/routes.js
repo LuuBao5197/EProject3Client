@@ -18,6 +18,8 @@ import {
   MdLogin,
   MdViewCarousel,
   MdSelectAll,
+  MdOutput,
+  MdViewList,
 } from 'react-icons/md';
 
 // Admin Imports
@@ -62,66 +64,143 @@ import ContestJudgeSelector from './pages/StaffPages/ContestJudge/ContestJudgeSe
 import ContestJudgesList from './pages/StaffPages/ContestJudge/ContestJudgeList';
 import EditContestJudges from './pages/StaffPages/ContestJudge/EditContestJudges';
 
+import ContestResults from './pages/StaffPages/ContestFeature/ContestResults';
+import StudentAwards from './pages/StaffPages/StudentAward/StudentAward';
+import ArtworkIndex from './pages/StaffPages/ArtWork/ArtWorkIndex';
+import EditExhibitionArtwork from './pages/StaffPages/ExhibitionArtWork/EditExhibitionArtWork';
+import CreateExhibitionArtwork from './pages/StaffPages/ExhibitionArtWork/CreateExhibitionArtWork';
+import ExhibitionArtworks from './pages/StaffPages/ExhibitionArtWork/ExhibitionArtWorks';
+
+import Adminlayout from './pages/AdminPages/Adminlayout';
+import AdminStudentList from './pages/AdminStudentPages/AdminStudentList';
+import AdminStaffLayout from './pages/AdminStaffPages/AdminStaffLayout';
+import AdminClassAdd from './pages/AdminPages/AdminClassAdd';
+import AdminStaffAdd from './pages/AdminStaffPages/AdminStaffAdd';
+import AdminStudentAdd from './pages/AdminStudentPages/AdminStudentAdd';
+import AdminStudentImportForm from './pages/AdminStudentPages/AdminStudentImportForm';
+import AdminClassDetail from './pages/AdminPages/AdminClassDetail';
+import AdminStudentDetail from './pages/AdminStudentPages/AdminStudentDetail';
+import AdminStudentUpdate from './pages/AdminStudentPages/AdminStudentUpdate';
+import AdminStaffDetail from './pages/AdminStaffPages/AdminStaffDetail';
+import AdminStaffUpdate from './pages/AdminStaffPages/AdminStaffUpdate';
+import AdminStaffStatus from './pages/AdminStaffPages/UpdateStatusStaff';
+
 
 
 export const adminRoutes = [
   {
-    name: 'Main Dashboard',
+    name: 'Admin',
     layout: '/admin',
-    path: '/default',
+    path: '/',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
-    component: <MainDashboard />,
+    component: <Adminlayout/>,
     index: true
   },
   {
-    name: 'NFT Marketplace',
+    name: 'Student List',
     layout: '/admin',
-    path: '/nft-marketplace',
+    path: '/StudentList',
     icon: (
       <Icon
-        as={MdOutlineShoppingCart}
+        as={MdList}
         width="20px"
         height="20px"
         color="inherit"
       />
     ),
-    component: <NFTMarketplace />,
-    secondary: true,
+    component: <AdminStudentList />,
     index: true
   },
   {
-    name: 'Data Tables',
+    name: 'Staff List ',
     layout: '/admin',
-    icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
-    path: '/data-tables',
-    component: <DataTables />,
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    path: '/StaffList',
+    component: <AdminStaffLayout />,
     index: true
   },
   {
-    name: 'Profile',
+    name: 'Create Class',
     layout: '/admin',
-    path: '/profile',
-    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
-    component: <Profile />,
+    path: '/Create-Class',
+    icon: <Icon as={MdCreate} width="20px" height="20px" color="inherit" />,
+    component: <AdminClassAdd />,
     index: true
   },
   {
-    name: 'Sign In',
-    layout: '/auth',
-    path: '/sign-in',
-    icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
-    component: <SignInCentered />,
+    name: 'Create Staff',
+    layout: '/admin',
+    path: '/Create-Staff',
+    icon: <Icon as={MdCreate} width="20px" height="20px" color="inherit" />,
+    component: <AdminStaffAdd />,
     index: true
   },
   {
-    name: 'RTL Admin',
-    layout: '/rtl',
-    path: '/rtl-default',
+    name: 'Create Student',
+    layout: '/admin',
+    path: '/Create-Student',
+    icon: <Icon as={MdCreate} width="20px" height="20px" color="inherit" />,
+    component: <AdminStudentAdd />,
+    index: true
+  },
+  {
+    name: 'Import Student',
+    layout: '/admin',
+    path: '/Import-Student',
+    icon: <Icon as={MdCreate} width="20px" height="20px" color="inherit" />,
+    component: <AdminStudentImportForm />,
+    index: true
+  },
+  {
+    name: 'Class Detail',
+    layout: '/admin',
+    path: '/Class-Detail/:id',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
-    component: <RTL />,
-    index: true
+    component: <AdminClassDetail />,
+    
   },
-];
+  {
+    name: 'Student Detail',
+    layout: '/admin',
+    path: '/Student-Detail/:id',
+    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+    component: <AdminStudentDetail />,
+    
+  },{
+    name: 'Update Student ',
+    layout: '/admin',
+    path: '/Update-Student/:id',
+    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+    component: <AdminStudentUpdate />,
+    
+  },
+  {
+    name: 'Staff Detail',
+    layout: '/admin',
+    path: '/Staff-Detail/:id',
+    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+    component: <AdminStaffDetail />,
+    
+  },
+  {
+    name: 'Update Staff',
+    layout: '/admin',
+    path: '/Update-Staff/:id',
+    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+    component: <AdminStaffUpdate />,
+    
+  },
+  ,
+  {
+    name: 'Update Staff Status',
+    layout: '/admin',
+    path: '/Update-Staff-Status/:id',
+    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+    component: <AdminStaffStatus />,
+    
+  },
+  
+]; 
 
 export const routes = [
   {
@@ -310,8 +389,53 @@ export const staffRoutes = [
     icon: <Icon as={MdSelectAll} width="20px" height="20px" color="inherit" />,
     component: <EditContestJudges/>,
   },
+  {
+    name: 'Contest Results',
+    layout: '/staff',
+    path: '/ContestResult',
+    icon: <Icon as={MdOutput} width="20px" height="20px" color="inherit" />,
+    component: <ContestResults/>,
+    index: true
+  },
+  {
+    name: 'List Student Receive Award',
+    layout: '/staff',
+    path: '/StudentAward',
+    icon: <Icon as={MdViewList} width="20px" height="20px" color="inherit" />,
+    component: <StudentAwards/>,
+    index: true
+  },
   
-  
+  {
+    name: 'List ArtWork',
+    layout: '/staff',
+    path: '/ArtWork',
+    icon: <Icon as={MdViewList} width="20px" height="20px" color="inherit" />,
+    component: <ArtworkIndex/>,
+    index: true
+  },
+  {
+    name: 'Create Exhibition ArtWork',
+    layout: '/staff',
+    path: '/ExhibitionArtWork/Create',
+    icon: <Icon as={MdViewList} width="20px" height="20px" color="inherit" />,
+    component: <CreateExhibitionArtwork/>,
+  },
+  {
+    name: 'Edit Exhibition ArtWork',
+    layout: '/staff',
+    path: '/ExhibitionArtWork/Edit/:ExhibitionArtWorkID',
+    icon: <Icon as={MdViewList} width="20px" height="20px" color="inherit" />,
+    component: <EditExhibitionArtwork/>,
+  },
+  {
+    name: 'Exhibition ArtWorks',
+    layout: '/staff',
+    path: '/ExhibitionArtWork',
+    icon: <Icon as={MdViewList} width="20px" height="20px" color="inherit" />,
+    component: <ExhibitionArtworks/>,
+    index: true
+  },
 ];
 export const managerRoutes = [
   {

@@ -40,37 +40,7 @@ export const publicRoutes = [
 
         path: "/aboutus",
         element: <AboutUs/>,
-    },
-    {
-
-        path: "/awardreceived",
-        element: <AwardReceived/>,
-        
-    },{
-
-        path: "/createsubmission/:contestId",
-        element: <CreateNewSubmission/>,
-        
-    },{
-
-        path: "/exhibitionartwork",
-        element: <ExhibitionArtwork/>,
-        
-    },{
-
-        path: "/mysubmissions",
-        element: <MySubmission/>,
-        
-    },
-    {
-
-        path: "/updatemysubmission/:id",
-        element: <UpdateMySubmission/>,
-
-        
-    },
-
-        
+    } 
 ];
 export const StaffRoutes = [
     {
