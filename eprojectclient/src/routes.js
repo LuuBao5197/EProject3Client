@@ -199,14 +199,7 @@ export const adminRoutes = [
     
   },
   ,
-  {
-    name: 'Update Staff Status',
-    layout: '/admin',
-    path: '/Update-Staff-Status/:id',
-    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
-    component: <AdminStaffStatus />,
-    
-  },
+
   
 ]; 
 
@@ -606,6 +599,7 @@ export const managerRoutes = [
 ];
 
 export const publicRoutes = [
+
   {
     name: 'Sign In',
     layout: '/auth',
@@ -614,9 +608,4 @@ export const publicRoutes = [
     component: <SignInCentered />,
   },
 ];
-
-
-
-
-
 

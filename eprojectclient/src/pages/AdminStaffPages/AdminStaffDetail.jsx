@@ -60,7 +60,7 @@ const AdminStaffDetail = () => {
                 <p><strong>Role:</strong> <span className="text-muted">{staff.user?.role || 'N/A'}</span></p>
 
                 <p><strong>Join Date:</strong> <span className="text-muted">{staff.joinDate ? new Date(staff.joinDate).toLocaleDateString() : 'N/A'}</span></p>
-                <p><strong>Status:</strong> <span className={staff.user?.status ? "text-danger" : "text-success"}>{staff.user?.status ? 'Inactive' : 'Active'}</span></p>
+                <p><strong>Status:</strong> <span className={staff.user?.status ? "text-success" : "text-danger"}>{staff.user?.status ? 'Active' : 'Inactive'}</span></p>
               </div>
             </div>
           </div>

@@ -2,12 +2,10 @@ import React, { useEffect, useState } from "react";
 import $ from "jquery";
 import "datatables.net";
 import { useNavigate } from "react-router-dom";
-import { getAllStaff ,sendEmailToManager} from "../../API/getAdminStaff";
-
+import { getAllStaff } from "../../API/getAdminStaff";
 
 const AdminStaffLayout = () => {
   const [staffList, setStaffList] = useState([]);
-  const [loading, setLoading] = useState(null);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
@@ -32,21 +30,6 @@ const AdminStaffLayout = () => {
     navigate(`/admin/Update-Staff/${id}`);
   };
 
-  const handleSendEmail = async (staff) => {
-    try {
-      const request = {
-        StaffName: staff.user?.name,
-        Username: staff.username,
-        Email: staff.user?.email,
-      };
-      await sendEmailToManager(request);
-      setMessage(`Email đã được gửi đến quản lý cho nhân viên ${staff.user?.name}.`);
-    } catch (error) {
-      console.error("Failed to send email:", error);
-      setMessage("Có lỗi khi gửi email.");
-    }
-  };
-
   useEffect(() => {
     if (staffList.length > 0) {
       $("#staffTable").DataTable();
@@ -60,9 +43,7 @@ const AdminStaffLayout = () => {
 
   return (
     <div className="container mt-5">
-      <h2 className="mb-4 text-center mt-auto" style={{ paddingTop: "60px", paddingBottom: "1px" }}>
-        Staff List
-      </h2>
+      <h2 className="mb-4 text-center">Staff List</h2>
       {message && <div className="alert alert-success">{message}</div>}
       <table id="staffTable" className="table table-striped table-bordered">
         <thead className="table-dark">
@@ -70,6 +51,7 @@ const AdminStaffLayout = () => {
             <th>ID</th>
             <th>Name</th>
             <th>Email</th>
+            <th>Status</th> {/* Thêm cột Status */}
             <th>Actions</th>
           </tr>
         </thead>
@@ -80,9 +62,15 @@ const AdminStaffLayout = () => {
               <td>{staff.user?.name || "N/A"}</td>
               <td>{staff.user?.email || "N/A"}</td>
               <td>
+                {staff.user.status ? (
+                  <span className="badge bg-success">Active</span>
+                ) : (
+                  <span className="badge bg-danger">Inactive</span>
+                )}
+              </td>
+              <td>
                 <button className="btn btn-warning mr-2" onClick={() => handleEdit(staff.id)}>Edit</button>
                 <button className="btn btn-info mr-2" onClick={() => handleDetail(staff.id)}>Detail</button>
-                <button className="btn btn-primary" onClick={() => handleSendEmail(staff)}>Send Email</button>
               </td>
             </tr>
           ))}

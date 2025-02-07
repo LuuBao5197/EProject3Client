@@ -224,8 +224,8 @@ const AdminStaffAdd = () => {
 
 
     return (
-        <div className="container mt-4">
-            <h2 className="mb-4 text-center mt-auto" style={{ paddingTop: "60px", paddingBottom: "1px" }}>Create Staff</h2>
+        <div className="container mt-2">
+            <h2 className="mb-4 text-center mt-auto" >Create Staff</h2>
             {message && <div className="alert alert-success">{message}</div>}
             {error && <div className="alert alert-danger">{error}</div>}
 
