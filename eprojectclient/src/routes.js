@@ -67,6 +67,7 @@ import EditContestJudges from './pages/StaffPages/ContestJudge/EditContestJudges
 import ContestResults from './pages/StaffPages/ContestFeature/ContestResults';
 import StudentAwards from './pages/StaffPages/StudentAward/StudentAward';
 import ArtworkIndex from './pages/StaffPages/ArtWork/ArtWorkIndex';
+
 import Adminlayout from './pages/AdminPages/Adminlayout';
 import AdminStudentList from './pages/AdminStudentPages/AdminStudentList';
 import AdminStaffLayout from './pages/AdminStaffPages/AdminStaffLayout';
@@ -82,6 +83,19 @@ import AdminStaffUpdate from './pages/AdminStaffPages/AdminStaffUpdate';
 import InactiveStaffLayout from './pages/AdminStaffPages/InactiveStaffLayout';
 import AdminStaffStatus from './pages/AdminStaffPages/UpdateStatusStaff';
 
+import Adminlayout from './pages/AdminPages/Adminlayout';
+import AdminStudentList from './pages/AdminStudentPages/AdminStudentList';
+import AdminStaffLayout from './pages/AdminStaffPages/AdminStaffLayout';
+import AdminClassAdd from './pages/AdminPages/AdminClassAdd';
+import AdminStaffAdd from './pages/AdminStaffPages/AdminStaffAdd';
+import AdminStudentAdd from './pages/AdminStudentPages/AdminStudentAdd';
+import AdminStudentImportForm from './pages/AdminStudentPages/AdminStudentImportForm';
+import AdminClassDetail from './pages/AdminPages/AdminClassDetail';
+import AdminStudentDetail from './pages/AdminStudentPages/AdminStudentDetail';
+import AdminStudentUpdate from './pages/AdminStudentPages/AdminStudentUpdate';
+import AdminStaffDetail from './pages/AdminStaffPages/AdminStaffDetail';
+import AdminStaffUpdate from './pages/AdminStaffPages/AdminStaffUpdate';
+import AdminStaffStatus from './pages/AdminStaffPages/UpdateStatusStaff';
 
 
 
@@ -394,20 +408,35 @@ export const staffRoutes = [
     component: <StudentAwards/>,
     index: true
   },
-  {
-    name: 'List Student Receive Award',
-    layout: '/staff',
-    path: '/StudentAward',
-    icon: <Icon as={MdViewList} width="20px" height="20px" color="inherit" />,
-    component: <StudentAwards/>,
-    index: true
-  },
+  
   {
     name: 'List ArtWork',
     layout: '/staff',
     path: '/ArtWork',
     icon: <Icon as={MdViewList} width="20px" height="20px" color="inherit" />,
     component: <ArtworkIndex/>,
+    index: true
+  },
+  {
+    name: 'Create Exhibition ArtWork',
+    layout: '/staff',
+    path: '/ExhibitionArtWork/Create',
+    icon: <Icon as={MdViewList} width="20px" height="20px" color="inherit" />,
+    component: <CreateExhibitionArtwork/>,
+  },
+  {
+    name: 'Edit Exhibition ArtWork',
+    layout: '/staff',
+    path: '/ExhibitionArtWork/Edit/:ExhibitionArtWorkID',
+    icon: <Icon as={MdViewList} width="20px" height="20px" color="inherit" />,
+    component: <EditExhibitionArtwork/>,
+  },
+  {
+    name: 'Exhibition ArtWorks',
+    layout: '/staff',
+    path: '/ExhibitionArtWork',
+    icon: <Icon as={MdViewList} width="20px" height="20px" color="inherit" />,
+    component: <ExhibitionArtworks/>,
     index: true
   },
 ];

@@ -19,9 +19,10 @@ export const checkIfSubmitted = async (studId, contestId) => {
         // Kiểm tra xem có bài nộp nào cho contestId này hay không
         const hasSubmitted = submissions.some(submission => submission.contestId === contestId);
 
-        return !hasSubmitted; // Nếu đã nộp bài thì trả về false, ngược lại thì true
+        return hasSubmitted; // Nếu đã nộp bài thì trả về true, ngược lại thì false
     } catch (error) {
         console.error('Error checking submission:', error);
         throw error;
     }
 };
+

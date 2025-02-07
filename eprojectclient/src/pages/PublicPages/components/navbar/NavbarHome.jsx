@@ -20,9 +20,7 @@ function NavbarHome(props) {
         localStorage.removeItem('token');
         setIsLoggedIn(false);
         SweetAlert('Logout sucessfully', 'success')
-            .then(() => {
-                    nav('/student/');
-                })
+        nav('/')
     };
 
     return (
@@ -56,7 +54,6 @@ const styles = {
         top: '0',
         zIndex: '1000',
         backgroundColor: 'white',
-        border: '2px solid black',
     },
     container: {
         display: 'flex',
