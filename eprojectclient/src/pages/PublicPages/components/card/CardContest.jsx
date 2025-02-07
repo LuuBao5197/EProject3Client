@@ -6,7 +6,11 @@ import {
 } from "@chakra-ui/react";
 import Card from "@/components/card/Card.js";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { checkIfSubmitted } from './../../../../API/getMySubmissions'; // API to check if the student has already submitted
+import { jwtDecode } from "jwt-decode"; // Correct import for jwt-decode
+import { getStudentIdDemo } from "../../../../API/getStudentIdDemo";
+import { SweetAlert } from "../../../StudentPages/Notifications/SweetAlert";
 
 export default function CardContest({ contest, ...props }) {
   const [hovered, setHovered] = useState(false); // State để quản lý hover
@@ -18,6 +22,64 @@ export default function CardContest({ contest, ...props }) {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
     const date = new Date(dateString);
     return date.toLocaleDateString("en-GB", options); // Format: DD/MM/YYYY
+  };
+
+  useEffect(() => {
+    const currentDate = new Date();
+    const startDate = new Date(contest.startDate);
+    const endDate = new Date(contest.endDate);
+
+    // Adjust the time to make the comparison accurate
+    startDate.setHours(0, 0, 0, 0);
+    endDate.setHours(23, 59, 59, 999);
+
+    // Determine the status of the contest
+    if (currentDate < startDate) {
+      setStatus('Upcoming');
+      setShowJoinButton(false);
+    } else if (currentDate >= startDate && currentDate <= endDate) {
+      setStatus('Ongoing');
+      setShowJoinButton(true);
+    } else {
+      setStatus('Completed');
+      setShowJoinButton(false);
+    }
+
+    const fetchStudentIdAndCheckSubmission = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const decodedToken = jwtDecode(token);
+        if (decodedToken.role === "Student") {
+          // Lấy studentId
+          const studentId = await getStudentIdDemo();
+
+          // Kiểm tra nếu thí sinh đã nộp bài
+          if (studentId) {
+            const response = await checkIfSubmitted(studentId, contest.id);
+            setHasSubmitted(!response); // Nếu đã nộp bài, setHasSubmitted sẽ là true
+          }
+        }
+      }
+    };
+
+    fetchStudentIdAndCheckSubmission();
+  }, [contest.startDate, contest.endDate, contest.id]);
+
+  const handleJoinClick = () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      nav("/auth/sign-in");
+    }
+
+    const decodedToken = jwtDecode(res.data.token);
+
+    if (decodedToken.role === "Student") {
+      nav(`createsubmission/${contest.id}`);
+    } else {
+      SweetAlert("Only students can enter the contest.", "error");
+      return;
+    }
   };
 
   return (

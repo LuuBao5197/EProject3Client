@@ -67,6 +67,9 @@ import EditContestJudges from './pages/StaffPages/ContestJudge/EditContestJudges
 import ContestResults from './pages/StaffPages/ContestFeature/ContestResults';
 import StudentAwards from './pages/StaffPages/StudentAward/StudentAward';
 import ArtworkIndex from './pages/StaffPages/ArtWork/ArtWorkIndex';
+import EditExhibitionArtwork from './pages/StaffPages/ExhibitionArtWork/EditExhibitionArtWork';
+import CreateExhibitionArtwork from './pages/StaffPages/ExhibitionArtWork/CreateExhibitionArtWork';
+import ExhibitionArtworks from './pages/StaffPages/ExhibitionArtWork/ExhibitionArtWorks';
 
 
 
@@ -389,20 +392,35 @@ export const staffRoutes = [
     component: <StudentAwards/>,
     index: true
   },
-  {
-    name: 'List Student Receive Award',
-    layout: '/staff',
-    path: '/StudentAward',
-    icon: <Icon as={MdViewList} width="20px" height="20px" color="inherit" />,
-    component: <StudentAwards/>,
-    index: true
-  },
+  
   {
     name: 'List ArtWork',
     layout: '/staff',
     path: '/ArtWork',
     icon: <Icon as={MdViewList} width="20px" height="20px" color="inherit" />,
     component: <ArtworkIndex/>,
+    index: true
+  },
+  {
+    name: 'Create Exhibition ArtWork',
+    layout: '/staff',
+    path: '/ExhibitionArtWork/Create',
+    icon: <Icon as={MdViewList} width="20px" height="20px" color="inherit" />,
+    component: <CreateExhibitionArtwork/>,
+  },
+  {
+    name: 'Edit Exhibition ArtWork',
+    layout: '/staff',
+    path: '/ExhibitionArtWork/Edit/:ExhibitionArtWorkID',
+    icon: <Icon as={MdViewList} width="20px" height="20px" color="inherit" />,
+    component: <EditExhibitionArtwork/>,
+  },
+  {
+    name: 'Exhibition ArtWorks',
+    layout: '/staff',
+    path: '/ExhibitionArtWork',
+    icon: <Icon as={MdViewList} width="20px" height="20px" color="inherit" />,
+    component: <ExhibitionArtworks/>,
     index: true
   },
 ];

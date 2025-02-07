@@ -21,8 +21,8 @@ function NavbarHome(props) {
         setIsLoggedIn(false);
         SweetAlert('Logout sucessfully', 'success')
             .then(() => {
-                    nav('/student/');
-                })
+                nav('/student/');
+            })
     };
 
     return (
@@ -56,7 +56,6 @@ const styles = {
         top: '0',
         zIndex: '1000',
         backgroundColor: 'white',
-        border: '2px solid black',
     },
     container: {
         display: 'flex',
