@@ -63,7 +63,7 @@ const AdminClassDetail = () => {
                     <td>{student.name}</td>
                     <td>{student.email}</td>
                     <td>
-                      <Link to={`/admin/student/${student.id}`} className="btn btn-info btn-sm">
+                      <Link to={`/admin/Student-Detail/${student.id}`} className="btn btn-info btn-sm">
                         Detail
                       </Link>
                     </td>

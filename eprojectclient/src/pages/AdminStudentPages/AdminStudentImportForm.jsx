@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './AdminStudentImportForm';
 
 const AdminStudentImportForm = () => {
     const [file, setFile] = useState(null);
@@ -16,33 +15,33 @@ const AdminStudentImportForm = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-    
+
         if (!file) {
             setMessage('Please select a file.');
             return;
         }
-    
+
         const formData = new FormData();
         formData.append('file', file);
-    
+
         setLoading(true);
         setMessage('');
         setEmailErrors([]);
         setStudents([]);
-    
+
         try {
             const response = await fetch('http://localhost:5190/api/AdminStudent/import-students', {
                 method: 'POST',
                 body: formData,
             });
-    
+
             const data = await response.json();
-    
+
             if (response.ok) {
                 setStudents(data.students || []);
                 setEmailErrors(data.emailErrors || []);
                 setMessage('Students imported successfully!');
-                navigate('/admin/adminstudentlist');
+                navigate('/admin/StudentList');
             } else {
                 if (data.duplicateEmails) {
                     setMessage(`Error: Duplicate emails found: ${data.duplicateEmails.join(', ')}`);
@@ -59,43 +58,75 @@ const AdminStudentImportForm = () => {
     };
 
     return (
-        <div className={styles.container}>
-            <h2>Import Students</h2>
-            <form onSubmit={handleSubmit} className={styles.form}>
-                <input
-                    type="file"
-                    onChange={handleFileChange}
-                    accept=".xlsx, .xls"
-                    className={styles.fileInput}
-                />
-                <button type="submit" className={styles.submitButton} disabled={loading}>
-                    {loading ? 'Importing...' : 'Import Students'}
-                </button>
-            </form>
-            {loading && <div className={styles.spinner}>Loading...</div>}
-            {message && <p className={styles.message}>{message}</p>}
-            {emailErrors.length > 0 && (
-                <div className={styles.errors} style={{ maxHeight: '200px', overflowY: 'scroll' }}>
-                    <h4>Email Send Errors:</h4>
-                    <ul>
-                        {emailErrors.map((error, index) => (
-                            <li key={index}>{error}</li>
-                        ))}
-                    </ul>
+        <div className="container py-5">
+            <div className="row justify-content-center">
+                <div className="col-md-8 col-lg-6" style={{ paddingTop: "60px", paddingBottom: "1px" }}>
+                    <div className="card shadow">
+                        <div className="card-body" >
+                            <h2 className="card-title text-center mb-4">Import Students</h2>
+                            
+                            <form onSubmit={handleSubmit}>
+                                <div className="mb-4 text-center">
+                                    <input
+                                        type="file"
+                                        onChange={handleFileChange}
+                                        accept=".xlsx, .xls"
+                                        className="form-control"
+                                        id="formFile"
+                                    />
+                                </div>
+                                
+                                <div className="d-grid gap-2">
+                                    <button 
+                                        type="submit" 
+                                        className="btn btn-primary"
+                                        disabled={loading}
+                                    >
+                                        {loading ? (
+                                            <>
+                                                <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                                Importing...
+                                            </>
+                                        ) : 'Import Students'}
+                                    </button>
+                                </div>
+                            </form>
+
+                            {message && (
+                                <div className={`alert ${message.includes('Error') ? 'alert-danger' : 'alert-success'} mt-3`}>
+                                    {message}
+                                </div>
+                            )}
+
+                            {emailErrors.length > 0 && (
+                                <div className="mt-4">
+                                    <h4>Email Send Errors:</h4>
+                                    <div className="alert alert-warning" style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                                        <ul className="list-unstyled mb-0">
+                                            {emailErrors.map((error, index) => (
+                                                <li key={index}>{error}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </div>
+                            )}
+
+                            {students.length > 0 && (
+                                <div className="mt-4">
+                                    <h4>Imported Students:</h4>
+                                    <div className="list-group">
+                                        {students.map((student, index) => (
+                                            <div key={index} className="list-group-item">
+                                                {student.name} - {student.email}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </div>
-            )}
-            {students.length > 0 && (
-                <div className={styles.studentsList}>
-                    <h4>Imported Students:</h4>
-                    <ul>
-                        {students.map((student, index) => (
-                            <li key={index}>
-                                {student.name} - {student.email}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            )}
+            </div>
         </div>
     );
 };

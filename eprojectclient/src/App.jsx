@@ -1,6 +1,6 @@
-import { AdminRoute } from './routes/routes';
+
 import { publicRoutes } from './routes/routes';
-import AdminStaffLayout from './layout/AdminStaffLayout';
+
 import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from 'react-router-dom'
 // import {publicRoutes, StaffRoutes } from './routes/routes';
 import React, { useState } from "react";
@@ -20,12 +20,15 @@ import {
 } from '@chakra-ui/react';
 import initialTheme from './theme/theme'; //  { themeGreen };
 import HomePage from './pages/PublicPages/HomePage';
+import AdminLayout from './layouts/Adminlayout';
 
 function App() {
     const [currentTheme, setCurrentTheme] = useState(initialTheme);
 
 
     return (
+
+
         <ChakraProvider theme={currentTheme}>
             <ToastContainer
                 position="top-right" // Vị trí hiển thị
@@ -61,7 +64,7 @@ function App() {
                         />
                     );
                 })} */}
-                {AdminRoute.map((item, index) => {
+                {/* {AdminRoute.map((item, index) => {
                     const Comp = item.element;
                     return (
                         <Route
@@ -76,23 +79,29 @@ function App() {
                             }
                         />
                     );
-                })}
+                })} */}
 
                 <Route path="auth/*" element={<AuthLayout />} />
-                {/* <Route
+                <Route
                     path="admin/*"
                     element={
                         <AdminLayout theme={currentTheme} setTheme={setCurrentTheme} />
                     }
-                /> */}
-
+                />
+    
                 <Route
                     path="staff/*"
                     element={
                         <StaffLayout theme={currentTheme} setTheme={setCurrentTheme} />
                     }
                 />
-
+                
+                {/* <Route
+                    path="admin/*"
+                    element={
+                        <AdminLayout theme={currentTheme} setTheme={setCurrentTheme} />
+                    }
+                /> */}
                 <Route
                     path="manager/*"
                     element={
@@ -126,6 +135,7 @@ function App() {
             </Routes>
 
         </ChakraProvider>
+
 
     )
 }

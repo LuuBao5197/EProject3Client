@@ -4,18 +4,22 @@ import NavbarHome from "./components/navbar/NavbarHome";
 import FooterHome from "./components/footer/FooterHome";
 import ContestList from "./components/ContestList";
 import StudentAward from "./components/StudentAward";
+import Carousel from "./components/Carousel";
 
 
 const HomePage = () => {
   return (
-    <div className="container">
+    <div>
       <NavbarHome />
+      <Carousel />
+      <div className="container">
         <StudentAward/>
         <ExhibitionList />
         <ContestList />
-      <FooterHome />
-     
+     </div>
+     <FooterHome />
     </div>
+
   );
 };
 

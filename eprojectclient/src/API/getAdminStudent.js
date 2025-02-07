@@ -29,6 +29,7 @@ export const addStudent = async (studentData) => {
   }
 };
 
+
 export const updateStudent = async (id, studentData) => {
   try {
     const response = await axios.put(`${API_URL}/${id}`, studentData);
@@ -60,5 +61,13 @@ export const deleteStudent = async (id) => {
       throw new Error(error.response?.data?.message || 'Failed to fetch student details');
     }
   };
-  
+  export const checkEmailExists = async (email) => {
+    try {
+      const response = await axios.get(`${API_URL}/check-email?email=${email}`);
+      return response.data.exists; // Assuming the API returns an object with { exists: true/false }
+    } catch (error) {
+      console.error('Error checking email:', error);
+      return false; // Return false if there is an error
+    }
+  };
   
