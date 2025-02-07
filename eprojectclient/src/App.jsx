@@ -95,6 +95,8 @@ function App() {
                         <StaffLayout theme={currentTheme} setTheme={setCurrentTheme} />
                     }
                 />
+
+                
                 
                 {/* <Route
                     path="admin/*"
