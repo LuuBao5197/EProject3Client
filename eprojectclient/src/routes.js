@@ -67,11 +67,18 @@ import EditContestJudges from './pages/StaffPages/ContestJudge/EditContestJudges
 import ContestResults from './pages/StaffPages/ContestFeature/ContestResults';
 import StudentAwards from './pages/StaffPages/StudentAward/StudentAward';
 import ArtworkIndex from './pages/StaffPages/ArtWork/ArtWorkIndex';
+
 import RequestsArtWork from './pages/ManagerPages/RequestsArtWork';
 import RequestsAward from './pages/ManagerPages/RequestsAward';
 import RequestsCompetition from './pages/ManagerPages/RequestsCompetition';
 import AdminStaffStatus from './pages/ManagerPages/UpdateStatusStaff';
 import InactiveStaffLayout from './pages/ManagerPages/InactiveStaffLayout';
+
+import EditExhibitionArtwork from './pages/StaffPages/ExhibitionArtWork/EditExhibitionArtWork';
+import CreateExhibitionArtwork from './pages/StaffPages/ExhibitionArtWork/CreateExhibitionArtWork';
+import ExhibitionArtworks from './pages/StaffPages/ExhibitionArtWork/ExhibitionArtWorks';
+
+
 import Adminlayout from './pages/AdminPages/Adminlayout';
 import AdminStudentList from './pages/AdminStudentPages/AdminStudentList';
 import AdminStaffLayout from './pages/AdminStaffPages/AdminStaffLayout';
@@ -84,9 +91,13 @@ import AdminStudentDetail from './pages/AdminStudentPages/AdminStudentDetail';
 import AdminStudentUpdate from './pages/AdminStudentPages/AdminStudentUpdate';
 import AdminStaffDetail from './pages/AdminStaffPages/AdminStaffDetail';
 import AdminStaffUpdate from './pages/AdminStaffPages/AdminStaffUpdate';
+
 import CreateExhibitionArtwork from './pages/StaffPages/ExhibitionArtWork/CreateExhibitionArtWork';
 import EditExhibitionArtwork from './pages/StaffPages/ExhibitionArtWork/EditExhibitionArtWork';
 import ExhibitionArtworks from './pages/StaffPages/ExhibitionArtWork/ExhibitionArtWorks';
+
+import AdminStaffStatus from './pages/AdminStaffPages/UpdateStatusStaff';
+
 
 
 
@@ -408,19 +419,23 @@ export const staffRoutes = [
     component: <StudentAwards />,
     index: true
   },
-  {
-    name: 'List Student Receive Award',
-    layout: '/staff',
-    path: '/StudentAward',
-    icon: <Icon as={MdViewList} width="20px" height="20px" color="inherit" />,
-    component: <StudentAwards />,
-    index: true
-  },
+  
   {
     name: 'List ArtWork',
     layout: '/staff',
     path: '/ArtWork',
     icon: <Icon as={MdViewList} width="20px" height="20px" color="inherit" />,
+    component: <StudentAwards />,
+
+
+    index: true
+  },
+  {
+    name: 'Create Exhibition ArtWork',
+    layout: '/staff',
+    path: '/ExhibitionArtWork/Create',
+    icon: <Icon as={MdViewList} width="20px" height="20px" color="inherit" />,
+
     component: <ArtworkIndex />,
     index: true
   },
