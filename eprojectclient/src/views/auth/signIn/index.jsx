@@ -462,7 +462,6 @@ function SignIn() {
                   <Button
                     type="submit"
                     colorScheme="blue"
-                    isDisabled={newPassword !== confirmPassword}
                   >
                     Submit
                   </Button>
