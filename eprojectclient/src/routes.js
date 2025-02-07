@@ -67,6 +67,9 @@ import EditContestJudges from './pages/StaffPages/ContestJudge/EditContestJudges
 import ContestResults from './pages/StaffPages/ContestFeature/ContestResults';
 import StudentAwards from './pages/StaffPages/StudentAward/StudentAward';
 import ArtworkIndex from './pages/StaffPages/ArtWork/ArtWorkIndex';
+import EditExhibitionArtwork from './pages/StaffPages/ExhibitionArtWork/EditExhibitionArtWork';
+import CreateExhibitionArtwork from './pages/StaffPages/ExhibitionArtWork/CreateExhibitionArtWork';
+import ExhibitionArtworks from './pages/StaffPages/ExhibitionArtWork/ExhibitionArtWorks';
 
 import Adminlayout from './pages/AdminPages/Adminlayout';
 import AdminStudentList from './pages/AdminStudentPages/AdminStudentList';
@@ -80,22 +83,7 @@ import AdminStudentDetail from './pages/AdminStudentPages/AdminStudentDetail';
 import AdminStudentUpdate from './pages/AdminStudentPages/AdminStudentUpdate';
 import AdminStaffDetail from './pages/AdminStaffPages/AdminStaffDetail';
 import AdminStaffUpdate from './pages/AdminStaffPages/AdminStaffUpdate';
-import InactiveStaffLayout from './pages/AdminStaffPages/InactiveStaffLayout';
-import AdminStaffStatus from './pages/AdminStaffPages/UpdateStatusStaff';
 
-import Adminlayout from './pages/AdminPages/Adminlayout';
-import AdminStudentList from './pages/AdminStudentPages/AdminStudentList';
-import AdminStaffLayout from './pages/AdminStaffPages/AdminStaffLayout';
-import AdminClassAdd from './pages/AdminPages/AdminClassAdd';
-import AdminStaffAdd from './pages/AdminStaffPages/AdminStaffAdd';
-import AdminStudentAdd from './pages/AdminStudentPages/AdminStudentAdd';
-import AdminStudentImportForm from './pages/AdminStudentPages/AdminStudentImportForm';
-import AdminClassDetail from './pages/AdminPages/AdminClassDetail';
-import AdminStudentDetail from './pages/AdminStudentPages/AdminStudentDetail';
-import AdminStudentUpdate from './pages/AdminStudentPages/AdminStudentUpdate';
-import AdminStaffDetail from './pages/AdminStaffPages/AdminStaffDetail';
-import AdminStaffUpdate from './pages/AdminStaffPages/AdminStaffUpdate';
-import AdminStaffStatus from './pages/AdminStaffPages/UpdateStatusStaff';
 
 
 
@@ -202,7 +190,9 @@ export const adminRoutes = [
     component: <AdminStaffUpdate />,
     
   },
+  ,
 
+  
 ]; 
 
 export const routes = [
@@ -558,9 +548,3 @@ export const publicRoutes = [
       component: <SignInCentered />,
     },
   ];
-
-
-
-
-
-
