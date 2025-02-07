@@ -84,25 +84,31 @@ function SignIn() {
       const decodedToken = jwtDecode(res.data.token);
       console.log(decodedToken);
 
-      // Kiểm tra isFirstLogin
-      if (!res.data.isFirstLogin) {
-        alert("This is your first time login. Please change your password.");
-        navigate("/ChangePasswordFirstTimeLogin");
-      } else {
-        if (decodedToken.role === "Student") {
-          // If it's a Student, attempt to get the student ID
-          const studentId = await getStudentIdDemo();
-          if (studentId) {
-            console.log("Student ID:", studentId);
-            navigate("/student/", { state: { user: decodedToken, studentId: studentId } });
-          } else {
-            alert("Student ID could not be retrieved.");
-          }
-        } else if (decodedToken.role === "Staff") {
-          navigate("/staff/");
+        // Kiểm tra isFirstLogin
+        if (!res.data.isFirstLogin) {
+            alert("This is your first time login. Please change your password.");
+            navigate("/ChangePasswordFirstTimeLogin");
+        } else {
+            if (decodedToken.role === "Student") {
+                // If it's a Student, attempt to get the student ID
+                const studentId = await getStudentIdDemo();
+                if (studentId) {
+                    console.log("Student ID:", studentId);
+                    navigate("/student/", { state: { user: decodedToken, studentId: studentId } });
+                } else {
+                    alert("Student ID could not be retrieved.");
+                }
+            } else if (decodedToken.role === "Staff") {
+                navigate("/staff/");
+            } else if(decodedToken.role === "Manager"){
+              navigate("/manager/")
+            } else if(decodedToken.role === "Admin"){
+              navigate("/admin/")
+            } 
+            alert("Login successful");
         }
         SweetAlert('Login successfully', 'success')
-      }
+      
     } catch (err) {
       console.error(err);
       SweetAlert("Login failed. Please check your credentials.",'error');
