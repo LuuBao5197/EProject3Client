@@ -413,14 +413,12 @@ export const staffRoutes = [
     path: '/ArtWork',
     icon: <Icon as={MdViewList} width="20px" height="20px" color="inherit" />,
     component: <StudentAwards />,
-
-
     index: true
   },
   {
-    name: 'Create Exhibition ArtWork',
+    name: 'List Exhibition ArtWork',
     layout: '/staff',
-    path: '/ExhibitionArtWork/Create',
+    path: '/Artwork/',
     icon: <Icon as={MdViewList} width="20px" height="20px" color="inherit" />,
 
     component: <ArtworkIndex />,
