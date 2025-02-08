@@ -26,7 +26,7 @@ const Adminlayout = () => {
   if (error) return <p className="text-center text-danger">Error: {error}</p>;
   return (
     <div className="container h-100 d-flex flex-column"> {/* Đặt h-100 để container chiếm toàn bộ chiều cao và sử dụng flexbox */}
-      <h2 className="mb-4 text-center mt-auto" style={{ paddingTop: "70px" , paddingBottom: "1px"}} >{/* mt-auto giúp đẩy tiêu đề xuống dưới cùng của container */}
+      <h2 className="mb-4 text-center mt-auto"  >{/* mt-auto giúp đẩy tiêu đề xuống dưới cùng của container */}
         Class List
       </h2>
       <div className="row justify-content-center ">

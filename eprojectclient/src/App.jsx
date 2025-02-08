@@ -28,7 +28,6 @@ function App() {
 
     return (
 
-
         <ChakraProvider theme={currentTheme}>
             <ToastContainer
                 position="top-right" // Vị trí hiển thị
@@ -46,40 +45,6 @@ function App() {
                         <Route key={index} path={item.path} element={item.element} />
                     );
                 })}
-                {/* 
-                {AdminRoutes.map((item, index) => {
-
-                    const Comp = item.element;
-                    return (
-                        <Route
-                            path={item.path}
-                            key={index}
-                            element={
-                                <div>
-                                    <AdminLayout>
-                                        <Comp />
-                                    </AdminLayout>
-                                </div>
-                            }
-                        />
-                    );
-                })} */}
-                {/* {AdminRoute.map((item, index) => {
-                    const Comp = item.element;
-                    return (
-                        <Route
-                            path={item.path}
-                            key={index}
-                            element={
-                                <div>
-                                    <AdminStaffLayout>
-                                        <Comp />
-                                    </AdminStaffLayout>
-                                </div>
-                            }
-                        />
-                    );
-                })} */}
 
                 <Route path="auth/*" element={<AuthLayout />} />
                 <Route
@@ -95,6 +60,8 @@ function App() {
                         <StaffLayout theme={currentTheme} setTheme={setCurrentTheme} />
                     }
                 />
+
+                
                 
                 {/* <Route
                     path="admin/*"
@@ -130,7 +97,7 @@ function App() {
 
                 <Route path="/" element={<Navigate to="/admin" replace />} />
                 {/* <Route path="student/*" element={<Navigate to="/student/" replace />} /> */}
-                <Route path="/student/*" element={<HomePage />} />
+                <Route path="/student/" element={<HomePage />} />
 
             </Routes>
 

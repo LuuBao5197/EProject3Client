@@ -43,28 +43,28 @@ export const publicRoutes = [
     },
     {
 
-        path: "/awardreceived",
+        path: "/student/awardreceived",
         element: <AwardReceived/>,
         
     },{
 
-        path: "/createsubmission/:contestId",
+        path: "/student/createsubmission/:contestId",
         element: <CreateNewSubmission/>,
         
     },{
 
-        path: "/exhibitionartwork",
+        path: "/student/exhibitionartwork",
         element: <ExhibitionArtwork/>,
         
     },{
 
-        path: "/mysubmissions",
+        path: "/student/mysubmissions",
         element: <MySubmission/>,
         
     },
     {
 
-        path: "/updatemysubmission/:id",
+        path: "/student/updatemysubmission/:id",
         element: <UpdateMySubmission/>,
 
         
@@ -72,53 +72,7 @@ export const publicRoutes = [
 
         
 ];
-export const StaffRoutes = [
-    {
-        path: TeacherConfig.addcontest.path,
-        element: TeacherConfig.addcontest.component,
-    }, 
-    {
-        path: TeacherConfig.editcontest.path,
-        element: TeacherConfig.editcontest.component,
-    }, 
-    {
-        path: TeacherConfig.listcontest.path,
-        element: TeacherConfig.listcontest.component,
-    }, 
-    {
-        path: TeacherConfig.detailcontest.path,
-        element: TeacherConfig.detailcontest.component,
-    }, 
-    {
-        path: TeacherConfig.addAward.path,
-        element: TeacherConfig.addAward.component,
-    }, 
-    {
-        path: TeacherConfig.listAward.path,
-        element: TeacherConfig.listAward.component,
-    }, 
-    {
-        path: TeacherConfig.editAward.path,
-        element: TeacherConfig.editAward.component,
-    }, 
-    {
-        path: TeacherConfig.detailAward.path,
-        element: TeacherConfig.detailAward.component,
-    },
-    {
-        path: TeacherConfig.listExhibition.path,
-        element: TeacherConfig.listExhibition.component,
-    },
-    {
-        path: TeacherConfig.addExhibition.path,
-        element: TeacherConfig.addExhibition.component
-    },
-    {
-        path: TeacherConfig.editExhibition.path,
-        element: TeacherConfig.editExhibition.component
-    } 
 
-];
 
 export const ManagerRoutes =[
     {

@@ -176,8 +176,8 @@ const AdminStudentAdd = () => {
     };
 
     return (
-        <div className="container mt-5">
-            <h2 className="mb-4 text-center mt-auto" style={{ paddingTop: "50px", paddingBottom: "1px" }}>Create Student</h2>
+        <div className="container mt-2">
+            <h2 className="mb-4 text-center mt-auto" >Create Student</h2>
             {message && <p className="alert alert-success">{message}</p>}
             <form onSubmit={handleSubmit}>
                 <div className="row">
@@ -245,6 +245,24 @@ const AdminStudentAdd = () => {
                             />
                             {errors.phone && <div className="invalid-feedback">{errors.phone}</div>}
                         </div>
+                        <div className="col-md-12 mb-3">
+                        <label htmlFor="classIds" className="form-label">Classes</label>
+                        <select
+                            id="classIds"
+                            name="classIds"
+                            className={`form-select ${errors.classIds ? 'is-invalid' : ''}`}
+                            onChange={handleClassChange}
+                            value={formData.classIds.length === 0 ? "" : formData.classIds[0]}
+                        >
+                            <option value="">Select a class</option>
+                            {classes.map((cls) => (
+                                <option key={cls.id} value={cls.id}>
+                                    {cls.name}
+                                </option>
+                            ))}
+                        </select>
+                        {errors.classIds && <div className="invalid-feedback">{errors.classIds}</div>}
+                    </div>
                     </div>
 
 
@@ -332,24 +350,7 @@ const AdminStudentAdd = () => {
                         </div>
 
                     </div>
-                    <div className="col-md-12 mb-3">
-                        <label htmlFor="classIds" className="form-label">Classes</label>
-                        <select
-                            id="classIds"
-                            name="classIds"
-                            className={`form-select ${errors.classIds ? 'is-invalid' : ''}`}
-                            onChange={handleClassChange}
-                            value={formData.classIds.length === 0 ? "" : formData.classIds[0]}
-                        >
-                            <option value="">Select a class</option>
-                            {classes.map((cls) => (
-                                <option key={cls.id} value={cls.id}>
-                                    {cls.name}
-                                </option>
-                            ))}
-                        </select>
-                        {errors.classIds && <div className="invalid-feedback">{errors.classIds}</div>}
-                    </div>
+                    
                 </div>
                 <div className="text-center">
                     <button type="submit" className="btn btn-primary">Create Student</button>
