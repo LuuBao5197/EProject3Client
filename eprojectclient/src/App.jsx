@@ -28,7 +28,6 @@ function App() {
 
     return (
 
-
         <ChakraProvider theme={currentTheme}>
             <ToastContainer
                 position="top-right" // Vị trí hiển thị
@@ -46,40 +45,6 @@ function App() {
                         <Route key={index} path={item.path} element={item.element} />
                     );
                 })}
-                {/* 
-                {AdminRoutes.map((item, index) => {
-
-                    const Comp = item.element;
-                    return (
-                        <Route
-                            path={item.path}
-                            key={index}
-                            element={
-                                <div>
-                                    <AdminLayout>
-                                        <Comp />
-                                    </AdminLayout>
-                                </div>
-                            }
-                        />
-                    );
-                })} */}
-                {/* {AdminRoute.map((item, index) => {
-                    const Comp = item.element;
-                    return (
-                        <Route
-                            path={item.path}
-                            key={index}
-                            element={
-                                <div>
-                                    <AdminStaffLayout>
-                                        <Comp />
-                                    </AdminStaffLayout>
-                                </div>
-                            }
-                        />
-                    );
-                })} */}
 
                 <Route path="auth/*" element={<AuthLayout />} />
                 <Route
