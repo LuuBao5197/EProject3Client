@@ -90,6 +90,10 @@ import AdminStudentDetail from './pages/AdminStudentPages/AdminStudentDetail';
 import AdminStudentUpdate from './pages/AdminStudentPages/AdminStudentUpdate';
 import AdminStaffDetail from './pages/AdminStaffPages/AdminStaffDetail';
 import AdminStaffUpdate from './pages/AdminStaffPages/AdminStaffUpdate';
+import RequestsContest from './pages/ManagerPages/RequestsContest';
+import Approved from './pages/ManagerPages/Approved';
+import Rejected from './pages/ManagerPages/Rejected';
+import NotificationMenu from './pages/ManagerPages/NotificationMenu';
 
 
 
