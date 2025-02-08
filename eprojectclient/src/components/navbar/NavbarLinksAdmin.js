@@ -26,6 +26,8 @@ import { MdNotificationsNone, MdInfoOutline } from 'react-icons/md';
 import { IoMdMoon, IoMdSunny } from 'react-icons/io';
 import { FaEthereum } from 'react-icons/fa';
 import { adminRoutes } from '@/routes';
+import { useState, useEffect } from 'react';
+import axios from 'axios'; 
 
 export default function HeaderLinks(props) {
   const { secondary } = props;
@@ -44,7 +46,23 @@ export default function HeaderLinks(props) {
     '14px 17px 40px 4px rgba(112, 144, 176, 0.06)'
   );
   const borderButton = useColorModeValue('secondaryGray.500', 'whiteAlpha.200');
-  
+  const [requests, setRequests] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:5190/api/Manager/GetAllRequest')
+      .then((response) => {
+        setRequests(response.data);
+        setLoading(false); 
+      })
+      .catch((err) => {
+        setError('Error fetching data!');
+        setLoading(false); 
+      });
+  }, []);
+
   return (
     <Flex
       w={{ sm: '100%', md: 'auto' }}
@@ -123,6 +141,8 @@ export default function HeaderLinks(props) {
           me={{ base: '30px', md: 'unset' }}
           minW={{ base: 'unset', md: '400px', xl: '450px' }}
           maxW={{ base: '360px', md: 'unset' }}
+          maxH="400px"  
+          overflowY="auto"  
         >
           <Flex w="100%" mb="20px">
             <Text fontSize="md" fontWeight="600" color={textColor}>
@@ -138,29 +158,33 @@ export default function HeaderLinks(props) {
               Mark all read
             </Text>
           </Flex>
+
           <Flex flexDirection="column">
-            {/* Here you can customize the notifications content */}
-            <MenuItem
-              _hover={{ bg: 'none' }}
-              _focus={{ bg: 'none' }}
-              px="0"
-              borderRadius="8px"
-              mb="10px"
-            >
-              <ItemContent info="New transaction completed!" />
-            </MenuItem>
-            <MenuItem
-              _hover={{ bg: 'none' }}
-              _focus={{ bg: 'none' }}
-              px="0"
-              borderRadius="8px"
-              mb="10px"
-            >
-              <ItemContent info="New message received." />
-            </MenuItem>
+            {loading && <Text>Loading...</Text>}
+            {error && <Text>{error}</Text>}
+            {!loading &&
+              !error &&
+              requests.map((request) => (
+                <MenuItem
+                  key={request.id}
+                  _hover={{ bg: 'none' }}
+                  _focus={{ bg: 'none' }}
+                  px="0"
+                  borderRadius="8px"
+                  mb="10px"
+                >
+                  <ItemContent
+                    info={`Meeting Time: ${new Date(request.meetingTime).toLocaleString()}`} 
+                    description={request.description} 
+                    organized={request.organized} 
+                    status={request.status} 
+                  />
+                </MenuItem>
+              ))}
           </Flex>
         </MenuList>
       </Menu>
+
 
       <Menu>
         <MenuButton p="0px">

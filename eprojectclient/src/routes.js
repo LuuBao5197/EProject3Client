@@ -67,8 +67,7 @@ import EditContestJudges from './pages/StaffPages/ContestJudge/EditContestJudges
 import ContestResults from './pages/StaffPages/ContestFeature/ContestResults';
 import StudentAwards from './pages/StaffPages/StudentAward/StudentAward';
 import ArtworkIndex from './pages/StaffPages/ArtWork/ArtWorkIndex';
-
-import RequestsArtWork from './pages/ManagerPages/RequestsArtWork';
+import RequestsExhibition from './pages/ManagerPages/RequestsExhibition';
 import RequestsAward from './pages/ManagerPages/RequestsAward';
 import AdminStaffStatus from './pages/ManagerPages/UpdateStatusStaff';
 import InactiveStaffLayout from './pages/ManagerPages/InactiveStaffLayout';
@@ -94,6 +93,7 @@ import RequestsContest from './pages/ManagerPages/RequestsContest';
 import Approved from './pages/ManagerPages/Approved';
 import Rejected from './pages/ManagerPages/Rejected';
 import NotificationMenu from './pages/ManagerPages/NotificationMenu';
+import RequestsStudentAward from './pages/ManagerPages/RequestsStudentAward';
 
 
 
@@ -555,11 +555,11 @@ export const managerRoutes = [
     index: true
   },
   {
-    name: 'Requests ArtWork',
+    name: 'Requests Exhibition',
     layout: '/manager',
     icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-    path: '/requestsartwork/:id',
-    component: <RequestsArtWork />,
+    path: '/requestsexhibition/:id',
+    component: <RequestsExhibition />,
     index: false
   },
   {
@@ -568,6 +568,14 @@ export const managerRoutes = [
     icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
     path: '/requestsaward/:id',
     component: <RequestsAward />,
+    index: false
+  },
+  {
+    name: 'Requests Student Award',
+    layout: '/manager',
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    path: '/requestsstudentaward/:studentId/:awardId',
+    component: <RequestsStudentAward />,
     index: false
   },
   {
@@ -594,14 +602,14 @@ export const managerRoutes = [
     component: <Rejected />,
     index: false
   },
-  {
-    name: 'Notification',
-    layout: '/manager',
-    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-    path: '/notification',
-    component: <NotificationMenu />,
-    index: false
-  }
+  // {
+  //   name: 'Notification',
+  //   layout: '/manager',
+  //   icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+  //   path: '/notification',
+  //   component: <NotificationMenu />,
+  //   index: false
+  // }
   // {
   //   name: 'Update Staff Status',
   //   layout: '/manager',

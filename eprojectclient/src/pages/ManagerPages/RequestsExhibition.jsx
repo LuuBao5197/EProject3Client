@@ -7,7 +7,7 @@ import styles from '../../layout/AdminLayout.module.css';
 const RequestsArtwork = () => {
     const { id } = useParams(); 
     const navigate = useNavigate(); 
-    const [artworkDetails, setArtworkDetails] = useState(null); 
+    const [exhibitionDetails, setExhibitionDetails] = useState(null); 
     const [loading, setLoading] = useState(true); 
     const [error, setError] = useState(null); 
     const [successMessage, setSuccessMessage] = useState(''); 
@@ -16,9 +16,9 @@ const RequestsArtwork = () => {
         setLoading(true);
         setError(null);
 
-        axios.get(`http://localhost:5190/api/Manager/GetArtworkDetail/${id}`)
+        axios.get(`http://localhost:5190/api/Manager/GetExhibitionDetail/${id}`)
             .then((response) => {
-                setArtworkDetails(response.data); 
+                setExhibitionDetails(response.data); 
                 setLoading(false); 
             })
             .catch((err) => {
@@ -28,14 +28,14 @@ const RequestsArtwork = () => {
     }, [id]); 
 
     const updateStatus = (newStatus) => {
-        const updatedAward = {
-            ...artworkDetails, 
+        const updateExhibition = {
+            ...exhibitionDetails, 
             status: newStatus, 
         };
 
-        axios.put(`http://localhost:5190/api/Manager/UpdateAwardStatus/${id}`, updatedAward)
+        axios.put(`http://localhost:5190/api/Manager/UpdateAwardStatus/${id}`, updateExhibition)
             .then((response) => {
-                setArtworkDetails({ ...artworkDetails, status: newStatus });
+                setExhibitionDetails({ ...exhibitionDetails, status: newStatus });
 
                 setSuccessMessage('Status updated successfully!');
 
@@ -56,7 +56,7 @@ const RequestsArtwork = () => {
         return <div className={styles['award-error-message']}>{error}</div>;
     }
 
-    if (!artworkDetails) {
+    if (!exhibitionDetails) {
         return <div className={styles['award-error-message']}>Award details not found.</div>;
     }
 
@@ -64,12 +64,12 @@ const RequestsArtwork = () => {
         <div className={styles['award-container']}>
             <h2 className={styles['award-header']}>Award Details</h2>
             <ul className={styles['award-details-list']}>
-                <li><strong>ID:</strong> {artworkDetails.id}</li>
-                <li><strong>Name:</strong> {artworkDetails.name}</li>
-                <li><strong>Value:</strong> ${artworkDetails.value}</li>
-                <li><strong>Contest ID:</strong> {artworkDetails.contestId}</li>
-                <li><strong>Award Quantity:</strong> {artworkDetails.awardQuantity}</li>
-                <li><strong>Status:</strong> {artworkDetails.status}</li>
+                <li><strong>ID:</strong> {exhibitionDetails.id}</li>
+                <li><strong>Name:</strong> {exhibitionDetails.name}</li>
+                <li><strong>Value:</strong> ${exhibitionDetails.value}</li>
+                <li><strong>Contest ID:</strong> {exhibitionDetails.contestId}</li>
+                <li><strong>Award Quantity:</strong> {exhibitionDetails.awardQuantity}</li>
+                <li><strong>Status:</strong> {exhibitionDetails.status}</li>
             </ul>
 
             {successMessage && (
