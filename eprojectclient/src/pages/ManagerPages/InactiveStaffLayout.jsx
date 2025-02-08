@@ -22,7 +22,7 @@ const InactiveStaffLayout = () => {
   };
 
   const handleDetail = (staff) => {
-    navigate(`/admin/Update-Staff-Status/${staff.id}`, { state: { staff } });
+    navigate(`/manager/Update-Staff-Status/${staff.id}`, { state: { staff } });
   };
 
   useEffect(() => {

@@ -69,7 +69,6 @@ import StudentAwards from './pages/StaffPages/StudentAward/StudentAward';
 import ArtworkIndex from './pages/StaffPages/ArtWork/ArtWorkIndex';
 import RequestsArtWork from './pages/ManagerPages/RequestsArtWork';
 import RequestsAward from './pages/ManagerPages/RequestsAward';
-import RequestsCompetition from './pages/ManagerPages/RequestsCompetition';
 import AdminStaffStatus from './pages/ManagerPages/UpdateStatusStaff';
 import InactiveStaffLayout from './pages/ManagerPages/InactiveStaffLayout';
 import Adminlayout from './pages/AdminPages/Adminlayout';
@@ -87,6 +86,10 @@ import AdminStaffUpdate from './pages/AdminStaffPages/AdminStaffUpdate';
 import CreateExhibitionArtwork from './pages/StaffPages/ExhibitionArtWork/CreateExhibitionArtWork';
 import EditExhibitionArtwork from './pages/StaffPages/ExhibitionArtWork/EditExhibitionArtWork';
 import ExhibitionArtworks from './pages/StaffPages/ExhibitionArtWork/ExhibitionArtWorks';
+import RequestsContest from './pages/ManagerPages/RequestsContest';
+import Approved from './pages/ManagerPages/Approved';
+import Rejected from './pages/ManagerPages/Rejected';
+import NotificationMenu from './pages/ManagerPages/NotificationMenu';
 
 
 
@@ -569,30 +572,54 @@ export const managerRoutes = [
     index: false
   },
   {
-    name: 'Requests Competition',
+    name: 'Requests Contest',
     layout: '/manager',
     icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-    path: '/requestscompetition/:id',
-    component: <RequestsCompetition />,
+    path: '/requestscontest/:id',
+    component: <RequestsContest />,
     index: false
   },
   {
-    name: 'Update Staff Status',
+    name: 'Approved Request Management',
     layout: '/manager',
-    path: '/Update-Staff-Status/:id',
-    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
-    component: <AdminStaffStatus />,
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    path: '/approved',
+    component: <Approved />,
     index: false
   },
-
   {
-    name: 'Inactive Staff Status',
+    name: 'Rejected Request Management',
     layout: '/manager',
-    path: '/Inactive-Staff-Status',
-    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
-    component: <InactiveStaffLayout />,
-    index: true
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    path: '/rejected',
+    component: <Rejected />,
+    index: false
+  },
+  {
+    name: 'Notification',
+    layout: '/manager',
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    path: '/notification',
+    component: <NotificationMenu />,
+    index: false
   }
+  // {
+  //   name: 'Update Staff Status',
+  //   layout: '/manager',
+  //   path: '/Update-Staff-Status/:id',
+  //   icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+  //   component: <AdminStaffStatus />,
+  //   index: false
+  // },
+
+  // {
+  //   name: 'Inactive Staff Status',
+  //   layout: '/manager',
+  //   path: '/Inactive-Staff-Status',
+  //   icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+  //   component: <InactiveStaffLayout />,
+  //   index: true
+  // }
 
 ];
 

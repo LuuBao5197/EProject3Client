@@ -1,41 +1,28 @@
-// chakra imports
-import { Icon, Flex, Text, useColorModeValue } from "@chakra-ui/react";
-import { MdUpgrade } from "react-icons/md";
 import React from "react";
+import { Flex, Text, useColorModeValue } from "@chakra-ui/react";
 
-export function ItemContent(props) {
+export function ItemContent({ info, description, organized, status }) {
   const textColor = useColorModeValue("navy.700", "white");
+
+  // You can conditionally style the status to reflect its color (for example, "Canceled" might be red)
+  const statusColor = status === "Canceled" ? "red.500" : "green.500"; // Change color based on status
+
   return (
-    <>
-      <Flex
-        justify='center'
-        align='center'
-        borderRadius='16px'
-        minH={{ base: "60px", md: "70px" }}
-        h={{ base: "60px", md: "70px" }}
-        minW={{ base: "60px", md: "70px" }}
-        w={{ base: "60px", md: "70px" }}
-        me='14px'
-        bg='linear-gradient(135deg, #868CFF 0%, #4318FF 100%)'>
-        <Icon as={MdUpgrade} color='white' w={8} h={14} />
-      </Flex>
-      <Flex flexDirection='column'>
-        <Text
-          mb='5px'
-          fontWeight='bold'
-          color={textColor}
-          fontSize={{ base: "md", md: "md" }}>
-          New Update: {props.info}
+    <Flex direction="column" p={4} borderRadius="10px" bg="white" boxShadow="sm">
+      <Flex align="center" justify="space-between" mb={2}>
+        <Text fontSize="lg" fontWeight="bold" color={textColor}>
+          {info} {/* This will display the meeting time */}
         </Text>
-        <Flex alignItems='center'>
-          <Text
-            fontSize={{ base: "sm", md: "sm" }}
-            lineHeight='100%'
-            color={textColor}>
-            A new update for your downloaded item is available!
-          </Text>
-        </Flex>
       </Flex>
-    </>
+      <Text fontSize="sm" color={textColor} mb={2}>
+        <strong>Description:</strong> {description}
+      </Text>
+      <Text fontSize="sm" color={textColor} mb={2}>
+        <strong>Organized by:</strong> {organized}
+      </Text>
+      <Text fontSize="sm" color={statusColor}>
+        <strong>Status:</strong> {status} {/* Display status */}
+      </Text>
+    </Flex>
   );
 }

@@ -25,7 +25,8 @@ import navImage from '@/assets/img/layout/Navbar.png';
 import { MdNotificationsNone, MdInfoOutline } from 'react-icons/md';
 import { IoMdMoon, IoMdSunny } from 'react-icons/io';
 import { FaEthereum } from 'react-icons/fa';
-import {adminRoutes} from '@/routes';
+import { adminRoutes } from '@/routes';
+
 export default function HeaderLinks(props) {
   const { secondary } = props;
   const { colorMode, toggleColorMode } = useColorMode();
@@ -40,9 +41,10 @@ export default function HeaderLinks(props) {
   const ethBox = useColorModeValue('white', 'navy.800');
   const shadow = useColorModeValue(
     '14px 17px 40px 4px rgba(112, 144, 176, 0.18)',
-    '14px 17px 40px 4px rgba(112, 144, 176, 0.06)',
+    '14px 17px 40px 4px rgba(112, 144, 176, 0.06)'
   );
   const borderButton = useColorModeValue('secondaryGray.500', 'whiteAlpha.200');
+  
   return (
     <Flex
       w={{ sm: '100%', md: 'auto' }}
@@ -99,6 +101,7 @@ export default function HeaderLinks(props) {
         </Text>
       </Flex>
       <SidebarResponsive routes={adminRoutes} />
+      {/* Notification Menu Section */}
       <Menu>
         <MenuButton p="0px">
           <Icon
@@ -136,6 +139,7 @@ export default function HeaderLinks(props) {
             </Text>
           </Flex>
           <Flex flexDirection="column">
+            {/* Here you can customize the notifications content */}
             <MenuItem
               _hover={{ bg: 'none' }}
               _focus={{ bg: 'none' }}
@@ -143,7 +147,7 @@ export default function HeaderLinks(props) {
               borderRadius="8px"
               mb="10px"
             >
-              <ItemContent info="Horizon UI Dashboard PRO" />
+              <ItemContent info="New transaction completed!" />
             </MenuItem>
             <MenuItem
               _hover={{ bg: 'none' }}
@@ -152,7 +156,7 @@ export default function HeaderLinks(props) {
               borderRadius="8px"
               mb="10px"
             >
-              <ItemContent info="Horizon Design System Free" />
+              <ItemContent info="New message received." />
             </MenuItem>
           </Flex>
         </MenuList>

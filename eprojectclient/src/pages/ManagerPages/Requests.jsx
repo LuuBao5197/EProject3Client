@@ -16,10 +16,10 @@ function Requests() {
             setError(null);
 
             let url = '';
-            if (selectedCategory === 'competition') {
+            if (selectedCategory === 'contest') {
                 url = 'http://localhost:5190/api/Manager/GetAllContest';
             } else if (selectedCategory === 'artwork') {
-                url = 'http://localhost:5190/api/Manager/GetAllExhibition';
+                url = 'http://localhost:5190/api/Manager/GetAllArtwork';
             } else if (selectedCategory === 'award') {
                 url = 'http://localhost:5190/api/Manager/GetAllAward';
             }
@@ -51,7 +51,7 @@ function Requests() {
         if (!requests.length) return <div>No pending requests</div>;
 
         switch (selectedCategory) {
-            case 'competition':
+            case 'contest':
                 return (
                     <table className={styles.requestsTable}>
                         <thead>
@@ -71,7 +71,7 @@ function Requests() {
                                     <td>{request.description || 'No description'}</td>
                                     <td>{request.status || 'No status'}</td>
                                     <td>
-                                        <Link to={`/manager/requestscompetition/${request.id}`}>
+                                        <Link to={`/manager/requestscontest/${request.id}`}>
                                             <button className="btn btn-info">
                                                 <i className="fa fa-info-circle"></i>
                                             </button>
@@ -83,37 +83,37 @@ function Requests() {
                     </table>
                 );
 
-            case 'artwork':
-                return (
-                    <table className={styles.requestsTable}>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>NAME</th>
-                                <th>LOCATION</th>
-                                <th>STATUS</th>
-                                <th>MORE</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {requests.map(request => (
-                                <tr key={request.id}>
-                                    <td>{request.id}</td>
-                                    <td>{request.name || 'No name'}</td>
-                                    <td>{request.location || 'No location'}</td>
-                                    <td>{request.status || 'No status'}</td>
-                                    <td>
-                                        <Link to={`/manager/requestsartwork/${request.id}`}>
-                                            <button className="btn btn-info">
-                                                <i className="fa fa-info-circle"></i>
-                                            </button>
-                                        </Link>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                );
+            // case 'artwork':
+            //     return (
+            //         <table className={styles.requestsTable}>
+            //             <thead>
+            //                 <tr>
+            //                     <th>ID</th>
+            //                     <th>NAME</th>
+            //                     <th>LOCATION</th>
+            //                     <th>STATUS</th>
+            //                     <th>MORE</th>
+            //                 </tr>
+            //             </thead>
+            //             <tbody>
+            //                 {requests.map(request => (
+            //                     <tr key={request.id}>
+            //                         <td>{request.id}</td>
+            //                         <td>{request.name || 'No name'}</td>
+            //                         <td>{request.location || 'No location'}</td>
+            //                         <td>{request.status || 'No status'}</td>
+            //                         <td>
+            //                             <Link to={`/manager/requestsartwork/${request.id}`}>
+            //                                 <button className="btn btn-info">
+            //                                     <i className="fa fa-info-circle"></i>
+            //                                 </button>
+            //                             </Link>
+            //                         </td>
+            //                     </tr>
+            //                 ))}
+            //             </tbody>
+            //         </table>
+            //     );
 
             case 'award':
                 return (
@@ -156,13 +156,21 @@ function Requests() {
         <div className={styles.requestsContainer}>
             <h2 className='text-center'>REQUEST</h2>
             <div className="category-filter">
-                <label htmlFor="category">Select Category: </label>
-                <select id="category" value={selectedCategory} onChange={handleCategoryChange}>
+                <label htmlFor="category" className={styles['category-label']}>Select Category: </label>
+                <select
+                    id="category"
+                    value={selectedCategory}
+                    onChange={handleCategoryChange}
+                    className={styles['category-select']}
+                >
                     <option value="">Select Category</option>
-                    <option value="award">Award</option>
-                    <option value="competition">Competition</option>
-                    <option value="artwork">Artwork</option>
+                    <option value="award">Awards</option>
+                    <option value="contest">Contests</option>
+                    {/* <option value="artwork">Artworks</option> */}
                 </select>
+
+                <Link to={`/manager/approved`}><button className={styles['award-button-approved']}>APPROVED</button></Link>
+                <Link to={`/manager/rejected`}><button className={styles['award-button-rejected']}>REJECTED</button></Link>
             </div>
 
             {renderTable()}
