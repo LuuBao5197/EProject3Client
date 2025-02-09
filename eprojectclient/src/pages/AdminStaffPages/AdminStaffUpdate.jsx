@@ -77,7 +77,7 @@ const AdminStaffUpdate = () => {
     const validateAge = (dob) => {
         const birthDate = new Date(dob);
         const currentDate = new Date();
-        const age = currentDate.getFullYear() - birthDate.getFullYear();
+        var age = currentDate.getFullYear() - birthDate.getFullYear();
         const month = currentDate.getMonth() - birthDate.getMonth();
         if (month < 0 || (month === 0 && currentDate.getDate() < birthDate.getDate())) {
             age--;
