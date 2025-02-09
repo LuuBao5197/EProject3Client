@@ -8,6 +8,247 @@
   transition: all 0.3s ease-in-out;
   width: 100vw;
 }
+.award-container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.award-header {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2rem;
+  color: #343a40;
+}
+
+.award-details-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.award-details-list li {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  padding: 8px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.award-details-list li strong {
+  color: #007bff;
+}
+
+/* Thông báo thành công */
+.award-success-message {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #28a745; /* Màu xanh lá */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  opacity: 0;
+  animation: fadeIn 0.5s forwards;
+}
+
+/* Animation fade-in */
+@keyframes fadeIn {
+  0% {
+      opacity: 0;
+      top: 10px;
+  }
+  100% {
+      opacity: 1;
+      top: 20px;
+  }
+}
+
+/* General Container for the entire page */
+.approved-container {
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: 20px auto;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Header styling */
+.approved-header {
+  font-size: 28px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 5px;
+}
+
+/* For each item list (Awards or Contests) */
+.approved-items-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Styling for each individual item */
+.approved-item {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.approved-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Item details formatting */
+.approved-item strong {
+  font-weight: 600;
+  color: #007bff;
+}
+
+.approved-item p {
+  margin: 8px 0;
+  font-size: 16px;
+  color: #555;
+}
+
+/* No items found message */
+.no-data-message {
+  text-align: center;
+  font-size: 18px;
+  color: #6c757d;
+  padding: 20px;
+  background-color: #f1f3f5;
+  border-radius: 8px;
+}
+
+/* Loading message */
+.loading-message {
+  text-align: center;
+  font-size: 20px;
+  color: #007bff;
+  margin-top: 40px;
+  font-weight: bold;
+}
+
+/* Error message */
+.error-message {
+  text-align: center;
+  font-size: 20px;
+  color: #dc3545;
+  margin-top: 40px;
+  font-weight: bold;
+}
+
+.category-label {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  display: inline-block;
+  color: #333;
+}
+
+.category-select {
+  width: 100%;
+  max-width: 250px;
+  padding: 10px;
+  margin-top: 8px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  color: #333;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category-select:focus {
+  border-color: blue; /* Green border color on focus */
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.2); /* Subtle green shadow on focus */
+}
+
+.category-select option {
+  padding: 10px;
+  background-color: #fff;
+  color: #333;
+}
+
+.category-select:hover {
+  border-color: rgb(5, 5, 147); /* Change border color on hover */
+}
+
+/* Additional styling for the container or layout */
+.category-container {
+  margin: 20px;
+}
+
+
+.award-error-message {
+  color: red;
+  padding: 15px;
+  background-color: #f8d7da;
+  border-radius: 5px;
+  border: 1px solid #f5c6cb;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.award-button-container {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+}
+
+.award-button-approved {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: rgb(32, 235, 32);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.award-button-rejected {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.award-button-approved:hover {
+  background-color: rgb(32, 200, 32);
+}
+
+.award-button-rejected:hover {
+  background-color: rgb(200, 32, 32);
+}
+
+
+.award-loading-message {
+  color: #28a745;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
 
 .createMeetingContainer {
   width: 80%;

@@ -4,10 +4,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from '../../layout/AdminLayout.module.css';
 
-const RequestsAward = () => {
+const RequestsArtwork = () => {
     const { id } = useParams(); 
     const navigate = useNavigate(); 
-    const [awardDetails, setAwardDetails] = useState(null); 
+    const [exhibitionDetails, setExhibitionDetails] = useState(null); 
     const [loading, setLoading] = useState(true); 
     const [error, setError] = useState(null); 
     const [successMessage, setSuccessMessage] = useState(''); 
@@ -16,9 +16,9 @@ const RequestsAward = () => {
         setLoading(true);
         setError(null);
 
-        axios.get(`http://localhost:5190/api/Manager/GetAwardDetail/${id}`)
+        axios.get(`http://localhost:5190/api/Manager/GetExhibitionDetail/${id}`)
             .then((response) => {
-                setAwardDetails(response.data); 
+                setExhibitionDetails(response.data); 
                 setLoading(false); 
             })
             .catch((err) => {
@@ -28,14 +28,14 @@ const RequestsAward = () => {
     }, [id]); 
 
     const updateStatus = (newStatus) => {
-        const updatedAward = {
-            ...awardDetails, 
+        const updateExhibition = {
+            ...exhibitionDetails, 
             status: newStatus, 
         };
 
-        axios.put(`http://localhost:5190/api/Manager/UpdateAwardStatus/${id}`, updatedAward)
+        axios.put(`http://localhost:5190/api/Manager/UpdateAwardStatus/${id}`, updateExhibition)
             .then((response) => {
-                setAwardDetails({ ...awardDetails, status: newStatus });
+                setExhibitionDetails({ ...exhibitionDetails, status: newStatus });
 
                 setSuccessMessage('Status updated successfully!');
 
@@ -56,7 +56,7 @@ const RequestsAward = () => {
         return <div className={styles['award-error-message']}>{error}</div>;
     }
 
-    if (!awardDetails) {
+    if (!exhibitionDetails) {
         return <div className={styles['award-error-message']}>Award details not found.</div>;
     }
 
@@ -64,12 +64,12 @@ const RequestsAward = () => {
         <div className={styles['award-container']}>
             <h2 className={styles['award-header']}>Award Details</h2>
             <ul className={styles['award-details-list']}>
-                <li><strong>ID:</strong> {awardDetails.id}</li>
-                <li><strong>Name:</strong> {awardDetails.name}</li>
-                <li><strong>Value:</strong> ${awardDetails.value}</li>
-                <li><strong>Contest ID:</strong> {awardDetails.contestId}</li>
-                <li><strong>Award Quantity:</strong> {awardDetails.awardQuantity}</li>
-                <li><strong>Status:</strong> {awardDetails.status}</li>
+                <li><strong>ID:</strong> {exhibitionDetails.id}</li>
+                <li><strong>Name:</strong> {exhibitionDetails.name}</li>
+                <li><strong>Value:</strong> ${exhibitionDetails.value}</li>
+                <li><strong>Contest ID:</strong> {exhibitionDetails.contestId}</li>
+                <li><strong>Award Quantity:</strong> {exhibitionDetails.awardQuantity}</li>
+                <li><strong>Status:</strong> {exhibitionDetails.status}</li>
             </ul>
 
             {successMessage && (
@@ -85,7 +85,7 @@ const RequestsAward = () => {
                 >
                     Approve
                 </button>
-                <button 
+                <button  
                     className={styles['award-button-rejected']} 
                     onClick={() => updateStatus('Rejected')}
                 >
@@ -96,4 +96,4 @@ const RequestsAward = () => {
     );
 };
 
-export default RequestsAward;
+export default RequestsArtwork;

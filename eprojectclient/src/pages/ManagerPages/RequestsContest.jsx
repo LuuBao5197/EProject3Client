@@ -4,10 +4,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from '../../layout/AdminLayout.module.css';
 
-const RequestsAward = () => {
+const RequestsContest = () => {
     const { id } = useParams(); 
     const navigate = useNavigate(); 
-    const [awardDetails, setAwardDetails] = useState(null); 
+    const [contestDetails, setContestDetails] = useState(null); 
     const [loading, setLoading] = useState(true); 
     const [error, setError] = useState(null); 
     const [successMessage, setSuccessMessage] = useState(''); 
@@ -16,29 +16,27 @@ const RequestsAward = () => {
         setLoading(true);
         setError(null);
 
-        axios.get(`http://localhost:5190/api/Manager/GetAwardDetail/${id}`)
+        axios.get(`http://localhost:5190/api/Manager/GetContestDetail/${id}`)
             .then((response) => {
-                setAwardDetails(response.data); 
+                setContestDetails(response.data); 
                 setLoading(false); 
             })
             .catch((err) => {
                 setError('Error while fetching data!'); 
                 setLoading(false); 
             });
-    }, [id]); 
+    }, [id]);
 
     const updateStatus = (newStatus) => {
-        const updatedAward = {
-            ...awardDetails, 
+        const updatedContest = {
+            ...contestDetails, 
             status: newStatus, 
         };
 
-        axios.put(`http://localhost:5190/api/Manager/UpdateAwardStatus/${id}`, updatedAward)
+        axios.put(`http://localhost:5190/api/Manager/UpdateContestStatus/${id}`, updatedContest)
             .then((response) => {
-                setAwardDetails({ ...awardDetails, status: newStatus });
-
+                setContestDetails({ ...contestDetails, status: newStatus });
                 setSuccessMessage('Status updated successfully!');
-
                 setTimeout(() => {
                     navigate('/manager/requests');
                 }, 2000); 
@@ -56,20 +54,18 @@ const RequestsAward = () => {
         return <div className={styles['award-error-message']}>{error}</div>;
     }
 
-    if (!awardDetails) {
-        return <div className={styles['award-error-message']}>Award details not found.</div>;
+    if (!contestDetails) {
+        return <div className={styles['award-error-message']}>Contest details not found.</div>;
     }
 
     return (
         <div className={styles['award-container']}>
-            <h2 className={styles['award-header']}>Award Details</h2>
+            <h2 className={styles['award-header']}>Contest Details</h2>
             <ul className={styles['award-details-list']}>
-                <li><strong>ID:</strong> {awardDetails.id}</li>
-                <li><strong>Name:</strong> {awardDetails.name}</li>
-                <li><strong>Value:</strong> ${awardDetails.value}</li>
-                <li><strong>Contest ID:</strong> {awardDetails.contestId}</li>
-                <li><strong>Award Quantity:</strong> {awardDetails.awardQuantity}</li>
-                <li><strong>Status:</strong> {awardDetails.status}</li>
+                <li><strong>ID:</strong> {contestDetails.id}</li>
+                <li><strong>Name:</strong> {contestDetails.name}</li>
+                <li><strong>Description:</strong> {contestDetails.description}</li>
+                <li><strong>Status:</strong> {contestDetails.status}</li>
             </ul>
 
             {successMessage && (
@@ -96,4 +92,4 @@ const RequestsAward = () => {
     );
 };
 
-export default RequestsAward;
+export default RequestsContest;
