@@ -39,7 +39,7 @@ const EditAwardForm = () => {
         setContestOptions(contestData.contests);
         setLoading(false);
       } catch (error) {
-        console.error("Lỗi khi tải dữ liệu:", error);
+        console.error("Error loading data:", error);
         setLoading(false);
       }
     };

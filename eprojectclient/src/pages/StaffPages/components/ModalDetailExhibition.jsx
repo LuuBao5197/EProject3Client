@@ -5,9 +5,9 @@ import { MdEdit, MdDeleteOutline, MdSend } from "react-icons/md";
 import { toast } from 'react-toastify';
 import axios from 'axios';
 
-const ModalDetailExhibition = ({ exhibition, onClose, onUpdate, onDelete, onSend }) => {
+const ModalDetailExhibition = ({ exhibition, onClose, onUpdate, onDelete, onSend, staffCurrent }) => {
   const handleDelete = async () => {
-    const confirmDelete = window.confirm("Bạn có chắc chắn muốn xóa triển lãm này?");
+    const confirmDelete = window.confirm("Are you sure to delete this exhibition");
     if (!confirmDelete) return;
 
     try {
@@ -55,18 +55,21 @@ const ModalDetailExhibition = ({ exhibition, onClose, onUpdate, onDelete, onSend
             <p><strong>Phase:</strong> {exhibition.phase}</p>
           </div>
           <div className="modal-footer">
-            <button className="btn btn-info" onClick={handleEdit}>
-              <Icon as={MdEdit} width="20px" height="20px" />
-              Edit
-            </button>
-            <button className="btn btn-danger" onClick={handleDelete}>
-              <Icon as={MdDeleteOutline} width="20px" height="20px" />
-              Delete
-            </button>
-            <button className="btn btn-danger" onClick={handleSend}>
-              <Icon as={MdSend} width="20px" height="20px" />
-              Send for Review
-            </button>
+            {staffCurrent.isReviewer && (exhibition.status === "Draft" || exhibition.status === "Rejected") && <>
+              <button className="btn btn-info" onClick={handleEdit}>
+                <Icon as={MdEdit} width="20px" height="20px" />
+                Edit
+              </button>
+              <button className="btn btn-danger" onClick={handleDelete}>
+                <Icon as={MdDeleteOutline} width="20px" height="20px" />
+                Delete
+              </button>
+              <button className="btn btn-danger" onClick={handleSend}>
+                <Icon as={MdSend} width="20px" height="20px" />
+                Send for Review
+              </button>
+            </>
+            }
             <button className="btn btn-secondary" onClick={onClose}>Close</button>
           </div>
         </div>

@@ -7,7 +7,7 @@ import { MdEdit, MdDelete, MdSend } from 'react-icons/md';
 import { jwtDecode } from "jwt-decode";
 import { toast } from "react-toastify";
 import { SweetAlert } from "../../StudentPages/Notifications/SweetAlert";
-
+import DOMPurify from 'dompurify';
 const ContestDetail = () => {
     const token = localStorage.getItem('token');
     const userId = jwtDecode(token).Id;
@@ -43,20 +43,22 @@ const ContestDetail = () => {
         navigate(`/staff/contests/edit/${id}`);
     };
 
+    const handleDelete = (id) => {
+        axios.delete(`http://localhost:5190/api/Staff/DeleteContest/${id}`);
+        SweetAlert("Delete Contest successfully", "success");
+        navigate(`/staff/contests`);
+    }
+
     const sendContestDraftForReview = async (id) => {
         const token = localStorage.getItem("token");
         console.log(token);
         try {
             await axios.patch(`http://localhost:5190/api/Staff/SendContestDraftForReview/${id}`,
                 null,
-                {
-                    headers: {
-                        "Authorization": `Bearer ${token}`,
-                    }
-                }
             );
-            toast.success("Sent draft contest successfully!");
-            SweetAlert("Sent draft contest successfully");
+            // toast.success("Sent draft contest successfully!");
+            SweetAlert("Sent draft contest successfully","success");
+            navigate(`/staff/contests`);
         } catch (error) {
             console.error(error.response);
             toast.error("Something went wrong. Please try again.");
@@ -87,9 +89,13 @@ const ContestDetail = () => {
                                     </Col>
                                 </Row>
                                 <Row className="mb-3">
-                                    <Col xs={12}>
+                                    <Col xs={12} md={6}>
                                         <h5 className="text-secondary">Description:</h5>
-                                        <p>{contest.description}</p>
+                                        <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(contest.description) }} />
+                                    </Col>
+                                    <Col xs={12} md={6}>
+                                        <h5 className="text-secondary">SubmissionDeadline :</h5>
+                                        <p>{new Date(contest.submissionDeadline).toLocaleString()}</p>
                                     </Col>
                                 </Row>
                                 <Row className="mb-3">
@@ -104,13 +110,13 @@ const ContestDetail = () => {
                                 </Row>
                             </Card.Body>
                             <Card.Footer className="text-center">
-                                {(contest.organizedBy === staffCurent.id) && (
+                                {(contest.organizedBy === staffCurent.id && (contest.status === "Draft"||contest.status==="Rejected"))  && (
                                     <>
                                         <Button variant="primary" className="mx-2" onClick={() => handleEdit(contest.id)}>
                                             <Icon as={MdEdit} width="20px" height="20px" color="inherit" />
                                         </Button>
                                         <Button variant="danger" className="mx-2">
-                                            <Icon as={MdDelete} width="20px" height="20px" color="inherit" />
+                                            <Icon as={MdDelete} width="20px" height="20px" color="inherit" onClick={()=> handleDelete(contest.id)}/>
                                         </Button>
                                     </>
                                 )}
