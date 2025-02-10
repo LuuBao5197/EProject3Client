@@ -69,6 +69,7 @@ import StudentAwards from './pages/StaffPages/StudentAward/StudentAward';
 import ArtworkIndex from './pages/StaffPages/ArtWork/ArtWorkIndex';
 import RequestsExhibition from './pages/ManagerPages/RequestsExhibition';
 import RequestsAward from './pages/ManagerPages/RequestsAward';
+import RequestsExhibitionArtwork from './pages/ManagerPages/RequestsExhibitionArtwork';
 import AdminStaffStatus from './pages/ManagerPages/UpdateStatusStaff';
 import InactiveStaffLayout from './pages/ManagerPages/InactiveStaffLayout';
 
@@ -602,6 +603,14 @@ export const managerRoutes = [
     component: <Rejected />,
     index: false
   },
+  {
+    name: 'Request Exhibition Artwork',
+    layout: '/manager',
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    path: '/requestsexhibitionartwork/:exhibitionId/:artworkId',
+    component: <RequestsExhibitionArtwork />,
+    index: false
+  }
   // {
   //   name: 'Notification',
   //   layout: '/manager',

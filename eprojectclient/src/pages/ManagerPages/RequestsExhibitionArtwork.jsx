@@ -5,24 +5,24 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from '../../layout/AdminLayout.module.css'; // Đảm bảo rằng bạn đã import đúng file CSS
 
 function RequestsStudentAward() {
-    const { studentId, awardId } = useParams();  // Lấy tham số từ URL
+    const { exhibitionId, artworkId } = useParams();  // Lấy tham số từ URL
     const navigate = useNavigate(); 
-    const [awardDetail, setAwardDetail] = useState(null);
+    const [exhibitionartworkDetails, setExhibitionArtworkDetails] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
 
     useEffect(() => {
-        if (!studentId || !awardId) {
-            setError("Invalid studentId or awardId");
+        if (!exhibitionId || !artworkId) {
+            setError("Invalid exhibitionId or artworkId");
             setLoading(false);
             return;
         }
 
-        const fetchAwardDetail = async () => {
+        const fetchExhibitionArtworkDetail = async () => {
             try {
-                const response = await axios.get(`http://localhost:5190/api/Manager/GetStudentAwardDetail/${studentId}/${awardId}`);
-                setAwardDetail(response.data);
+                const response = await axios.get(`http://localhost:5190/api/Manager/GetExhibitionArtworkDetail/${exhibitionId}/${artworkId}`);
+                setExhibitionArtworkDetails(response.data);
                 setLoading(false);
             } catch (err) {
                 setError('Error while fetching data!');
@@ -30,18 +30,18 @@ function RequestsStudentAward() {
             }
         };
 
-        fetchAwardDetail();
-    }, [studentId, awardId]);
+        fetchExhibitionArtworkDetail();
+    }, [exhibitionId, artworkId]);
 
     const updateStatus = (newStatus) => {
-        const updateAward = {
-            ...awardDetail,
+        const updateExhibitionArtwork = {
+            ...exhibitionartworkDetails,
             status: newStatus,
         };
 
-        axios.put(`http://localhost:5190/api/Manager/UpdateStudentAwardStatus/${studentId}/${awardId}`, updateAward)
+        axios.put(`http://localhost:5190/api/Manager/UpdateExhibitionArtworkStatus/${exhibitionId}/${artworkId}`, updateExhibitionArtwork)
             .then((response) => {
-                setAwardDetail({ ...awardDetail, status: newStatus });
+                setExhibitionArtworkDetails({ ...exhibitionartworkDetails, status: newStatus });
                 setSuccessMessage('Status updated successfully!');
 
                 setTimeout(() => {
@@ -61,19 +61,19 @@ function RequestsStudentAward() {
         return <div className={styles['award-error-message']}>{error}</div>;
     }
 
-    if (!awardDetail) {
-        return <div className={styles['award-error-message']}>Award details not found.</div>;
+    if (!exhibitionartworkDetails) {
+        return <div className={styles['award-error-message']}>Artwork details not found.</div>;
     }
 
     return (
         <div className={styles['award-container']}>
-            <h2 className={styles['award-header']}>Student Award Detail</h2>
+            <h2 className={styles['award-header']}>Student Artwork Detail</h2>
             <ul className={styles['award-details-list']}>
-                <li><strong>Student ID:</strong> {awardDetail.studentId}</li>
-                <li><strong>Award ID:</strong> {awardDetail.awardId}</li>
-                <li><strong>Status:</strong> {awardDetail.status}</li>
-                <li><strong>Student:</strong> {awardDetail.student ? awardDetail.student : 'No student information available'}</li>
-                <li><strong>Award:</strong> {awardDetail.award ? awardDetail.award : 'No award information available'}</li>
+                <li><strong>Exhibition ID:</strong> {exhibitionartworkDetails.exhibitionId}</li>
+                <li><strong>Artwork ID:</strong> {exhibitionartworkDetails.artworkId}</li>
+                <li><strong>Status:</strong> {exhibitionartworkDetails.status}</li>
+                <li><strong>Exhibition:</strong> {exhibitionartworkDetails.exhibition ? exhibitionartworkDetails.exhibition : 'No student information available'}</li>
+                <li><strong>Artwork:</strong> {exhibitionartworkDetails.artwork ? exhibitionartworkDetails.artwork : 'No award information available'}</li>
             </ul>
 
             {successMessage && (

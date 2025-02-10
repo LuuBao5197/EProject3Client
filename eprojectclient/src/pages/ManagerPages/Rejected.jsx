@@ -6,6 +6,9 @@ import styles from '../../layout/AdminLayout.module.css';
 const Rejected = () => {
     const [rejectedAwards, setRejectedAwards] = useState([]);
     const [rejectedContests, setRejectedContests] = useState([]);
+    const [rejectedExhibitions, setRejectedExhibitions] = useState([]);
+    const [rejectedStudentAwards, setRejectedStudentAwards] = useState([]);
+    const [rejectedExhibitionArtworks, setRejectedExhibitionArtworks] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -15,14 +18,22 @@ const Rejected = () => {
 
         const fetchAwards = axios.get('http://localhost:5190/api/Manager/GetAllAward');
         const fetchContests = axios.get('http://localhost:5190/api/Manager/GetAllContest');
-
-        Promise.all([fetchAwards, fetchContests])
-            .then(([awardResponse, contestResponse]) => {
+        const fetchExhibitions = axios.get('http://localhost:5190/api/Manager/GetAllExhibition');
+        const fetchStudentAwards = axios.get('http://localhost:5190/api/Manager/GetAllStudentAward');
+        const fetchExhibitionArtworks = axios.get('http://localhost:5190/api/Manager/GetAllExhibitionArtwork');
+        Promise.all([fetchAwards, fetchContests, fetchExhibitions, fetchStudentAwards, fetchExhibitionArtworks])
+            .then(([awardResponse, contestResponse, exhibitionResponse, studentAwardResponse, exhibitionartworkRespone]) => {
                 const rejectedAwards = awardResponse.data.filter(item => item.status === 'Rejected');
                 const rejectedContests = contestResponse.data.filter(item => item.status === 'Rejected');
+                const rejectedExhibitions = exhibitionResponse.data.filter(item => item.status === 'Rejected');
+                const rejectedStudentAwards = studentAwardResponse.data.filter(item => item.status === 'Rejected');
+                const rejectedExhibitionArtworks = exhibitionartworkRespone.data.filter(item => item.status === 'Rejected');
 
                 setRejectedAwards(rejectedAwards);
                 setRejectedContests(rejectedContests);
+                setRejectedExhibitions(rejectedExhibitions);
+                setRejectedStudentAwards(rejectedStudentAwards);
+                setRejectedExhibitionArtworks(rejectedExhibitionArtworks);
                 setLoading(false);
             })
             .catch((err) => {
@@ -71,6 +82,54 @@ const Rejected = () => {
                 </ul>
             ) : (
                 <div className={styles['no-data-message']}>No rejected contests found.</div>
+            )}
+
+            <h2 className={styles['approved-header']}>Rejected Exhibitions</h2>
+            {rejectedExhibitions.length > 0 ? (
+                <ul className={styles['approved-items-list']}>
+                    {rejectedExhibitions.map((exhibition) => (
+                        <li key={exhibition.id} className={styles['approved-item']}>
+                            <strong>ID:</strong> {exhibition.id} <br />
+                            <strong>Name:</strong> {exhibition.name} <br />
+                            <strong>Description:</strong> {exhibition.description} <br />
+                            <strong>Status:</strong> {exhibition.status} <br />
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <div className={styles['no-data-message']}>No rejected exhibitions found.</div>
+            )}
+
+            <h2 className={styles['approved-header']}>Rejected Student Awards</h2>
+            {rejectedStudentAwards.length > 0 ? (
+                <ul className={styles['approved-items-list']}>
+                    {rejectedStudentAwards.map((studentAward) => (
+                        <li key={studentAward.id} className={styles['approved-item']}>
+                            <strong>ID:</strong> {studentAward.id} <br />
+                            <strong>Student ID:</strong> {studentAward.studentId} <br />
+                            <strong>Award ID:</strong> {studentAward.awardId} <br />
+                            <strong>Status:</strong> {studentAward.status} <br />
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <div className={styles['no-data-message']}>No rejected student awards found.</div>
+            )}
+
+            <h2 className={styles['approved-header']}>Rejected Exhibition Artworks</h2>
+            {rejectedExhibitionArtworks.length > 0 ? (
+                <ul className={styles['approved-items-list']}>
+                    {rejectedExhibitionArtworks.map((exhibitionArtwork) => (
+                        <li key={exhibitionArtwork.id} className={styles['approved-item']}>
+                            <strong>ID:</strong> {exhibitionArtwork.id} <br />
+                            <strong>Exhibition ID:</strong> {exhibitionArtwork.exhibitionId} <br />
+                            <strong>Artwork ID:</strong> {exhibitionArtwork.artworkId} <br />
+                            <strong>Status:</strong> {exhibitionArtwork.status} <br />
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <div className={styles['no-data-message']}>No rejected exhibition artworks found.</div>
             )}
         </div>
     );
