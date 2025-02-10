@@ -26,7 +26,8 @@ export default function Dashboard(props) {
   };
   const location = useLocation();
   const getActiveRoute = (routes) => {
-    let activeRoute = 'Default Brand Text';
+    // console.log(routes);
+    let activeRoute = '';
     for (let i = 0; i < routes.length; i++) {
       if (routes[i].collapse) {
         let collapseActiveRoute = getActiveRoute(routes[i].items);
@@ -42,10 +43,12 @@ export default function Dashboard(props) {
         if (
           window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1
         ) {
+          // console.log(routes[i].name)
           return routes[i].name;
         }
       }
     }
+    // console.log(activeRoute);
     return activeRoute;
   };
   const getActiveNavbar = (routes) => {
@@ -90,10 +93,12 @@ export default function Dashboard(props) {
           // window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1
           location.pathname === routes[i].layout + routes[i].path
         ) {
-          return routes[i].messageNavbar;
+          console.log(routes[i].index)
+          return routes[i].name;
         }
       }
     }
+    console.log(activeNavbar)
     return activeNavbar;
   };
   const getRoutes = (routes) => {
@@ -157,7 +162,7 @@ export default function Dashboard(props) {
             transitionProperty="top, bottom, width"
             transitionTimingFunction="linear, linear, ease"
           >
-            <Portal>
+            <Portal >
               <Box>
                 <Navbar
                   onOpen={onOpen}

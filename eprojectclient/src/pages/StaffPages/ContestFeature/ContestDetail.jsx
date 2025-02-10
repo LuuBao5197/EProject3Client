@@ -6,6 +6,7 @@ import { Icon, Image } from '@chakra-ui/react';
 import { MdEdit, MdDelete, MdSend } from 'react-icons/md';
 import { jwtDecode } from "jwt-decode";
 import { toast } from "react-toastify";
+import { SweetAlert } from "../../StudentPages/Notifications/SweetAlert";
 
 const ContestDetail = () => {
     const token = localStorage.getItem('token');
@@ -47,7 +48,7 @@ const ContestDetail = () => {
         console.log(token);
         try {
             await axios.patch(`http://localhost:5190/api/Staff/SendContestDraftForReview/${id}`,
-                null, // nếu không có data gửi đi, đặt null
+                null,
                 {
                     headers: {
                         "Authorization": `Bearer ${token}`,
@@ -55,6 +56,7 @@ const ContestDetail = () => {
                 }
             );
             toast.success("Sent draft contest successfully!");
+            SweetAlert("Sent draft contest successfully");
         } catch (error) {
             console.error(error.response);
             toast.error("Something went wrong. Please try again.");

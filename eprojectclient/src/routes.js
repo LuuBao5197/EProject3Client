@@ -20,6 +20,7 @@ import {
   MdSelectAll,
   MdOutput,
   MdViewList,
+  MdEdit,
 } from 'react-icons/md';
 
 // Admin Imports
@@ -94,6 +95,7 @@ import Approved from './pages/ManagerPages/Approved';
 import Rejected from './pages/ManagerPages/Rejected';
 import NotificationMenu from './pages/ManagerPages/NotificationMenu';
 import RequestsStudentAward from './pages/ManagerPages/RequestsStudentAward';
+import EditProfile from './pages/PublicPages/EditProfile';
 
 
 
@@ -198,9 +200,14 @@ export const adminRoutes = [
     path: '/Update-Staff/:id',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     component: <AdminStaffUpdate />,
-    
   },
-  ,
+  {
+    name: 'Edit Profile',
+    layout: '/admin',
+    path: '/EditProfile',
+    icon: <Icon as={MdEdit} width="20px" height="20px" color="inherit" />,
+    component: <EditProfile/>,
+  },
 
   
 ]; 
@@ -408,15 +415,6 @@ export const staffRoutes = [
     component: <StudentAwards />,
     index: true
   },
-  
-  {
-    name: 'List ArtWork',
-    layout: '/staff',
-    path: '/ArtWork',
-    icon: <Icon as={MdViewList} width="20px" height="20px" color="inherit" />,
-    component: <StudentAwards />,
-    index: true
-  },
   {
     name: 'List Exhibition ArtWork',
     layout: '/staff',
@@ -447,6 +445,13 @@ export const staffRoutes = [
     icon: <Icon as={MdViewList} width="20px" height="20px" color="inherit" />,
     component: <ExhibitionArtworks/>,
     index: true
+  },
+  {
+    name: 'Edit Profile',
+    layout: '/staff',
+    path: '/EditProfile',
+    icon: <Icon as={MdEdit} width="20px" height="20px" color="inherit" />,
+    component: <EditProfile/>,
   },
 ];
 export const managerRoutes = [
@@ -602,6 +607,14 @@ export const managerRoutes = [
     component: <Rejected />,
     index: false
   },
+  {
+    name: 'Edit Profile',
+    layout: '/manager',
+    path: '/EditProfile',
+    icon: <Icon as={MdEdit} width="20px" height="20px" color="inherit" />,
+    component: <EditProfile/>,
+  },
+
   // {
   //   name: 'Notification',
   //   layout: '/manager',
