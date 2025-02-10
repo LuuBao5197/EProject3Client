@@ -37,11 +37,11 @@ const ExhibitionList = () => {
       exhibition.name.toLowerCase().includes(searchTerm.toLowerCase())
     )
     .filter((exhibition) => {
-      if (sortOption === "OnComing") {
-        return exhibition.phase === "OnComing"; // Đang tổ chức
+      if (sortOption === "Oncoming") {
+        return exhibition.phase === "Oncoming"; // Đang tổ chức
       }
-      if (sortOption === "UpComing") {
-        return exhibition.phase === "UpComing"; // Sắp tổ chức
+      if (sortOption === "Upcoming") {
+        return exhibition.phase === "Upcoming"; // Sắp tổ chức
       }
       if (sortOption === "Completed") {
         return exhibition.phase === "Completed"; // Đã hoàn thành
@@ -81,8 +81,8 @@ const ExhibitionList = () => {
           onChange={(e) => setSortOption(e.target.value)}
         >
           <option value="all">All</option>
-          <option value="OnComing">Ongoing</option>
-          <option value="UpComing">UpComing</option>
+          <option value="Ongoing">Ongoing</option>
+          <option value="Upcoming">Upcoming</option>
           <option value="Completed">Completed</option>
         </Select>
       </HStack>
