@@ -1,7 +1,7 @@
 import React from "react";
 
 // Chakra imports
-import { Flex, useColorModeValue } from "@chakra-ui/react";
+import { Flex, Text, useColorModeValue } from "@chakra-ui/react";
 
 // Custom components
 import { HorizonLogo } from "@/components/icons/Icons";
@@ -13,7 +13,9 @@ export function SidebarBrand() {
 
   return (
     <Flex align='center' direction='column'>
-      <HorizonLogo h='26px' w='175px' my='32px' color={logoColor} />
+      {/* <HorizonLogo h='26px' w='175px' my='32px' color={logoColor} /> */}
+      <Text fontSize='xl' color={"navy"}>INSTITUTE OF FINE ARTS</Text>
+
       <HSeparator mb='20px' />
     </Flex>
   );
