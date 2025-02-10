@@ -70,6 +70,7 @@ import StudentAwards from './pages/StaffPages/StudentAward/StudentAward';
 import ArtworkIndex from './pages/StaffPages/ArtWork/ArtWorkIndex';
 import RequestsExhibition from './pages/ManagerPages/RequestsExhibition';
 import RequestsAward from './pages/ManagerPages/RequestsAward';
+import RequestsExhibitionArtwork from './pages/ManagerPages/RequestsExhibitionArtwork';
 import AdminStaffStatus from './pages/ManagerPages/UpdateStatusStaff';
 import InactiveStaffLayout from './pages/ManagerPages/InactiveStaffLayout';
 
@@ -96,6 +97,7 @@ import Rejected from './pages/ManagerPages/Rejected';
 import NotificationMenu from './pages/ManagerPages/NotificationMenu';
 import RequestsStudentAward from './pages/ManagerPages/RequestsStudentAward';
 import EditProfile from './pages/PublicPages/EditProfile';
+import RequestsContestJudge from './pages/ManagerPages/RequestsContestJudge';
 
 
 
@@ -105,7 +107,7 @@ export const adminRoutes = [
     layout: '/admin',
     path: '/',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
-    component: <Adminlayout/>,
+    component: <Adminlayout />,
     index: true
   },
   {
@@ -169,7 +171,7 @@ export const adminRoutes = [
     path: '/Class-Detail/:id',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     component: <AdminClassDetail />,
-    
+
   },
   {
     name: 'Student Detail',
@@ -177,14 +179,14 @@ export const adminRoutes = [
     path: '/Student-Detail/:id',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     component: <AdminStudentDetail />,
-    
-  },{
+
+  }, {
     name: 'Update Student ',
     layout: '/admin',
     path: '/Update-Student/:id',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     component: <AdminStudentUpdate />,
-    
+
   },
   {
     name: 'Staff Detail',
@@ -192,7 +194,7 @@ export const adminRoutes = [
     path: '/Staff-Detail/:id',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     component: <AdminStaffDetail />,
-    
+
   },
   {
     name: 'Update Staff',
@@ -206,11 +208,11 @@ export const adminRoutes = [
     layout: '/admin',
     path: '/EditProfile',
     icon: <Icon as={MdEdit} width="20px" height="20px" color="inherit" />,
-    component: <EditProfile/>,
+    component: <EditProfile />,
   },
 
-  
-]; 
+
+];
 
 export const routes = [
   {
@@ -429,21 +431,21 @@ export const staffRoutes = [
     layout: '/staff',
     path: '/ExhibitionArtWork/Create',
     icon: <Icon as={MdViewList} width="20px" height="20px" color="inherit" />,
-    component: <CreateExhibitionArtwork/>,
+    component: <CreateExhibitionArtwork />,
   },
   {
     name: 'Edit Exhibition ArtWork',
     layout: '/staff',
     path: '/ExhibitionArtWork/Edit/:ExhibitionArtWorkID',
     icon: <Icon as={MdViewList} width="20px" height="20px" color="inherit" />,
-    component: <EditExhibitionArtwork/>,
+    component: <EditExhibitionArtwork />,
   },
   {
     name: 'Exhibition ArtWorks',
     layout: '/staff',
     path: '/ExhibitionArtWork',
     icon: <Icon as={MdViewList} width="20px" height="20px" color="inherit" />,
-    component: <ExhibitionArtworks/>,
+    component: <ExhibitionArtworks />,
     index: true
   },
   {
@@ -451,7 +453,7 @@ export const staffRoutes = [
     layout: '/staff',
     path: '/EditProfile',
     icon: <Icon as={MdEdit} width="20px" height="20px" color="inherit" />,
-    component: <EditProfile/>,
+    component: <EditProfile />,
   },
 ];
 export const managerRoutes = [
@@ -608,12 +610,29 @@ export const managerRoutes = [
     index: false
   },
   {
+    name: 'Request Exhibition Artwork',
+    layout: '/manager',
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    path: '/requestsexhibitionartwork/:exhibitionId/:artworkId',
+    component: <RequestsExhibitionArtwork />,
+    index: false
+  },
+  {
+    name: 'Request Contest Judge',
+    layout: '/manager',
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    path: '/requestscontestjudge/:staffId/:contestId',
+    component: <RequestsContestJudge />,
+    index: false
+  },
+
+  {
     name: 'Edit Profile',
     layout: '/manager',
     path: '/EditProfile',
     icon: <Icon as={MdEdit} width="20px" height="20px" color="inherit" />,
-    component: <EditProfile/>,
-  },
+    component: <EditProfile />,
+  }
 
   // {
   //   name: 'Notification',

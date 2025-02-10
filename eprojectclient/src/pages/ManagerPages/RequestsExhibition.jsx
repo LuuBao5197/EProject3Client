@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from '../../layout/AdminLayout.module.css';
 
-const RequestsArtwork = () => {
+const RequestsExhibition = () => {
     const { id } = useParams(); 
     const navigate = useNavigate(); 
     const [exhibitionDetails, setExhibitionDetails] = useState(null); 
@@ -33,7 +33,7 @@ const RequestsArtwork = () => {
             status: newStatus, 
         };
 
-        axios.put(`http://localhost:5190/api/Manager/UpdateAwardStatus/${id}`, updateExhibition)
+        axios.put(`http://localhost:5190/api/Manager/UpdateExhibitionStatus/${id}`, updateExhibition)
             .then((response) => {
                 setExhibitionDetails({ ...exhibitionDetails, status: newStatus });
 
@@ -57,18 +57,18 @@ const RequestsArtwork = () => {
     }
 
     if (!exhibitionDetails) {
-        return <div className={styles['award-error-message']}>Award details not found.</div>;
+        return <div className={styles['award-error-message']}>Exhibition details not found.</div>;
     }
 
     return (
         <div className={styles['award-container']}>
-            <h2 className={styles['award-header']}>Award Details</h2>
+            <h2 className={styles['award-header']}>Exhibition Details</h2>
             <ul className={styles['award-details-list']}>
                 <li><strong>ID:</strong> {exhibitionDetails.id}</li>
                 <li><strong>Name:</strong> {exhibitionDetails.name}</li>
                 <li><strong>Value:</strong> ${exhibitionDetails.value}</li>
                 <li><strong>Contest ID:</strong> {exhibitionDetails.contestId}</li>
-                <li><strong>Award Quantity:</strong> {exhibitionDetails.awardQuantity}</li>
+                <li><strong>Exhibition Quantity:</strong> {exhibitionDetails.awardQuantity}</li>
                 <li><strong>Status:</strong> {exhibitionDetails.status}</li>
             </ul>
 
@@ -96,4 +96,4 @@ const RequestsArtwork = () => {
     );
 };
 
-export default RequestsArtwork;
+export default RequestsExhibition;

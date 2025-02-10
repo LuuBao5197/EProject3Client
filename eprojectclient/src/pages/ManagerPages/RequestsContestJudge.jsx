@@ -4,25 +4,25 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from '../../layout/AdminLayout.module.css'; // Đảm bảo rằng bạn đã import đúng file CSS
 
-function RequestsStudentAward() {
-    const { studentId, awardId } = useParams();  // Lấy tham số từ URL
+function RequestsContestJudge() {
+    const { staffId, contestId } = useParams();  // Lấy tham số từ URL
     const navigate = useNavigate(); 
-    const [awardDetail, setAwardDetail] = useState(null);
+    const [contestJudgeDetails, setContestJudgeDetails] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
 
     useEffect(() => {
-        if (!studentId || !awardId) {
-            setError("Invalid studentId or awardId");
+        if (!staffId || !contestId) {
+            setError("Invalid staffId or contestId");
             setLoading(false);
             return;
         }
 
-        const fetchAwardDetail = async () => {
+        const fetchContestJudgeDetails = async () => {
             try {
-                const response = await axios.get(`http://localhost:5190/api/Manager/GetStudentAwardDetail/${studentId}/${awardId}`);
-                setAwardDetail(response.data);
+                const response = await axios.get(`http://localhost:5190/api/Manager/GetContestJudgeDetail/${staffId}/${contestId}`);
+                setContestJudgeDetails(response.data);
                 setLoading(false);
             } catch (err) {
                 setError('Error while fetching data!');
@@ -30,18 +30,18 @@ function RequestsStudentAward() {
             }
         };
 
-        fetchAwardDetail();
-    }, [studentId, awardId]);
+        fetchContestJudgeDetails();
+    }, [staffId, contestId]);
 
     const updateStatus = (newStatus) => {
-        const updateAward = {
-            ...awardDetail,
+        const updateContestJudge = {
+            ...contestJudgeDetails,
             status: newStatus,
         };
 
-        axios.put(`http://localhost:5190/api/Manager/UpdateStudentAwardStatus/${studentId}/${awardId}`, updateAward)
+        axios.put(`http://localhost:5190/api/Manager/UpdateContestJudgeStatus/${staffId}/${contestId}`, updateContestJudge)
             .then((response) => {
-                setAwardDetail({ ...awardDetail, status: newStatus });
+                setContestJudgeDetails({ ...contestJudgeDetails, status: newStatus });
                 setSuccessMessage('Status updated successfully!');
 
                 setTimeout(() => {
@@ -61,7 +61,7 @@ function RequestsStudentAward() {
         return <div className={styles['award-error-message']}>{error}</div>;
     }
 
-    if (!awardDetail) {
+    if (!contestJudgeDetails) {
         return <div className={styles['award-error-message']}>Award details not found.</div>;
     }
 
@@ -69,11 +69,11 @@ function RequestsStudentAward() {
         <div className={styles['award-container']}>
             <h2 className={styles['award-header']}>Student Award Detail</h2>
             <ul className={styles['award-details-list']}>
-                <li><strong>Student ID:</strong> {awardDetail.studentId}</li>
-                <li><strong>Award ID:</strong> {awardDetail.awardId}</li>
-                <li><strong>Status:</strong> {awardDetail.status}</li>
-                <li><strong>Student:</strong> {awardDetail.student ? awardDetail.student : 'No student information available'}</li>
-                <li><strong>Award:</strong> {awardDetail.award ? awardDetail.award : 'No award information available'}</li>
+                <li><strong>Student ID:</strong> {contestJudgeDetails.staffId}</li>
+                <li><strong>Award ID:</strong> {contestJudgeDetails.contestId}</li>
+                <li><strong>Status:</strong> {contestJudgeDetails.status}</li>
+                <li><strong>Student:</strong> {contestJudgeDetails.student ? contestJudgeDetails.student : 'No student information available'}</li>
+                <li><strong>Award:</strong> {contestJudgeDetails.award ? contestJudgeDetails.award : 'No award information available'}</li>
             </ul>
 
             {successMessage && (
@@ -100,4 +100,4 @@ function RequestsStudentAward() {
     );
 }
 
-export default RequestsStudentAward;
+export default RequestsContestJudge;

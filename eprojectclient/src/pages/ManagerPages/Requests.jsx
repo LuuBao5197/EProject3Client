@@ -24,6 +24,10 @@ function Requests() {
                 url = 'http://localhost:5190/api/Manager/GetAllAward';
             } else if (selectedCategory === 'studentaward') {
                 url = 'http://localhost:5190/api/Manager/GetAllStudentAward';
+            } else if (selectedCategory === 'exhibitionartwork') {
+                url = 'http://localhost:5190/api/Manager/GetAllExhibitionArtwork';
+            } else if (selectedCategory === 'contestjudge') {
+                url = 'http://localhost:5190/api/Manager/GetAllContestJudge';
             }
 
             try {
@@ -179,6 +183,66 @@ function Requests() {
                     </table>
                 );
 
+            case 'exhibitionartwork':
+                return (
+                    <table className={styles.requestsTable}>
+                        <thead>
+                            <tr>
+                                <th>ARTWORK ID</th>
+                                <th>EXHIBITION ID</th>
+                                <th>STATUS</th>
+                                <th>MORE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {requests.map(request => (
+                                <tr key={request.id}>
+                                    <td>{request.artworkId}</td>
+                                    <td>{request.exhibitionId}</td>
+                                    <td>{request.status || 'No status'}</td>
+                                    <td>
+                                        <Link to={`/manager/requestsexhibitionartwork/${request.artworkId}/${request.exhibitionId}`}>
+                                            <button className="btn btn-info">
+                                                <i className="fa fa-info-circle"></i>
+                                            </button>
+                                        </Link>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                );
+
+            case 'contestjudge':
+                return (
+                    <table className={styles.requestsTable}>
+                        <thead>
+                            <tr>
+                                <th>STAFF ID</th>
+                                <th>CONTEST ID</th>
+                                <th>STATUS</th>
+                                <th>MORE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {requests.map(request => (
+                                <tr key={request.id}>
+                                    <td>{request.staffId}</td>
+                                    <td>{request.contestId}</td>
+                                    <td>{request.status || 'No status'}</td>
+                                    <td>
+                                        <Link to={`/manager/requestscontestjudge/${request.staffId}/${request.contestId}`}>
+                                            <button className="btn btn-info">
+                                                <i className="fa fa-info-circle"></i>
+                                            </button>
+                                        </Link>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                );
+
             default:
                 return null;
         }
@@ -200,6 +264,8 @@ function Requests() {
                     <option value="contest">Contests</option>
                     <option value="exhibition">Exhibitions</option>
                     <option value="studentaward">Student Award</option>
+                    <option value="exhibitionartwork">Exhibition Artwork</option>
+                    <option value="contestjudge">Contest Judge</option>
                 </select>
 
                 <Link to={`/manager/approved`}><button className={styles['award-button-approved']}>APPROVED</button></Link>
