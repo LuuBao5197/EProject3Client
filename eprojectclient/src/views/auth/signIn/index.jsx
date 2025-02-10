@@ -79,10 +79,10 @@ function SignIn() {
         console.log("res: ", res);
 
         // Kiểm tra status của user
-        if (!res.data.status) {
-            SweetAlert("Your account is locked. Please contact support.", "error");
-            return;
-        }
+        // if (!res.data.status) {
+        //     SweetAlert("Your account is locked. Please contact support.", "error");
+        //     return;
+        // }
 
         // Lưu token vào localStorage
         localStorage.setItem("inforToken", JSON.stringify(res.data));

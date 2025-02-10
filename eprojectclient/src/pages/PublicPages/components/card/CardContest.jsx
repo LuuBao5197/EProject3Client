@@ -80,7 +80,7 @@ export default function CardContest({ contest, ...props }) {
       const decodedToken = jwtDecode(token);
 
       if (decodedToken.role === "Student") {
-        nav(`createsubmission/${contest.id}`);
+        nav(`/student/createsubmission/${contest.id}`);
       } else {
         SweetAlert("Only students can enter the contest.", "error");
         return;
