@@ -32,10 +32,14 @@ const CreateMeeting = () => {
     try {
       const response = await axios.post('http://localhost:5190/api/Manager/CreateMeeting', newRequest);
       if (response.status === 200) {
-        alert('Meeting created successfully! Redirecting to requests page...');
-        setTimeout(() => {
-          navigate('/manager/requests');
-        }, 1000);
+        alert('Meeting created successfully!');
+        setMessage(''); // Clear any previous messages
+        
+        // Reload the current page first
+        window.location.reload(); 
+        
+        // After the page reloads, navigate back to the previous page
+        navigate(-1); // This will navigate to the previous page in history
       }
     } catch (error) {
       setMessage(`Error: ${error.response?.data || error.message}`);

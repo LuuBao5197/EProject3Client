@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Flex, Text, Box } from "@chakra-ui/react";  // Removed unnecessary imports
+import { Flex, Text, Box, Icon, keyframes } from "@chakra-ui/react";  // Add Icon and keyframes from Chakra UI
 import { ItemContent } from "../../components/menu/ItemContent"; // Import the ItemContent component
+import { FiBell } from "react-icons/fi"; // Import Bell icon from react-icons
 import axios from "axios";
+
+// Define keyframes for the "blink" animation
+const blink = keyframes`
+  0% { opacity: 1; }
+  50% { opacity: 0.3; }
+  100% { opacity: 1; }
+`;
 
 const NotificationMenu = () => {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [newNotification, setNewNotification] = useState(false); // State to track new notifications
 
   useEffect(() => {
     // Fetch data from the API
@@ -15,6 +24,11 @@ const NotificationMenu = () => {
       .then((response) => {
         setRequests(response.data); // Set the fetched data
         setLoading(false); // Update loading state
+        
+        // Check if there's a new notification
+        const latestRequest = response.data[0]; // Assuming the first request is the most recent one
+        const isNewNotification = latestRequest.status === "New"; // Replace with your own condition for "new" notifications
+        setNewNotification(isNewNotification);
       })
       .catch((err) => {
         setError("Error fetching data!");
@@ -32,13 +46,24 @@ const NotificationMenu = () => {
 
   return (
     <Box p="20px" borderRadius="20px" bg="white" boxShadow="sm" minW="400px" maxW="600px">
-      <Flex w="100%" mb="20px">
+      <Flex w="100%" mb="20px" justify="space-between">
         <Text fontSize="md" fontWeight="600">
           Notifications
         </Text>
-        <Text fontSize="sm" fontWeight="500" ms="auto" cursor="pointer">
-          Mark all read
-        </Text>
+        <Flex align="center">
+          {/* Bell Icon with animation */}
+          <Icon
+            as={FiBell}
+            w={6}
+            h={6}
+            color={newNotification ? "orange.400" : "gray.600"}
+            animation={newNotification ? `${blink} 1s infinite` : "none"} // Apply blinking animation if there's a new notification
+            cursor="pointer"
+          />
+          <Text fontSize="sm" fontWeight="500" ms="10px" cursor="pointer">
+            Mark all read
+          </Text>
+        </Flex>
       </Flex>
 
       <Flex flexDirection="column">

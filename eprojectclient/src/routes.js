@@ -97,6 +97,7 @@ import Rejected from './pages/ManagerPages/Rejected';
 import NotificationMenu from './pages/ManagerPages/NotificationMenu';
 import RequestsStudentAward from './pages/ManagerPages/RequestsStudentAward';
 import EditProfile from './pages/PublicPages/EditProfile';
+import RequestsContestJudge from './pages/ManagerPages/RequestsContestJudge';
 
 
 
@@ -614,6 +615,14 @@ export const managerRoutes = [
     icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
     path: '/requestsexhibitionartwork/:exhibitionId/:artworkId',
     component: <RequestsExhibitionArtwork />,
+    index: false
+  },
+  {
+    name: 'Request Contest Judge',
+    layout: '/manager',
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    path: '/requestscontestjudge/:staffId/:contestId',
+    component: <RequestsContestJudge />,
     index: false
   },
 

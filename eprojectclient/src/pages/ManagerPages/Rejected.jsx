@@ -9,6 +9,7 @@ const Rejected = () => {
     const [rejectedExhibitions, setRejectedExhibitions] = useState([]);
     const [rejectedStudentAwards, setRejectedStudentAwards] = useState([]);
     const [rejectedExhibitionArtworks, setRejectedExhibitionArtworks] = useState([]);
+    const [rejectedContestJudges, setRejectedContestJudges] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -21,19 +22,22 @@ const Rejected = () => {
         const fetchExhibitions = axios.get('http://localhost:5190/api/Manager/GetAllExhibition');
         const fetchStudentAwards = axios.get('http://localhost:5190/api/Manager/GetAllStudentAward');
         const fetchExhibitionArtworks = axios.get('http://localhost:5190/api/Manager/GetAllExhibitionArtwork');
-        Promise.all([fetchAwards, fetchContests, fetchExhibitions, fetchStudentAwards, fetchExhibitionArtworks])
-            .then(([awardResponse, contestResponse, exhibitionResponse, studentAwardResponse, exhibitionartworkRespone]) => {
+        const fetchContestJudges = axios.get('http://localhost:5190/api/Manager/GetAllContestJudge');
+        Promise.all([fetchAwards, fetchContests, fetchExhibitions, fetchStudentAwards, fetchExhibitionArtworks, fetchContestJudges])
+            .then(([awardResponse, contestResponse, exhibitionResponse, studentAwardResponse, exhibitionartworkRespone, contestJudgeRespone]) => {
                 const rejectedAwards = awardResponse.data.filter(item => item.status === 'Rejected');
                 const rejectedContests = contestResponse.data.filter(item => item.status === 'Rejected');
                 const rejectedExhibitions = exhibitionResponse.data.filter(item => item.status === 'Rejected');
                 const rejectedStudentAwards = studentAwardResponse.data.filter(item => item.status === 'Rejected');
                 const rejectedExhibitionArtworks = exhibitionartworkRespone.data.filter(item => item.status === 'Rejected');
+                const rejectedContestJudges = contestJudgeRespone.data.filter(item => item.status === 'Rejected');
 
                 setRejectedAwards(rejectedAwards);
                 setRejectedContests(rejectedContests);
                 setRejectedExhibitions(rejectedExhibitions);
                 setRejectedStudentAwards(rejectedStudentAwards);
                 setRejectedExhibitionArtworks(rejectedExhibitionArtworks);
+                setRejectedContestJudges(rejectedContestJudges);
                 setLoading(false);
             })
             .catch((err) => {
@@ -130,6 +134,22 @@ const Rejected = () => {
                 </ul>
             ) : (
                 <div className={styles['no-data-message']}>No rejected exhibition artworks found.</div>
+            )}
+
+            <h2 className={styles['approved-header']}>Rejected Contest Judges</h2>
+            {rejectedContestJudges.length > 0 ? (
+                <ul className={styles['approved-items-list']}>
+                    {rejectedContestJudges.map((contestJudge) => (
+                        <li key={contestJudge.id} className={styles['approved-item']}>
+                            <strong>ID:</strong> {contestJudge.id} <br />
+                            <strong>Staff ID:</strong> {contestJudge.staffId} <br />
+                            <strong>Contest ID:</strong> {contestJudge.contestId} <br />
+                            <strong>Status:</strong> {contestJudge.status} <br />
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <div className={styles['no-data-message']}>No rejected contest judges found.</div>
             )}
         </div>
     );

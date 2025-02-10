@@ -9,6 +9,7 @@ const Approved = () => {
     const [approvedExhibitions, setApprovedExhibitions] = useState([]);
     const [approvedStudentAwards, setApprovedStudentAwards] = useState([]);
     const [approvedExhibitionArtworks, setApprovedExhibitionArtworks] = useState([]);
+    const [approvedContestJudges, setApprovedContestJudges] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -21,20 +22,23 @@ const Approved = () => {
         const fetchExhibitions = axios.get('http://localhost:5190/api/Manager/GetAllExhibition');
         const fetchStudentAwards = axios.get('http://localhost:5190/api/Manager/GetAllStudentAward');
         const fetchExhibitionArtworks = axios.get('http://localhost:5190/api/Manager/GetAllExhibitionArtwork');
+        const fetchContestJudges = axios.get('http://localhost:5190/api/Manager/GetAllContestJudge');
 
-        Promise.all([fetchAwards, fetchContests, fetchExhibitions, fetchStudentAwards, fetchExhibitionArtworks])
-            .then(([awardResponse, contestResponse, exhibitionResponse, studentAwardResponse, exhibitionartworkRespone]) => {
+        Promise.all([fetchAwards, fetchContests, fetchExhibitions, fetchStudentAwards, fetchExhibitionArtworks, fetchContestJudges])
+            .then(([awardResponse, contestResponse, exhibitionResponse, studentAwardResponse, exhibitionartworkRespone, contestJudgeRespone]) => {
                 const approvedAwards = awardResponse.data.filter(item => item.status === 'Approved');
                 const approvedContests = contestResponse.data.filter(item => item.status === 'Approved');
                 const approvedExhibitions = exhibitionResponse.data.filter(item => item.status === 'Approved');
                 const approvedStudentAwards = studentAwardResponse.data.filter(item => item.status === 'Approved');
                 const approvedExhibitionArtworks = exhibitionartworkRespone.data.filter(item => item.status === 'Approved');
+                const approvedContestJudges = contestJudgeRespone.data.filter(item => item.status === 'Approved');
 
                 setApprovedAwards(approvedAwards);
                 setApprovedContests(approvedContests);
                 setApprovedExhibitions(approvedExhibitions);
                 setApprovedStudentAwards(approvedStudentAwards);
                 setApprovedExhibitionArtworks(approvedExhibitionArtworks);
+                setApprovedContestJudges(approvedContestJudges);
                 setLoading(false);
             })
             .catch((err) => {
@@ -130,6 +134,22 @@ const Approved = () => {
             ) : (
                 <div className={styles['no-data-message']}>No approved exhibition artworks found.</div>
             )}
+
+            <h2 className={styles['approved-header']}>Approved Contest Judges</h2>
+            {approvedContestJudges.length > 0 ? (
+                <ul className={styles['approved-items-list']}>
+                    {approvedContestJudges.map((contestJudge) => (
+                        <li key={contestJudge.id} className={styles['approved-item']}>
+                            <strong>Staff ID:</strong> {contestJudge.staffId} <br />
+                            <strong>Contest ID:</strong> {contestJudge.contestId} <br />
+                            <strong>Status:</strong> {contestJudge.status} <br />
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <div className={styles['no-data-message']}>No approved contest judges found.</div>
+            )}
+            
         </div>
     );
 };
