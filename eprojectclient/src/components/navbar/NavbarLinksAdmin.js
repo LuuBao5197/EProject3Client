@@ -25,7 +25,7 @@ import navImage from '@/assets/img/layout/Navbar.png';
 import { MdNotificationsNone, MdInfoOutline } from 'react-icons/md';
 import { IoMdMoon, IoMdSunny } from 'react-icons/io';
 import { FaEthereum } from 'react-icons/fa';
-import { staffRoutes } from '@/routes';
+import { managerRoutes } from '@/routes';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 export default function HeaderLinks(props) {
@@ -125,7 +125,7 @@ export default function HeaderLinks(props) {
           </Text>
         </Text>
       </Flex>
-      <SidebarResponsive routes={staffRoutes} />
+      <SidebarResponsive routes={managerRoutes} />
       <Menu>
            <MenuButton p="0px">
              <Icon
@@ -276,7 +276,7 @@ export default function HeaderLinks(props) {
           <Avatar
             _hover={{ cursor: 'pointer' }}
             color="white"
-            name="Adela Parkson"
+            name="KY ANH"
             bg="#11047A"
             size="sm"
             w="40px"
