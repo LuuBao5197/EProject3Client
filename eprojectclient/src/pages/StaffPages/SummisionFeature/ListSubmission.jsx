@@ -20,6 +20,7 @@ import "react-quill/dist/quill.snow.css";
 import { useFormik } from 'formik';
 import ContestDetail from '../ContestFeature/ContestDetail';
 import { jwtDecode } from 'jwt-decode';
+import { toast } from 'react-toastify';
 const ListSubmission = () => {
   const [staffCurrent, setStaffCurrent] = useState({});
 
@@ -125,14 +126,15 @@ const ListSubmission = () => {
     }
 
     // Fetch contests data
-    const fetchContests = async (page, search = "", status = "Published") => {
+    const fetchContests = async (page, search = "", status = "Published", phase = "Ongoing") => {
       try {
         const response = await axios.get(`http://localhost:5190/api/Staff/GetAllContest`, {
           params: {
             page,
             pageSize,
             search,
-            status
+            status,
+            
 
           },
         });
@@ -212,7 +214,8 @@ const ListSubmission = () => {
   };
 
   const handleEditReviewClick = (submission) => {
-    setShowEditReviewModal(true);
+    
+    
     const fetchReviewForSubmission = async (submissionID, staffID) => {
       console.log(submissionID);
       const respone = await axios.get(`http://localhost:5190/api/Staff/GetReviewForSubmissionOfStaff`, {
@@ -222,6 +225,11 @@ const ListSubmission = () => {
         }
       });
       console.log(respone.data);
+      if(new Date(respone.data.reviewDate).getSeconds()+ 24 * 60 * 60  > new Date().getSeconds()){
+        toast.error("You can only edit your review after 24 hours from your last review")
+        return;
+      }
+      setShowEditReviewModal(true);
       formikEdit.setValues(
         {
           submissionId: respone.data.submissionId,
@@ -440,10 +448,25 @@ const ListSubmission = () => {
               <Divider my={2} />
               <Image src={submissionDetails.thumbnail} alt={submissionDetails.thumbnail} width={300} maxWidth={500} />
               <h3 className='text-center mx-auto'>List Review </h3>
-              {submissionDetails.reviews.length > 0 && submissionDetails.reviews.map((sub, index) => (
+              
+              {selectedContest.phase==="Completed"&&submissionDetails.reviews.length > 0 && submissionDetails.reviews.map((sub, index) => (
                 <div className='row'>
                   <div className="col-md-3">
                     Teacher {index + 1}
+                  </div>
+                  <div className='col-md-6'>
+                    {sub.reviewText}
+                  </div>
+                  <div className="col-md-3">
+                    {sub.ratingLevel.name}
+                  </div>
+                </div>
+              ))}
+              {selectedContest.phase!=="Completed"&&submissionDetails.reviews.length > 0 && submissionDetails.reviews.filter(r=>r.staffId === staffCurrent.id).map((sub) => (
+                <div className='row'>
+                  {console.log(submissionDetails)}
+                  <div className="col-md-3">
+                    MY REVIEW
                   </div>
                   <div className='col-md-6'>
                     {sub.reviewText}
@@ -474,6 +497,7 @@ const ListSubmission = () => {
                 <Form.Label>Review Text</Form.Label>
                 <ReactQuill
                   theme="snow"
+                  style={{ height: "200px", width: "100%" }}
                   value={formik.values.reviewText}
                   modules={modules}
                   onChange={(value) => formik.setFieldValue('reviewText', value)}
@@ -496,7 +520,7 @@ const ListSubmission = () => {
                 >
                   {ratingLevel.map((level) => (
                     <option key={level.id} value={level.id}>
-                      {level.name}
+                      {level.name} - {level.mark}
                     </option>
                   ))}
                 </Select>
@@ -527,6 +551,7 @@ const ListSubmission = () => {
                 <Form.Label>Review Text</Form.Label>
                 <ReactQuill
                   theme="snow"
+                  style={{ height: "200px", width: "100%" }}
                   value={formikEdit.values.reviewText}
                   modules={modules}
                   onChange={(value) => formikEdit.setFieldValue('reviewText', value)}
@@ -546,7 +571,7 @@ const ListSubmission = () => {
                   onBlur={formikEdit.handleBlur}
                 >
                   {ratingLevel.map((level) => (
-                    <option key={level.id} value={level.id}>{level.name}</option>
+                    <option key={level.id} value={level.id}>{level.name} - {level.mark}</option>
                   ))}
                 </Select>
                 {formikEdit.touched.ratingId && formikEdit.errors.ratingId && (

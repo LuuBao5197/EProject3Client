@@ -125,7 +125,7 @@ export default function ContestJudgeList() {
                                 {contest.contestJudge.length > 0 && contest.organizer.id == currentStaff.id
                                     ? (
                                         <>
-                                            {contest.contestJudge.every(cj => cj.status == "Draft") && (
+                                            {currentStaff.isReviewer && contest.contestJudge.every(cj => cj.status == "Draft" || cj.status === "Rejected") && (
                                                 <div className="row">
 
                                                     <Button className="col-md-4" colorScheme="blue" size="sm" onClick={() => handleEdit(contest.id)}>
@@ -141,9 +141,11 @@ export default function ContestJudgeList() {
 
                                         </>
                                     ) : (<>
-                                        {currentStaff.isReviewer && contest.contestJudge.every(cj => cj.status !== "Pending") && <Button colorScheme="teal" size="sm" onClick={() => handleCreateJudges(contest.id)}>
-                                            Create Judges
-                                        </Button>}
+                                        {currentStaff.isReviewer && contest.status === "Approved" &&
+                                            <Button colorScheme="teal" size="sm" isDisabled={new Date(contest.submissionDeadline).getTime() > new Date().getTime()}
+                                                onClick={() => handleCreateJudges(contest.id)}>
+                                                Create Judges
+                                            </Button>}
 
                                     </>
                                     )}

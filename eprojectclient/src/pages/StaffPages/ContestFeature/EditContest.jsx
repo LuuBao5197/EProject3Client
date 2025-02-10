@@ -128,8 +128,8 @@ const EditContest = () => {
             console.log(result);
             if (!result.data.isReviewer) {
                 // setTimeout(()=>  navigate('/staff'), 2000) 
-                toast.dark("Ban ko co quyen han vao trang nay");
-                navigate('/staff');
+                toast.dark("You do not have permission to access this page.");
+                navigate('/staff/contest');
             }
             formik.setValues({
 

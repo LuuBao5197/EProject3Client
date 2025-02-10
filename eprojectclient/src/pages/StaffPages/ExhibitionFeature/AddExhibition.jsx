@@ -1,161 +1,199 @@
-import React from "react";
-import { useForm } from "react-hook-form";
+import React, { useEffect } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import { jwtDecode } from "jwt-decode";
+
+const validationSchema = Yup.object().shape({
+    name: Yup.string().required("Name is required"),
+    startDate: Yup.date().required("Start date is required"),
+    endDate: Yup.date()
+        .required("End date is required")
+        .min(Yup.ref("startDate"), "End date must be after start date"),
+    location: Yup.string().required("Location is required"),
+    organizedBy: Yup.string().required("Organizer ID is required"),
+    description: Yup.string()
+        .test("notEmpty", "Description is required", (value) => {
+            return value && value.replace(/<(.|\n)*?>/g, "").trim() !== "";
+        }),
+    image: Yup.mixed()
+        .test("fileType", "Only JPG, PNG, or GIF files are allowed", (value) => {
+            if (!value) return true;
+            const file = value instanceof FileList ? value[0] : value;
+            return file && ["image/jpeg", "image/png", "image/gif"].includes(file.type);
+        }),
+});
 
 const AddExhibition = () => {
     const navigate = useNavigate();
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-        watch,
-    } = useForm();
+    const token = localStorage.getItem('token');
+    const userId = jwtDecode(token).Id;
 
-    const onSubmit = async (data) => {
-        const formData = new FormData();
+    const formik = useFormik({
+        initialValues: {
+            name: "",
+            startDate: "",
+            endDate: "",
+            location: "",
+            organizedBy: "",
+            description: "",
+            image: null,
+        },
+        validationSchema,
+        onSubmit: async (values) => {
+            const formData = new FormData();
+            formData.append("name", values.name);
+            formData.append("startDate", values.startDate);
+            formData.append("endDate", values.endDate);
+            formData.append("location", values.location);
+            formData.append("organizedBy", values.organizedBy);
+            formData.append("description", values.description);
+            if (values.image) {
+                formData.append("image", values.image);
+            }
 
-        // Append form data fields
-        formData.append("name", data.name);
-        formData.append("startDate", data.startDate);
-        formData.append("endDate", data.endDate);
-        formData.append("location", data.location);
-        formData.append("organizedBy", data.organizedBy);
+            try {
+                await axios.post("http://localhost:5190/api/Staff/AddExhibition", formData, {
+                    headers: { "Content-Type": "multipart/form-data" },
+                });
+                toast.success("Exhibition added successfully!");
+                navigate(-1);
+            } catch (error) {
+                
+                toast.error(`Exhibition addition failed! Because ${error.response.data.message}`);
+            }
+        },
+    });
 
-        // Append file to FormData
-        if (data.image[0]) {
-            formData.append("image", data.image[0]);
+    useEffect(() => {
+
+
+        const fetchInfoOfStaff = async (userId) => {
+            var result = await axios.get(`http://localhost:5190/api/Staff/GetInfoStaff/${userId}`);
+            console.log(result);
+            if (!result.data.isReviewer) {
+                // setTimeout(()=>  navigate('/staff'), 2000) 
+                toast.dark("You do not have permission to access this page");
+                navigate(-1);
+            }
+            formik.setValues({
+                name: "",
+                startDate: "",
+                endDate: "",
+                location: "",
+                organizedBy: Number(result.data.id)||"",
+                description: "",
+                image: null,
+
+            })
+
         }
-
-        try {
-            await axios.post("http://localhost:5190/api/Staff/AddExhibition", formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            });
-            toast.success("Exhibition added successfully!");
-            navigate(-1);
-        } catch (error) {
-            toast.error("Exhibition addition failed!");
-        }
-    };
-
-    const startDate = watch("startDate");
-    const endDate = watch("endDate");
-
+        fetchInfoOfStaff(userId);
+    }, [token]);
     return (
         <div className="container mt-4">
             <ToastContainer />
             <h2>Add New Exhibition</h2>
-            <form onSubmit={handleSubmit(onSubmit)} className="mt-3">
+            <form onSubmit={formik.handleSubmit} className="mt-3">
+                {/* Exhibition Name */}
                 <div className="mb-3">
-                    <label htmlFor="name" className="form-label">
-                        Exhibition Name
-                    </label>
+                    <label className="form-label">Exhibition Name</label>
                     <input
                         type="text"
-                        id="name"
-                        className={`form-control ${errors.name ? "is-invalid" : ""}`}
-                        {...register("name", { required: "Name is required" })}
+                        className={`form-control ${formik.touched.name && formik.errors.name ? "is-invalid" : ""}`}
+                        {...formik.getFieldProps("name")}
                     />
-                    {errors.name && <div className="invalid-feedback">{errors.name.message}</div>}
+                    {formik.touched.name && formik.errors.name && <div className="invalid-feedback">{formik.errors.name}</div>}
                 </div>
 
+                {/* Description */}
                 <div className="mb-3">
-                    <label htmlFor="startDate" className="form-label">
-                        Start Date
-                    </label>
+                    <label className="form-label">Description</label>
+                    <ReactQuill
+                        theme="snow"
+                        value={formik.values.description}
+                        onChange={(value) => formik.setFieldValue("description", value)}
+                        onBlur={() => formik.setFieldTouched("description", true)}
+                        className="bg-light text-black"
+                        style={{ height: "200px", width: "100%" }}
+                    />
+                    {formik.touched.description && formik.errors.description && (
+                        <div className="text-danger">{formik.errors.description}</div>
+                    )}
+                </div>
+
+                {/* Start Date */}
+                <div className="mb-3">
+                    <label className="form-label">Start Date</label>
                     <input
                         type="datetime-local"
-                        id="startDate"
-                        className={`form-control ${errors.startDate ? "is-invalid" : ""}`}
-                        {...register("startDate", {
-                            required: "Start date is required",
-                            validate: {
-                                futureDate: (value) =>
-                                    new Date(value) > new Date() || "Start date must be in the future",
-                                beforeEndDate: (value) =>
-                                    !endDate || new Date(value) < new Date(endDate) || "Start date must be before end date",
-                            },
-                        })}
+                        className={`form-control ${formik.touched.startDate && formik.errors.startDate ? "is-invalid" : ""}`}
+                        {...formik.getFieldProps("startDate")}
                     />
-                    {errors.startDate && <div className="invalid-feedback">{errors.startDate.message}</div>}
+                    {formik.touched.startDate && formik.errors.startDate && (
+                        <div className="invalid-feedback">{formik.errors.startDate}</div>
+                    )}
                 </div>
 
+                {/* End Date */}
                 <div className="mb-3">
-                    <label htmlFor="endDate" className="form-label">
-                        End Date
-                    </label>
+                    <label className="form-label">End Date</label>
                     <input
                         type="datetime-local"
-                        id="endDate"
-                        className={`form-control ${errors.endDate ? "is-invalid" : ""}`}
-                        {...register("endDate", {
-                            required: "End date is required",
-                            validate: {
-                                afterStartDate: (value) =>
-                                    !startDate || new Date(value) > new Date(startDate) || "End date must be after start date",
-                            },
-                        })}
+                        className={`form-control ${formik.touched.endDate && formik.errors.endDate ? "is-invalid" : ""}`}
+                        {...formik.getFieldProps("endDate")}
                     />
-                    {errors.endDate && <div className="invalid-feedback">{errors.endDate.message}</div>}
+                    {formik.touched.endDate && formik.errors.endDate && (
+                        <div className="invalid-feedback">{formik.errors.endDate}</div>
+                    )}
                 </div>
 
+                {/* Location */}
                 <div className="mb-3">
-                    <label htmlFor="location" className="form-label">
-                        Location
-                    </label>
+                    <label className="form-label">Location</label>
                     <input
                         type="text"
-                        id="location"
-                        className={`form-control ${errors.location ? "is-invalid" : ""}`}
-                        {...register("location", { required: "Location is required" })}
+                        className={`form-control ${formik.touched.location && formik.errors.location ? "is-invalid" : ""}`}
+                        {...formik.getFieldProps("location")}
                     />
-                    {errors.location && <div className="invalid-feedback">{errors.location.message}</div>}
+                    {formik.touched.location && formik.errors.location && (
+                        <div className="invalid-feedback">{formik.errors.location}</div>
+                    )}
                 </div>
 
-                <div className="mb-3">
-                    <label htmlFor="organizedBy" className="form-label">
-                        Organizer ID
-                    </label>
+                {/* Organizer ID */}
+                {/* <div className="mb-3">
+                    <label className="form-label">Organizer ID</label>
                     <input
                         type="number"
-                        id="organizedBy"
-                        className={`form-control ${errors.organizedBy ? "is-invalid" : ""}`}
-                        {...register("organizedBy", { required: "Organizer ID is required" })}
+                        className={`form-control ${formik.touched.organizedBy && formik.errors.organizedBy ? "is-invalid" : ""}`}
+                        {...formik.getFieldProps("organizedBy")}
                     />
-                    {errors.organizedBy && <div className="invalid-feedback">{errors.organizedBy.message}</div>}
-                </div>
+                    {formik.touched.organizedBy && formik.errors.organizedBy && (
+                        <div className="invalid-feedback">{formik.errors.organizedBy}</div>
+                    )}
+                </div> */}
 
+                {/* Image Upload */}
                 <div className="mb-3">
-                    <label htmlFor="image" className="form-label">
-                        Exhibition Image
-                    </label>
+                    <label className="form-label">Exhibition Image</label>
                     <input
                         type="file"
-                        id="image"
-                        className={`form-control ${errors.image ? "is-invalid" : ""}`}
-                        {...register("image", {
-                            // required: "Image is required",
-                            validate: {
-                                isImage: (value) => {
-                                    if (!value.length) return true; // Cho phép giá trị null
-                                    const file = value[0];
-                                    const validImageTypes = ["image/jpeg", "image/png", "image/gif"];
-                                    return file && validImageTypes.includes(file.type) || "File must be an image (jpg, png, gif)";
-                                },
-                            },
-                        })}
+                        className={`form-control ${formik.touched.image && formik.errors.image ? "is-invalid" : ""}`}
+                        onChange={(event) => formik.setFieldValue("image", event.currentTarget.files[0])}
                     />
-                    {errors.image && <div className="invalid-feedback">{errors.image.message}</div>}
+                    {formik.touched.image && formik.errors.image && (
+                        <div className="invalid-feedback">{formik.errors.image}</div>
+                    )}
                 </div>
 
-                <button type="submit" className="btn btn-primary">
-                    Add Exhibition
-                </button>
+                <button type="submit" className="btn btn-primary">Add Exhibition</button>
             </form>
         </div>
     );
