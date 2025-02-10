@@ -229,7 +229,7 @@ const AddContest = () => {
                     )}
                 </div>
 
-                <div className="mb-1">
+                {/* <div className="mb-1">
                     <label className="form-label">Organized By (Staff ID)</label>
                     <input
                         type="number"
@@ -243,7 +243,7 @@ const AddContest = () => {
                     {formik.touched.organizedBy && formik.errors.organizedBy && (
                         <div className="text-danger">{formik.errors.organizedBy}</div>
                     )}
-                </div>
+                </div> */}
                 <div className="mb-1">
                     <label className="form-label">Upload File</label>
                     <input

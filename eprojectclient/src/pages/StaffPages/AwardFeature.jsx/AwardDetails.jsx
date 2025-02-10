@@ -5,13 +5,16 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Icon } from "@chakra-ui/react";
 import { MdDeleteForever, MdEdit, MdSend } from "react-icons/md";
 import { toast } from "react-toastify";
+import { jwtDecode } from "jwt-decode";
 
 const AwardDetails = () => {
     const { id } = useParams();
     const [award, setAward] = useState({});
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
-
+    const token = localStorage.getItem('token');
+    const userId = jwtDecode(token).Id;
+    const [staffCurrent, setStaffCurrent] = useState({});
     useEffect(() => {
         const fetchAwardDetails = async () => {
             try {
@@ -20,16 +23,22 @@ const AwardDetails = () => {
                 setLoading(false);
                 console.log(response.data)
             } catch (error) {
-                console.error("Lỗi khi tải dữ liệu:", error);
+                console.error("Error loading data:", error);
                 setLoading(false);
             }
         };
 
         fetchAwardDetails();
-    }, [id]);
+        const fetchInfoOfStaff = async (userId) => {
+            var result = await axios.get(`http://localhost:5190/api/Staff/GetInfoStaff/${userId}`);
+            console.log(result);
+            setStaffCurrent(result.data);
+          }
+          fetchInfoOfStaff(userId);
+    }, [id, token]);
 
     const handleDelete = async () => {
-        if (window.confirm("Bạn có chắc chắn muốn xóa giải thưởng này?")) {
+        if (window.confirm("Are you sure to delete this award ?")) {
             try {
                 await axios.delete(`http://localhost:5190/api/Staff/DeleteAward/${id}`);
                 toast.success("Award deleted successfully!");
@@ -69,7 +78,7 @@ const AwardDetails = () => {
                             <p> Status: {award.status}</p>
                         </div>
                     </div>
-                    {award.status === "Published" || award.studentAwards.length> 0 && (
+                    {award.status === "Published" || award.studentAwards.length > 0 && (
                         <div className="col-md-8 text-center mx-auto">
                             <h1>List of award-winning students</h1>
                             <table className="table table-bordered table-striped">
@@ -85,7 +94,7 @@ const AwardDetails = () => {
                                             <tr key={index}>
                                                 <td className="text-center">{award.student.id}</td>
                                                 <td className="text-center">{award.student.user.name}</td>
-                                    
+
                                             </tr>
                                         ))
                                     ) : (
@@ -99,7 +108,7 @@ const AwardDetails = () => {
                     )}
 
 
-                    {award.status === "Draft" || award.status === "Rejected" ? (
+                    {staffCurrent.isReviewer&&(award.status === "Draft" || award.status === "Rejected")? (
                         <div className="d-flex gap-2">
                             <button className="btn btn-warning" onClick={() => navigate(`/staff/award/edit/${id}`)}>
                                 <Icon as={MdEdit} /> Edit
