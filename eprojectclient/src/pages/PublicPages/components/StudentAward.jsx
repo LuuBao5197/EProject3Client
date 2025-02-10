@@ -17,7 +17,7 @@ function TopStudentAwards() {
         setLoading(false);
       } catch (err) {
         console.error(err);
-        setError('Lỗi khi tải dữ liệu!');
+        setError('Error loading data!');
         setLoading(false);
       }
     };
