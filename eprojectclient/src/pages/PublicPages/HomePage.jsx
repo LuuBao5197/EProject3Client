@@ -9,10 +9,10 @@ import Carousel from "./components/Carousel";
 
 const HomePage = () => {
   return (
-    <div>
+    <div className="container-fluid">
       <NavbarHome />
       <Carousel />
-      <div className="container">
+      <div className="container mt-3">
         <StudentAward/>
         <ExhibitionList />
         <ContestList />
