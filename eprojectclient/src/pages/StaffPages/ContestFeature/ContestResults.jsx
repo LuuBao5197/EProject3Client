@@ -60,7 +60,7 @@ const ContestResults = () => {
                 var respone = await axios.get(`http://localhost:5190/api/Staff/ComputeAndAssignAwards?contestId=${contestID}`);
                 console.log(respone);
                 setWinners(respone.data);
-                toast.info("Compute average mark and assign award successfully");
+                toast.info("Compute average mark and assign draft award successfully");
                 setIsFinalizing(true);
             } catch (error) {
                 console.log(error);

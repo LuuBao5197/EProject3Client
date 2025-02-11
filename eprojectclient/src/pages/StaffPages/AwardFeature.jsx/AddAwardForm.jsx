@@ -16,7 +16,7 @@ const AddAwardForm = () => {
   const navigate = useNavigate();
   // Lấy dữ liệu cuộc thi từ API
   useEffect(() => {
-    const fetchContests = async (status = "Draft") => {
+    const fetchContests = async (status = "Approved") => {
       try {
         const response = await axios.get("http://localhost:5190/api/Staff/GetAllContest", {
           params: {status}
@@ -61,7 +61,8 @@ const AddAwardForm = () => {
         .required("Name must be not blank"),
       value: Yup.number()
         .typeError("Value must be a number")
-        .positive("Value must be a positive number")
+        .positive("Value must be greater than 0")
+        .max(5000,"Value must be less than 5000 USD")
         .required("Value must be not blank"),
       contestId: Yup.string()
         .required("You must be choice contest"),

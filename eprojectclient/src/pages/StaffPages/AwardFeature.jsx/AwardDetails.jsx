@@ -37,14 +37,15 @@ const AwardDetails = () => {
           fetchInfoOfStaff(userId);
     }, [id, token]);
 
-    const handleDelete = async () => {
+    const handleDelete = async (awardId) => {
         if (window.confirm("Are you sure to delete this award ?")) {
             try {
-                await axios.delete(`http://localhost:5190/api/Staff/DeleteAward/${id}`);
+                await axios.delete(`http://localhost:5190/api/Staff/DeleteAward/${awardId}`);
                 toast.success("Award deleted successfully!");
-                navigate("/staff/awards");
+                navigate('/staff/award');
             } catch (error) {
-                toast.error("Error deleting award.");
+                console.log(error)
+                toast.error(`Error deleting award. ${error.response.data}`);
             }
         }
     };
@@ -53,6 +54,7 @@ const AwardDetails = () => {
         try {
             await axios.patch(`http://localhost:5190/api/Staff/SendAwardForReview/${id}`);
             toast.info("Award sent for review successfully!");
+            navigate(0);
         } catch (error) {
             toast.error("Error sending award for review.");
         }
@@ -113,10 +115,10 @@ const AwardDetails = () => {
                             <button className="btn btn-warning" onClick={() => navigate(`/staff/award/edit/${id}`)}>
                                 <Icon as={MdEdit} /> Edit
                             </button>
-                            <button className="btn btn-danger" onClick={handleDelete}>
+                            <button className="btn btn-danger" onClick={()=>handleDelete(award.id )}>
                                 <Icon as={MdDeleteForever} /> Delete
                             </button>
-                            <button className="btn btn-success" onClick={sendAwardForReview}>
+                            <button className="btn btn-success" onClick={()=>sendAwardForReview(award.id)}>
                                 <Icon as={MdSend} /> Send for Review
                             </button>
                         </div>
