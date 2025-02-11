@@ -77,7 +77,7 @@ const AdminClassAdd = () => {
 
       // ✅ Hiển thị thông báo và chuyển hướng về "/admin" sau 2 giây
       setTimeout(() => {
-        navigate('/admin'); // Điều hướng về trang admin
+        navigate('/admin/class'); // Điều hướng về trang admin
       }, 2000);
     } catch (err) {
       setError(err.message);

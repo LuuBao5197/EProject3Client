@@ -105,7 +105,7 @@ export const adminRoutes = [
   {
     name: 'Admin',
     layout: '/admin',
-    path: '/',
+    path: '/class',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     component: <Adminlayout />,
     index: true
@@ -649,23 +649,40 @@ export const managerRoutes = [
   //   component: <NotificationMenu />,
   //   index: false
   // }
+  // {
+  //   name: 'Update Staff Status',
+  //   layout: '/manager',
+  //   path: '/Update-Staff-Status/:id',
+  //   icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+  //   component: <AdminStaffStatus />,
+  //   index: false
+  // },
+
+  // {
+  //   name: 'Inactive Staff Status',
+  //   layout: '/manager',
+  //   path: '/Inactive-Staff-Status',
+  //   icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+  //   component: <InactiveStaffLayout />,
+  //   index: true
+  // }
+  // ,
   {
     name: 'Update Staff Status',
     layout: '/manager',
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
     path: '/Update-Staff-Status/:id',
-    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     component: <AdminStaffStatus />,
     index: false
   },
-
   {
     name: 'Inactive Staff Status',
     layout: '/manager',
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
     path: '/Inactive-Staff-Status',
-    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     component: <InactiveStaffLayout />,
     index: true
-  }
+  },
 
 ];
 
