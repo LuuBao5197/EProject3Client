@@ -165,7 +165,7 @@ export const adminRoutes = [
     path: '/Class-Detail/:id',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     component: <AdminClassDetail />,
-    
+    index: false
   },
   {
     name: 'Student Detail',
@@ -180,6 +180,7 @@ export const adminRoutes = [
     path: '/Update-Student/:id',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     component: <AdminStudentUpdate />,
+    index: false
     
   },
   {
@@ -188,6 +189,7 @@ export const adminRoutes = [
     path: '/Staff-Detail/:id',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     component: <AdminStaffDetail />,
+    index: false
     
   },
   {
@@ -196,9 +198,10 @@ export const adminRoutes = [
     path: '/Update-Staff/:id',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     component: <AdminStaffUpdate />,
+    index: false
     
   },
-  ,
+  
 
   
 ]; 

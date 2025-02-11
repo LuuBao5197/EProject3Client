@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import $ from 'jquery';
 import 'datatables.net';
-import { getAllStudents } from '../../API/getAdminStudent';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate để điều hướng
-import { styled } from '@chakra-ui/system';
+import { getAllStudents, updateStudentStatus } from '../../API/getAdminStudent';
+import { useNavigate } from 'react-router-dom';
 
 const AdminStudentList = () => {
   const [students, setStudents] = useState([]);
-  const navigate = useNavigate(); // Khai báo hook navigate
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchStudents = async () => {
       try {
         const data = await getAllStudents();
         setStudents(data);
-        console.log(data);
       } catch (error) {
         console.error('Error fetching students:', error.message);
       }
@@ -32,28 +30,42 @@ const AdminStudentList = () => {
       }
     };
   }, [students]);
+
   const handleUpdateClick = (id) => {
-    // Điều hướng tới trang chỉnh sửa sinh viên với id
     navigate(`/admin/Update-Student/${id}`);
   };
 
   const handleDetailClick = (id) => {
-    // Điều hướng tới trang chi tiết của sinh viên với id
     navigate(`/admin/Student-Detail/${id}`);
+  };
+
+  const handleBanClick = async (id, currentStatus) => {
+    try {
+      const newStatus = !currentStatus; // Đảo trạng thái true <-> false
+      await updateStudentStatus(id, newStatus);
+      
+      setStudents(prevStudents =>
+        prevStudents.map(student =>
+          student.id === id ? { ...student, user: { ...student.user, status: newStatus } } : student
+        )
+      );
+    } catch (error) {
+      console.error('Error updating student status:', error.message);
+    }
   };
 
   return (
     <div className="container mt-2">
-      <h2  className="mb-4 text-center mt-auto" >Student List</h2>
+      <h2 className="mb-4 text-center mt-auto">Student List</h2>
       <table id="studentsTable" className="table table-striped table-bordered">
         <thead className="table-dark">
           <tr>
             <th>ID</th>
-            
             <th>Name</th>
             <th>Email</th>
             <th>Phone</th>
             <th>Class</th>
+            <th>Status</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -61,29 +73,33 @@ const AdminStudentList = () => {
           {students.map((student) => (
             <tr key={student.id}>
               <td>{student.id}</td>
-              
               <td>{student.user.name}</td>
               <td>{student.user.email}</td>
               <td>{student.user.phone}</td>
               <td>
                 {student.studentClasses && student.studentClasses.length > 0
                   ? student.studentClasses.map((sc, index) => (
-                      <span key={index}>{sc.class.name}</span>  // Hiển thị tên lớp
+                      <span key={index}>{sc.class.name}</span>
                     ))
                   : 'No classes'}
               </td>
               <td>
-                <button
-                  onClick={() => handleDetailClick(student.id)}
-                  className="btn btn-info btn-sm"
-                >
+                <span className={`badge ${student.user.status ? 'bg-success' : 'bg-danger'}`}>
+                  {student.user.status ? 'Active' : 'Banned'}
+                </span>
+              </td>
+              <td>
+                <button onClick={() => handleDetailClick(student.id)} className="btn btn-info btn-sm">
                   View Details
                 </button>
-                <button
-                  onClick={() => handleUpdateClick(student.id)}
-                  className="btn btn-warning btn-sm ml-2"
-                >
+                <button onClick={() => handleUpdateClick(student.id)} className="btn btn-warning btn-sm ml-2">
                   Update
+                </button>
+                <button
+                  onClick={() => handleBanClick(student.id, student.user.status)}
+                  className={`btn btn-${student.user.status ? 'danger' : 'success'} btn-sm ml-2`}
+                >
+                  {student.user.status ? 'Ban' : 'Unban'}
                 </button>
               </td>
             </tr>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { addClass, getAllStaff } from '../../API/GetClass'; // Import API addClass và getAllStaff
+import { useNavigate } from 'react-router-dom'; // Import useNavigate để điều hướng
 
 const AdminClassAdd = () => {
   const [classData, setClassData] = useState({
@@ -11,6 +12,7 @@ const AdminClassAdd = () => {
   const [staffList, setStaffList] = useState([]); // Lưu danh sách nhân viên
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const navigate = useNavigate(); // Hook điều hướng
 
   const currentYear = new Date().getFullYear(); // Lấy năm hiện tại
 
@@ -72,6 +74,11 @@ const AdminClassAdd = () => {
       setSuccess(true);
       setError('');
       console.log('Class added successfully:', newClass);
+
+      // ✅ Hiển thị thông báo và chuyển hướng về "/admin" sau 2 giây
+      setTimeout(() => {
+        navigate('/admin'); // Điều hướng về trang admin
+      }, 2000);
     } catch (err) {
       setError(err.message);
       setSuccess(false);
@@ -80,9 +87,9 @@ const AdminClassAdd = () => {
 
   return (
     <div className="container mt-2">
-      <h2 className="mb-4 text-center mt-auto" >Create New Class</h2>
+      <h2 className="mb-4 text-center mt-auto">Create New Class</h2>
       {error && <p className="text-danger">{error}</p>}
-      {success && <p className="text-success">Class created successfully!</p>}
+      {success && <p className="text-success">Class created successfully! Redirecting...</p>}
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label className="form-label">Name:</label>

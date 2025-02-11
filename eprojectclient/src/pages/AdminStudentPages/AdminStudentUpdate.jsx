@@ -179,7 +179,7 @@ const AdminStudentUpdate = () => {
         try {
             await updateStudent(id, formDataToSubmit);
             setMessage('Student updated successfully');
-            navigate('/admin/studentlist');
+            setTimeout(() => navigate('/admin/studentlist'), 2000);
         } catch (err) {
             if (err.response && err.response.status === 400) {
                 setErrors({ email: err.response.data.message });
@@ -241,6 +241,7 @@ const AdminStudentUpdate = () => {
                                 className={`form-control ${errors.email ? 'is-invalid' : ''}`}
                                 value={formData.email}
                                 onChange={handleInputChange}
+                                readOnly
                             />
                             {errors.email && <div className="invalid-feedback">{errors.email}</div>}
                         </div>

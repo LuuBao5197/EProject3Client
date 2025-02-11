@@ -70,4 +70,13 @@ export const deleteStudent = async (id) => {
       return false; // Return false if there is an error
     }
   };
-  
+  export const updateStudentStatus = async (id, newStatus) => {
+    try {
+      const response = await axios.put(`${API_URL}/update-status/${id}`, {
+        status: newStatus
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Failed to update student status');
+    }
+  };

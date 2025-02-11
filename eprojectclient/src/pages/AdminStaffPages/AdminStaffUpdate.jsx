@@ -132,7 +132,7 @@ const AdminStaffUpdate = () => {
         try {
             await updateStaff(id, formDataToSend); // Sửa lại API để cập nhật theo ID
             setMessage('Staff updated successfully');
-            navigate('/admin/StaffList');
+            setTimeout(() => navigate('/admin/StaffList'), 2000);
         } catch (err) {
             console.error(err);
             setError(err.message);
@@ -192,7 +192,7 @@ const AdminStaffUpdate = () => {
                             name="email"
                             value={formData.email}
                             onChange={handleInputChange}
-                            required
+                            readOnly
                         />
                         {emailError && <div className="text-danger">{emailError}</div>}
                     </div>
