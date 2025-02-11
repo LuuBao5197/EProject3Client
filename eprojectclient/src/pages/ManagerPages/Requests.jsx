@@ -16,12 +16,18 @@ function Requests() {
             setError(null);
 
             let url = '';
-            if (selectedCategory === 'competition') {
+            if (selectedCategory === 'contest') {
                 url = 'http://localhost:5190/api/Manager/GetAllContest';
-            } else if (selectedCategory === 'artwork') {
+            } else if (selectedCategory === 'exhibition') {
                 url = 'http://localhost:5190/api/Manager/GetAllExhibition';
             } else if (selectedCategory === 'award') {
                 url = 'http://localhost:5190/api/Manager/GetAllAward';
+            } else if (selectedCategory === 'studentaward') {
+                url = 'http://localhost:5190/api/Manager/GetAllStudentAward';
+            } else if (selectedCategory === 'exhibitionartwork') {
+                url = 'http://localhost:5190/api/Manager/GetAllExhibitionArtwork';
+            } else if (selectedCategory === 'contestjudge') {
+                url = 'http://localhost:5190/api/Manager/GetAllContestJudge';
             }
 
             try {
@@ -51,7 +57,7 @@ function Requests() {
         if (!requests.length) return <div>No pending requests</div>;
 
         switch (selectedCategory) {
-            case 'competition':
+            case 'contest':
                 return (
                     <table className={styles.requestsTable}>
                         <thead>
@@ -71,7 +77,7 @@ function Requests() {
                                     <td>{request.description || 'No description'}</td>
                                     <td>{request.status || 'No status'}</td>
                                     <td>
-                                        <Link to={`/manager/requestscompetition/${request.id}`}>
+                                        <Link to={`/manager/requestscontest/${request.id}`}>
                                             <button className="btn btn-info">
                                                 <i className="fa fa-info-circle"></i>
                                             </button>
@@ -83,7 +89,37 @@ function Requests() {
                     </table>
                 );
 
-            case 'artwork':
+            case 'studentaward':
+                return (
+                    <table className={styles.requestsTable}>
+                        <thead>
+                            <tr>
+                                <th>STUDENT ID</th>
+                                <th>AWARD ID</th>
+                                <th>STATUS</th>
+                                <th>MORE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {requests.map(request => (
+                                <tr key={request.id}>
+                                    <td>{request.studentId}</td>
+                                    <td>{request.awardId}</td>
+                                    <td>{request.status || 'No status'}</td>
+                                    <td>
+                                        <Link to={`/manager/requestsstudentaward/${request.studentId}/${request.awardId}`}>
+                                            <button className="btn btn-info">
+                                                <i className="fa fa-info-circle"></i>
+                                            </button>
+                                        </Link>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                );
+
+            case 'exhibition':
                 return (
                     <table className={styles.requestsTable}>
                         <thead>
@@ -103,7 +139,7 @@ function Requests() {
                                     <td>{request.location || 'No location'}</td>
                                     <td>{request.status || 'No status'}</td>
                                     <td>
-                                        <Link to={`/manager/requestsartwork/${request.id}`}>
+                                        <Link to={`/manager/requestsexhibition/${request.id}`}>
                                             <button className="btn btn-info">
                                                 <i className="fa fa-info-circle"></i>
                                             </button>
@@ -147,6 +183,66 @@ function Requests() {
                     </table>
                 );
 
+            case 'exhibitionartwork':
+                return (
+                    <table className={styles.requestsTable}>
+                        <thead>
+                            <tr>
+                                <th>ARTWORK ID</th>
+                                <th>EXHIBITION ID</th>
+                                <th>STATUS</th>
+                                <th>MORE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {requests.map(request => (
+                                <tr key={request.id}>
+                                    <td>{request.artworkId}</td>
+                                    <td>{request.exhibitionId}</td>
+                                    <td>{request.status || 'No status'}</td>
+                                    <td>
+                                        <Link to={`/manager/requestsexhibitionartwork/${request.artworkId}/${request.exhibitionId}`}>
+                                            <button className="btn btn-info">
+                                                <i className="fa fa-info-circle"></i>
+                                            </button>
+                                        </Link>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                );
+
+            case 'contestjudge':
+                return (
+                    <table className={styles.requestsTable}>
+                        <thead>
+                            <tr>
+                                <th>STAFF ID</th>
+                                <th>CONTEST ID</th>
+                                <th>STATUS</th>
+                                <th>MORE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {requests.map(request => (
+                                <tr key={request.id}>
+                                    <td>{request.staffId}</td>
+                                    <td>{request.contestId}</td>
+                                    <td>{request.status || 'No status'}</td>
+                                    <td>
+                                        <Link to={`/manager/requestscontestjudge/${request.staffId}/${request.contestId}`}>
+                                            <button className="btn btn-info">
+                                                <i className="fa fa-info-circle"></i>
+                                            </button>
+                                        </Link>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                );
+
             default:
                 return null;
         }
@@ -156,13 +252,24 @@ function Requests() {
         <div className={styles.requestsContainer}>
             <h2 className='text-center'>REQUEST</h2>
             <div className="category-filter">
-                <label htmlFor="category">Select Category: </label>
-                <select id="category" value={selectedCategory} onChange={handleCategoryChange}>
+                <label htmlFor="category" className={styles['category-label']}>Select Category: </label>
+                <select
+                    id="category"
+                    value={selectedCategory}
+                    onChange={handleCategoryChange}
+                    className={styles['category-select']}
+                >
                     <option value="">Select Category</option>
-                    <option value="award">Award</option>
-                    <option value="competition">Competition</option>
-                    <option value="artwork">Artwork</option>
+                    <option value="award">Awards</option>
+                    <option value="contest">Contests</option>
+                    <option value="exhibition">Exhibitions</option>
+                    <option value="studentaward">Student Award</option>
+                    <option value="exhibitionartwork">Exhibition Artwork</option>
+                    <option value="contestjudge">Contest Judge</option>
                 </select>
+
+                <Link to={`/manager/approved`}><button className={styles['award-button-approved']}>APPROVED</button></Link>
+                <Link to={`/manager/rejected`}><button className={styles['award-button-rejected']}>REJECTED</button></Link>
             </div>
 
             {renderTable()}

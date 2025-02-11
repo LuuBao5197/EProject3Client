@@ -37,11 +37,11 @@ const ContestList = () => {
       contest.name.toLowerCase().includes(searchTerm.toLowerCase())
     )
     .filter((contest) => {
-      if (sortOption === "OnComing") {
-        return contest.phase === "OnComing"; // Lọc theo phase "OnComing"
+      if (sortOption === "Oncoming") {
+        return contest.phase === "Oncoming"; // Lọc theo phase "OnComing"
       }
-      if (sortOption === "UpComing") {
-        return contest.phase === "UpComing"; // Lọc theo phase "UpComing"
+      if (sortOption === "Upcoming") {
+        return contest.phase === "Upcoming"; // Lọc theo phase "UpComing"
       }
       if (sortOption === "Completed") {
         return contest.phase === "Completed"; // Lọc theo phase "Completed"
@@ -81,8 +81,8 @@ const ContestList = () => {
           onChange={(e) => setSortOption(e.target.value)}
         >
           <option value="all">All</option>
-          <option value="OnComing">OnComing</option>
-          <option value="UpComing">UpComing</option>
+          <option value="Oncoming">Oncoming</option>
+          <option value="Upcoming">Upcoming</option>
           <option value="Completed">Completed</option>
         </Select>
       </HStack>

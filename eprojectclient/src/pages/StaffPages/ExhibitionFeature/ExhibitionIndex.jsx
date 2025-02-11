@@ -223,6 +223,7 @@ const ExhibitionIndex = () => {
               onUpdate={handleUpdate}
               onDelete={handleDelete}
               onSend={handleSend}
+              staffCurrent={currentStaff}
             />
           )}
         </>
