@@ -100,7 +100,7 @@ const AdminStaffStatus = () => {
                   onClick={() => handleStatusChange(true)}
                   disabled={staff.user?.status} // Disable nếu đã Active
                 >
-                  Activate
+                  Accept
                 </button>
                 
                 

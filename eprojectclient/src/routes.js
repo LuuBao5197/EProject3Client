@@ -105,7 +105,7 @@ export const adminRoutes = [
   {
     name: 'Admin',
     layout: '/admin',
-    path: '/',
+    path: '/class',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     component: <Adminlayout />,
     index: true
@@ -172,6 +172,7 @@ export const adminRoutes = [
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     component: <AdminClassDetail />,
 
+
   },
   {
     name: 'Student Detail',
@@ -195,6 +196,7 @@ export const adminRoutes = [
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     component: <AdminStaffDetail />,
 
+
   },
   {
     name: 'Update Staff',
@@ -202,7 +204,11 @@ export const adminRoutes = [
     path: '/Update-Staff/:id',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     component: <AdminStaffUpdate />,
+
   },
+  
+
+
   {
     name: 'Edit Profile',
     layout: '/admin',
@@ -210,6 +216,7 @@ export const adminRoutes = [
     icon: <Icon as={MdEdit} width="20px" height="20px" color="inherit" />,
     component: <EditProfile />,
   },
+
 
 
 ];
@@ -632,7 +639,7 @@ export const managerRoutes = [
     path: '/EditProfile',
     icon: <Icon as={MdEdit} width="20px" height="20px" color="inherit" />,
     component: <EditProfile />,
-  }
+  },
 
   // {
   //   name: 'Notification',
@@ -655,10 +662,27 @@ export const managerRoutes = [
   //   name: 'Inactive Staff Status',
   //   layout: '/manager',
   //   path: '/Inactive-Staff-Status',
-  //   icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+  //   icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
   //   component: <InactiveStaffLayout />,
   //   index: true
   // }
+  // ,
+  {
+    name: 'Update Staff Status',
+    layout: '/manager',
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    path: '/Update-Staff-Status/:id',
+    component: <AdminStaffStatus />,
+    index: false
+  },
+  {
+    name: 'Inactive Staff Status',
+    layout: '/manager',
+    icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    path: '/Inactive-Staff-Status',
+    component: <InactiveStaffLayout />,
+    index: true
+  },
 
 ];
 

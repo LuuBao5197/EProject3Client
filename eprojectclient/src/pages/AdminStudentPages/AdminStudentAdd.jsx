@@ -163,15 +163,14 @@ const AdminStudentAdd = () => {
         }
 
         try {
-            const response = await addStudent(formDataToSubmit);
-            setMessage('Student added successfully');
-            navigate('/admin/studentlist');
+            await addStudent(formDataToSubmit);
+            setMessage('Student added successfully! Redirecting...');
+            
+            setTimeout(() => {
+                navigate('/admin/StudentList');
+            }, 2000);
         } catch (err) {
-            if (err.response && err.response.status === 400) {
-                setErrors({ email: err.response.data.message });
-            } else {
-                setErrors({ email: 'email already exists.' });
-            }
+            setErrors({ email: 'Email already exists or another error occurred.' });
         }
     };
 

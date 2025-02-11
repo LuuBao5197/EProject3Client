@@ -214,14 +214,17 @@ const AdminStaffAdd = () => {
 
         try {
             await CreateStaff(formDataToSend);
-            setMessage('Staff added successfully');
-            navigate('/admin/StaffList');
+            setMessage('Staff added successfully! Redirecting...');
+            
+            
+            setTimeout(() => {
+                navigate('/admin/StaffList');
+            }, 2000);
         } catch (err) {
             console.error(err);
             setError(err.message);
         }
     };
-
 
     return (
         <div className="container mt-2">
