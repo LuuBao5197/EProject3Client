@@ -55,6 +55,7 @@ export default function ContestJudgeList() {
         axios.patch(`http://localhost:5190/api/Staff/SendJudgeForReview/${contestID}`)
             .then(() => {
                 alert("Judges approved successfully!");
+                navigate(0);
             })
             .catch((error) => {
                 alert("Error approving judges: " + error.response?.data || error.message);
@@ -141,7 +142,7 @@ export default function ContestJudgeList() {
 
                                         </>
                                     ) : (<>
-                                        {currentStaff.isReviewer && contest.status === "Approved" &&
+                                        {currentStaff.isReviewer && contest.status === "Published      " &&
                                             <Button colorScheme="teal" size="sm" isDisabled={new Date(contest.submissionDeadline).getTime() > new Date().getTime()}
                                                 onClick={() => handleCreateJudges(contest.id)}>
                                                 Create Judges

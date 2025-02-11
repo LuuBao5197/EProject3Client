@@ -52,10 +52,11 @@ const AwardDetails = () => {
 
     const sendAwardForReview = async () => {
         try {
-            await axios.patch(`http://localhost:5190/api/Staff/SendAwardForReview/${id}`);
+            await axios.patch(`http://localhost:5190/api/Staff/SendAwardForReview/${id}`,null);
             toast.info("Award sent for review successfully!");
             navigate(0);
         } catch (error) {
+            console.log(error.response)
             toast.error("Error sending award for review.");
         }
     };

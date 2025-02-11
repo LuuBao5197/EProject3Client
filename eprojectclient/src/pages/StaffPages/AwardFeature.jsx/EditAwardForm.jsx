@@ -73,7 +73,7 @@ const EditAwardForm = () => {
       value: Yup.number()
         .typeError("Value must be a number")
         .positive("Value must be greater than 0")
-        .max("Value must be less than 5000 USD")
+        .max(5000,"Value must be less than 5000 USD")
         .required("Value must be not blank"),
       contestId: Yup.string().required("You must be choice one of contest"),
       awardQuantity: Yup.number()

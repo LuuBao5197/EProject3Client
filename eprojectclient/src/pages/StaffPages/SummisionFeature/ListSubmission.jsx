@@ -21,6 +21,7 @@ import { useFormik } from 'formik';
 import ContestDetail from '../ContestFeature/ContestDetail';
 import { jwtDecode } from 'jwt-decode';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 const ListSubmission = () => {
   const [staffCurrent, setStaffCurrent] = useState({});
 
@@ -40,6 +41,7 @@ const ListSubmission = () => {
   const [rating, setRating] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const pageSize = 20;
   //config quill tool
   const modules = {
@@ -74,6 +76,7 @@ const ListSubmission = () => {
         console.log("value", values);
         const response = await axios.post(`http://localhost:5190/api/Staff/AddSubmissionReview`, values);
         alert('Review submitted successfully!');
+        navigate(0);
         resetForm(); // Reset form after successful submission
         handleCloseReviewModal(); // Close modal
       } catch (error) {
@@ -135,7 +138,7 @@ const ListSubmission = () => {
             search,
             status,
             
-
+            
           },
         });
         console.log(response);
@@ -363,13 +366,13 @@ const ListSubmission = () => {
                             </Button>
                             {/* {console.log(selectedContest)} */}
                             {selectedContest.contestJudge.length > 0 &&
-                             selectedContest.contestJudge.some(c => c.staffId == staffCurrent.id && <Button
+                             selectedContest.contestJudge.some(c => c.staffId == staffCurrent.id && c.status=="Approved") && <Button
                               variant="success"
                               className="ms-2"
                               onClick={() => handleReviewClick(submission)}
                             >
                               Review
-                            </Button>)}
+                            </Button>}
 
                           </td>
                         </tr>
