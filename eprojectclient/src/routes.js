@@ -639,7 +639,7 @@ export const managerRoutes = [
     path: '/EditProfile',
     icon: <Icon as={MdEdit} width="20px" height="20px" color="inherit" />,
     component: <EditProfile />,
-  }
+  },
 
   // {
   //   name: 'Notification',
@@ -649,23 +649,23 @@ export const managerRoutes = [
   //   component: <NotificationMenu />,
   //   index: false
   // }
-  // {
-  //   name: 'Update Staff Status',
-  //   layout: '/manager',
-  //   path: '/Update-Staff-Status/:id',
-  //   icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
-  //   component: <AdminStaffStatus />,
-  //   index: false
-  // },
+  {
+    name: 'Update Staff Status',
+    layout: '/manager',
+    path: '/Update-Staff-Status/:id',
+    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+    component: <AdminStaffStatus />,
+    index: false
+  },
 
-  // {
-  //   name: 'Inactive Staff Status',
-  //   layout: '/manager',
-  //   path: '/Inactive-Staff-Status',
-  //   icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
-  //   component: <InactiveStaffLayout />,
-  //   index: true
-  // }
+  {
+    name: 'Inactive Staff Status',
+    layout: '/manager',
+    path: '/Inactive-Staff-Status',
+    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+    component: <InactiveStaffLayout />,
+    index: true
+  }
 
 ];
 
