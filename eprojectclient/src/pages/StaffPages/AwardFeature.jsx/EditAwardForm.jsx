@@ -23,19 +23,19 @@ const EditAwardForm = () => {
         const awardResponse = await fetch(`http://localhost:5190/api/Staff/GetDetailAward/${id}`); // Đổi URL phù hợp với API của bạn
         const awardData = await awardResponse.json();
         console.log(awardData);
+        formik.setValues({
+          id: id,
+          name: awardData.name,
+          value: awardData.value||0,
+          contestId: awardData.contestId,
+          awardQuantity: awardData.awardQuantity,
+        })
 
         // Lấy danh sách cuộc thi
         const contestResponse = await fetch("http://localhost:5190/api/Staff/GetAllContest"); // Đổi URL phù hợp với API của bạn
         const contestData = await contestResponse.json();
 
 
-        setInitialData({
-          id: id,
-          name: awardData.name,
-          value: awardData.value,
-          contestId: awardData.contestId,
-          awardQuantity: awardData.awardQuantity,
-        });
         setContestOptions(contestData.contests);
         setLoading(false);
       } catch (error) {
@@ -58,8 +58,8 @@ const EditAwardForm = () => {
 
   // Sử dụng useFormik
   const formik = useFormik({
-    enableReinitialize: true, // Cho phép khởi tạo lại form khi initialValues thay đổi
-    initialValues: initialData || {
+
+    initialValues: {
       id: id,
       name: "",
       value: "",
@@ -73,6 +73,7 @@ const EditAwardForm = () => {
       value: Yup.number()
         .typeError("Value must be a number")
         .positive("Value must be greater than 0")
+        .max("Value must be less than 5000 USD")
         .required("Value must be not blank"),
       contestId: Yup.string().required("You must be choice one of contest"),
       awardQuantity: Yup.number()
@@ -105,10 +106,12 @@ const EditAwardForm = () => {
           navigate(-1);
 
           // alert("Cập nhật giải thưởng thành công!");
-        } else {
-          alert("Something errors occurs.");
+        } 
+        if(response.status == 400) {
+          alert("The award values in the same competition must be unique.");
         }
       } catch (error) {
+        alert("Something errors occurs.");
         console.error("Lỗi khi gửi dữ liệu:", error);
       }
     },
@@ -156,7 +159,7 @@ const EditAwardForm = () => {
                 }`}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.value || 1}
+              value={formik.values.value || ""}
             />
             {formik.touched.value && formik.errors.value ? (
               <div className="invalid-feedback">{formik.errors.value}</div>
@@ -165,7 +168,7 @@ const EditAwardForm = () => {
 
           <div className="mb-3">
             <label htmlFor="contestId" className="form-label">
-              Contest 
+              Contest
             </label>
             <select
               id="contestId"
