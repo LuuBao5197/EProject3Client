@@ -216,9 +216,9 @@ const ListSubmission = () => {
     setShowModal(true);
   };
 
-  const handleEditReviewClick = (submission) => {
+  const handleEditReviewClick = async (submission) => {
     
-    
+  
     const fetchReviewForSubmission = async (submissionID, staffID) => {
       console.log(submissionID);
       const respone = await axios.get(`http://localhost:5190/api/Staff/GetReviewForSubmissionOfStaff`, {
@@ -243,7 +243,7 @@ const ListSubmission = () => {
         }
       )
     }
-    fetchReviewForSubmission(submission.submissionId, staffCurrent.id);
+    await fetchReviewForSubmission(submission.submissionId, staffCurrent.id);
 
   };
   const handleCloseModal = () => {

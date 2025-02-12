@@ -126,7 +126,7 @@ const ContestDetail = () => {
                                     <Button
                                         variant="success"
                                         className="mx-2"
-                                        onClick={() => sendContestDraftForReview(contest.id)}
+                                        onClick={sendContestDraftForReview(contest.id)}
                                     >
                                         <Icon as={MdSend} width="20px" height="20px" color="inherit" />
                                         {" "}Send for Review

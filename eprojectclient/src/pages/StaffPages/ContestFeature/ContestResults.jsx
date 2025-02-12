@@ -53,12 +53,12 @@ const ContestResults = () => {
 
     };
 
-    const handleFinalizeResults = (contestID) => {
+    const handleFinalizeResults =  (contestID) => {
         console.log(contestID);
         const ComputeAndAssignAward = async (contestID) => {
             try {
                 var respone = await axios.get(`http://localhost:5190/api/Staff/ComputeAndAssignAwards?contestId=${contestID}`);
-                console.log(respone.data);
+                // console.log(respone.data);
                 setWinners(respone.data);
                 toast.info("Compute average mark and assign award successfully");
                 setIsFinalizing(true);
