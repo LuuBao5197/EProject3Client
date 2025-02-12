@@ -21,6 +21,7 @@ import {
   MdOutput,
   MdViewList,
   MdEdit,
+  MdPublish,
 } from 'react-icons/md';
 
 // Admin Imports
@@ -98,6 +99,7 @@ import NotificationMenu from './pages/ManagerPages/NotificationMenu';
 import RequestsStudentAward from './pages/ManagerPages/RequestsStudentAward';
 import EditProfile from './pages/PublicPages/EditProfile';
 import RequestsContestJudge from './pages/ManagerPages/RequestsContestJudge';
+import PublishedFunction from './pages/StaffPages/PublishFunction/PublishedFunction';
 
 
 
@@ -461,6 +463,14 @@ export const staffRoutes = [
     path: '/EditProfile',
     icon: <Icon as={MdEdit} width="20px" height="20px" color="inherit" />,
     component: <EditProfile />,
+  },
+  {
+    name: 'Published Function ',
+    layout: '/staff',
+    path: '/published',
+    icon: <Icon as={MdPublish} width="20px" height="20px" color="inherit" />,
+    component: <PublishedFunction />,
+    index: true
   },
 ];
 export const managerRoutes = [
